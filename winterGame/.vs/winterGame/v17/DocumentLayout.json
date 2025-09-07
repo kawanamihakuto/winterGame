@@ -1,12 +1,54 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\0205h\\Desktop\\Program\\winterGame\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Character.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|solutionrelative:Character.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Character.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|solutionrelative:Character.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Character.cpp",
+              "DocumentMoniker": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Character.cpp",
+              "RelativeDocumentMoniker": "Character.cpp",
+              "ToolTip": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Character.cpp",
+              "RelativeToolTip": "Character.cpp",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAYwBoAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-09-07T06:42:32.092Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Character.h",
+              "DocumentMoniker": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Character.h",
+              "RelativeDocumentMoniker": "Character.h",
+              "ToolTip": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Character.h",
+              "RelativeToolTip": "Character.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-09-07T06:13:55.237Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
