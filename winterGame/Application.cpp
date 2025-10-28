@@ -1,3 +1,4 @@
+#include"DxLib.h"
 #include "Application.h"
 
 constexpr int kDefaultWindowWidth = 640;//デフォルトウィンドウ幅
@@ -8,4 +9,33 @@ Application::Application():
 	windowSize_{kDefaultWindowWidth,kDefaultWindowHeight}
 {
 
+}
+
+Application::~Application()
+{
+
+}
+
+Application& Application::GetInstance()
+{
+	static Application instance;
+	return instance;
+}
+
+bool Application::Init()
+{
+	SetWindowSize(windowSize_.w, windowSize_.h);
+	ChangeWindowMode(true);
+
+	if (DxLib_Init() == -1)
+	{
+		return false;
+	}
+	return true;
+}
+
+void Application::Run()
+{
+	SetDrawScreen(DX_SCREEN_BACK);
+	
 }
