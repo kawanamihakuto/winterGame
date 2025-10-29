@@ -1,4 +1,6 @@
 #include "Character.h"
+#include "Scene.h"
+#include "SceneController.h"
 /// <summary>
 /// コンストラクタ
 /// </summary>

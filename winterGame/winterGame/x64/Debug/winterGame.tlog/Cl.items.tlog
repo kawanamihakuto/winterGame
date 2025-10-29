@@ -1,4 +1,10 @@
 C:\Users\0205h\Desktop\github\winterGame\winterGame\Application.cpp;C:\Users\0205h\Desktop\github\winterGame\winterGame\winterGame\x64\Debug\Application.obj
 C:\Users\0205h\Desktop\github\winterGame\winterGame\Character.cpp;C:\Users\0205h\Desktop\github\winterGame\winterGame\winterGame\x64\Debug\Character.obj
+C:\Users\0205h\Desktop\github\winterGame\winterGame\GameoverScene.cpp;C:\Users\0205h\Desktop\github\winterGame\winterGame\winterGame\x64\Debug\GameoverScene.obj
+C:\Users\0205h\Desktop\github\winterGame\winterGame\GameScene.cpp;C:\Users\0205h\Desktop\github\winterGame\winterGame\winterGame\x64\Debug\GameScene.obj
 C:\Users\0205h\Desktop\github\winterGame\winterGame\Geometry.cpp;C:\Users\0205h\Desktop\github\winterGame\winterGame\winterGame\x64\Debug\Geometry.obj
+C:\Users\0205h\Desktop\github\winterGame\winterGame\Input.cpp;C:\Users\0205h\Desktop\github\winterGame\winterGame\winterGame\x64\Debug\Input.obj
 C:\Users\0205h\Desktop\github\winterGame\winterGame\main.cpp;C:\Users\0205h\Desktop\github\winterGame\winterGame\winterGame\x64\Debug\main.obj
+C:\Users\0205h\Desktop\github\winterGame\winterGame\Scene.cpp;C:\Users\0205h\Desktop\github\winterGame\winterGame\winterGame\x64\Debug\Scene.obj
+C:\Users\0205h\Desktop\github\winterGame\winterGame\SceneController.cpp;C:\Users\0205h\Desktop\github\winterGame\winterGame\winterGame\x64\Debug\SceneController.obj
+C:\Users\0205h\Desktop\github\winterGame\winterGame\TitleScene.cpp;C:\Users\0205h\Desktop\github\winterGame\winterGame\winterGame\x64\Debug\TitleScene.obj

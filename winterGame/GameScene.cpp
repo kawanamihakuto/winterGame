@@ -1,0 +1,71 @@
+#include "GameScene.h"
+#include<DxLib.h>
+#include"SceneController.h"
+#include"Application.h"
+#include"Input.h"
+#include"GameoverScene.h"
+
+//フェードにかかるフレーム数
+constexpr int fade_interval = 60;
+
+GameScene::GameScene(SceneController& controller) :Scene(controller),
+update_(&GameScene::FadeInUpdate),
+draw_(&GameScene::FadeDraw)
+{
+	frame_ = fade_interval;
+}
+
+void GameScene::FadeInUpdate(Input&)
+{
+	//フェードインが終わったら状態を切り替える
+	if (--frame_ <= 0)
+	{
+		update_ = &GameScene::NormalUpdate;
+		draw_ = &GameScene::NormalDraw;
+		return;
+	}
+}
+
+void GameScene::NormalUpdate(Input& input)
+{
+	//ボタンが押されたらフェードアウトを始める
+	if (input.IsTriggered("ok"))
+	{
+		update_ = &GameScene::FadeOutUpdate;
+		draw_ = &GameScene::FadeDraw;
+	}
+}
+
+void GameScene::FadeOutUpdate(Input&)
+{
+	//フェードアウトし終わったらシーンを切り替える
+	if (++frame_ >= fade_interval)
+	{
+		controller_.ChangeScene(std::make_shared<GameoverScene>(controller_));
+		return;
+	}
+}
+
+void GameScene::FadeDraw()
+{
+	const auto& wsize = Application::GetInstance().GetWindowSize();
+	float rate = static_cast<float>(frame_) / static_cast<float>(fade_interval);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 * rate);
+	DrawBox(0, 0, wsize.w, wsize.h, 0x000000, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255 * rate);
+}
+
+void GameScene::NormalDraw()
+{
+	DrawString(16, 16, "GameScene", 0xffffff);
+}
+
+void GameScene::Update(Input& input)
+{
+	(this->*update_)(input);
+}
+
+void GameScene::Draw()
+{
+	(this->*draw_)();
+}

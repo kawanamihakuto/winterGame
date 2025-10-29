@@ -1,0 +1,21 @@
+#pragma once
+class SceneController;
+class Input;
+//シーンの基底クラス
+class Scene
+{
+protected:
+	SceneController& controller_;
+public:
+	Scene(SceneController& controller);
+	/// <summary>
+	/// シーンの情報の更新
+	/// </summary>
+	/// <param name="input"></param>
+	virtual void Update(Input& input)abstract;
+	/// <summary>
+	/// シーンの描画(シーンの持ち物も描画する)
+	/// </summary>
+	virtual void Draw()abstract;
+};
+
