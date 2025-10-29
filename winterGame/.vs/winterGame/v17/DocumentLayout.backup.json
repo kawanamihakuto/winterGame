@@ -3,20 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Application.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|solutionrelative:Application.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Input.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|solutionrelative:Input.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Application.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|solutionrelative:Application.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Geometry.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|solutionrelative:Geometry.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Geometry.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|solutionrelative:Geometry.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Geometry.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|solutionrelative:Geometry.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Input.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|solutionrelative:Input.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Application.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|solutionrelative:Application.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Application.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|solutionrelative:Application.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6235861B-4658-40B3-9AAE-47BB8A5468E6}|winterGame.vcxproj|C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Character.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -38,8 +46,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Input.cpp",
+              "DocumentMoniker": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Input.cpp",
+              "RelativeDocumentMoniker": "Input.cpp",
+              "ToolTip": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Input.cpp",
+              "RelativeToolTip": "Input.cpp",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACwAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-28T11:57:40.996Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Input.h",
+              "DocumentMoniker": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Input.h",
+              "RelativeDocumentMoniker": "Input.h",
+              "ToolTip": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Input.h",
+              "RelativeToolTip": "Input.h",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACgAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-10-28T11:41:25.379Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -48,26 +82,27 @@
               "RelativeDocumentMoniker": "Geometry.cpp",
               "ToolTip": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Geometry.cpp",
               "RelativeToolTip": "Geometry.cpp",
-              "ViewState": "AgIAABsAAAAAAAAAAAAAAEIAAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-10-28T01:39:32.349Z"
+              "WhenOpened": "2025-10-28T01:39:32.349Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Application.cpp",
               "DocumentMoniker": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Application.cpp",
               "RelativeDocumentMoniker": "Application.cpp",
               "ToolTip": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Application.cpp",
               "RelativeToolTip": "Application.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-10-28T01:39:21.062Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "Geometry.h",
               "DocumentMoniker": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Geometry.h",
               "RelativeDocumentMoniker": "Geometry.h",
@@ -75,11 +110,12 @@
               "RelativeToolTip": "Geometry.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-10-28T01:14:13.358Z"
+              "WhenOpened": "2025-10-28T01:14:13.358Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "Application.h",
               "DocumentMoniker": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Application.h",
               "RelativeDocumentMoniker": "Application.h",
@@ -91,7 +127,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",
@@ -103,7 +139,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Character.cpp",
               "DocumentMoniker": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Character.cpp",
               "RelativeDocumentMoniker": "Character.cpp",
@@ -115,7 +151,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Character.h",
               "DocumentMoniker": "C:\\Users\\0205h\\Desktop\\github\\winterGame\\winterGame\\Character.h",
               "RelativeDocumentMoniker": "Character.h",

@@ -1,5 +1,6 @@
 #include"DxLib.h"
 #include "Application.h"
+#include"Input.h"
 
 constexpr int kDefaultWindowWidth = 640;//デフォルトウィンドウ幅
 constexpr int kDefaultWindowHeight = 480;//デフォルトウィンドウ高さ
@@ -37,5 +38,6 @@ bool Application::Init()
 void Application::Run()
 {
 	SetDrawScreen(DX_SCREEN_BACK);
-	
+	Input input;//入力のためのオブジェクト
+
 }

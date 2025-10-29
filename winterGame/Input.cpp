@@ -40,8 +40,27 @@ void Input::Update()
 			switch (state.type)
 			{
 			case PeripheralType::keyboard://キーボードの場合
-
+				input = keyState[state.id];
+				break;
+			case PeripheralType::pad1:
+				input = (padState & state.id);
+				break;
 			}
 		}
+		//ここでbreakしないと最後のチェックで押されていないとfalseになる
+		if (input)
+		{
+			break;
+		}
 	}
+}
+
+bool Input::IsPressed(const char* name) const
+{
+	return inputData_.at(name);
+}
+
+bool Input::IsTriggered(const char* name) const
+{
+	return inputData_.at(name) && lastInputData_.at(name);
 }
