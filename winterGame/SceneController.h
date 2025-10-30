@@ -33,7 +33,7 @@ public:
 	/// 内部に持っているシーンのUpdateを呼び出す
 	/// </summary>
 	/// <param name="input"></param>
-	void Updarte(Input& input);
+	void Update(Input& input);
 	/// <summary>
 	/// 内部に持っているシーンのDrawを呼び出す
 	/// </summary>

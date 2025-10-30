@@ -48,7 +48,10 @@ void GameScene::FadeOutUpdate(Input&)
 
 void GameScene::FadeDraw()
 {
+	//ウィンドウサイズ取得
 	const auto& wsize = Application::GetInstance().GetWindowSize();
+	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
+	//フェード処理
 	float rate = static_cast<float>(frame_) / static_cast<float>(fade_interval);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 * rate);
 	DrawBox(0, 0, wsize.w, wsize.h, 0x000000, true);
@@ -57,7 +60,9 @@ void GameScene::FadeDraw()
 
 void GameScene::NormalDraw()
 {
-	DrawString(16, 16, "GameScene", 0xffffff);
+	//ウィンドウサイズ取得
+	const auto& wsize = Application::GetInstance().GetWindowSize();
+	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
 }
 
 void GameScene::Update(Input& input)

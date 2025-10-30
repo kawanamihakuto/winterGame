@@ -3,6 +3,7 @@
 #include"Input.h"
 #include"TitleScene.h"
 #include"SceneController.h"
+#include"Application.h"
 GameoverScene::GameoverScene(SceneController& controller) :Scene(controller)
 {
 
@@ -18,5 +19,7 @@ void GameoverScene::Update(Input& input)
 }
 void GameoverScene::Draw()
 {
-	DrawString(250, 240, "GameoverScene",0xffffff);
+	//ウィンドウサイズ取得
+	const auto& wsize = Application::GetInstance().GetWindowSize();
+	DrawString(wsize.w*0.5f, wsize.h*0.5f, "GameoverScene",0xffffff);
 }

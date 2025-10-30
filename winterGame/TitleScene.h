@@ -15,7 +15,7 @@ private:
 	//通常Update
 	void NormalUpdate(Input&);
 	//フェードアウトUpdate
-	void FadeOutUpdae(Input&);
+	void FadeOutUpdate(Input&);
 
 	//Updateメンバ関数を代入できるメンバ関数ポインタ
 	using UpdateFunc_t = void(TitleScene::*)(Input&);

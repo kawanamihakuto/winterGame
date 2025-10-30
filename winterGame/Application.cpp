@@ -56,9 +56,11 @@ void Application::Run()
 		//入力情報の更新
 		input.Update();
 		//シーンの更新
-		controller.Updarte(input);
+		controller.Update(input);
 		//シーンの描画
 		controller.Draw();
+
+		
 
 		ScreenFlip();
 

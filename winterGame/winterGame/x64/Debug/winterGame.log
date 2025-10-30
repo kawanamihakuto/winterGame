@@ -1,2 +1,8 @@
-﻿  TitleScene.cpp
+﻿  GameScene.cpp
+C:\Users\0205h\Desktop\github\winterGame\winterGame\GameScene.cpp(53,37): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\0205h\Desktop\github\winterGame\winterGame\GameScene.cpp(53,21): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\0205h\Desktop\github\winterGame\winterGame\GameScene.cpp(56,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\0205h\Desktop\github\winterGame\winterGame\GameScene.cpp(58,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\0205h\Desktop\github\winterGame\winterGame\GameScene.cpp(65,37): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\0205h\Desktop\github\winterGame\winterGame\GameScene.cpp(65,21): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
   winterGame.vcxproj -> C:\Users\0205h\Desktop\github\winterGame\winterGame\x64\Debug\winterGame.exe

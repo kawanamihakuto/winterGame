@@ -1,5 +1,5 @@
 #include "Input.h"
-#include"DxLib.h"
+#include<DxLib.h>
 
 Input::Input():
 	inputData_{},
@@ -46,12 +46,13 @@ void Input::Update()
 				input = (padState & state.id);
 				break;
 			}
+			//ここでbreakしないと最後のチェックで押されていないとfalseになる
+			if (input)
+			{
+				break;
+			}
 		}
-		//ここでbreakしないと最後のチェックで押されていないとfalseになる
-		if (input)
-		{
-			break;
-		}
+		
 	}
 }
 
@@ -62,5 +63,5 @@ bool Input::IsPressed(const char* name) const
 
 bool Input::IsTriggered(const char* name) const
 {
-	return inputData_.at(name) && lastInputData_.at(name);
+	return inputData_.at(name) && !lastInputData_.at(name);
 }

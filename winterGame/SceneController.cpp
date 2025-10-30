@@ -26,7 +26,7 @@ void SceneController::PopScene()
 	scenes_.pop_back();
 }
 
-void SceneController::Updarte(Input& input)
+void SceneController::Update(Input& input)
 {
 	//末尾のシーンのみ、Updateを行う
 	scenes_.back()->Update(input);
