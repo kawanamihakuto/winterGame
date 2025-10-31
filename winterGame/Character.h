@@ -5,10 +5,10 @@ public:
 	Character();
 	virtual ~Character();
 
-	virtual void Init();
+	virtual void Init() = 0;
 
-	virtual void Update();
+	virtual void Update() = 0;
 	
-	virtual void Draw();
+	virtual void Draw() = 0;
 };
 
