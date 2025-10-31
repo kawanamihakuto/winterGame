@@ -1,10 +1,7 @@
 #include "GameObject.h"
 
-GameObject::GameObject()
+GameObject::GameObject(const Vector2 pos):position_(pos)
 {
 }
 
-GameObject::~GameObject()
-{
-}
 

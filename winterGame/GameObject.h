@@ -3,15 +3,13 @@
 class GameObject
 {
 public:
-	GameObject();
-	virtual ~GameObject();
-
+	GameObject(const Vector2 pos);
+	
 	virtual void Init() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
 protected:
-	Vector2 posX_;
-	Vector2 posY_;
+	Vector2 position_;
 };
 
