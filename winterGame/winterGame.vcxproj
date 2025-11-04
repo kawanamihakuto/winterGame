@@ -144,7 +144,6 @@
     <ClCompile Include="GameoverScene.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Geometry.cpp" />
-    <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -159,7 +158,6 @@
     <ClInclude Include="GameoverScene.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Geometry.h" />
-    <ClInclude Include="ImageManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
