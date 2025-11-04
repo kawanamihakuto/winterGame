@@ -11,8 +11,5 @@ public:
 	void Draw()override;
 private:
 	Vector2 vector_;
-
-	//Idolƒnƒ“ƒhƒ‹
-	int IdolH_;
 };
 
