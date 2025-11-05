@@ -1,11 +1,12 @@
 #include<DxLib.h>
 #include "Player.h"
 
-Player::Player():
-	vector_{0.0f,0.0f},
-	GameObject({320,240})
+Player::Player() :
+	direction_{ 0.0f,0.0f },
+	GameObject({ 320,240 }),
+	isGround_(true)
 {
-	
+	state_ = std::make_unique<Idle>();
 }
 
 Player::~Player()
@@ -23,3 +24,30 @@ void Player::Update()
 void Player::Draw()
 {
 }
+
+void Player::ChangeState(std::unique_ptr<StateBase> newState)
+{
+	if (state_)
+	{
+		state_->Exit(*this);
+	}
+}
+
+void Idle::Update(Player& player)
+{
+	
+}
+
+void Move::Update(Player& player)
+{
+}
+
+void Jump::Enter(Player& player)
+{
+
+}
+
+void Jump::Update(Player& player)
+{
+}
+
