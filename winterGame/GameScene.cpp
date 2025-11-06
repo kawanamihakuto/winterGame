@@ -4,6 +4,7 @@
 #include"Application.h"
 #include"Input.h"
 #include"GameoverScene.h"
+#include"Player.h"
 
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
@@ -13,6 +14,7 @@ update_(&GameScene::FadeInUpdate),
 draw_(&GameScene::FadeDraw)
 {
 	frame_ = fade_interval;
+	playerIdleH_ = LoadGraph("data/player/Idle.png");
 }
 
 void GameScene::FadeInUpdate(Input&)

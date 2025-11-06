@@ -1,6 +1,6 @@
 #include<DxLib.h>
 #include "Player.h"
-
+#include"GameScene.h"
 Player::Player() :
 	direction_{ 0.0f,0.0f },
 	GameObject({ 320,240 }),
@@ -15,6 +15,7 @@ Player::~Player()
 
 void Player::Init()
 {
+	
 }
 
 void Player::Update()
@@ -30,6 +31,8 @@ void Player::ChangeState(std::unique_ptr<StateBase> newState)
 	if (state_)
 	{
 		state_->Exit(*this);
+		state_ = std::move(newState);
+		state_->Enter(*this);
 	}
 }
 

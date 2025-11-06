@@ -23,6 +23,8 @@ public:
 private:
 	Vector2 direction_;
 	bool isGround_;
+
+	int idolH_;
 };
 /// <summary>
 /// ステートの基底クラス

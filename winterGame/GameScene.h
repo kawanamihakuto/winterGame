@@ -31,5 +31,7 @@ public:
 	
 	void Update(Input&)override;
 	void Draw()override;
+
+	int playerIdleH_;
 };
 
