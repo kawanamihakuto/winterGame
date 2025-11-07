@@ -13,8 +13,12 @@ GameScene::GameScene(SceneController& controller) :Scene(controller),
 update_(&GameScene::FadeInUpdate),
 draw_(&GameScene::FadeDraw)
 {
+	player_ = std::make_unique<Player>();
+
 	frame_ = fade_interval;
 	playerIdleH_ = LoadGraph("data/player/Idle.png");
+	
+	player_->SetIdleGraph(playerIdleH_);
 }
 
 void GameScene::FadeInUpdate(Input&)
@@ -30,6 +34,10 @@ void GameScene::FadeInUpdate(Input&)
 
 void GameScene::NormalUpdate(Input& input)
 {
+	player_->Update(input);
+
+
+
 	//ボタンが押されたらフェードアウトを始める
 	if (input.IsTriggered("ok"))
 	{

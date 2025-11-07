@@ -1,5 +1,7 @@
 #pragma once
 #include "Scene.h"
+#include<memory>
+class Player;
 class GameScene :public Scene
 {
 private:
@@ -24,6 +26,9 @@ private:
 	//Draw関数を代入できるメンバ関数ポインタ
 	using DrawFunc_t = void(GameScene::*)();
 	DrawFunc_t draw_;
+
+private:
+	std::unique_ptr<Player>player_;
 
 public:
 	//コンストラクタ
