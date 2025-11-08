@@ -73,6 +73,8 @@ void GameScene::NormalDraw()
 	//ウィンドウサイズ取得
 	const auto& wsize = Application::GetInstance().GetWindowSize();
 	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
+
+	player_->Draw();
 }
 
 void GameScene::Update(Input& input)

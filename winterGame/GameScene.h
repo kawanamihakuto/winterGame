@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include<memory>
+#include"Player.h"
 class Player;
 class GameScene :public Scene
 {
@@ -27,8 +28,9 @@ private:
 	using DrawFunc_t = void(GameScene::*)();
 	DrawFunc_t draw_;
 
-private:
 	std::unique_ptr<Player>player_;
+private:
+	
 
 public:
 	//コンストラクタ

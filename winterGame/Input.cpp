@@ -11,6 +11,20 @@ Input::Input():
 	inputTable_["ok"] = { {PeripheralType::keyboard,KEY_INPUT_RETURN},
 							{PeripheralType::pad1,PAD_INPUT_START} };
 
+	inputTable_["left"] = { {PeripheralType::keyboard,KEY_INPUT_LEFT},
+							{PeripheralType::pad1,PAD_INPUT_LEFT} };
+	inputTable_["up"] = { {PeripheralType::keyboard,KEY_INPUT_UP},
+							{PeripheralType::pad1,PAD_INPUT_UP} };
+	inputTable_["right"] = { {PeripheralType::keyboard,KEY_INPUT_RIGHT},
+							{PeripheralType::pad1,PAD_INPUT_RIGHT} };
+	inputTable_["down"] = { {PeripheralType::keyboard,KEY_INPUT_DOWN},
+							{PeripheralType::pad1,PAD_INPUT_DOWN} };
+
+	inputTable_["jump"] = { {PeripheralType::keyboard,KEY_INPUT_SPACE},
+							{PeripheralType::pad1,PAD_INPUT_A} };
+
+
+
 	//あらかじめ入力データの枠を開けておく
 	//ここで枠を開けておかないと、
 	//チェックの際にAt関数でクラッシュする可能性がある

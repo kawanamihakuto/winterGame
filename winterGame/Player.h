@@ -7,6 +7,8 @@ class Input;
 class Player :public GameObject
 {
 public:
+	friend StateBase;
+
 	//現在のステートを入れる変数
 	std::unique_ptr<StateBase>state_;
 
@@ -15,11 +17,16 @@ public:
 
 	void Init()override;
 	void Update()override;
+	void Update(Input& input);
 	void Draw()override;
 
 	//プレイヤーポジションのゲッター・セッター
 	 Vector2& GetPosition(){ return position_; }
 	void SetPosition(const Vector2& pos) { position_ = pos; }
+
+	//プレイヤーのディレクションのゲッター・セッター
+	Vector2& GetDirection() { return direction_; }
+	void SetDirection(const Vector2& dir) { direction_ = dir; }
 	
 	//<画像ハンドルのセッター>
 	void SetIdleGraph(int handle) { idleH_ = handle; }
@@ -30,6 +37,13 @@ public:
 	/// </summary>
 	/// <param name="newState">切り替えるステート</param>
 	void ChangeState(std::unique_ptr<StateBase>newState);
+
+	//重力用関数
+	void Gravity();
+
+	//dir正規化してposに反映する関数
+	void ApplyMovement(float speed);
+
 private:
 	//移動方向
 	Vector2 direction_;
@@ -46,7 +60,7 @@ class StateBase
 public:
 	virtual ~StateBase() = default;
 	virtual void Enter(Player& player){};
-	virtual void Update(Player& player) = 0;
+	virtual void Update(Player& player,Input& input) = 0;
 	virtual void Draw(Player& player) {};
 	virtual void Exit(Player& player) {};
 };
@@ -56,7 +70,7 @@ public:
 class Idle : public StateBase
 {
 	public:
-	void Update(Player& player) override;
+	void Update(Player& player,Input&input) override;
 	void Draw(Player& player)override;
 };
 /// <summary>
@@ -65,7 +79,7 @@ class Idle : public StateBase
 class Move : public StateBase
 {
 public:
-	void Update(Player& player) override;
+	void Update(Player& player, Input& input) override;
 	void Draw(Player& player)override;
 };
 /// <summary>
@@ -75,7 +89,7 @@ class Jump : public StateBase
 {
 public:
 	void Enter(Player& player)override;
-	void Update(Player& player) override;
+	void Update(Player& player, Input& input) override;
 	void Draw(Player& player)override;
 };
 
