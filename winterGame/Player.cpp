@@ -10,14 +10,19 @@ namespace
 
 	constexpr int kGround = 400;
 
-	constexpr int kMoveSpeed = 10;
-	constexpr int kGravity = 5;
+	constexpr float kMoveSpeed = 0.5f;
+	constexpr float kGravity = 4.0f;
+	constexpr float kJumpPower = 5.0f;
+
+	constexpr float kMaxSpeed = 2.0f;
+	constexpr float kFriction = 0.90f;
 }
 
 Player::Player() :
-	direction_{ 0.0f,0.0f },
+	velocity_{ 0.0f,0.0f },
 	GameObject({ 320,240 }),
-	isGround_(true)
+	isGround_(true),
+	idleH_(-1)
 {
 	state_ = std::make_unique<Idle>();
 }
@@ -33,16 +38,12 @@ void Player::Init()
 
 void Player::Update()
 {
-	
+
 }
 void Player::Update(Input& input)
 {
-	state_->Update(*this,input);
+	state_->Update(*this, input);
 
-	if (position_.y >= kGround)
-	{
-		position_.y = kGround;
-	}
 
 }
 
@@ -63,25 +64,33 @@ void Player::ChangeState(std::unique_ptr<StateBase> newState)
 
 void Player::Gravity()
 {
-	direction_.y += 1.0f;
-	ApplyMovement(kGravity);
+	velocity_.y += 0.5f;
+	ApplyMovement();
 }
 
-void Player::ApplyMovement(float speed)
+void Player::ApplyMovement()
 {
-	if (direction_.x == 0.0f && direction_.y == 0.0f)
-	{
-		return;
-	}
+	position_ += velocity_;
 
-	direction_.Normalize();
-	position_ += direction_ * speed;
+	if (position_.y >= kGround)
+	{
+		position_.y = kGround;
+		velocity_.y = 0.0f;
+		isGround_ = true;
+	}
+}
+
+void Idle::Enter(Player& player)
+{
+	Vector2 vel = player.GetVelocity();
+	vel.x = 0.0f;
+	player.SetVelocity(vel);
 }
 
 void Idle::Update(Player& player, Input& input)
 {
 	player.Gravity();
-	if (input.IsPressed("left")&& input.IsPressed("right"))
+	if (input.IsPressed("left") && input.IsPressed("right"))
 	{
 
 	}
@@ -104,7 +113,7 @@ void Idle::Draw(Player& player)
 {
 	Vector2& pos = player.GetPosition();
 	int& idleH = player.GetIdleGraph();
-	DrawRectGraph(pos.x,pos.y,0,0,kWidth,kHeight,idleH,true);
+	DrawRectGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, idleH, true);
 
 #ifdef _DEBUG
 	DrawString(0, 0, "Idle", 0xffffff);
@@ -113,25 +122,44 @@ void Idle::Draw(Player& player)
 
 void Move::Update(Player& player, Input& input)
 {
-	Vector2 dir{ 0,0 };
+	player.Gravity();
+
+	Vector2 vel = player.GetVelocity();
 
 	if (input.IsPressed("left"))
 	{
-		dir.x -= 1.0f;
+		vel.x -= kMoveSpeed;
 	}
 	if (input.IsPressed("right"))
 	{
-		dir.x += 1.0f;
+		vel.x += kMoveSpeed;
+	}
+	
+	if (input.IsPressed("jump"))
+	{
+		player.ChangeState(std::make_unique<Jump>());
+		return;
 	}
 
-	if (dir.x == 0.0f)
+	vel.x *= kFriction;
+
+	if (vel.x >= kMaxSpeed)
+	{
+		vel.x = kMaxSpeed;
+	}
+	if (vel.x <= -kMaxSpeed)
+	{
+		vel.x = -kMaxSpeed;
+	}
+
+	player.SetVelocity(vel);
+
+	player.ApplyMovement();
+
+	if (vel.x <= 0.1f&&vel.x >= -0.1)
 	{
 		player.ChangeState(std::make_unique<Idle>());
 	}
-
-	player.SetDirection(dir);
-
-	player.ApplyMovement(kMoveSpeed);
 
 }
 void Move::Draw(Player& player)
@@ -141,20 +169,67 @@ void Move::Draw(Player& player)
 	DrawRectGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, idleH, true);
 
 #ifdef _DEBUG
-	DrawString(0,0,"Move",0xffffff);
+	DrawString(0, 0, "Move", 0xffffff);
 #endif // _DEBUG
 
-	
+
 }
 
 void Jump::Enter(Player& player)
 {
-
+	Vector2 vel = player.GetVelocity();
+	vel.y = -kJumpPower;
+	player.SetVelocity(vel);
 }
 
 void Jump::Update(Player& player, Input& input)
 {
+	player.Gravity();
+
+	Vector2 pos = player.GetPosition();
+
+	Vector2 vel = player.GetVelocity();
+
+	if (input.IsPressed("left"))
+	{
+		vel.x -= kMoveSpeed * 0.2f;
+	}
+	if (input.IsPressed("right"))
+	{
+		vel.x += kMoveSpeed * 0.2f;
+	}
+
+	if (vel.x >= kMaxSpeed)
+	{
+		vel.x = kMaxSpeed;
+	}
+	if (vel.x <= -kMaxSpeed)
+	{
+		vel.x = -kMaxSpeed;
+	}
+
+	player.SetVelocity(vel);
+	player.ApplyMovement();
+
+	if (pos.y >= kGround)
+	{
+		if (input.IsPressed("left") || input.IsPressed("right"))
+		{
+			player.ChangeState(std::make_unique<Move>());
+		}
+		else
+		{
+			player.ChangeState(std::make_unique<Idle>());
+		}
+	}
 }
 void Jump::Draw(Player& player)
 {
+	Vector2& pos = player.GetPosition();
+	int& idleH = player.GetIdleGraph();
+	DrawRectGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, idleH, true);
+
+#ifdef _DEBUG
+	DrawString(0, 0, "Jump", 0xffffff);
+#endif // _DEBUG
 }

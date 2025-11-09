@@ -25,8 +25,8 @@ public:
 	void SetPosition(const Vector2& pos) { position_ = pos; }
 
 	//プレイヤーのディレクションのゲッター・セッター
-	Vector2& GetDirection() { return direction_; }
-	void SetDirection(const Vector2& dir) { direction_ = dir; }
+	Vector2& GetVelocity() { return velocity_; }
+	void SetVelocity(const Vector2& dir) { velocity_ = dir; }
 	
 	//<画像ハンドルのセッター>
 	void SetIdleGraph(int handle) { idleH_ = handle; }
@@ -42,11 +42,11 @@ public:
 	void Gravity();
 
 	//dir正規化してposに反映する関数
-	void ApplyMovement(float speed);
+	void ApplyMovement();
 
 private:
-	//移動方向
-	Vector2 direction_;
+	//速度ベクトル
+	Vector2 velocity_;
 	//地面にいるかどうか
 	bool isGround_;
 	//Idle画像ハンドル
@@ -69,7 +69,8 @@ public:
 /// </summary>
 class Idle : public StateBase
 {
-	public:
+public:
+	void Enter(Player& player)override;
 	void Update(Player& player,Input&input) override;
 	void Draw(Player& player)override;
 };
