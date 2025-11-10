@@ -3,6 +3,9 @@
 #include<memory>
 #include"Player.h"
 class Player;
+/// <summary>
+/// ゲームシーンクラス
+/// </summary>
 class GameScene :public Scene
 {
 private:
@@ -29,6 +32,7 @@ private:
 	DrawFunc_t draw_;
 
 	std::unique_ptr<Player>player_;
+
 private:
 	
 
@@ -40,5 +44,7 @@ public:
 	void Draw()override;
 
 	int playerIdleH_;
+
+	int enemyWalkH_;
 };
 

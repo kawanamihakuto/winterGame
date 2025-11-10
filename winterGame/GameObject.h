@@ -1,5 +1,8 @@
 #pragma once
 #include"Geometry.h"
+/// <summary>
+/// ゲーム全体のオブジェクト基底クラス
+/// </summary>
 class GameObject
 {
 public:

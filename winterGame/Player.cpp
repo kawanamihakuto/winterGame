@@ -18,11 +18,11 @@ namespace
 	constexpr float kFriction = 0.90f;
 }
 
-Player::Player() :
+Player::Player(int idleH) :
 	velocity_{ 0.0f,0.0f },
 	GameObject({ 320,240 }),
 	isGround_(true),
-	idleH_(-1)
+	idleH_(idleH)
 {
 	state_ = std::make_unique<Idle>();
 }

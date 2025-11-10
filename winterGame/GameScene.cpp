@@ -13,12 +13,13 @@ GameScene::GameScene(SceneController& controller) :Scene(controller),
 update_(&GameScene::FadeInUpdate),
 draw_(&GameScene::FadeDraw)
 {
-	player_ = std::make_unique<Player>();
-
-	frame_ = fade_interval;
 	playerIdleH_ = LoadGraph("data/player/Idle.png");
-	
-	player_->SetIdleGraph(playerIdleH_);
+	/////////////////////
+	enemyWalkH_ = LoadGraph("");
+	////////////////////
+	player_ = std::make_unique<Player>(playerIdleH_);
+
+	frame_ = fade_interval;	
 }
 
 void GameScene::FadeInUpdate(Input&)

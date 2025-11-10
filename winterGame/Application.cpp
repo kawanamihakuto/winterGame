@@ -3,8 +3,8 @@
 #include"Input.h"
 #include"SceneController.h"
 #include"TitleScene.h"
-constexpr int kDefaultWindowWidth = 640;//デフォルトウィンドウ幅
-constexpr int kDefaultWindowHeight = 480;//デフォルトウィンドウ高さ
+constexpr int kDefaultWindowWidth = 1080;//デフォルトウィンドウ幅
+constexpr int kDefaultWindowHeight = 720;//デフォルトウィンドウ高さ
 constexpr int kDefaultColorBit = 32;//デフォルトカラービット
 
 Application::Application():
@@ -27,7 +27,7 @@ Application& Application::GetInstance()
 bool Application::Init()
 {
 	//ウィンドウサイズ設定
-	SetWindowSize(windowSize_.w, windowSize_.h);
+	SetGraphMode(windowSize_.w, windowSize_.h, kDefaultColorBit);
 	//ウィンドウモード設定
 	ChangeWindowMode(true);
 	//ウィンドウのタイトル設定
@@ -46,6 +46,7 @@ void Application::Run()
 	Input input;//入力のためのオブジェクト
 	SceneController controller;//シーン遷移のためのオブジェクト
 	controller.ChangeScene(std::make_shared<TitleScene>(controller));
+
 	
 	while (ProcessMessage() != -1)
 	{
