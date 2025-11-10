@@ -2,7 +2,9 @@
 #include "Scene.h"
 #include<memory>
 #include"Player.h"
+#include"WalkEnemy.h"
 class Player;
+class WalkEnemy;
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -32,7 +34,7 @@ private:
 	DrawFunc_t draw_;
 
 	std::unique_ptr<Player>player_;
-
+	std::shared_ptr<WalkEnemy>walkEnemy_;
 private:
 	
 

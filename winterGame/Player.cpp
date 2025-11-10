@@ -18,11 +18,14 @@ namespace
 	constexpr float kFriction = 0.90f;
 }
 
-Player::Player(int idleH) :
+
+
+Player::Player(PlayerImages& imgs) :
 	velocity_{ 0.0f,0.0f },
 	GameObject({ 320,240 }),
 	isGround_(true),
-	idleH_(idleH)
+	images_(imgs),
+	currentGraph_(imgs.idle)
 {
 	state_ = std::make_unique<Idle>();
 }
@@ -49,10 +52,11 @@ void Player::Update(Input& input)
 
 void Player::Draw()
 {
-	state_->Draw(*this);
+	Vector2& pos = GetPosition();
+	DrawRectGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, currentGraph_, true);
 }
 
-void Player::ChangeState(std::unique_ptr<StateBase> newState)
+void Player::ChangeState(std::unique_ptr<PlayerStateBase> newState)
 {
 	if (state_)
 	{
@@ -82,6 +86,7 @@ void Player::ApplyMovement()
 
 void Idle::Enter(Player& player)
 {
+	player.SetGraph(player.GetImages().idle);
 	Vector2 vel = player.GetVelocity();
 	vel.x = 0.0f;
 	player.SetVelocity(vel);
@@ -109,15 +114,11 @@ void Idle::Update(Player& player, Input& input)
 
 
 }
-void Idle::Draw(Player& player)
-{
-	Vector2& pos = player.GetPosition();
-	int& idleH = player.GetIdleGraph();
-	DrawRectGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, idleH, true);
 
-#ifdef _DEBUG
-	DrawString(0, 0, "Idle", 0xffffff);
-#endif // _DEBUG
+
+void Move::Enter(Player& player)
+{
+	player.SetGraph(player.GetImages().move);
 }
 
 void Move::Update(Player& player, Input& input)
@@ -162,21 +163,11 @@ void Move::Update(Player& player, Input& input)
 	}
 
 }
-void Move::Draw(Player& player)
-{
-	Vector2& pos = player.GetPosition();
-	int& idleH = player.GetIdleGraph();
-	DrawRectGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, idleH, true);
 
-#ifdef _DEBUG
-	DrawString(0, 0, "Move", 0xffffff);
-#endif // _DEBUG
-
-
-}
 
 void Jump::Enter(Player& player)
 {
+	player.SetGraph(player.GetImages().jump);
 	Vector2 vel = player.GetVelocity();
 	vel.y = -kJumpPower;
 	player.SetVelocity(vel);
@@ -223,13 +214,4 @@ void Jump::Update(Player& player, Input& input)
 		}
 	}
 }
-void Jump::Draw(Player& player)
-{
-	Vector2& pos = player.GetPosition();
-	int& idleH = player.GetIdleGraph();
-	DrawRectGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, idleH, true);
 
-#ifdef _DEBUG
-	DrawString(0, 0, "Jump", 0xffffff);
-#endif // _DEBUG
-}

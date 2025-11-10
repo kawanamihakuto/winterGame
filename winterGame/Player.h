@@ -1,9 +1,18 @@
 #pragma once
 #include "GameObject.h"
 #include<memory>
-class StateBase;
+class PlayerStateBase;
 class Player;
 class Input;
+/// <summary>
+/// プレイヤーの各画像
+/// </summary>
+struct PlayerImages
+{
+	int idle;
+	int move;
+	int jump;
+};
 /// <summary>
 /// プレイヤークラス
 /// </summary>
@@ -11,12 +20,12 @@ class Player :public GameObject
 {
 public:
 	//フレンドにする
-	friend StateBase;
+	friend PlayerStateBase;
 
 	//現在のステートを入れる変数
-	std::unique_ptr<StateBase>state_;
+	std::unique_ptr<PlayerStateBase>state_;
 
-	Player(int idleH);
+	Player(PlayerImages& imgs);
 	~Player();
 
 	void Init()override;
@@ -33,14 +42,16 @@ public:
 	void SetVelocity(const Vector2& dir) { velocity_ = dir; }
 	
 	//<画像ハンドルのセッター>
-	void SetIdleGraph(int handle) { idleH_ = handle; }
-	int& GetIdleGraph() { return idleH_; }
+	void SetGraph(int handle) { currentGraph_ = handle; }
+	int& GetGraph() { return currentGraph_; }
+
+	const PlayerImages& GetImages()const { return images_; }
 
 	/// <summary>
 	/// ステート切り替えの関数
 	/// </summary>
 	/// <param name="newState">切り替えるステート</param>
-	void ChangeState(std::unique_ptr<StateBase>newState);
+	void ChangeState(std::unique_ptr<PlayerStateBase>newState);
 
 	/// <summary>
 	/// 重力用関数
@@ -57,48 +68,47 @@ private:
 	Vector2 velocity_;
 	//地面にいるかどうか
 	bool isGround_;
-	//Idle画像ハンドル
-	int idleH_;
+	//画像ハンドルをまとめて持つ
+	PlayerImages images_;
+	//現在の画像
+	int currentGraph_;
 };
 /// <summary>
-/// ステートの基底クラス
+/// プレイヤーステートの基底クラス
 /// </summary>
-class StateBase
+class PlayerStateBase
 {
 public:
-	virtual ~StateBase() = default;
+	virtual ~PlayerStateBase() = default;
 	virtual void Enter(Player& player){};
 	virtual void Update(Player& player,Input& input) = 0;
-	virtual void Draw(Player& player) {};
 	virtual void Exit(Player& player) {};
 };
 /// <summary>
 /// Idle状態クラス
 /// </summary>
-class Idle : public StateBase
+class Idle : public PlayerStateBase
 {
 public:
 	void Enter(Player& player)override;
 	void Update(Player& player,Input&input) override;
-	void Draw(Player& player)override;
 };
 /// <summary>
 /// Move状態クラス
 /// </summary>
-class Move : public StateBase
-{
-public:
-	void Update(Player& player, Input& input) override;
-	void Draw(Player& player)override;
-};
-/// <summary>
-/// Jamp状態クラス
-/// </summary>
-class Jump : public StateBase
+class Move : public PlayerStateBase
 {
 public:
 	void Enter(Player& player)override;
 	void Update(Player& player, Input& input) override;
-	void Draw(Player& player)override;
+};
+/// <summary>
+/// Jamp状態クラス
+/// </summary>
+class Jump : public PlayerStateBase
+{
+public:
+	void Enter(Player& player)override;
+	void Update(Player& player, Input& input) override;
 };
 
