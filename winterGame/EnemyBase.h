@@ -6,7 +6,7 @@
 class EnemyBase :public GameObject
 {
 public:
-	EnemyBase(const int hp,const Vector2 vel);
+	EnemyBase(const int hp,const Vector2 vel,const Vector2 pos);
 	virtual~EnemyBase();
 	virtual void Init()override = 0;
 	virtual void Update()override = 0;

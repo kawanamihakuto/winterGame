@@ -33,10 +33,6 @@ public:
 	/// </summary>
 	/// <param name="newState"></param>
 	void ChangeState(std::unique_ptr<WalkEnemyStateBase>newState);
-	/// <summary>
-	/// 移動を適用する関数。
-	/// </summary>
-	void ApplyMovement();
 
 	//ポジションのゲッター・セッター
 	Vector2& GetPosition() { return position_; }
@@ -46,12 +42,27 @@ public:
 	Vector2& GetVelocity() { return velocity_; }
 	void SetVelocity(const Vector2& vel) { velocity_ = vel; }
 
+	//<画像ハンドルのセッター>
+	void SetGraph(int handle) { currentImage_ = handle; }
+	int& GetGraph() { return currentImage_; }
+
 	//imagesのゲッター
 	const WalkEnemyImages& GetImages() const { return images_; }
 
-private:
-	WalkEnemyImages images_;
+	/// <summary>
+	/// 重力用関数
+	/// </summary>
+	void Gravity();
 
+	/// <summary>
+	/// 移動を適用する関数
+	/// </summary>
+	void ApplyMovement();
+
+private:
+	//画像ハンドルをまとめて持つ
+	WalkEnemyImages images_;
+	//現在の画像
 	int currentImage_;
 };
 
@@ -71,6 +82,7 @@ public:
 /// </summary>
 class Walk : public WalkEnemyStateBase
 {
+	void Enter(WalkEnemy& enemy) override;
 	void Update(WalkEnemy& enemy) override;
 };
 /// <summary>

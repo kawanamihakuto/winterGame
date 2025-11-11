@@ -10,9 +10,9 @@ namespace
 
 	constexpr int kGround = 400;
 
-	constexpr float kMoveSpeed = 0.5f;
-	constexpr float kGravity = 4.0f;
-	constexpr float kJumpPower = 5.0f;
+	constexpr float kMoveSpeed = 1.0f;
+	constexpr float kGravity = 0.5f;
+	constexpr float kJumpPower = 7.0f;
 
 	constexpr float kMaxSpeed = 2.0f;
 	constexpr float kFriction = 0.90f;
@@ -25,7 +25,8 @@ Player::Player(PlayerImages& imgs) :
 	GameObject({ 320,240 }),
 	isGround_(true),
 	images_(imgs),
-	currentImage_(imgs.idle)
+	currentImage_(imgs.idle),
+	rect_()
 {
 	state_ = std::make_unique<Idle>();
 }
@@ -54,10 +55,13 @@ void Player::Draw()
 {
 	Vector2& pos = GetPosition();
 	DrawRectGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, currentImage_, true);
+
+	
 }
 
 void Player::ChangeState(std::unique_ptr<PlayerStateBase> newState)
 {
+	// Stateパターンの状態遷移処理
 	if (state_)
 	{
 		state_->Exit(*this);
@@ -68,8 +72,7 @@ void Player::ChangeState(std::unique_ptr<PlayerStateBase> newState)
 
 void Player::Gravity()
 {
-	velocity_.y += 0.5f;
-	ApplyMovement();
+	velocity_.y += kGravity;
 }
 
 void Player::ApplyMovement()
@@ -86,6 +89,7 @@ void Player::ApplyMovement()
 
 void Idle::Enter(Player& player)
 {
+	//画像をIdleに変更 / velocityを0にする
 	player.SetGraph(player.GetImages().idle);
 	Vector2 vel = player.GetVelocity();
 	vel.x = 0.0f;
@@ -94,11 +98,14 @@ void Idle::Enter(Player& player)
 
 void Idle::Update(Player& player, Input& input)
 {
+	//重力処理
 	player.Gravity();
+
 	if (input.IsPressed("left") && input.IsPressed("right"))
 	{
 
 	}
+	//左右どちらかの入力があったらMoveへ遷移
 	else if (input.IsPressed("left"))
 	{
 		player.ChangeState(std::make_unique<Move>());
@@ -107,26 +114,30 @@ void Idle::Update(Player& player, Input& input)
 	{
 		player.ChangeState(std::make_unique<Move>());
 	}
+	//ジャンプ入力があったらJumpへ遷移
 	else if (input.IsPressed("jump"))
 	{
 		player.ChangeState(std::make_unique<Jump>());
 	}
-
+	
+	player.ApplyMovement();
 
 }
 
 
 void Move::Enter(Player& player)
 {
+	//画像をMoveに変更
 	player.SetGraph(player.GetImages().move);
 }
 
 void Move::Update(Player& player, Input& input)
 {
+	//重力処理
 	player.Gravity();
 
 	Vector2 vel = player.GetVelocity();
-
+	//左右の入力で速度を変更
 	if (input.IsPressed("left"))
 	{
 		vel.x -= kMoveSpeed;
@@ -135,15 +146,16 @@ void Move::Update(Player& player, Input& input)
 	{
 		vel.x += kMoveSpeed;
 	}
-	
+	//ジャンプ入力があったらJumpへ遷移
 	if (input.IsPressed("jump"))
 	{
 		player.ChangeState(std::make_unique<Jump>());
 		return;
 	}
-
+	//摩擦処理
 	vel.x *= kFriction;
 
+	//速度制限
 	if (vel.x >= kMaxSpeed)
 	{
 		vel.x = kMaxSpeed;
@@ -157,6 +169,7 @@ void Move::Update(Player& player, Input& input)
 
 	player.ApplyMovement();
 
+	//速度がほぼ0になったらIdleへ遷移
 	if (vel.x <= 0.1f&&vel.x >= -0.1)
 	{
 		player.ChangeState(std::make_unique<Idle>());
@@ -167,6 +180,7 @@ void Move::Update(Player& player, Input& input)
 
 void Jump::Enter(Player& player)
 {
+	//画像をJumpに変更 / 上方向へ速度を与える
 	player.SetGraph(player.GetImages().jump);
 	Vector2 vel = player.GetVelocity();
 	vel.y = -kJumpPower;
@@ -175,12 +189,14 @@ void Jump::Enter(Player& player)
 
 void Jump::Update(Player& player, Input& input)
 {
+	//重力処理
 	player.Gravity();
 
 	Vector2 pos = player.GetPosition();
 
 	Vector2 vel = player.GetVelocity();
 
+	//左右の入力で速度を変更
 	if (input.IsPressed("left"))
 	{
 		vel.x -= kMoveSpeed * 0.2f;
@@ -190,6 +206,7 @@ void Jump::Update(Player& player, Input& input)
 		vel.x += kMoveSpeed * 0.2f;
 	}
 
+	//速度制限
 	if (vel.x >= kMaxSpeed)
 	{
 		vel.x = kMaxSpeed;
@@ -202,6 +219,7 @@ void Jump::Update(Player& player, Input& input)
 	player.SetVelocity(vel);
 	player.ApplyMovement();
 
+	//地面に着地したらIdleかMoveへ遷移
 	if (pos.y >= kGround)
 	{
 		if (input.IsPressed("left") || input.IsPressed("right"))
