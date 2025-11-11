@@ -10,8 +10,9 @@ namespace
 	constexpr int kHeight = 32;
 }
 
-WalkEnemy::WalkEnemy(Vector2 firstPos,int walkH) :EnemyBase(kHp, firstPos),
-walkH_(walkH)
+WalkEnemy::WalkEnemy(Vector2 pos,WalkEnemyImages& imgs) :EnemyBase(kHp, pos),
+images_(imgs),
+currentImage_(images_.walk)
 {
 	state_ = std::make_unique<Walk>();
 }
@@ -32,7 +33,8 @@ void WalkEnemy::Update()
 
 void WalkEnemy::Draw()
 {
-	state_->Draw(*this);
+	Vector2& pos = GetPosition();
+	DrawRectGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, currentImage_, true);
 }
 
 void WalkEnemy::ChangeState(std::unique_ptr<WalkEnemyStateBase>newState)
@@ -50,13 +52,6 @@ void Walk::Update(WalkEnemy& enemy)
 	
 }
 
-void Walk::Draw(WalkEnemy& enemy)
-{
-	Vector2& pos = enemy.GetPosition();
-	
-	
-}
-
 void Death::Enter(WalkEnemy& enemy)
 {
 	
@@ -65,9 +60,7 @@ void Death::Update(WalkEnemy& enemy)
 {
 
 }
-void Death::Draw(WalkEnemy& enemy)
-{
-}
+
 void Death::Exit(WalkEnemy& enemy)
 {
 

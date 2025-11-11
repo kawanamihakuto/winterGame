@@ -25,7 +25,7 @@ Player::Player(PlayerImages& imgs) :
 	GameObject({ 320,240 }),
 	isGround_(true),
 	images_(imgs),
-	currentGraph_(imgs.idle)
+	currentImage_(imgs.idle)
 {
 	state_ = std::make_unique<Idle>();
 }
@@ -53,7 +53,7 @@ void Player::Update(Input& input)
 void Player::Draw()
 {
 	Vector2& pos = GetPosition();
-	DrawRectGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, currentGraph_, true);
+	DrawRectGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, currentImage_, true);
 }
 
 void Player::ChangeState(std::unique_ptr<PlayerStateBase> newState)

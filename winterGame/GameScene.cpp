@@ -22,13 +22,26 @@ draw_(&GameScene::FadeDraw)
 		LoadGraph("data/player/Move.png"),
 		LoadGraph("data/player/Jump.png")
 	};
-	/////////////////////
-	enemyWalkH_ = LoadGraph("data/walkEnemy/Walking.png");
-	////////////////////
+
+	//walk
+	WalkEnemyImages walkEnemyImgs
+	{
+		LoadGraph("data/walkEnemy/Walk.png")
+	};
+
 	player_ = std::make_unique<Player>(playerImgs);
 
-	walkEnemy_ = std::make_shared<WalkEnemy>(Vector2{200,200}, enemyWalkH_);
+	walkEnemy_ = std::make_shared<WalkEnemy>(Vector2{200,200}, walkEnemyImgs);
 	frame_ = fade_interval;	
+}
+
+GameScene::~GameScene()
+{
+	
+	DeleteGraph(player_->GetImages().idle);
+	DeleteGraph(player_->GetImages().move);
+	DeleteGraph(player_->GetImages().jump);
+	DeleteGraph(walkEnemy_->GetImages().walk);
 }
 
 void GameScene::FadeInUpdate(Input&)

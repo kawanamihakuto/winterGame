@@ -42,9 +42,10 @@ public:
 	void SetVelocity(const Vector2& dir) { velocity_ = dir; }
 	
 	//<画像ハンドルのセッター>
-	void SetGraph(int handle) { currentGraph_ = handle; }
-	int& GetGraph() { return currentGraph_; }
+	void SetGraph(int handle) { currentImage_ = handle; }
+	int& GetGraph() { return currentImage_; }
 
+	//imagesのゲッター
 	const PlayerImages& GetImages()const { return images_; }
 
 	/// <summary>
@@ -71,7 +72,7 @@ private:
 	//画像ハンドルをまとめて持つ
 	PlayerImages images_;
 	//現在の画像
-	int currentGraph_;
+	int currentImage_;
 };
 /// <summary>
 /// プレイヤーステートの基底クラス

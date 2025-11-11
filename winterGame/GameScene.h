@@ -41,12 +41,8 @@ private:
 public:
 	//コンストラクタ
 	GameScene(SceneController& controller);
-	
+	~GameScene();
 	void Update(Input&)override;
 	void Draw()override;
-
-	int playerIdleH_;
-
-	int enemyWalkH_;
 };
 

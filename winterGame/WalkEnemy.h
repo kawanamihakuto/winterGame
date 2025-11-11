@@ -2,9 +2,16 @@
 #include "EnemyBase.h"
 #include <memory>
 
-
 class WalkEnemy;
 class WalkEnemyStateBase;
+/// <summary>
+/// WalkEnemyの各画像
+/// </summary>
+struct WalkEnemyImages
+{
+	int walk;
+};
+
 /// <summary>
 /// 歩く敵クラス
 /// </summary>
@@ -16,7 +23,7 @@ public:
 	//現在のステートを入れる変数
 	std::unique_ptr<WalkEnemyStateBase> state_;
 
-	WalkEnemy(Vector2 firstPos,int walkH);
+	WalkEnemy(Vector2 pos,WalkEnemyImages& imgs);
 	~WalkEnemy ();
 	void Init()override;
 	void Update() override;
@@ -39,8 +46,13 @@ public:
 	Vector2& GetVelocity() { return velocity_; }
 	void SetVelocity(const Vector2& vel) { velocity_ = vel; }
 
+	//imagesのゲッター
+	const WalkEnemyImages& GetImages() const { return images_; }
+
 private:
-	int walkH_;
+	WalkEnemyImages images_;
+
+	int currentImage_;
 };
 
 /// <summary>
@@ -52,7 +64,6 @@ public:
 	virtual ~WalkEnemyStateBase() = default;
 	virtual void Enter(WalkEnemy& enemy) {};
 	virtual void Update(WalkEnemy& enemy) = 0;
-	virtual void Draw(WalkEnemy& enemy) {};
 	virtual void Exit(WalkEnemy& enemy) {};
 };
 /// <summary>
@@ -61,7 +72,6 @@ public:
 class Walk : public WalkEnemyStateBase
 {
 	void Update(WalkEnemy& enemy) override;
-	void Draw(WalkEnemy& enemy)override;
 };
 /// <summary>
 /// Death状態クラス
@@ -70,7 +80,6 @@ class Death : public WalkEnemyStateBase
 {
 	void Enter(WalkEnemy& enemy) override;
 	void Update(WalkEnemy& enemy) override;	
-	void Draw(WalkEnemy& enemy)override;
 	void Exit(WalkEnemy& enemy) override;
 };
 /// <summary>
