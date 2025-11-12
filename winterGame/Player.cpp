@@ -13,10 +13,10 @@ namespace
 	constexpr int kGround = 400;
 
 	constexpr float kMoveSpeed = 1.0f;
-	constexpr float kGravity = 0.5f;
-	constexpr float kJumpPower = 7.0f;
+	constexpr float kGravity = 0.4f;
+	constexpr float kJumpPower = 8.0f;
 
-	constexpr float kMaxSpeed = 2.0f;
+	constexpr float kMaxSpeed = 3.0f;
 	constexpr float kFriction = 0.90f;
 }
 
@@ -48,16 +48,14 @@ void Player::Update()
 void Player::Update(Input& input)
 {
 	state_->Update(*this, input);
-
-
 }
 
 void Player::Draw()
 {
 	Vector2& pos = GetPosition();
 	DrawRectRotaGraph(pos.x, pos.y,0, 0, kWidth, kHeight, kSize,0,currentImage_, true);
-
-	
+	Rect& rect = GetHitRect();
+	rect.Draw(0x0000ff,false);
 }
 
 void Player::ChangeState(std::unique_ptr<PlayerStateBase> newState)
@@ -122,7 +120,9 @@ void Idle::Update(Player& player, Input& input)
 	}
 	
 	player.ApplyMovement();
-
+	Vector2& pos = player.GetPosition();
+	Rect& rect = player.GetHitRect();
+	rect.SetCenter(pos.x,pos.y +(kHeight/2), kWidth, kHeight);
 }
 
 
@@ -168,13 +168,16 @@ void Move::Update(Player& player, Input& input)
 
 	player.SetVelocity(vel);
 
-	player.ApplyMovement();
-
 	//速度がほぼ0になったらIdleへ遷移
 	if (vel.x <= 0.1f&&vel.x >= -0.1)
 	{
 		player.ChangeState(std::make_unique<Idle>());
 	}
+
+	player.ApplyMovement();
+	Vector2& pos = player.GetPosition();
+	Rect& rect = player.GetHitRect();
+	rect.SetCenter(pos.x, pos.y + (kHeight / 2), kWidth, kHeight);
 
 }
 
@@ -193,18 +196,16 @@ void Jump::Update(Player& player, Input& input)
 	//重力処理
 	player.Gravity();
 
-	Vector2 pos = player.GetPosition();
-
 	Vector2 vel = player.GetVelocity();
 
 	//左右の入力で速度を変更
 	if (input.IsPressed("left"))
 	{
-		vel.x -= kMoveSpeed * 0.2f;
+		vel.x -= kMoveSpeed;
 	}
 	if (input.IsPressed("right"))
 	{
-		vel.x += kMoveSpeed * 0.2f;
+		vel.x += kMoveSpeed;
 	}
 
 	//速度制限
@@ -219,6 +220,9 @@ void Jump::Update(Player& player, Input& input)
 
 	player.SetVelocity(vel);
 	player.ApplyMovement();
+	Vector2 pos= player.GetPosition();
+	Rect& rect = player.GetHitRect();
+	rect.SetCenter(pos.x, pos.y + (kHeight / 2), kWidth, kHeight);
 
 	//地面に着地したらIdleかMoveへ遷移
 	if (pos.y >= kGround)
@@ -232,5 +236,6 @@ void Jump::Update(Player& player, Input& input)
 			player.ChangeState(std::make_unique<Idle>());
 		}
 	}
+
 }
 

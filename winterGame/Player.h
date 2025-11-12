@@ -4,6 +4,7 @@
 class PlayerStateBase;
 class Player;
 class Input;
+class Rect;
 /// <summary>
 /// プレイヤーの各画像
 /// </summary>
@@ -41,6 +42,10 @@ public:
 	Vector2& GetVelocity() { return velocity_; }
 	void SetVelocity(const Vector2& dir) { velocity_ = dir; }
 	
+	//Rectのゲッター・セッター
+	Rect& GetHitRect() { return rect_; }
+	void SetHitRect(const Rect& rect) { rect_ = rect; }
+
 	//<画像ハンドルのセッター>
 	void SetGraph(int handle) { currentImage_ = handle; }
 	int& GetGraph() { return currentImage_; }
@@ -73,6 +78,8 @@ private:
 	PlayerImages images_;
 	//現在の画像
 	int currentImage_;
+
+
 };
 /// <summary>
 /// プレイヤーステートの基底クラス

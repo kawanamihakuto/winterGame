@@ -30,7 +30,6 @@ draw_(&GameScene::FadeDraw)
 	};
 
 	player_ = std::make_unique<Player>(playerImgs);
-
 	walkEnemy_ = std::make_shared<WalkEnemy>(Vector2{800,200}, walkEnemyImgs);
 	frame_ = fade_interval;	
 }

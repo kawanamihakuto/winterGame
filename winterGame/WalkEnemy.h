@@ -4,6 +4,7 @@
 
 class WalkEnemy;
 class WalkEnemyStateBase;
+class Rect;
 /// <summary>
 /// WalkEnemyの各画像
 /// </summary>
@@ -41,6 +42,10 @@ public:
 	//Velocotyのゲッター・セッター
 	Vector2& GetVelocity() { return velocity_; }
 	void SetVelocity(const Vector2& vel) { velocity_ = vel; }
+
+	//Rectのゲッター・セッター
+	Rect& GetHitRect() { return rect_; }
+	void SetHitRect(const Rect& rect) { rect_ = rect; }
 
 	//<画像ハンドルのセッター>
 	void SetGraph(int handle) { currentImage_ = handle; }

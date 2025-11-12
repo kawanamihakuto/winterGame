@@ -1,6 +1,6 @@
 #include<DxLib.h>
 #include "WalkEnemy.h"
-
+#include"Rect.h"
 namespace
 {
 	constexpr int kHp = 1;
@@ -40,6 +40,8 @@ void WalkEnemy::Draw()
 {
 	Vector2& pos = GetPosition();
 	DrawRectRotaGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, kSize,0, currentImage_, true);
+	Rect& rect = GetHitRect();
+	rect.Draw(0x0000ff,false);
 }
 
 void WalkEnemy::ChangeState(std::unique_ptr<WalkEnemyStateBase>newState)
@@ -91,6 +93,10 @@ void Walk::Update(WalkEnemy& enemy)
 	enemy.SetVelocity(vel);
 
 	enemy.ApplyMovement();
+
+	Vector2 pos = enemy.GetPosition();
+	Rect& rect = enemy.GetHitRect();
+	rect.SetCenter(pos.x,pos.y + (kHeight/2),kWidth ,kHeight);
 }
 
 void Death::Enter(WalkEnemy& enemy)
