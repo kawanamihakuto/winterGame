@@ -7,7 +7,7 @@
 class GameObject
 {
 public:
-	GameObject(const Vector2 pos);
+	GameObject(const Vector2 pos );
 	
 	virtual void Init() = 0;
 	virtual void Update() = 0;

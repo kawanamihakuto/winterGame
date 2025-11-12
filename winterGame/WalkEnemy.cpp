@@ -8,6 +8,7 @@ namespace
 
 	constexpr int kWidth = 32;
 	constexpr int kHeight = 32;
+	constexpr float kSize = 2.0f;
 
 	constexpr float kGravity = 0.5f;
 	constexpr int kGround = 400;
@@ -38,7 +39,7 @@ void WalkEnemy::Update()
 void WalkEnemy::Draw()
 {
 	Vector2& pos = GetPosition();
-	DrawRectGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, currentImage_, true);
+	DrawRectRotaGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, kSize,0, currentImage_, true);
 }
 
 void WalkEnemy::ChangeState(std::unique_ptr<WalkEnemyStateBase>newState)

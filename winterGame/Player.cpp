@@ -5,8 +5,10 @@
 #include"Input.h"
 namespace
 {
+	
 	constexpr int kWidth = 32;
 	constexpr int kHeight = 32;
+	constexpr float kSize = 2.0f;
 
 	constexpr int kGround = 400;
 
@@ -25,8 +27,7 @@ Player::Player(PlayerImages& imgs) :
 	GameObject({ 320,240 }),
 	isGround_(true),
 	images_(imgs),
-	currentImage_(imgs.idle),
-	rect_()
+	currentImage_(imgs.idle)
 {
 	state_ = std::make_unique<Idle>();
 }
@@ -54,7 +55,7 @@ void Player::Update(Input& input)
 void Player::Draw()
 {
 	Vector2& pos = GetPosition();
-	DrawRectGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, currentImage_, true);
+	DrawRectRotaGraph(pos.x, pos.y,0, 0, kWidth, kHeight, kSize,0,currentImage_, true);
 
 	
 }
