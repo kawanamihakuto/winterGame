@@ -25,7 +25,7 @@ public:
 	//現在のステートを入れる変数
 	std::unique_ptr<WalkEnemyStateBase> state_;
 
-	WalkEnemy(Vector2 pos,WalkEnemyImages& imgs);
+	WalkEnemy(Vector2 pos,WalkEnemyImages& imgs,std::shared_ptr<Player>player);
 	~WalkEnemy ();
 	void Init()override;
 	void Update() override;
@@ -71,7 +71,7 @@ private:
 	//現在の画像
 	int currentImage_;
 
-	
+	std::shared_ptr<Player>player_;
 	
 };
 

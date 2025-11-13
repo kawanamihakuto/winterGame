@@ -78,8 +78,8 @@ private:
 	PlayerImages images_;
 	//現在の画像
 	int currentImage_;
-
-
+	//プレイヤーのHP;
+	int hp_;
 };
 /// <summary>
 /// プレイヤーステートの基底クラス
@@ -118,5 +118,13 @@ class Jump : public PlayerStateBase
 public:
 	void Enter(Player& player)override;
 	void Update(Player& player, Input& input) override;
+};
+
+class Hit :public PlayerStateBase
+{
+public:
+	void Enter(Player& player)override;
+	void Update(Player& player,Input& inpit)override;
+	void Exit(Player& player)override;
 };
 

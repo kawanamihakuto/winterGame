@@ -16,9 +16,10 @@ namespace
 	constexpr float kMaxSpeed = 1.5f;
 }
 
-WalkEnemy::WalkEnemy(Vector2 pos,WalkEnemyImages& imgs) :EnemyBase(kHp,{0,0}, pos),
+WalkEnemy::WalkEnemy(Vector2 pos,WalkEnemyImages& imgs,std::shared_ptr<Player>player) :EnemyBase(kHp,{0,0}, pos),
 images_(imgs),
-currentImage_(images_.walk)
+currentImage_(images_.walk),
+player_(player)
 {
 	state_ = std::make_unique<Walk>();
 }
@@ -34,7 +35,7 @@ void WalkEnemy::Init()
 
 void WalkEnemy::Update()
 {
-	state_->Update(*this,);
+	state_->Update(*this,*player_);
 }
 
 void WalkEnemy::Draw()
@@ -102,7 +103,10 @@ void Walk::Update(WalkEnemy& enemy, Player& player)
 	Rect& playerRect = player.GetHitRect();
 	if (rect.IsCollision(playerRect))
 	{
-		printfDx("Collision\n");
+		//エネミーの状態遷移
+		enemy.ChangeState(std::make_unique<Death>());
+		//プレイヤーの状態遷移
+		player.ChangeState(std::make_unique<Hit>());
 	}
 }
 

@@ -29,8 +29,8 @@ draw_(&GameScene::FadeDraw)
 		LoadGraph("data/walkEnemy/Walk.png")
 	};
 
-	player_ = std::make_unique<Player>(playerImgs);
-	walkEnemy_ = std::make_shared<WalkEnemy>(Vector2{800,200}, walkEnemyImgs);
+	player_ = std::make_shared<Player>(playerImgs);
+	walkEnemy_ = std::make_shared<WalkEnemy>(Vector2{800,200}, walkEnemyImgs,player_);
 	frame_ = fade_interval;	
 }
 

@@ -27,7 +27,8 @@ Player::Player(PlayerImages& imgs) :
 	GameObject({ 320,240 }),
 	isGround_(true),
 	images_(imgs),
-	currentImage_(imgs.idle)
+	currentImage_(imgs.idle),
+	hp_(5)
 {
 	state_ = std::make_unique<Idle>();
 }
@@ -56,6 +57,8 @@ void Player::Draw()
 	DrawRectRotaGraph(pos.x, pos.y,0, 0, kWidth, kHeight, kSize,0,currentImage_, true);
 	Rect& rect = GetHitRect();
 	rect.Draw(0x0000ff,false);
+
+	DrawFormatString(0,0,0xffffff,"%d",hp_);
 }
 
 void Player::ChangeState(std::unique_ptr<PlayerStateBase> newState)
@@ -178,7 +181,6 @@ void Move::Update(Player& player, Input& input)
 	Vector2& pos = player.GetPosition();
 	Rect& rect = player.GetHitRect();
 	rect.SetCenter(pos.x, pos.y + (kHeight / 2), kWidth, kHeight);
-
 }
 
 
@@ -239,3 +241,15 @@ void Jump::Update(Player& player, Input& input)
 
 }
 
+void Hit::Enter(Player& player)
+{
+	//hp‚ğŒ¸‚ç‚·ˆ—‚ğ‘‚­
+}
+void Hit::Update(Player& player,Input& input)
+{
+
+}
+void Hit::Exit(Player& player)
+{
+
+}

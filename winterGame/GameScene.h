@@ -33,7 +33,7 @@ private:
 	using DrawFunc_t = void(GameScene::*)();
 	DrawFunc_t draw_;
 
-	std::unique_ptr<Player>player_;
+	std::shared_ptr<Player>player_;
 	std::shared_ptr<WalkEnemy>walkEnemy_;
 private:
 	

@@ -63,8 +63,8 @@ bool Rect::IsCollision(const Rect& rect)
 	//絶対に当たらないパターンを弾いていく
 	if (left_ > rect.right_)return false;
 	if (top_ > rect.bottom_)return false;
-	if (right_ > rect.left_)return false;
-	if (bottom_ > rect.top_)return false;
+	if (right_ < rect.left_)return false;
+	if (bottom_ < rect.top_)return false;
 
 	//当たらないパターン以外は当たっている
 	return true;
