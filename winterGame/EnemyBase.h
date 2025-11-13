@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+class Player;
 /// <summary>
 /// エネミー基底クラス
 /// </summary>

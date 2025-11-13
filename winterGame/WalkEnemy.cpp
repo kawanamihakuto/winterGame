@@ -1,6 +1,7 @@
 #include<DxLib.h>
 #include "WalkEnemy.h"
 #include"Rect.h"
+#include"Player.h"
 namespace
 {
 	constexpr int kHp = 1;
@@ -33,7 +34,7 @@ void WalkEnemy::Init()
 
 void WalkEnemy::Update()
 {
-	state_->Update(*this);
+	state_->Update(*this,);
 }
 
 void WalkEnemy::Draw()
@@ -74,7 +75,7 @@ void Walk::Enter(WalkEnemy& enemy)
 {
 	enemy.SetGraph(enemy.GetImages().walk);
 }
-void Walk::Update(WalkEnemy& enemy)
+void Walk::Update(WalkEnemy& enemy, Player& player)
 {
 	enemy.Gravity();
 
@@ -97,13 +98,19 @@ void Walk::Update(WalkEnemy& enemy)
 	Vector2 pos = enemy.GetPosition();
 	Rect& rect = enemy.GetHitRect();
 	rect.SetCenter(pos.x,pos.y + (kHeight/2),kWidth ,kHeight);
+
+	Rect& playerRect = player.GetHitRect();
+	if (rect.IsCollision(playerRect))
+	{
+		printfDx("Collision\n");
+	}
 }
 
 void Death::Enter(WalkEnemy& enemy)
 {
 	
 }
-void Death::Update(WalkEnemy& enemy)
+void Death::Update(WalkEnemy& enemy, Player& player)
 {
 
 }
@@ -116,7 +123,7 @@ void Death::Exit(WalkEnemy& enemy)
 void None::Enter(WalkEnemy& enemy)
 {
 }
-void None::Update(WalkEnemy& enemy)
+void None::Update(WalkEnemy& enemy, Player& player)
 {
 }
 

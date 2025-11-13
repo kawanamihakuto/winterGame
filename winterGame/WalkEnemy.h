@@ -5,6 +5,7 @@
 class WalkEnemy;
 class WalkEnemyStateBase;
 class Rect;
+class Player;
 /// <summary>
 /// WalkEnemy‚ÌŠe‰æ‘œ
 /// </summary>
@@ -69,6 +70,9 @@ private:
 	WalkEnemyImages images_;
 	//Œ»İ‚Ì‰æ‘œ
 	int currentImage_;
+
+	
+	
 };
 
 /// <summary>
@@ -79,7 +83,7 @@ class WalkEnemyStateBase
 public:
 	virtual ~WalkEnemyStateBase() = default;
 	virtual void Enter(WalkEnemy& enemy) {};
-	virtual void Update(WalkEnemy& enemy) = 0;
+	virtual void Update(WalkEnemy& enemy,Player& player) = 0;
 	virtual void Exit(WalkEnemy& enemy) {};
 };
 /// <summary>
@@ -88,7 +92,7 @@ public:
 class Walk : public WalkEnemyStateBase
 {
 	void Enter(WalkEnemy& enemy) override;
-	void Update(WalkEnemy& enemy) override;
+	void Update(WalkEnemy& enemy, Player& player) override;
 };
 /// <summary>
 /// Deathó‘ÔƒNƒ‰ƒX
@@ -96,7 +100,7 @@ class Walk : public WalkEnemyStateBase
 class Death : public WalkEnemyStateBase
 {
 	void Enter(WalkEnemy& enemy) override;
-	void Update(WalkEnemy& enemy) override;	
+	void Update(WalkEnemy& enemy, Player& player) override;
 	void Exit(WalkEnemy& enemy) override;
 };
 /// <summary>
@@ -106,5 +110,5 @@ class Death : public WalkEnemyStateBase
 class None : public WalkEnemyStateBase
 {
 	void Enter(WalkEnemy& enemy) override;
-	void Update(WalkEnemy& enemy) override;
+	void Update(WalkEnemy& enemy, Player& player) override;
 };
