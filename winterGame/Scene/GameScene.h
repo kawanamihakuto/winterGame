@@ -1,10 +1,12 @@
 #pragma once
 #include "Scene.h"
 #include<memory>
-#include"Player.h"
-#include"WalkEnemy.h"
+#include<vector>
+#include"../Actor/Player.h"
+#include"../Actor/WalkEnemy.h"
 class Player;
 class WalkEnemy;
+class EnemyBase;
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -34,9 +36,7 @@ private:
 	DrawFunc_t draw_;
 
 	std::shared_ptr<Player>player_;
-	std::shared_ptr<WalkEnemy>walkEnemy_;
-private:
-	
+	std::vector<std::shared_ptr<EnemyBase>>walkEnemy_;
 
 public:
 	//コンストラクタ
@@ -45,4 +45,3 @@ public:
 	void Update(Input&)override;
 	void Draw()override;
 };
-

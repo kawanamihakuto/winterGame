@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "../Base/GameObject.h"
 #include<memory>
 class PlayerStateBase;
 class Player;
@@ -46,9 +46,17 @@ public:
 	Rect& GetHitRect() { return rect_; }
 	void SetHitRect(const Rect& rect) { rect_ = rect; }
 
-	//<画像ハンドルのセッター>
+	//画像ハンドルのゲッター・セッター
 	void SetGraph(int handle) { currentImage_ = handle; }
 	int& GetGraph() { return currentImage_; }
+
+	//当たり判定用のカラーのセッター・ゲッター
+	void SetRectColor(int color) { rectColor_ = color; }
+	int& GetRectColor() { return rectColor_; }
+
+	//HPのゲッター・セッター
+	void SetHp(int hp) { hp_ = hp; }
+	int& GetHp() { return hp_; }
 
 	//imagesのゲッター
 	const PlayerImages& GetImages()const { return images_; }
@@ -80,6 +88,8 @@ private:
 	int currentImage_;
 	//プレイヤーのHP;
 	int hp_;
+	//当たり判定用のカラー
+	int rectColor_;
 };
 /// <summary>
 /// プレイヤーステートの基底クラス
@@ -126,5 +136,12 @@ public:
 	void Enter(Player& player)override;
 	void Update(Player& player,Input& inpit)override;
 	void Exit(Player& player)override;
+};
+
+class Inhale : public PlayerStateBase
+{
+public:
+	void Enter(Player& player)override;
+	void Update(Player& player, Input& input) override;
 };
 

@@ -1,6 +1,6 @@
 #include<DxLib.h>
 #include "WalkEnemy.h"
-#include"Rect.h"
+#include"../System/Rect.h"
 #include"Player.h"
 namespace
 {
@@ -14,12 +14,15 @@ namespace
 	constexpr float kGravity = 0.5f;
 	constexpr int kGround = 400;
 	constexpr float kMaxSpeed = 1.5f;
+
+	constexpr float kNockbackSpeed = 2.0f;
 }
 
 WalkEnemy::WalkEnemy(Vector2 pos,WalkEnemyImages& imgs,std::shared_ptr<Player>player) :EnemyBase(kHp,{0,0}, pos),
 images_(imgs),
 currentImage_(images_.walk),
-player_(player)
+player_(player),
+isPlayerOnRight_(false)
 {
 	state_ = std::make_unique<Walk>();
 }
@@ -101,8 +104,14 @@ void Walk::Update(WalkEnemy& enemy, Player& player)
 	rect.SetCenter(pos.x,pos.y + (kHeight/2),kWidth ,kHeight);
 
 	Rect& playerRect = player.GetHitRect();
+	//当たり判定
 	if (rect.IsCollision(playerRect))
 	{
+		//プレイヤーが右にいるか左にいるかを判定
+		float enemyToPlayer = player.GetPosition().x - enemy.GetPosition().x;
+		bool isplayerOnRight = enemyToPlayer > 0 ? true : false;
+		enemy.SetPlayerOnRight(isplayerOnRight);
+
 		//エネミーの状態遷移
 		enemy.ChangeState(std::make_unique<Death>());
 		//プレイヤーの状態遷移
@@ -112,11 +121,21 @@ void Walk::Update(WalkEnemy& enemy, Player& player)
 
 void Death::Enter(WalkEnemy& enemy)
 {
-	
+	enemy.SetGraph(enemy.GetImages().death);
 }
 void Death::Update(WalkEnemy& enemy, Player& player)
 {
+	Vector2 vel = enemy.GetVelocity();
+	bool isPlayerOnRight = enemy.GetPlayerOnRight();
 
+	if(isPlayerOnRight)
+	{
+		vel.x = -kNockbackSpeed;
+	}
+	else
+	{
+		vel.x = kNockbackSpeed;
+	}
 }
 
 void Death::Exit(WalkEnemy& enemy)

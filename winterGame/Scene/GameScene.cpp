@@ -1,11 +1,11 @@
 #include "GameScene.h"
 #include<DxLib.h>
 #include"SceneController.h"
-#include"Application.h"
-#include"Input.h"
+#include"../Application.h"
+#include"../System/Input.h"
 #include"GameoverScene.h"
-#include"Player.h"
-#include"WalkEnemy.h"
+#include"../Actor/Player.h"
+#include"../Actor/WalkEnemy.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -26,11 +26,13 @@ draw_(&GameScene::FadeDraw)
 	//walk
 	WalkEnemyImages walkEnemyImgs
 	{
-		LoadGraph("data/walkEnemy/Walk.png")
+		LoadGraph("data/walkEnemy/Walk.png"),
+		LoadGraph("data/walkEnemy/Death.png")
 	};
 
 	player_ = std::make_shared<Player>(playerImgs);
-	walkEnemy_ = std::make_shared<WalkEnemy>(Vector2{800,200}, walkEnemyImgs,player_);
+	std::shared_ptr<WalkEnemy> we = std::make_shared<WalkEnemy>(Vector2{ 600,200 }, walkEnemyImgs, player_);
+	walkEnemy_.push_back(we);
 	frame_ = fade_interval;	
 }
 
@@ -40,7 +42,7 @@ GameScene::~GameScene()
 	DeleteGraph(player_->GetImages().idle);
 	DeleteGraph(player_->GetImages().move);
 	DeleteGraph(player_->GetImages().jump);
-	DeleteGraph(walkEnemy_->GetImages().walk);
+	
 }
 
 void GameScene::FadeInUpdate(Input&)
@@ -57,7 +59,10 @@ void GameScene::FadeInUpdate(Input&)
 void GameScene::NormalUpdate(Input& input)
 {
 	player_->Update(input);
-	walkEnemy_->Update();
+	for (auto& enemy : walkEnemy_)
+	{
+		enemy->Update();
+	}
 
 
 	//ボタンが押されたらフェードアウトを始める
@@ -97,7 +102,10 @@ void GameScene::NormalDraw()
 	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
 
 	player_->Draw();
-	walkEnemy_->Draw();
+	for (auto& enemy : walkEnemy_)
+	{
+		enemy->Draw();
+	}
 }
 
 void GameScene::Update(Input& input)

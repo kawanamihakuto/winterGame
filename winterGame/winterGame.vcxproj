@@ -140,35 +140,35 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="EnemyBase.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameoverScene.cpp" />
-    <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="Geometry.cpp" />
-    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Base\EnemyBase.cpp" />
+    <ClCompile Include="Base\GameObject.cpp" />
+    <ClCompile Include="Scene\GameoverScene.cpp" />
+    <ClCompile Include="Scene\GameScene.cpp" />
+    <ClCompile Include="System\Geometry.cpp" />
+    <ClCompile Include="System\Input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Rect.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneController.cpp" />
-    <ClCompile Include="TitleScene.cpp" />
-    <ClCompile Include="WalkEnemy.cpp" />
+    <ClCompile Include="Actor\Player.cpp" />
+    <ClCompile Include="System\Rect.cpp" />
+    <ClCompile Include="Scene\Scene.cpp" />
+    <ClCompile Include="Scene\SceneController.cpp" />
+    <ClCompile Include="Scene\TitleScene.cpp" />
+    <ClCompile Include="Actor\WalkEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
-    <ClInclude Include="EnemyBase.h" />
+    <ClInclude Include="Base\EnemyBase.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GameoverScene.h" />
-    <ClInclude Include="GameScene.h" />
-    <ClInclude Include="Geometry.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Rect.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneController.h" />
-    <ClInclude Include="TitleScene.h" />
-    <ClInclude Include="WalkEnemy.h" />
+    <ClInclude Include="Base\GameObject.h" />
+    <ClInclude Include="Scene\GameoverScene.h" />
+    <ClInclude Include="Scene\GameScene.h" />
+    <ClInclude Include="System\Geometry.h" />
+    <ClInclude Include="System\Input.h" />
+    <ClInclude Include="Actor\Player.h" />
+    <ClInclude Include="System\Rect.h" />
+    <ClInclude Include="Scene\Scene.h" />
+    <ClInclude Include="Scene\SceneController.h" />
+    <ClInclude Include="Scene\TitleScene.h" />
+    <ClInclude Include="Actor\WalkEnemy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

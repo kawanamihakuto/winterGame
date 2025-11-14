@@ -1,5 +1,5 @@
 #pragma once
-#include "EnemyBase.h"
+#include "../Base/EnemyBase.h"
 #include <memory>
 
 class WalkEnemy;
@@ -12,6 +12,7 @@ class Player;
 struct WalkEnemyImages
 {
 	int walk;
+	int death;
 };
 
 /// <summary>
@@ -52,6 +53,10 @@ public:
 	void SetGraph(int handle) { currentImage_ = handle; }
 	int& GetGraph() { return currentImage_; }
 
+	//プレイヤーが右にいるかどうかのフラグのゲッター・セッター
+	void SetPlayerOnRight(bool flag) { isPlayerOnRight_ = flag; }
+	bool GetPlayerOnRight() { return isPlayerOnRight_; }
+
 	//imagesのゲッター
 	const WalkEnemyImages& GetImages() const { return images_; }
 
@@ -73,6 +78,8 @@ private:
 
 	std::shared_ptr<Player>player_;
 	
+	//プレイヤーが右にいるかどうかのフラグ
+	bool isPlayerOnRight_;
 };
 
 /// <summary>

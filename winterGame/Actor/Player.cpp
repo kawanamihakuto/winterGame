@@ -1,8 +1,8 @@
 #include<DxLib.h>
 #include "Player.h"
-#include"GameScene.h"
-#include"Rect.h"
-#include"Input.h"
+#include"../Scene/GameScene.h"
+#include"../System/Rect.h"
+#include"../System/Input.h"
 namespace
 {
 	
@@ -28,7 +28,8 @@ Player::Player(PlayerImages& imgs) :
 	isGround_(true),
 	images_(imgs),
 	currentImage_(imgs.idle),
-	hp_(5)
+	hp_(5),
+	rectColor_(0x0000ff)
 {
 	state_ = std::make_unique<Idle>();
 }
@@ -56,7 +57,7 @@ void Player::Draw()
 	Vector2& pos = GetPosition();
 	DrawRectRotaGraph(pos.x, pos.y,0, 0, kWidth, kHeight, kSize,0,currentImage_, true);
 	Rect& rect = GetHitRect();
-	rect.Draw(0x0000ff,false);
+	rect.Draw(rectColor_,false);
 
 	DrawFormatString(0,0,0xffffff,"%d",hp_);
 }
@@ -243,13 +244,45 @@ void Jump::Update(Player& player, Input& input)
 
 void Hit::Enter(Player& player)
 {
-	//hp‚ğŒ¸‚ç‚·ˆ—‚ğ‘‚­
+	//hp‚ğŒ¸‚ç‚·ˆ—
+	int hp = player.GetHp();
+	hp-=1;
+	player.SetHp(hp);
+
+	int rectColor = 0xff0000;
+	player.SetRectColor(rectColor);
 }
 void Hit::Update(Player& player,Input& input)
 {
-
+	if (input.IsPressed("left") || input.IsPressed("right"))
+	{
+		player.ChangeState(std::make_unique<Move>());
+	}
+	else
+	{
+		player.ChangeState(std::make_unique<Idle>());
+	}
 }
 void Hit::Exit(Player& player)
 {
+	int rectColor = 0x0000ff;
+	player.SetRectColor(rectColor);
+}
 
+void Inhale::Enter(Player& player)
+{
+	//‰æ‘œ‚ğInhale‚É•ÏX
+//	player.SetGraph(player.GetImages().inhale);
+}
+
+void Inhale::Update(Player& player, Input& input)
+{
+	
+
+	//d—Íˆ—
+	player.Gravity();
+	player.ApplyMovement();
+	Vector2& pos = player.GetPosition();
+	Rect& rect = player.GetHitRect();
+	rect.SetCenter(pos.x, pos.y + (kHeight / 2), kWidth, kHeight);
 }
