@@ -31,7 +31,7 @@ Player::Player(PlayerImages& imgs) :
 	hp_(5),
 	rectColor_(0x0000ff)
 {
-	state_ = std::make_unique<Idle>();
+	state_ = std::make_unique<IdleState>();
 }
 
 Player::~Player()
@@ -54,7 +54,7 @@ void Player::Update(Input& input)
 
 void Player::Draw()
 {
-	Vector2& pos = GetPosition();
+	Vector2 pos = GetPosition();
 	DrawRectRotaGraph(pos.x, pos.y,0, 0, kWidth, kHeight, kSize,0,currentImage_, true);
 	Rect& rect = GetHitRect();
 	rect.Draw(rectColor_,false);
@@ -90,7 +90,17 @@ void Player::ApplyMovement()
 	}
 }
 
-void Idle::Enter(Player& player)
+void Player::UpdatePhysics()
+{
+	//重力処理
+	Gravity();
+	//velocityをpositionに加える
+	ApplyMovement();
+	//当たり判定用
+	rect_.SetCenter(position_.x, position_.y + (kHeight / 2), kWidth, kHeight);
+}
+
+void IdleState::Enter(Player& player)
 {
 	//画像をIdleに変更 / velocityを0にする
 	player.SetGraph(player.GetImages().idle);
@@ -99,11 +109,8 @@ void Idle::Enter(Player& player)
 	player.SetVelocity(vel);
 }
 
-void Idle::Update(Player& player, Input& input)
+void IdleState::Update(Player& player, Input& input)
 {
-	//重力処理
-	player.Gravity();
-
 	if (input.IsPressed("left") && input.IsPressed("right"))
 	{
 
@@ -111,36 +118,30 @@ void Idle::Update(Player& player, Input& input)
 	//左右どちらかの入力があったらMoveへ遷移
 	else if (input.IsPressed("left"))
 	{
-		player.ChangeState(std::make_unique<Move>());
+		player.ChangeState(std::make_unique<MoveState>());
 	}
 	else if (input.IsPressed("right"))
 	{
-		player.ChangeState(std::make_unique<Move>());
+		player.ChangeState(std::make_unique<MoveState>());
 	}
 	//ジャンプ入力があったらJumpへ遷移
 	else if (input.IsPressed("jump"))
 	{
-		player.ChangeState(std::make_unique<Jump>());
+		player.ChangeState(std::make_unique<JumpState>());
 	}
 	
-	player.ApplyMovement();
-	Vector2& pos = player.GetPosition();
-	Rect& rect = player.GetHitRect();
-	rect.SetCenter(pos.x,pos.y +(kHeight/2), kWidth, kHeight);
+	player.UpdatePhysics();
 }
 
 
-void Move::Enter(Player& player)
+void MoveState::Enter(Player& player)
 {
 	//画像をMoveに変更
 	player.SetGraph(player.GetImages().move);
 }
 
-void Move::Update(Player& player, Input& input)
+void MoveState::Update(Player& player, Input& input)
 {
-	//重力処理
-	player.Gravity();
-
 	Vector2 vel = player.GetVelocity();
 	//左右の入力で速度を変更
 	if (input.IsPressed("left"))
@@ -154,7 +155,7 @@ void Move::Update(Player& player, Input& input)
 	//ジャンプ入力があったらJumpへ遷移
 	if (input.IsPressed("jump"))
 	{
-		player.ChangeState(std::make_unique<Jump>());
+		player.ChangeState(std::make_unique<JumpState>());
 		return;
 	}
 	//摩擦処理
@@ -175,17 +176,14 @@ void Move::Update(Player& player, Input& input)
 	//速度がほぼ0になったらIdleへ遷移
 	if (vel.x <= 0.1f&&vel.x >= -0.1)
 	{
-		player.ChangeState(std::make_unique<Idle>());
+		player.ChangeState(std::make_unique<IdleState>());
 	}
 
-	player.ApplyMovement();
-	Vector2& pos = player.GetPosition();
-	Rect& rect = player.GetHitRect();
-	rect.SetCenter(pos.x, pos.y + (kHeight / 2), kWidth, kHeight);
+	player.UpdatePhysics();
 }
 
 
-void Jump::Enter(Player& player)
+void JumpState::Enter(Player& player)
 {
 	//画像をJumpに変更 / 上方向へ速度を与える
 	player.SetGraph(player.GetImages().jump);
@@ -194,11 +192,8 @@ void Jump::Enter(Player& player)
 	player.SetVelocity(vel);
 }
 
-void Jump::Update(Player& player, Input& input)
+void JumpState::Update(Player& player, Input& input)
 {
-	//重力処理
-	player.Gravity();
-
 	Vector2 vel = player.GetVelocity();
 
 	//左右の入力で速度を変更
@@ -222,27 +217,25 @@ void Jump::Update(Player& player, Input& input)
 	}
 
 	player.SetVelocity(vel);
-	player.ApplyMovement();
-	Vector2 pos= player.GetPosition();
-	Rect& rect = player.GetHitRect();
-	rect.SetCenter(pos.x, pos.y + (kHeight / 2), kWidth, kHeight);
-
+	player.UpdatePhysics();
+	
+	auto pos = player.GetPosition();
 	//地面に着地したらIdleかMoveへ遷移
 	if (pos.y >= kGround)
 	{
 		if (input.IsPressed("left") || input.IsPressed("right"))
 		{
-			player.ChangeState(std::make_unique<Move>());
+			player.ChangeState(std::make_unique<MoveState>());
 		}
 		else
 		{
-			player.ChangeState(std::make_unique<Idle>());
+			player.ChangeState(std::make_unique<IdleState>());
 		}
 	}
 
 }
 
-void Hit::Enter(Player& player)
+void HitState::Enter(Player& player)
 {
 	//hpを減らす処理
 	int hp = player.GetHp();
@@ -252,37 +245,33 @@ void Hit::Enter(Player& player)
 	int rectColor = 0xff0000;
 	player.SetRectColor(rectColor);
 }
-void Hit::Update(Player& player,Input& input)
+void HitState::Update(Player& player,Input& input)
 {
 	if (input.IsPressed("left") || input.IsPressed("right"))
 	{
-		player.ChangeState(std::make_unique<Move>());
+		player.ChangeState(std::make_unique<MoveState>());
 	}
 	else
 	{
-		player.ChangeState(std::make_unique<Idle>());
+		player.ChangeState(std::make_unique<IdleState>());
 	}
+	player.UpdatePhysics();
 }
-void Hit::Exit(Player& player)
+void HitState::Exit(Player& player)
 {
 	int rectColor = 0x0000ff;
 	player.SetRectColor(rectColor);
 }
 
-void Inhale::Enter(Player& player)
+void InhaleState::Enter(Player& player)
 {
 	//画像をInhaleに変更
 //	player.SetGraph(player.GetImages().inhale);
 }
 
-void Inhale::Update(Player& player, Input& input)
+void InhaleState::Update(Player& player, Input& input)
 {
 	
 
-	//重力処理
-	player.Gravity();
-	player.ApplyMovement();
-	Vector2& pos = player.GetPosition();
-	Rect& rect = player.GetHitRect();
-	rect.SetCenter(pos.x, pos.y + (kHeight / 2), kWidth, kHeight);
+	
 }

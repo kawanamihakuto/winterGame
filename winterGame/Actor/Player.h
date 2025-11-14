@@ -20,9 +20,6 @@ struct PlayerImages
 class Player :public GameObject
 {
 public:
-	//フレンドにする
-	friend PlayerStateBase;
-
 	//現在のステートを入れる変数
 	std::unique_ptr<PlayerStateBase>state_;
 
@@ -35,28 +32,27 @@ public:
 	void Draw()override;
 
 	//ポジションのゲッター・セッター
-	 Vector2& GetPosition(){ return position_; }
+	 Vector2 GetPosition(){ return position_; }
 	void SetPosition(const Vector2& pos) { position_ = pos; }
 
 	//Velocityのゲッター・セッター
-	Vector2& GetVelocity() { return velocity_; }
+	Vector2 GetVelocity() { return velocity_; }
 	void SetVelocity(const Vector2& dir) { velocity_ = dir; }
 	
 	//Rectのゲッター・セッター
 	Rect& GetHitRect() { return rect_; }
-	void SetHitRect(const Rect& rect) { rect_ = rect; }
-
+	
 	//画像ハンドルのゲッター・セッター
 	void SetGraph(int handle) { currentImage_ = handle; }
-	int& GetGraph() { return currentImage_; }
+	int GetGraph() { return currentImage_; }
 
 	//当たり判定用のカラーのセッター・ゲッター
 	void SetRectColor(int color) { rectColor_ = color; }
-	int& GetRectColor() { return rectColor_; }
+	int GetRectColor() { return rectColor_; }
 
 	//HPのゲッター・セッター
 	void SetHp(int hp) { hp_ = hp; }
-	int& GetHp() { return hp_; }
+	int GetHp() { return hp_; }
 
 	//imagesのゲッター
 	const PlayerImages& GetImages()const { return images_; }
@@ -76,7 +72,10 @@ public:
 	/// 移動を適用する関数
 	/// </summary>
 	void ApplyMovement();
-
+	/// <summary>
+	/// 物理的な移動処理のまとめ
+	/// </summary>
+	void UpdatePhysics();
 private:
 	//速度ベクトル
 	Vector2 velocity_;
@@ -105,7 +104,7 @@ public:
 /// <summary>
 /// Idle状態クラス
 /// </summary>
-class Idle : public PlayerStateBase
+class IdleState : public PlayerStateBase
 {
 public:
 	void Enter(Player& player)override;
@@ -114,7 +113,7 @@ public:
 /// <summary>
 /// Move状態クラス
 /// </summary>
-class Move : public PlayerStateBase
+class MoveState : public PlayerStateBase
 {
 public:
 	void Enter(Player& player)override;
@@ -123,14 +122,14 @@ public:
 /// <summary>
 /// Jamp状態クラス
 /// </summary>
-class Jump : public PlayerStateBase
+class JumpState : public PlayerStateBase
 {
 public:
 	void Enter(Player& player)override;
 	void Update(Player& player, Input& input) override;
 };
 
-class Hit :public PlayerStateBase
+class HitState :public PlayerStateBase
 {
 public:
 	void Enter(Player& player)override;
@@ -138,7 +137,7 @@ public:
 	void Exit(Player& player)override;
 };
 
-class Inhale : public PlayerStateBase
+class InhaleState : public PlayerStateBase
 {
 public:
 	void Enter(Player& player)override;

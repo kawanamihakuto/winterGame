@@ -15,14 +15,17 @@ namespace
 	constexpr int kGround = 400;
 	constexpr float kMaxSpeed = 1.5f;
 
-	constexpr float kNockbackSpeed = 2.0f;
+	constexpr float kNockbackSpeed = 3.0f;
+	constexpr float kNockBackTimeMax = 20;
 }
 
 WalkEnemy::WalkEnemy(Vector2 pos,WalkEnemyImages& imgs,std::shared_ptr<Player>player) :EnemyBase(kHp,{0,0}, pos),
 images_(imgs),
 currentImage_(images_.walk),
 player_(player),
-isPlayerOnRight_(false)
+isPlayerOnRight_(false),
+nockBackTime_(0),
+isDead_(false)
 {
 	state_ = std::make_unique<Walk>();
 }
@@ -38,14 +41,14 @@ void WalkEnemy::Init()
 
 void WalkEnemy::Update()
 {
-	state_->Update(*this,*player_);
+	state_->Update(*this);
 }
 
 void WalkEnemy::Draw()
 {
-	Vector2& pos = GetPosition();
+	Vector2 pos = GetPosition();
 	DrawRectRotaGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, kSize,0, currentImage_, true);
-	Rect& rect = GetHitRect();
+	const Rect& rect = GetHitRect();
 	rect.Draw(0x0000ff,false);
 }
 
@@ -79,7 +82,7 @@ void Walk::Enter(WalkEnemy& enemy)
 {
 	enemy.SetGraph(enemy.GetImages().walk);
 }
-void Walk::Update(WalkEnemy& enemy, Player& player)
+void Walk::Update(WalkEnemy& enemy)
 {
 	enemy.Gravity();
 
@@ -99,23 +102,23 @@ void Walk::Update(WalkEnemy& enemy, Player& player)
 
 	enemy.ApplyMovement();
 
+	auto player = enemy.GetPlayer();
 	Vector2 pos = enemy.GetPosition();
 	Rect& rect = enemy.GetHitRect();
 	rect.SetCenter(pos.x,pos.y + (kHeight/2),kWidth ,kHeight);
-
-	Rect& playerRect = player.GetHitRect();
+	Rect& playerRect = player->GetHitRect();
 	//当たり判定
 	if (rect.IsCollision(playerRect))
 	{
 		//プレイヤーが右にいるか左にいるかを判定
-		float enemyToPlayer = player.GetPosition().x - enemy.GetPosition().x;
+		float enemyToPlayer = player->GetPosition().x - enemy.GetPosition().x;
 		bool isplayerOnRight = enemyToPlayer > 0 ? true : false;
 		enemy.SetPlayerOnRight(isplayerOnRight);
 
 		//エネミーの状態遷移
 		enemy.ChangeState(std::make_unique<Death>());
 		//プレイヤーの状態遷移
-		player.ChangeState(std::make_unique<Hit>());
+		player->ChangeState(std::make_unique<HitState>());
 	}
 }
 
@@ -123,7 +126,7 @@ void Death::Enter(WalkEnemy& enemy)
 {
 	enemy.SetGraph(enemy.GetImages().death);
 }
-void Death::Update(WalkEnemy& enemy, Player& player)
+void Death::Update(WalkEnemy& enemy)
 {
 	Vector2 vel = enemy.GetVelocity();
 	bool isPlayerOnRight = enemy.GetPlayerOnRight();
@@ -136,17 +139,32 @@ void Death::Update(WalkEnemy& enemy, Player& player)
 	{
 		vel.x = kNockbackSpeed;
 	}
+
+	enemy.Gravity();
+
+	enemy.SetVelocity(vel);
+
+	enemy.ApplyMovement();
+
+	auto nockBackTime = enemy.GetNockBackTime();
+	nockBackTime += 1;
+	if (nockBackTime >= kNockBackTimeMax)
+	{
+		enemy.ChangeState(std::make_unique<None>());
+	}
+	enemy.SetNockBackTime(nockBackTime);
 }
 
 void Death::Exit(WalkEnemy& enemy)
 {
-
+	//isDead_をtrueにする
+	enemy.SetIsDead(true);
 }
 
 void None::Enter(WalkEnemy& enemy)
 {
 }
-void None::Update(WalkEnemy& enemy, Player& player)
+void None::Update(WalkEnemy& enemy)
 {
 }
 

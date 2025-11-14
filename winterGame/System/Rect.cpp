@@ -14,7 +14,7 @@ Rect::~Rect()
 {
 }
 
-void Rect::Draw(unsigned int color, bool isFill)
+void Rect::Draw(unsigned int color, bool isFill)const
 {
 	DrawBox(static_cast<int>(left_), static_cast<int>(top_),
 		static_cast<int>(right_), static_cast<int>(bottom_),

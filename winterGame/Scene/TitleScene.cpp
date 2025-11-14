@@ -1,9 +1,9 @@
 #include "TitleScene.h"
 #include<DxLib.h>
-#include"Input.h"
+#include"../System/Input.h"
 #include"GameScene.h"
 #include"SceneController.h"
-#include"Application.h"
+#include"../Application.h"
 
 constexpr int fade_interval = 60;
 

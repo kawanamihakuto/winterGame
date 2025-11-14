@@ -36,8 +36,11 @@ private:
 	DrawFunc_t draw_;
 
 	std::shared_ptr<Player>player_;
-	std::vector<std::shared_ptr<EnemyBase>>walkEnemy_;
+	std::vector<std::shared_ptr<WalkEnemy>>walkEnemy_;
 
+	PlayerImages playerImgs_;
+
+	WalkEnemyImages walkEnemyImgs_;
 public:
 	//コンストラクタ
 	GameScene(SceneController& controller);

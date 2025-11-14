@@ -13,7 +13,7 @@ public:
 	/// </summary>
 	/// <param name="color">短径の色</param>
 	/// <param name="isFill">太さ</param>
-	void Draw(unsigned int color, bool isFill);
+	void Draw(unsigned int color, bool isFill)const;
 	/// <summary>
 	/// 左上座標と幅、高さを指定
 	/// </summary>

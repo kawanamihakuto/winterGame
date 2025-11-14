@@ -16,7 +16,7 @@ draw_(&GameScene::FadeDraw)
 	//idle
 	//move
 	//jump
-	PlayerImages playerImgs
+	playerImgs_ = 
 	{
 		LoadGraph("data/player/Idle.png"),
 		LoadGraph("data/player/Move.png"),
@@ -24,14 +24,14 @@ draw_(&GameScene::FadeDraw)
 	};
 
 	//walk
-	WalkEnemyImages walkEnemyImgs
+	walkEnemyImgs_ = 
 	{
 		LoadGraph("data/walkEnemy/Walk.png"),
 		LoadGraph("data/walkEnemy/Death.png")
 	};
 
-	player_ = std::make_shared<Player>(playerImgs);
-	std::shared_ptr<WalkEnemy> we = std::make_shared<WalkEnemy>(Vector2{ 600,200 }, walkEnemyImgs, player_);
+	player_ = std::make_shared<Player>(playerImgs_);
+	std::shared_ptr<WalkEnemy> we = std::make_shared<WalkEnemy>(Vector2{ 600,200 }, walkEnemyImgs_, player_);
 	walkEnemy_.push_back(we);
 	frame_ = fade_interval;	
 }
@@ -39,10 +39,12 @@ draw_(&GameScene::FadeDraw)
 GameScene::~GameScene()
 {
 	
-	DeleteGraph(player_->GetImages().idle);
-	DeleteGraph(player_->GetImages().move);
-	DeleteGraph(player_->GetImages().jump);
+	DeleteGraph(playerImgs_.idle);
+	DeleteGraph(playerImgs_.move);
+	DeleteGraph(playerImgs_.jump);
 	
+	DeleteGraph(walkEnemyImgs_.walk);
+	DeleteGraph(walkEnemyImgs_.death);
 }
 
 void GameScene::FadeInUpdate(Input&)
@@ -63,6 +65,18 @@ void GameScene::NormalUpdate(Input& input)
 	{
 		enemy->Update();
 	}
+
+	//remove_ifで消すべき要素を後ろに詰める
+	auto newEnd = std::remove_if(
+		walkEnemy_.begin(),//vectorの最初の要素
+		walkEnemy_.end(),//vectorの最後の'次'の要素(end()に到達したらループ終了する)
+		[](const std::shared_ptr<WalkEnemy>& enemy)//ラムダ式(引数にremove_ifで現在の要素を渡す)
+		{
+			//死んでいるかどうかのフラグをチェック
+			return enemy->GetIsDead();
+		});
+	//remove_ifで後ろに詰められた要素を消す
+	walkEnemy_.erase(newEnd, walkEnemy_.end());
 
 
 	//ボタンが押されたらフェードアウトを始める

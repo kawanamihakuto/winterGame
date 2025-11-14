@@ -21,8 +21,6 @@ struct WalkEnemyImages
 class WalkEnemy :public EnemyBase
 {
 public:
-	//フレンドにする
-	friend class WalkEnemyStateBase;
 	//現在のステートを入れる変数
 	std::unique_ptr<WalkEnemyStateBase> state_;
 
@@ -38,27 +36,36 @@ public:
 	void ChangeState(std::unique_ptr<WalkEnemyStateBase>newState);
 
 	//ポジションのゲッター・セッター
-	Vector2& GetPosition() { return position_; }
+	Vector2 GetPosition() const{ return position_; }
 	void SetPosition(const Vector2& pos) { position_ = pos; }
 
 	//Velocotyのゲッター・セッター
-	Vector2& GetVelocity() { return velocity_; }
+	Vector2 GetVelocity() const{ return velocity_; }
 	void SetVelocity(const Vector2& vel) { velocity_ = vel; }
 
 	//Rectのゲッター・セッター
-	Rect& GetHitRect() { return rect_; }
-	void SetHitRect(const Rect& rect) { rect_ = rect; }
+	 Rect& GetHitRect(){ return rect_; }
 
 	//<画像ハンドルのセッター>
+	 int GetGraph() { return currentImage_; }
 	void SetGraph(int handle) { currentImage_ = handle; }
-	int& GetGraph() { return currentImage_; }
 
 	//プレイヤーが右にいるかどうかのフラグのゲッター・セッター
-	void SetPlayerOnRight(bool flag) { isPlayerOnRight_ = flag; }
 	bool GetPlayerOnRight() { return isPlayerOnRight_; }
+	void SetPlayerOnRight(bool flag) { isPlayerOnRight_ = flag; }
+
+	//プレイヤーの参照のゲッター
+	std::shared_ptr<Player> GetPlayer()const { return player_; }
 
 	//imagesのゲッター
 	const WalkEnemyImages& GetImages() const { return images_; }
+
+	int GetNockBackTime() { return nockBackTime_; }
+	void SetNockBackTime(int time) { nockBackTime_ = time; }
+
+	//死んでいるかどうかフラグのゲッター・セッター
+	bool GetIsDead() { return isDead_; }
+	void SetIsDead(bool isDead) { isDead_ = isDead; }
 
 	/// <summary>
 	/// 重力用関数
@@ -70,6 +77,7 @@ public:
 	/// </summary>
 	void ApplyMovement();
 
+
 private:
 	//画像ハンドルをまとめて持つ
 	WalkEnemyImages images_;
@@ -80,6 +88,12 @@ private:
 	
 	//プレイヤーが右にいるかどうかのフラグ
 	bool isPlayerOnRight_;
+
+	//ノックバックの時間
+	int nockBackTime_;
+
+	//死んでいるかどうかフラグ
+	bool isDead_;
 };
 
 /// <summary>
@@ -90,7 +104,7 @@ class WalkEnemyStateBase
 public:
 	virtual ~WalkEnemyStateBase() = default;
 	virtual void Enter(WalkEnemy& enemy) {};
-	virtual void Update(WalkEnemy& enemy,Player& player) = 0;
+	virtual void Update(WalkEnemy& enemy) = 0;
 	virtual void Exit(WalkEnemy& enemy) {};
 };
 /// <summary>
@@ -99,7 +113,7 @@ public:
 class Walk : public WalkEnemyStateBase
 {
 	void Enter(WalkEnemy& enemy) override;
-	void Update(WalkEnemy& enemy, Player& player) override;
+	void Update(WalkEnemy& enemy) override;
 };
 /// <summary>
 /// Death状態クラス
@@ -107,7 +121,7 @@ class Walk : public WalkEnemyStateBase
 class Death : public WalkEnemyStateBase
 {
 	void Enter(WalkEnemy& enemy) override;
-	void Update(WalkEnemy& enemy, Player& player) override;
+	void Update(WalkEnemy& enemy) override;
 	void Exit(WalkEnemy& enemy) override;
 };
 /// <summary>
@@ -117,5 +131,5 @@ class Death : public WalkEnemyStateBase
 class None : public WalkEnemyStateBase
 {
 	void Enter(WalkEnemy& enemy) override;
-	void Update(WalkEnemy& enemy, Player& player) override;
+	void Update(WalkEnemy& enemy) override;
 };
