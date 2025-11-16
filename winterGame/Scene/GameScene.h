@@ -36,7 +36,7 @@ private:
 	DrawFunc_t draw_;
 
 	std::shared_ptr<Player>player_;
-	std::vector<std::shared_ptr<WalkEnemy>>walkEnemy_;
+	std::vector<std::shared_ptr<EnemyBase>>enemies_;
 
 	PlayerImages playerImgs_;
 

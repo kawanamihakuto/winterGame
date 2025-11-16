@@ -43,7 +43,7 @@ public:
 	Vector2 GetVelocity() const{ return velocity_; }
 	void SetVelocity(const Vector2& vel) { velocity_ = vel; }
 
-	//Rectのゲッター・セッター
+	//Rectのゲッター
 	 Rect& GetHitRect(){ return rect_; }
 
 	//<画像ハンドルのセッター>
@@ -59,6 +59,7 @@ public:
 
 	//imagesのゲッター
 	const WalkEnemyImages& GetImages() const { return images_; }
+
 
 	int GetNockBackTime() { return nockBackTime_; }
 	void SetNockBackTime(int time) { nockBackTime_ = time; }
@@ -91,9 +92,6 @@ private:
 
 	//ノックバックの時間
 	int nockBackTime_;
-
-	//死んでいるかどうかフラグ
-	bool isDead_;
 };
 
 /// <summary>

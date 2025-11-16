@@ -32,7 +32,7 @@ draw_(&GameScene::FadeDraw)
 
 	player_ = std::make_shared<Player>(playerImgs_);
 	std::shared_ptr<WalkEnemy> we = std::make_shared<WalkEnemy>(Vector2{ 600,200 }, walkEnemyImgs_, player_);
-	walkEnemy_.push_back(we);
+	enemies_.push_back(we);
 	frame_ = fade_interval;	
 }
 
@@ -61,22 +61,22 @@ void GameScene::FadeInUpdate(Input&)
 void GameScene::NormalUpdate(Input& input)
 {
 	player_->Update(input);
-	for (auto& enemy : walkEnemy_)
+	for (auto& enemy : enemies_)
 	{
 		enemy->Update();
 	}
 
 	//remove_ifで消すべき要素を後ろに詰める
 	auto newEnd = std::remove_if(
-		walkEnemy_.begin(),//vectorの最初の要素
-		walkEnemy_.end(),//vectorの最後の'次'の要素(end()に到達したらループ終了する)
-		[](const std::shared_ptr<WalkEnemy>& enemy)//ラムダ式(引数にremove_ifで現在の要素を渡す)
+		enemies_.begin(),//vectorの最初の要素
+		enemies_.end(),//vectorの最後の'次'の要素(end()に到達したらループ終了する)
+		[](const std::shared_ptr<EnemyBase>& enemy)//ラムダ式(引数にremove_ifで現在の要素を渡す)
 		{
 			//死んでいるかどうかのフラグをチェック
 			return enemy->GetIsDead();
 		});
 	//remove_ifで後ろに詰められた要素を消す
-	walkEnemy_.erase(newEnd, walkEnemy_.end());
+	enemies_.erase(newEnd, enemies_.end());
 
 
 	//ボタンが押されたらフェードアウトを始める
@@ -116,7 +116,7 @@ void GameScene::NormalDraw()
 	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
 
 	player_->Draw();
-	for (auto& enemy : walkEnemy_)
+	for (auto& enemy : enemies_)
 	{
 		enemy->Draw();
 	}

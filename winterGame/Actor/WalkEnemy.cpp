@@ -24,8 +24,7 @@ images_(imgs),
 currentImage_(images_.walk),
 player_(player),
 isPlayerOnRight_(false),
-nockBackTime_(0),
-isDead_(false)
+nockBackTime_(0)
 {
 	state_ = std::make_unique<Walk>();
 }

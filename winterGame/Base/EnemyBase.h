@@ -12,10 +12,20 @@ public:
 	virtual void Init()override = 0;
 	virtual void Update()override = 0;
 	virtual void Draw()override = 0;
+
+	Vector2 GetPosition() const { return position_; }
+
+	Rect GetHitRect() { return rect_; }
+
+	bool GetIsDead() { return isDead_; }
+
+	void SetVelocity(const Vector2& vel) { velocity_ = vel; }
 protected:
 	//‘Ì—Í
 	int hp_;
 	//ˆÚ“®‘¬“x
 	Vector2 velocity_;
+
+	bool isDead_;
 };
 

@@ -23,6 +23,9 @@ Input::Input():
 	inputTable_["jump"] = { {PeripheralType::keyboard,KEY_INPUT_SPACE},
 							{PeripheralType::pad1,PAD_INPUT_A} };
 
+	inputTable_["inhale"] = { {PeripheralType::keyboard,KEY_INPUT_Z},
+							{PeripheralType::pad1,PAD_INPUT_B} };
+
 
 
 	//あらかじめ入力データの枠を開けておく
