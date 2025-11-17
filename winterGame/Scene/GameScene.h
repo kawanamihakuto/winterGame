@@ -44,8 +44,8 @@ private:
 
 	//プレイヤーの画像構造体
 	PlayerImages playerImgs_;
-	//歩く敵の画像構造体
-	WalkEnemyImages walkEnemyImgs_;
+	//敵の画像構造体
+	EnemyImages EnemyImgs_;
 public:
 	//コンストラクタ
 	GameScene(SceneController& controller);

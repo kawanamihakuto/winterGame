@@ -43,6 +43,7 @@ void Inhale::Update(std::shared_ptr<Player>player,std::vector<std::shared_ptr<En
 	{
 		if (rect_.IsCollision(enemies->GetHitRect()))
 		{
+			//enemies->ChangeState(std::make_unique<Inhaled>,*enemies);
 			enemies->SetVelocity(position_ - enemies->GetPosition());
 		}
 	}

@@ -33,18 +33,18 @@ draw_(&GameScene::FadeDraw)
 	//歩くエネミーの画像をロード
 	//walk
 	//Death
-	walkEnemyImgs_ = 
+	EnemyImgs_ = 
 	{
 		LoadGraph("data/walkEnemy/Walk.png"),
 		LoadGraph("data/walkEnemy/Death.png")
 	};
-	assert(walkEnemyImgs_.walk>-1);
-	assert(walkEnemyImgs_.death>-1);
+	assert(EnemyImgs_.walk_walk>-1);
+	assert(EnemyImgs_.walk_death>-1);
 
 	//プレイヤー生成
 	player_ = std::make_shared<Player>(playerImgs_);
 	//歩く敵生成
-	std::shared_ptr<WalkEnemy> we = std::make_shared<WalkEnemy>(Vector2{ 600,200 }, walkEnemyImgs_, player_);
+	std::shared_ptr<WalkEnemy> we = std::make_shared<WalkEnemy>(Vector2{ 600,200 }, EnemyImgs_, player_);
 	enemies_.push_back(we);
 	//フェード用のフレームを初期化
 	frame_ = fade_interval;	
@@ -59,8 +59,8 @@ GameScene::~GameScene()
 	DeleteGraph(playerImgs_.jump);
 	DeleteGraph(playerImgs_.inhale);
 	//歩く敵
-	DeleteGraph(walkEnemyImgs_.walk);
-	DeleteGraph(walkEnemyImgs_.death);
+	DeleteGraph(EnemyImgs_.walk_walk);
+	DeleteGraph(EnemyImgs_.walk_death);
 }
 
 void GameScene::FadeInUpdate(Input&)

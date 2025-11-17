@@ -20,13 +20,13 @@ namespace
 	constexpr float kNockBackTimeMax = 20;
 }
 
-WalkEnemy::WalkEnemy(Vector2 pos,WalkEnemyImages& imgs,std::shared_ptr<Player>player) :
+WalkEnemy::WalkEnemy(Vector2 pos,EnemyImages& imgs,std::shared_ptr<Player>player) :
 	images_(imgs),
-	EnemyBase(kHp,{0,0}, pos,images_.walk,player,false,0)
+	EnemyBase(kHp,{0,0}, pos,imgs,images_.walk_walk,player,false,0)
 
 {
 	state_ = std::make_unique<Walk>();
-	currentImage_ = images_.walk;
+	currentImage_ = images_.walk_walk;
 }
 
 WalkEnemy::~WalkEnemy()
@@ -51,38 +51,11 @@ void WalkEnemy::Draw()
 	rect.Draw(0x0000ff,false);
 }
 
-void WalkEnemy::ChangeState(std::unique_ptr<WalkEnemyStateBase>newState)
+void Walk::Enter(EnemyBase& enemy)
 {
-	if(state_)
-	{
-		state_->Exit(*this);
-		state_ = std::move(newState);
-		state_->Enter(*this);
-	}
-	
+	enemy.SetGraph(enemy.GetImages().walk_walk);
 }
-void WalkEnemy::Gravity()
-{
-	velocity_.y += 0.5f;
-}
-
-void WalkEnemy::ApplyMovement()
-{
-	position_ += velocity_;
-
-	if (position_.y >= kGround)
-	{
-		position_.y = kGround;
-		velocity_.y = 0.0f;
-	}
-}
-
-
-void Walk::Enter(WalkEnemy& enemy)
-{
-	enemy.SetGraph(enemy.GetImages().walk);
-}
-void Walk::Update(WalkEnemy& enemy)
+void Walk::Update(EnemyBase& enemy)
 {
 	enemy.Gravity();
 
@@ -116,17 +89,17 @@ void Walk::Update(WalkEnemy& enemy)
 		enemy.SetPlayerOnRight(isplayerOnRight);
 
 		//エネミーの状態遷移
-		enemy.ChangeState(std::make_unique<Death>());
+		enemy.ChangeState(std::make_unique<Death>(),enemy);
 		//プレイヤーの状態遷移
 		player->ChangeState(std::make_unique<HitState>());
 	}
 }
 
-void Death::Enter(WalkEnemy& enemy)
+void Death::Enter(EnemyBase& enemy)
 {
-	enemy.SetGraph(enemy.GetImages().death);
+	enemy.SetGraph(enemy.GetImages().walk_death);
 }
-void Death::Update(WalkEnemy& enemy)
+void Death::Update(EnemyBase& enemy)
 {
 	Vector2 vel = enemy.GetVelocity();
 	bool isPlayerOnRight = enemy.GetPlayerOnRight();
@@ -150,21 +123,30 @@ void Death::Update(WalkEnemy& enemy)
 	nockBackTime += 1;
 	if (nockBackTime >= kNockBackTimeMax)
 	{
-		enemy.ChangeState(std::make_unique<None>());
+		enemy.ChangeState(std::make_unique<None>(),enemy);
 	}
 	enemy.SetNockBackTime(nockBackTime);
 }
 
-void Death::Exit(WalkEnemy& enemy)
+void Death::Exit(EnemyBase& enemy)
 {
 	//isDead_をtrueにする
 	enemy.SetIsDead(true);
 }
 
-void None::Enter(WalkEnemy& enemy)
+void None::Enter(EnemyBase& enemy)
 {
 }
-void None::Update(WalkEnemy& enemy)
+void None::Update(EnemyBase& enemy)
+{
+}
+
+void Inhaled::Enter(EnemyBase& enemy)
+{
+
+}
+
+void Inhaled::Update(EnemyBase& enemy)
 {
 }
 
