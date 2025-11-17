@@ -13,6 +13,7 @@ struct PlayerImages
 	int idle;
 	int move;
 	int jump;
+	int inhale;
 };
 /// <summary>
 /// プレイヤークラス
@@ -57,6 +58,13 @@ public:
 	//imagesのゲッター
 	const PlayerImages& GetImages()const { return images_; }
 
+	//吸い込みオブジェクトを生成するかのゲッター・セッター
+	bool GetGenerateInhale() { return isGenerateInhale_; }
+	void SetGenerateInhale(bool isGenerate) { isGenerateInhale_ = isGenerate; }
+
+	bool GetDeleteInhale() { return isDeleteInhale_; }
+	void SetDeleteInhale(bool isDelete) { isDeleteInhale_ = isDelete; }
+
 	/// <summary>
 	/// ステート切り替えの関数
 	/// </summary>
@@ -89,6 +97,10 @@ private:
 	int hp_;
 	//当たり判定用のカラー
 	int rectColor_;
+	//吸い込みオブジェクトを生成するリクエスト
+	bool isGenerateInhale_;
+	//吸い込みオブジェクトを削除するリクエスト
+	bool isDeleteInhale_;
 };
 /// <summary>
 /// プレイヤーステートの基底クラス
@@ -128,7 +140,9 @@ public:
 	void Enter(Player& player)override;
 	void Update(Player& player, Input& input) override;
 };
-
+/// <summary>
+/// ヒット状態クラス
+/// </summary>
 class HitState :public PlayerStateBase
 {
 public:
@@ -136,11 +150,14 @@ public:
 	void Update(Player& player,Input& inpit)override;
 	void Exit(Player& player)override;
 };
-
+/// <summary>
+/// 吸い込み状態クラス
+/// </summary>
 class InhaleState : public PlayerStateBase
 {
 public:
 	void Enter(Player& player)override;
 	void Update(Player& player, Input& input) override;
+	void Exit(Player& player)override;
 };
 

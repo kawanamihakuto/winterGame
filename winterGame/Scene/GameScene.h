@@ -5,8 +5,8 @@
 #include"../Actor/Player.h"
 #include"../Actor/WalkEnemy.h"
 class Player;
-class WalkEnemy;
 class EnemyBase;
+class Inhale;
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -35,11 +35,16 @@ private:
 	using DrawFunc_t = void(GameScene::*)();
 	DrawFunc_t draw_;
 
+	//プレイヤーのポインタ
 	std::shared_ptr<Player>player_;
+	//エネミーのポインタ
 	std::vector<std::shared_ptr<EnemyBase>>enemies_;
+	//吸い込みオブジェクトのポインタ
+	std::shared_ptr<Inhale>inhale_;
 
+	//プレイヤーの画像構造体
 	PlayerImages playerImgs_;
-
+	//歩く敵の画像構造体
 	WalkEnemyImages walkEnemyImgs_;
 public:
 	//コンストラクタ

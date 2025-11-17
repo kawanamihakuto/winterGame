@@ -2,6 +2,7 @@
 #include "WalkEnemy.h"
 #include"../System/Rect.h"
 #include"Player.h"
+#include<memory>
 namespace
 {
 	constexpr int kHp = 1;
@@ -19,14 +20,13 @@ namespace
 	constexpr float kNockBackTimeMax = 20;
 }
 
-WalkEnemy::WalkEnemy(Vector2 pos,WalkEnemyImages& imgs,std::shared_ptr<Player>player) :EnemyBase(kHp,{0,0}, pos),
-images_(imgs),
-currentImage_(images_.walk),
-player_(player),
-isPlayerOnRight_(false),
-nockBackTime_(0)
+WalkEnemy::WalkEnemy(Vector2 pos,WalkEnemyImages& imgs,std::shared_ptr<Player>player) :
+	images_(imgs),
+	EnemyBase(kHp,{0,0}, pos,images_.walk,player,false,0)
+
 {
 	state_ = std::make_unique<Walk>();
+	currentImage_ = images_.walk;
 }
 
 WalkEnemy::~WalkEnemy()
@@ -59,8 +59,8 @@ void WalkEnemy::ChangeState(std::unique_ptr<WalkEnemyStateBase>newState)
 		state_ = std::move(newState);
 		state_->Enter(*this);
 	}
+	
 }
-
 void WalkEnemy::Gravity()
 {
 	velocity_.y += 0.5f;
@@ -76,6 +76,7 @@ void WalkEnemy::ApplyMovement()
 		velocity_.y = 0.0f;
 	}
 }
+
 
 void Walk::Enter(WalkEnemy& enemy)
 {

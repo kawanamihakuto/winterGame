@@ -6,6 +6,8 @@
 #include"GameoverScene.h"
 #include"../Actor/Player.h"
 #include"../Actor/WalkEnemy.h"
+#include<cassert>
+#include"../Actor/Inhale.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -13,6 +15,7 @@ GameScene::GameScene(SceneController& controller) :Scene(controller),
 update_(&GameScene::FadeInUpdate),
 draw_(&GameScene::FadeDraw)
 {
+	//プレイヤーの画像をロード
 	//idle
 	//move
 	//jump
@@ -20,29 +23,42 @@ draw_(&GameScene::FadeDraw)
 	{
 		LoadGraph("data/player/Idle.png"),
 		LoadGraph("data/player/Move.png"),
-		LoadGraph("data/player/Jump.png")
+		LoadGraph("data/player/Jump.png"),
+		LoadGraph("data/player/Inhale.png")
 	};
-
+	assert(playerImgs_.idle>-1);
+	assert(playerImgs_.move>-1);
+	assert(playerImgs_.jump>-1);
+	assert(playerImgs_.inhale>-1);
+	//歩くエネミーの画像をロード
 	//walk
+	//Death
 	walkEnemyImgs_ = 
 	{
 		LoadGraph("data/walkEnemy/Walk.png"),
 		LoadGraph("data/walkEnemy/Death.png")
 	};
+	assert(walkEnemyImgs_.walk>-1);
+	assert(walkEnemyImgs_.death>-1);
 
+	//プレイヤー生成
 	player_ = std::make_shared<Player>(playerImgs_);
+	//歩く敵生成
 	std::shared_ptr<WalkEnemy> we = std::make_shared<WalkEnemy>(Vector2{ 600,200 }, walkEnemyImgs_, player_);
 	enemies_.push_back(we);
+	//フェード用のフレームを初期化
 	frame_ = fade_interval;	
 }
 
 GameScene::~GameScene()
 {
-	
+	//画像をすべてデリート
+	//プレイヤー
 	DeleteGraph(playerImgs_.idle);
 	DeleteGraph(playerImgs_.move);
 	DeleteGraph(playerImgs_.jump);
-	
+	DeleteGraph(playerImgs_.inhale);
+	//歩く敵
 	DeleteGraph(walkEnemyImgs_.walk);
 	DeleteGraph(walkEnemyImgs_.death);
 }
@@ -60,12 +76,29 @@ void GameScene::FadeInUpdate(Input&)
 
 void GameScene::NormalUpdate(Input& input)
 {
+	//プレイヤーのUpdate
 	player_->Update(input);
+	//エネミー全体のUpdate
 	for (auto& enemy : enemies_)
 	{
 		enemy->Update();
 	}
+	//吸い込みオブジェクトの生成処理
+	if (player_->GetGenerateInhale())
+	{
+		printfDx("new");
+		//吸い込みオブジェクト生成
+		inhale_ = std::make_shared<Inhale>(player_->GetPosition());
+		player_->SetGenerateInhale(false);
+	}
 
+	//吸い込みオブジェクトがあったら
+	if (inhale_)
+	{
+		//吸い込みオブジェクトのUpdate
+		inhale_->Update(player_, enemies_);
+	}
+	
 	//remove_ifで消すべき要素を後ろに詰める
 	auto newEnd = std::remove_if(
 		enemies_.begin(),//vectorの最初の要素
@@ -78,6 +111,13 @@ void GameScene::NormalUpdate(Input& input)
 	//remove_ifで後ろに詰められた要素を消す
 	enemies_.erase(newEnd, enemies_.end());
 
+	//吸い込みオブジェクトの削除
+	if (player_->GetDeleteInhale())
+	{
+		printfDx("delete");
+		inhale_.reset();
+		player_->SetDeleteInhale(false);
+	}
 
 	//ボタンが押されたらフェードアウトを始める
 	if (input.IsTriggered("ok"))
@@ -115,19 +155,29 @@ void GameScene::NormalDraw()
 	const auto& wsize = Application::GetInstance().GetWindowSize();
 	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
 
+	//プレイヤーのDraw
 	player_->Draw();
+	//エネミー全体のDraw
 	for (auto& enemy : enemies_)
 	{
 		enemy->Draw();
+	}
+	//吸い込みオブジェクトがあったら
+	if (inhale_)
+	{
+		//吸い込みオブジェクトのDraw
+		inhale_->Draw();
 	}
 }
 
 void GameScene::Update(Input& input)
 {
+	//現在のUpdateを実行
 	(this->*update_)(input);
 }
 
 void GameScene::Draw()
 {
+	//現在のDrawを実行
 	(this->*draw_)();
 }

@@ -29,7 +29,9 @@ Player::Player(PlayerImages& imgs) :
 	images_(imgs),
 	currentImage_(imgs.idle),
 	hp_(5),
-	rectColor_(0x0000ff)
+	rectColor_(0x0000ff),
+	isGenerateInhale_(false),
+	isDeleteInhale_(false)
 {
 	state_ = std::make_unique<IdleState>();
 }
@@ -56,9 +58,7 @@ void Player::Draw()
 {
 	Vector2 pos = GetPosition();
 	DrawRectRotaGraph(pos.x, pos.y,0, 0, kWidth, kHeight, kSize,0,currentImage_, true);
-	Rect& rect = GetHitRect();
-	rect.Draw(rectColor_,false);
-
+	rect_.Draw(rectColor_,false);
 	DrawFormatString(0,0,0xffffff,"%d",hp_);
 }
 
@@ -129,6 +129,10 @@ void IdleState::Update(Player& player, Input& input)
 	{
 		player.ChangeState(std::make_unique<JumpState>());
 	}
+	else if (input.IsPressed("inhale"))
+	{
+		player.ChangeState(std::make_unique<InhaleState>());
+	}
 	
 	player.UpdatePhysics();
 }
@@ -158,6 +162,11 @@ void MoveState::Update(Player& player, Input& input)
 		player.ChangeState(std::make_unique<JumpState>());
 		return;
 	}
+	if (input.IsPressed("inhale"))
+	{
+		player.ChangeState(std::make_unique<InhaleState>());
+	}
+
 	//–€Cˆ—
 	vel.x *= kFriction;
 
@@ -232,6 +241,10 @@ void JumpState::Update(Player& player, Input& input)
 			player.ChangeState(std::make_unique<IdleState>());
 		}
 	}
+	if (input.IsPressed("inhale"))
+	{
+		player.ChangeState(std::make_unique<InhaleState>());
+	}
 
 }
 
@@ -255,6 +268,11 @@ void HitState::Update(Player& player,Input& input)
 	{
 		player.ChangeState(std::make_unique<IdleState>());
 	}
+	
+	if (input.IsPressed("inhale"))
+	{
+		player.ChangeState(std::make_unique<InhaleState>());
+	}
 	player.UpdatePhysics();
 }
 void HitState::Exit(Player& player)
@@ -266,12 +284,19 @@ void HitState::Exit(Player& player)
 void InhaleState::Enter(Player& player)
 {
 	//‰æ‘œ‚ğInhale‚É•ÏX
-//	player.SetGraph(player.GetImages().inhale);
+	player.SetGraph(player.GetImages().inhale);
+	player.SetGenerateInhale(true);
 }
 
 void InhaleState::Update(Player& player, Input& input)
 {
-	
+	if (!input.IsPressed("inhale"))
+	{
+		player.ChangeState(std::make_unique<IdleState>());
+	}
+}
 
-	
+void InhaleState::Exit(Player& player)
+{
+	player.SetDeleteInhale(true);
 }
