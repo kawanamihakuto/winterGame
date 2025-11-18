@@ -143,13 +143,14 @@
     <ClCompile Include="Base\EnemyBase.cpp" />
     <ClCompile Include="Base\GameObject.cpp" />
     <ClCompile Include="Actor\Inhale.cpp" />
+    <ClCompile Include="System\Lerp.cpp" />
     <ClCompile Include="System\Camera.cpp" />
     <ClCompile Include="Scene\GameoverScene.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="System\Geometry.cpp" />
     <ClCompile Include="System\Input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Actor\Player.cpp" />
+    <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="System\Rect.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneController.cpp" />
@@ -159,6 +160,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Base\EnemyBase.h" />
+    <ClInclude Include="System\Lerp.h" />
     <ClInclude Include="System\Camera.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Base\GameObject.h" />
@@ -167,7 +169,7 @@
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="System\Geometry.h" />
     <ClInclude Include="System\Input.h" />
-    <ClInclude Include="Actor\Player.h" />
+    <ClInclude Include="Player\Player.h" />
     <ClInclude Include="System\Rect.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\SceneController.h" />

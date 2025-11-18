@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include<memory>
 #include<vector>
-#include"../Actor/Player.h"
+#include"../Player/Player.h"
 #include"../Actor/WalkEnemy.h"
 class Player;
 class EnemyBase;

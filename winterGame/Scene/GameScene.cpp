@@ -4,7 +4,7 @@
 #include"../Application.h"
 #include"../System/Input.h"
 #include"GameoverScene.h"
-#include"../Actor/Player.h"
+#include"../Player/Player.h"
 #include"../Actor/WalkEnemy.h"
 #include<cassert>
 #include"../Actor/Inhale.h"

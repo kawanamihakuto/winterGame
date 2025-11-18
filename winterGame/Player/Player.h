@@ -34,38 +34,51 @@ public:
 	void Draw()override;
 	void Draw(Camera& camera);
 
-	//ポジションのゲッター・セッター
+	//ポジションのゲッター
 	 Vector2 GetPosition(){ return position_; }
+	 //ポジションのセッター
 	void SetPosition(const Vector2& pos) { position_ = pos; }
 
-	//Velocityのゲッター・セッター
+	//Velocityのゲッター
 	Vector2 GetVelocity() { return velocity_; }
+	//Velocityのセッター
 	void SetVelocity(const Vector2& dir) { velocity_ = dir; }
 	
-	//Rectのゲッター・セッター
+	//Rectのゲッター
 	Rect& GetHitRect() { return rect_; }
 	
-	//画像ハンドルのゲッター・セッター
-	void SetGraph(int handle) { currentImage_ = handle; }
+	//現在の画像ハンドルのゲッター
 	int GetGraph() { return currentImage_; }
+	//現在の画像ハンドルのセッター
+	void SetGraph(int handle) { currentImage_ = handle; }
 
-	//当たり判定用のカラーのセッター・ゲッター
-	void SetRectColor(int color) { rectColor_ = color; }
+	//当たり判定用のカラーのゲッター
 	int GetRectColor() { return rectColor_; }
+	//当たり判定用のカラーのセッター
+	void SetRectColor(int color) { rectColor_ = color; }
 
-	//HPのゲッター・セッター
-	void SetHp(int hp) { hp_ = hp; }
+	//HPのゲッター
 	int GetHp() { return hp_; }
-
-	//imagesのゲッター
+	//HPのセッター
+	void SetHp(int hp) { hp_ = hp; }
+	
+	//プレイヤーの画像すべてのゲッター
 	const PlayerImages& GetImages()const { return images_; }
 
-	//吸い込みオブジェクトを生成するかのゲッター・セッター
+	//吸い込みオブジェクトを生成するかのゲッター
 	bool GetGenerateInhale() { return isGenerateInhale_; }
+	//吸い込みオブジェクトを生成するかのセッター
 	void SetGenerateInhale(bool isGenerate) { isGenerateInhale_ = isGenerate; }
 
+	//吸い込みオブジェクトを削除するかのゲッター
 	bool GetDeleteInhale() { return isDeleteInhale_; }
+	//吸い込みオブジェクトを削除するかのセッター
 	void SetDeleteInhale(bool isDelete) { isDeleteInhale_ = isDelete; }
+
+	//右を向いているかどうかのゲッター
+	bool GetIsRight() { return isRight_; }
+	//右を向いているかどうかのセッター
+	void SetIsRight(bool isRight) { isRight_ = isRight; }
 
 	/// <summary>
 	/// ステート切り替えの関数
@@ -95,7 +108,7 @@ private:
 	PlayerImages images_;
 	//現在の画像
 	int currentImage_;
-	//プレイヤーのHP;
+	//プレイヤーのHP
 	int hp_;
 	//当たり判定用のカラー
 	int rectColor_;
@@ -103,6 +116,8 @@ private:
 	bool isGenerateInhale_;
 	//吸い込みオブジェクトを削除するリクエスト
 	bool isDeleteInhale_;
+	//右を向いているかどうか
+	bool isRight_;
 };
 /// <summary>
 /// プレイヤーステートの基底クラス
@@ -111,8 +126,21 @@ class PlayerStateBase
 {
 public:
 	virtual ~PlayerStateBase() = default;
+	/// <summary>
+	/// その状態になった時、１回だけ呼ばれる関数
+	/// </summary>
+	/// <param name="player">プレイヤーの参照</param>
 	virtual void Enter(Player& player){};
+	/// <summary>
+	/// その状態のとき毎フレーム呼ばれる関数
+	/// </summary>
+	/// <param name="player">プレイヤーの参照</param>
+	/// <param name="input">入力を受け取るためのInputの参照</param>
 	virtual void Update(Player& player,Input& input) = 0;
+	/// <summary>
+	/// その状態が終わる時、１回だけ呼ばれる関数
+	/// </summary>
+	/// <param name="player">プレイヤーの参照</param>
 	virtual void Exit(Player& player) {};
 };
 /// <summary>
@@ -156,6 +184,14 @@ public:
 /// 吸い込み状態クラス
 /// </summary>
 class InhaleState : public PlayerStateBase
+{
+public:
+	void Enter(Player& player)override;
+	void Update(Player& player, Input& input) override;
+	void Exit(Player& player)override;
+};
+
+class MouthHoldState : public PlayerStateBase
 {
 public:
 	void Enter(Player& player)override;

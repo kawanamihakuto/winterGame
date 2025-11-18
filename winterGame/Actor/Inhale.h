@@ -17,6 +17,6 @@ public:
 	void Draw()override;
 	void Draw(Camera& camera);
 
-
+	Vector2 Vlerp(const Vector2 stert, const Vector2 end, float t);
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 #include"../base/GameObject.h"
 class Player;
+
 class Camera :public GameObject
 {
 public:
@@ -16,7 +17,7 @@ public:
 	//DrawOffsetÇÃÉQÉbÉ^Å[
 	Vector2 GetDrawOffset() { return drawOffset_; }
 
-	Vector2 VLerp(const Vector2& stert, const Vector2& end, float t);
+//	Vector2 VLerp(const Vector2& stert, const Vector2& end, float t);
 
 private:
 	Vector2 drawOffset_;

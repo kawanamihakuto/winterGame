@@ -1,7 +1,7 @@
 #include<DxLib.h>
 #include "WalkEnemy.h"
 #include"../System/Rect.h"
-#include"Player.h"
+#include"../Player/Player.h"
 #include<memory>
 #include"../System/Camera.h"
 namespace
@@ -17,7 +17,7 @@ namespace
 	constexpr int kGround = 400;
 	constexpr float kMaxSpeed = 1.5f;
 
-	constexpr float kNockbackSpeed = 3.0f;
+	constexpr float kNockbackSpeed = 4.0f;
 	constexpr float kNockBackTimeMax = 20;
 }
 
@@ -158,9 +158,12 @@ void None::Update(EnemyBase& enemy)
 void Inhaled::Enter(EnemyBase& enemy)
 {
 	enemy.SetGraph(enemy.GetImages().walk_inhaled);
+	enemy.SetVelocity({ 0,0 });
 }
 
 void Inhaled::Update(EnemyBase& enemy)
 {
+	enemy.Gravity();
+	enemy.ApplyMovement();
 }
 
