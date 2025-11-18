@@ -20,14 +20,6 @@ EnemyBase::~EnemyBase()
 {
 }
 
-void EnemyBase::ChangeState(std::unique_ptr<EnemyStateBase>newState,EnemyBase& enemy)
-{
-	state_->Exit(enemy);
-	state_ = std::move(newState);
-	state_->Enter(enemy);
-}
-
-
 void EnemyBase::Gravity()
 {
 	velocity_.y += 0.5f;

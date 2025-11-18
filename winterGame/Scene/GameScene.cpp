@@ -8,6 +8,7 @@
 #include"../Actor/WalkEnemy.h"
 #include<cassert>
 #include"../Actor/Inhale.h"
+#include"../System/Camera.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -36,16 +37,20 @@ draw_(&GameScene::FadeDraw)
 	EnemyImgs_ = 
 	{
 		LoadGraph("data/walkEnemy/Walk.png"),
-		LoadGraph("data/walkEnemy/Death.png")
+		LoadGraph("data/walkEnemy/Death.png"),
+		LoadGraph("data/walkEnemy/Inhaled.png")
 	};
 	assert(EnemyImgs_.walk_walk>-1);
 	assert(EnemyImgs_.walk_death>-1);
+	assert(EnemyImgs_.walk_inhaled>-1);
 
 	//プレイヤー生成
 	player_ = std::make_shared<Player>(playerImgs_);
 	//歩く敵生成
 	std::shared_ptr<WalkEnemy> we = std::make_shared<WalkEnemy>(Vector2{ 600,200 }, EnemyImgs_, player_);
 	enemies_.push_back(we);
+
+	camera_ = std::make_shared<Camera>();
 	//フェード用のフレームを初期化
 	frame_ = fade_interval;	
 }
@@ -83,10 +88,12 @@ void GameScene::NormalUpdate(Input& input)
 	{
 		enemy->Update();
 	}
+
+	camera_->Update(*player_);
 	//吸い込みオブジェクトの生成処理
 	if (player_->GetGenerateInhale())
 	{
-		printfDx("new");
+		printfDx("new\n");
 		//吸い込みオブジェクト生成
 		inhale_ = std::make_shared<Inhale>(player_->GetPosition());
 		player_->SetGenerateInhale(false);
@@ -114,7 +121,7 @@ void GameScene::NormalUpdate(Input& input)
 	//吸い込みオブジェクトの削除
 	if (player_->GetDeleteInhale())
 	{
-		printfDx("delete");
+		printfDx("delete\n");
 		inhale_.reset();
 		player_->SetDeleteInhale(false);
 	}
@@ -156,17 +163,17 @@ void GameScene::NormalDraw()
 	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
 
 	//プレイヤーのDraw
-	player_->Draw();
+	player_->Draw(*camera_);
 	//エネミー全体のDraw
 	for (auto& enemy : enemies_)
 	{
-		enemy->Draw();
+		enemy->Draw(*camera_);
 	}
 	//吸い込みオブジェクトがあったら
 	if (inhale_)
 	{
 		//吸い込みオブジェクトのDraw
-		inhale_->Draw();
+		inhale_->Draw(*camera_);
 	}
 }
 

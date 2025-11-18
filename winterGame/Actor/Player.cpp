@@ -3,6 +3,7 @@
 #include"../Scene/GameScene.h"
 #include"../System/Rect.h"
 #include"../System/Input.h"
+#include"../System/Camera.h"
 namespace
 {
 	
@@ -56,10 +57,19 @@ void Player::Update(Input& input)
 
 void Player::Draw()
 {
-	Vector2 pos = GetPosition();
-	DrawRectRotaGraph(pos.x, pos.y,0, 0, kWidth, kHeight, kSize,0,currentImage_, true);
-	rect_.Draw(rectColor_,false);
-	DrawFormatString(0,0,0xffffff,"%d",hp_);
+	
+}
+
+void Player::Draw(Camera& camera)
+{
+	DrawRectRotaGraph(position_.x + camera.GetDrawOffset().x, position_.y + camera.GetDrawOffset().y,
+		0, 0, kWidth, kHeight,
+		kSize, 0, currentImage_, true);
+	
+	//“–‚½‚è”»’è—p
+	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (kHeight / 2)+camera.GetDrawOffset().y, kWidth, kHeight);
+	rect_.Draw(rectColor_, false);
+	DrawFormatString(0, 0, 0xffffff, "%d", hp_);
 }
 
 void Player::ChangeState(std::unique_ptr<PlayerStateBase> newState)
@@ -96,8 +106,6 @@ void Player::UpdatePhysics()
 	Gravity();
 	//velocity‚ðposition‚É‰Á‚¦‚é
 	ApplyMovement();
-	//“–‚½‚è”»’è—p
-	rect_.SetCenter(position_.x, position_.y + (kHeight / 2), kWidth, kHeight);
 }
 
 void IdleState::Enter(Player& player)

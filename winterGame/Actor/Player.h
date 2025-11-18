@@ -5,6 +5,7 @@ class PlayerStateBase;
 class Player;
 class Input;
 class Rect;
+class Camera;
 /// <summary>
 /// プレイヤーの各画像
 /// </summary>
@@ -31,6 +32,7 @@ public:
 	void Update()override;
 	void Update(Input& input);
 	void Draw()override;
+	void Draw(Camera& camera);
 
 	//ポジションのゲッター・セッター
 	 Vector2 GetPosition(){ return position_; }

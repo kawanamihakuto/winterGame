@@ -5,6 +5,8 @@
 #include"Player.h"
 #include"../Base/EnemyBase.h"
 #include<DxLib.h>
+#include"../System/Camera.h"
+#include"WalkEnemy.h"
 constexpr int kWidth = 32;
 constexpr int kHeight = 32;
 constexpr int kSize = 2;
@@ -35,22 +37,28 @@ void Inhale::Update(std::shared_ptr<Player>player,std::vector<std::shared_ptr<En
 	Vector2 playerPos = player->GetPosition();
 
 	position_.x = playerPos.x + kOffsetX;
-	position_.y = playerPos.y + kOffsetY;
 
-	rect_.SetCenter(position_.x, position_.y, kWidth, kHeight);
 
 	for (auto& enemies : enemies)
 	{
 		if (rect_.IsCollision(enemies->GetHitRect()))
 		{
-			//enemies->ChangeState(std::make_unique<Inhaled>,*enemies);
-			enemies->SetVelocity(position_ - enemies->GetPosition());
+			printfDx("gegege\n");
+			enemies->ChangeState(std::make_unique<Inhaled>());
+			enemies->SetVelocity(player->GetPosition() - enemies->GetPosition());
 		}
 	}
 }
 
 void Inhale::Draw()
 {
-	printfDx("gegeg");
-	rect_.Draw(0x00ffff,false);
+	
 }
+
+void Inhale::Draw(Camera& camera)
+{
+	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (kHeight*0.5f) + camera.GetDrawOffset().y, kWidth, kHeight);
+	rect_.Draw(0x00ffff, false);
+}
+
+

@@ -3,6 +3,7 @@
 #include"../System/Rect.h"
 #include"Player.h"
 #include<memory>
+#include"../System/Camera.h"
 namespace
 {
 	constexpr int kHp = 1;
@@ -42,13 +43,26 @@ void WalkEnemy::Update()
 {
 	state_->Update(*this);
 }
-
 void WalkEnemy::Draw()
 {
-	Vector2 pos = GetPosition();
-	DrawRectRotaGraph(pos.x, pos.y, 0, 0, kWidth, kHeight, kSize,0, currentImage_, true);
-	const Rect& rect = GetHitRect();
-	rect.Draw(0x0000ff,false);
+
+}
+
+void WalkEnemy::Draw(Camera& camera)
+{
+	DrawRectRotaGraph(position_.x +camera.GetDrawOffset().x, position_.y + camera.GetDrawOffset().y,
+		0, 0, kWidth, kHeight,
+		kSize,0, currentImage_, true);
+	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (kHeight * 0.5f)+camera.GetDrawOffset().y, kWidth, kHeight);
+	rect_.Draw(0x0000ff,false);
+}
+
+
+void WalkEnemy::ChangeState(std::unique_ptr<EnemyStateBase>newState)
+{
+	state_->Exit(*this);
+	state_ = std::move(newState);
+	state_->Enter(*this);
 }
 
 void Walk::Enter(EnemyBase& enemy)
@@ -78,7 +92,7 @@ void Walk::Update(EnemyBase& enemy)
 	auto player = enemy.GetPlayer();
 	Vector2 pos = enemy.GetPosition();
 	Rect& rect = enemy.GetHitRect();
-	rect.SetCenter(pos.x,pos.y + (kHeight/2),kWidth ,kHeight);
+//	rect.SetCenter(pos.x,pos.y + (kHeight/2),kWidth ,kHeight);
 	Rect& playerRect = player->GetHitRect();
 	//当たり判定
 	if (rect.IsCollision(playerRect))
@@ -89,7 +103,7 @@ void Walk::Update(EnemyBase& enemy)
 		enemy.SetPlayerOnRight(isplayerOnRight);
 
 		//エネミーの状態遷移
-		enemy.ChangeState(std::make_unique<Death>(),enemy);
+		enemy.ChangeState(std::make_unique<Death>());
 		//プレイヤーの状態遷移
 		player->ChangeState(std::make_unique<HitState>());
 	}
@@ -123,7 +137,7 @@ void Death::Update(EnemyBase& enemy)
 	nockBackTime += 1;
 	if (nockBackTime >= kNockBackTimeMax)
 	{
-		enemy.ChangeState(std::make_unique<None>(),enemy);
+		enemy.ChangeState(std::make_unique<None>());
 	}
 	enemy.SetNockBackTime(nockBackTime);
 }
@@ -143,7 +157,7 @@ void None::Update(EnemyBase& enemy)
 
 void Inhaled::Enter(EnemyBase& enemy)
 {
-
+	enemy.SetGraph(enemy.GetImages().walk_inhaled);
 }
 
 void Inhaled::Update(EnemyBase& enemy)

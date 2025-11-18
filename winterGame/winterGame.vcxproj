@@ -143,6 +143,7 @@
     <ClCompile Include="Base\EnemyBase.cpp" />
     <ClCompile Include="Base\GameObject.cpp" />
     <ClCompile Include="Actor\Inhale.cpp" />
+    <ClCompile Include="System\Camera.cpp" />
     <ClCompile Include="Scene\GameoverScene.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="System\Geometry.cpp" />
@@ -158,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Base\EnemyBase.h" />
+    <ClInclude Include="System\Camera.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Base\GameObject.h" />
     <ClInclude Include="Actor\Inhale.h" />
