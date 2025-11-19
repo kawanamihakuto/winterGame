@@ -6,6 +6,30 @@ class Player;
 class Input;
 class Rect;
 class Camera;
+
+//プレイヤー関連の定数群
+namespace PlayerConstant
+{
+	//プレイヤーの幅
+	constexpr int kWidth = 32;
+	//プレイヤーの高さ
+	constexpr int kHeight = 32;
+	//プレイヤーの拡大倍率
+	constexpr float kSize = 2.0f;
+	//仮の地面
+	constexpr int kGround = 400;
+	//横方向の移動スピード
+	constexpr float kMoveSpeed = 1.0f;
+	//重力
+	constexpr float kGravity = 0.4f;
+	//ジャンプの強さ
+	constexpr float kJumpPower = 8.0f;
+	//横方向のマックススピード
+	constexpr float kMaxSpeed = 3.0f;
+	//摩擦の強さ
+	constexpr float kFriction = 0.90f;
+}
+
 /// <summary>
 /// プレイヤーの各画像
 /// </summary>
@@ -119,83 +143,3 @@ private:
 	//右を向いているかどうか
 	bool isRight_;
 };
-/// <summary>
-/// プレイヤーステートの基底クラス
-/// </summary>
-class PlayerStateBase
-{
-public:
-	virtual ~PlayerStateBase() = default;
-	/// <summary>
-	/// その状態になった時、１回だけ呼ばれる関数
-	/// </summary>
-	/// <param name="player">プレイヤーの参照</param>
-	virtual void Enter(Player& player){};
-	/// <summary>
-	/// その状態のとき毎フレーム呼ばれる関数
-	/// </summary>
-	/// <param name="player">プレイヤーの参照</param>
-	/// <param name="input">入力を受け取るためのInputの参照</param>
-	virtual void Update(Player& player,Input& input) = 0;
-	/// <summary>
-	/// その状態が終わる時、１回だけ呼ばれる関数
-	/// </summary>
-	/// <param name="player">プレイヤーの参照</param>
-	virtual void Exit(Player& player) {};
-};
-/// <summary>
-/// Idle状態クラス
-/// </summary>
-class IdleState : public PlayerStateBase
-{
-public:
-	void Enter(Player& player)override;
-	void Update(Player& player,Input&input) override;
-};
-/// <summary>
-/// Move状態クラス
-/// </summary>
-class MoveState : public PlayerStateBase
-{
-public:
-	void Enter(Player& player)override;
-	void Update(Player& player, Input& input) override;
-};
-/// <summary>
-/// Jamp状態クラス
-/// </summary>
-class JumpState : public PlayerStateBase
-{
-public:
-	void Enter(Player& player)override;
-	void Update(Player& player, Input& input) override;
-};
-/// <summary>
-/// ヒット状態クラス
-/// </summary>
-class HitState :public PlayerStateBase
-{
-public:
-	void Enter(Player& player)override;
-	void Update(Player& player,Input& inpit)override;
-	void Exit(Player& player)override;
-};
-/// <summary>
-/// 吸い込み状態クラス
-/// </summary>
-class InhaleState : public PlayerStateBase
-{
-public:
-	void Enter(Player& player)override;
-	void Update(Player& player, Input& input) override;
-	void Exit(Player& player)override;
-};
-
-class MouthHoldState : public PlayerStateBase
-{
-public:
-	void Enter(Player& player)override;
-	void Update(Player& player, Input& input) override;
-	void Exit(Player& player)override;
-};
-

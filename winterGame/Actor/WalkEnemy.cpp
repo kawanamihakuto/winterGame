@@ -4,6 +4,7 @@
 #include"../Player/Player.h"
 #include<memory>
 #include"../System/Camera.h"
+#include"../Player/PlayerHitState.h"
 namespace
 {
 	constexpr int kHp = 1;
@@ -105,8 +106,13 @@ void Walk::Update(EnemyBase& enemy)
 		//エネミーの状態遷移
 		enemy.ChangeState(std::make_unique<Death>());
 		//プレイヤーの状態遷移
-		player->ChangeState(std::make_unique<HitState>());
+		player->ChangeState(std::make_unique<PlayerHitState>());
 	}
+}
+
+void Walk::Exit(EnemyBase& enemy)
+{
+
 }
 
 void Death::Enter(EnemyBase& enemy)
@@ -154,6 +160,9 @@ void None::Enter(EnemyBase& enemy)
 void None::Update(EnemyBase& enemy)
 {
 }
+void None::Exit(EnemyBase& enemy)
+{
+}
 
 void Inhaled::Enter(EnemyBase& enemy)
 {
@@ -165,5 +174,9 @@ void Inhaled::Update(EnemyBase& enemy)
 {
 	enemy.Gravity();
 	enemy.ApplyMovement();
+}
+void Inhaled::Exit(EnemyBase& enemy)
+{
+	
 }
 

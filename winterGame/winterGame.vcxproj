@@ -143,6 +143,13 @@
     <ClCompile Include="Base\EnemyBase.cpp" />
     <ClCompile Include="Base\GameObject.cpp" />
     <ClCompile Include="Actor\Inhale.cpp" />
+    <ClCompile Include="Player\PlayerMouthHoldState.cpp" />
+    <ClCompile Include="Player\PlayerInhaleState.cpp" />
+    <ClCompile Include="Player\PlayerHitState.cpp" />
+    <ClCompile Include="Player\PlayerJumpState.cpp" />
+    <ClCompile Include="Player\PlayerMoveState.cpp" />
+    <ClCompile Include="Player\PlayerIdleState.cpp" />
+    <ClCompile Include="Player\PlayerStateBase.cpp" />
     <ClCompile Include="System\Lerp.cpp" />
     <ClCompile Include="System\Camera.cpp" />
     <ClCompile Include="Scene\GameoverScene.cpp" />
@@ -160,6 +167,13 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Base\EnemyBase.h" />
+    <ClInclude Include="Player\PlayerMouthHoldState.h" />
+    <ClInclude Include="Player\PlayerInhaleState.h" />
+    <ClInclude Include="Player\PlayerHitState.h" />
+    <ClInclude Include="Player\PlayerJumpState.h" />
+    <ClInclude Include="Player\PlayerMoveState.h" />
+    <ClInclude Include="Player\PlayerIdleState.h" />
+    <ClInclude Include="Player\PlayerStateBase.h" />
     <ClInclude Include="System\Lerp.h" />
     <ClInclude Include="System\Camera.h" />
     <ClInclude Include="Game.h" />

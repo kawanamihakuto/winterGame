@@ -42,23 +42,13 @@ private:
 };
 
 /// <summary>
-/// ステート基底クラス
-/// </summary>
-class WalkEnemyStateBase
-{
-public:
-	virtual ~WalkEnemyStateBase() = default;
-	virtual void Enter(WalkEnemy& enemy) {};
-	virtual void Update(WalkEnemy& enemy) = 0;
-	virtual void Exit(WalkEnemy& enemy) {};
-};
-/// <summary>
 /// Walk状態クラス
 /// </summary>
 class Walk : public EnemyStateBase
 {
 	void Enter(EnemyBase& enemy) override;
 	void Update(EnemyBase& enemy) override;
+	void Exit(EnemyBase& enemy) override;
 };
 /// <summary>
 /// Death状態クラス
@@ -77,6 +67,7 @@ class None : public EnemyStateBase
 {
 	void Enter(EnemyBase& enemy) override;
 	void Update(EnemyBase& enemy) override;
+	void Exit(EnemyBase& enemy) override;
 };
 /// <summary>
 /// 吸い込まれている状態クラス
@@ -85,5 +76,6 @@ class Inhaled : public EnemyStateBase
 {
 	void Enter(EnemyBase& enemy) override;
 	void Update(EnemyBase& enemy) override;
+	void Exit(EnemyBase& enemy) override;
 };
 

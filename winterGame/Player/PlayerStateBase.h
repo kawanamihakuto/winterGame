@@ -1,0 +1,28 @@
+#pragma once
+class Player;
+class Input;
+/// <summary>
+/// プレイヤーステートの基底クラス
+/// </summary>
+class PlayerStateBase
+{
+public:
+	virtual ~PlayerStateBase() = default;
+	/// <summary>
+	/// その状態になった時、１回だけ呼ばれる関数
+	/// </summary>
+	/// <param name="player">プレイヤーの参照</param>
+	virtual void Enter(Player& player) = 0;
+	/// <summary>
+	/// その状態のとき毎フレーム呼ばれる関数
+	/// </summary>
+	/// <param name="player">プレイヤーの参照</param>
+	/// <param name="input">入力を受け取るためのInputの参照</param>
+	virtual void Update(Player& player, Input& input) = 0;
+	/// <summary>
+	/// その状態が終わる時、１回だけ呼ばれる関数
+	/// </summary>
+	/// <param name="player">プレイヤーの参照</param>
+	virtual void Exit(Player& player) = 0;
+};
+

@@ -103,9 +103,9 @@ class EnemyStateBase
 {
 public:
 	virtual ~EnemyStateBase() = default;
-	virtual void Enter(EnemyBase& enemy) {};
+	virtual void Enter(EnemyBase& enemy)  = 0;
 	virtual void Update(EnemyBase& enemy) = 0;
-	virtual void Exit(EnemyBase& enemy) {};
+	virtual void Exit(EnemyBase& enemy)  = 0;
 };
 
 
