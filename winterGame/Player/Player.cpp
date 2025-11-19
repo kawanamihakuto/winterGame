@@ -21,7 +21,8 @@ Player::Player(PlayerImages& imgs) :
 	rectColor_(0x0000ff),
 	isGenerateInhale_(false),
 	isDeleteInhale_(false),
-	isRight_(true)
+	isRight_(true),
+	isInhaleHold_(false)
 {
 	state_ = std::make_unique<PlayerState::IdleState>();
 }
@@ -65,7 +66,7 @@ void Player::Draw(Camera& camera)
 void Player::ChangeState(std::unique_ptr<StateBase> newState)
 {
 	//ƒvƒŒƒCƒ„[‚Ìó‘Ô‚ðØ‚è‘Ö‚¦‚éˆ—
-	if (state_)
+	if (state_ != newState)
 	{
 		//Œ»Ý‚Ìó‘Ô‚ÌExit‚ðŒÄ‚Ô
 		state_->Exit(*this);

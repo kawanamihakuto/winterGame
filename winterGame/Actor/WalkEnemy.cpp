@@ -172,6 +172,15 @@ void Inhaled::Enter(EnemyBase& enemy)
 
 void Inhaled::Update(EnemyBase& enemy)
 {
+	Rect& rect = enemy.GetHitRect();
+	auto player = enemy.GetPlayer();
+	Rect& playerRect = player->GetHitRect();
+	//当たり判定
+	if (rect.IsCollision(playerRect))
+	{
+		//エネミーの状態遷移
+		enemy.ChangeState(std::make_unique<Death>());
+	}
 	enemy.Gravity();
 	enemy.ApplyMovement();
 }

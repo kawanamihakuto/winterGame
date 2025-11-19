@@ -20,17 +20,21 @@ draw_(&GameScene::FadeDraw)
 	//idle
 	//move
 	//jump
+	//inhale(吸い込み)
+	//mouthHold(ほおばり)
 	playerImgs_ = 
 	{
 		LoadGraph("data/player/Idle.png"),
 		LoadGraph("data/player/Move.png"),
 		LoadGraph("data/player/Jump.png"),
-		LoadGraph("data/player/Inhale.png")
+		LoadGraph("data/player/Inhale.png"),
+		LoadGraph("data/player/MouthHold.png")
 	};
 	assert(playerImgs_.idle>-1);
 	assert(playerImgs_.move>-1);
 	assert(playerImgs_.jump>-1);
 	assert(playerImgs_.inhale>-1);
+	assert(playerImgs_.mouthHold>-1);
 	//歩くエネミーの画像をロード
 	//walk
 	//Death
@@ -63,9 +67,11 @@ GameScene::~GameScene()
 	DeleteGraph(playerImgs_.move);
 	DeleteGraph(playerImgs_.jump);
 	DeleteGraph(playerImgs_.inhale);
+	DeleteGraph(playerImgs_.mouthHold);
 	//歩く敵
 	DeleteGraph(EnemyImgs_.walk_walk);
 	DeleteGraph(EnemyImgs_.walk_death);
+	DeleteGraph(EnemyImgs_.walk_inhaled); 
 }
 
 void GameScene::FadeInUpdate(Input&)

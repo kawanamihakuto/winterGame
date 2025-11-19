@@ -8,6 +8,7 @@
 #include"../System/Camera.h"
 #include"WalkEnemy.h"
 #include"../System/Lerp.h"
+#include"../Player/PlayerState/InhaleHoldState.h"
 //吸い込み範囲の幅
 constexpr int kWidth = 32;
 //吸い込み範囲の高さ
@@ -15,7 +16,7 @@ constexpr int kHeight = 32;
 //吸い込み範囲の拡大倍率
 constexpr int kSize = 2;
 //プレイヤーからのoffsetX
-constexpr int kOffsetX = 32;
+constexpr int kOffsetX = 48;
 //吸い込むときのLerpのtの値
 constexpr float kInhaleLerpT = 0.05f;
 
@@ -56,13 +57,18 @@ void Inhale::Update(std::shared_ptr<Player>player,std::vector<std::shared_ptr<En
 	//プレイヤーの高さに合わせる
 	position_.y = player->GetPosition().y;
 
+	//プレイヤーの吸い込み状態の継続をいったんfalseにする
+	player->SetIsInhaledHold(false);
 	Lerp lerp;
 	for (auto& enemies : enemies)
 	{
 		//すべてのエネミーとの当たり判定をチェック
 		if (rect_.IsCollision(enemies->GetHitRect()))
 		{
-			//エネミーの状態を切り替える
+			//1体でもエネミーが吸い込み範囲にいたら
+			// プレイヤーに吸い込み状態を継続させる
+			player->SetIsInhaledHold(true);
+			//エネミーのステートを変更
 			enemies->ChangeState(std::make_unique<Inhaled>());
 			//吸い込まれている敵の挙動をLerpで実装
 			enemies->SetPosition(lerp.VLerp(enemies->GetPosition(), player->GetPosition(), kInhaleLerpT));

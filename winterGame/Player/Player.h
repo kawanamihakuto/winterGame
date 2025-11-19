@@ -39,6 +39,7 @@ struct PlayerImages
 	int move;
 	int jump;
 	int inhale;
+	int mouthHold;
 };
 /// <summary>
 /// プレイヤークラス
@@ -46,8 +47,7 @@ struct PlayerImages
 class Player :public GameObject
 {
 public:
-	//現在のステートを入れる変数
-	std::unique_ptr<StateBase>state_;
+
 
 	Player(PlayerImages& imgs);
 	~Player();
@@ -104,6 +104,11 @@ public:
 	//右を向いているかどうかのセッター
 	void SetIsRight(bool isRight) { isRight_ = isRight; }
 
+	//吸い込み状態を継続するかどうかのゲッター
+	bool GetIsInhaledHold() { return isInhaleHold_; }
+	//吸い込み状態を継続するかどうかのセッター
+	void SetIsInhaledHold(bool isInhaledHold) { isInhaleHold_ = isInhaledHold; }
+
 	/// <summary>
 	/// ステート切り替えの関数
 	/// </summary>
@@ -124,6 +129,8 @@ public:
 	/// </summary>
 	void UpdatePhysics();
 private:
+	//現在のステートを入れる変数
+	std::unique_ptr<StateBase>state_;
 	//速度ベクトル
 	Vector2 velocity_;
 	//地面にいるかどうか
@@ -142,4 +149,6 @@ private:
 	bool isDeleteInhale_;
 	//右を向いているかどうか
 	bool isRight_;
+	//吸い込み状態を継続するかどうか
+	bool isInhaleHold_;
 };

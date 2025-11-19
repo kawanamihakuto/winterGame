@@ -2,6 +2,7 @@
 #include"../Player.h"
 #include"../../System/Input.h"
 #include"IdleState.h"
+#include"InhaleHoldState.h"
 #include<memory>
 void PlayerState::InhaleState::Enter(Player& player)
 {
@@ -19,13 +20,18 @@ void PlayerState::InhaleState::Update(Player& player, Input& input)
 	if (!input.IsPressed("inhale"))
 	{
 		player.ChangeState(std::make_unique<IdleState>());
+		player.SetDeleteInhale(true);
 	}
-
+	//吸い込み状態の継続がtrueになったら
+	if (player.GetIsInhaledHold())
+	{
+		//吸い込み継続状態にする
+		player.ChangeState(std::make_unique<PlayerState::InhaleHoldState>());
+	}
 	player.UpdatePhysics();
 }
 
 void PlayerState::InhaleState::Exit(Player& player)
 {
-	//吸い込みオブジェクトの削除をリクエストする
-	player.SetDeleteInhale(true);
+	
 }
