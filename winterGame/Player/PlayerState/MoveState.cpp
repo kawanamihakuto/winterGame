@@ -1,17 +1,17 @@
-#include "PlayerMoveState.h"
-#include"Player.h"
-#include"../System/Input.h"
-#include"PlayerIdleState.h"
-#include"PlayerJumpState.h"
-#include"PlayerInhaleState.h"
+#include "MoveState.h"
+#include"../Player.h"
+#include"../../System/Input.h"
+#include"IdleState.h"
+#include"JumpState.h"
+#include"InhaleState.h"
 
-void PlayerMoveState::Enter(Player& player)
+void PlayerState::MoveState::Enter(Player& player)
 {
 	//画像をMoveに変更
 	player.SetGraph(player.GetImages().move);
 }
 
-void PlayerMoveState::Update(Player& player, Input& input)
+void PlayerState::MoveState::Update(Player& player, Input& input)
 {
 	Vector2 vel = player.GetVelocity();
 	//左右の入力で速度を変更
@@ -28,13 +28,13 @@ void PlayerMoveState::Update(Player& player, Input& input)
 	//ジャンプ入力があったらJump状態に切り替える
 	if (input.IsPressed("jump"))
 	{
-		player.ChangeState(std::make_unique<PlayerJumpState>());
+		player.ChangeState(std::make_unique<JumpState>());
 		return;
 	}
 	//吸い込み入力があったらInhale状態に切り替える
 	if (input.IsPressed("inhale"))
 	{
-		player.ChangeState(std::make_unique<PlayerInhaleState>());
+		player.ChangeState(std::make_unique<InhaleState>());
 		return;
 	}
 
@@ -56,12 +56,12 @@ void PlayerMoveState::Update(Player& player, Input& input)
 	//速度がほぼ0になったらIdle状態に切り替える
 	if (vel.x <= 0.1f && vel.x >= -0.1)
 	{
-		player.ChangeState(std::make_unique<PlayerIdleState>());
+		player.ChangeState(std::make_unique<IdleState>());
 	}
 
 	player.UpdatePhysics();
 }
-void PlayerMoveState::Exit(Player& player)
+void PlayerState::MoveState::Exit(Player& player)
 {
 
 }

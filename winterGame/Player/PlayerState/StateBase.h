@@ -4,10 +4,10 @@ class Input;
 /// <summary>
 /// プレイヤーステートの基底クラス
 /// </summary>
-class PlayerStateBase
+class StateBase
 {
 public:
-	virtual ~PlayerStateBase() = default;
+	virtual ~StateBase() = default;
 	/// <summary>
 	/// その状態になった時、１回だけ呼ばれる関数
 	/// </summary>

@@ -4,12 +4,12 @@
 #include"../System/Rect.h"
 #include"../System/Input.h"
 #include"../System/Camera.h"
-#include"PlayerIdleState.h"
-#include"PlayerMoveState.h"
-#include"PlayerJumpState.h"
-#include"PlayerHitState.h"
-#include"PlayerInhaleState.h"
-#include"PlayerMouthHoldState.h"
+#include"PlayerState/IdleState.h"
+#include"PlayerState/MoveState.h"
+#include"PlayerState/JumpState.h"
+#include"PlayerState/HitState.h"
+#include"PlayerState/InhaleState.h"
+#include"PlayerState/MouthHoldState.h"
 
 Player::Player(PlayerImages& imgs) :
 	velocity_{ 0.0f,0.0f },
@@ -23,7 +23,7 @@ Player::Player(PlayerImages& imgs) :
 	isDeleteInhale_(false),
 	isRight_(true)
 {
-	state_ = std::make_unique<PlayerIdleState>();
+	state_ = std::make_unique<PlayerState::IdleState>();
 }
 
 Player::~Player()
@@ -62,7 +62,7 @@ void Player::Draw(Camera& camera)
 #endif // _DEBUG
 }
 
-void Player::ChangeState(std::unique_ptr<PlayerStateBase> newState)
+void Player::ChangeState(std::unique_ptr<StateBase> newState)
 {
 	//ƒvƒŒƒCƒ„[‚Ìó‘Ô‚ğØ‚è‘Ö‚¦‚éˆ—
 	if (state_)

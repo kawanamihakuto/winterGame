@@ -1,10 +1,10 @@
-#include "PlayerJumpState.h"
-#include"Player.h"
-#include"../System/Input.h"
-#include"PlayerIdleState.h"
-#include"PlayerMoveState.h"
-#include"PlayerInhaleState.h"
-void PlayerJumpState::Enter(Player& player)
+#include "JumpState.h"
+#include"../Player.h"
+#include"../../System/Input.h"
+#include"IdleState.h"
+#include"MoveState.h"
+#include"InhaleState.h"
+void PlayerState::JumpState::Enter(Player& player)
 {
 	//âÊëúÇJumpÇ…ïœçX
 	player.SetGraph(player.GetImages().jump);
@@ -14,7 +14,7 @@ void PlayerJumpState::Enter(Player& player)
 	player.SetVelocity(vel);
 }
 
-void PlayerJumpState::Update(Player& player, Input& input)
+void PlayerState::JumpState::Update(Player& player, Input& input)
 {
 	Vector2 vel = player.GetVelocity();
 
@@ -49,21 +49,21 @@ void PlayerJumpState::Update(Player& player, Input& input)
 	{
 		if (input.IsPressed("left") || input.IsPressed("right"))
 		{
-			player.ChangeState(std::make_unique<PlayerMoveState>());
+			player.ChangeState(std::make_unique<MoveState>());
 		}
 		else
 		{
-			player.ChangeState(std::make_unique<PlayerIdleState>());
+			player.ChangeState(std::make_unique<IdleState>());
 		}
 	}
 	if (input.IsPressed("inhale"))
 	{
-		player.ChangeState(std::make_unique<PlayerInhaleState>());
+		player.ChangeState(std::make_unique<InhaleState>());
 	}
 
 }
 
-void PlayerJumpState::Exit(Player& player)
+void PlayerState::JumpState::Exit(Player& player)
 {
 
 }

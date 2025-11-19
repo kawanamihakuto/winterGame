@@ -1,7 +1,7 @@
 #pragma once
 #include "../Base/GameObject.h"
 #include<memory>
-class PlayerStateBase;
+class StateBase;
 class Player;
 class Input;
 class Rect;
@@ -47,7 +47,7 @@ class Player :public GameObject
 {
 public:
 	//現在のステートを入れる変数
-	std::unique_ptr<PlayerStateBase>state_;
+	std::unique_ptr<StateBase>state_;
 
 	Player(PlayerImages& imgs);
 	~Player();
@@ -108,7 +108,7 @@ public:
 	/// ステート切り替えの関数
 	/// </summary>
 	/// <param name="newState">切り替えるステート</param>
-	void ChangeState(std::unique_ptr<PlayerStateBase>newState);
+	void ChangeState(std::unique_ptr<StateBase>newState);
 
 	/// <summary>
 	/// 重力用関数

@@ -66,25 +66,28 @@
     <ClCompile Include="System\Lerp.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerStateBase.cpp">
+    <ClCompile Include="Player\PlayerState\StateBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerIdleState.cpp">
+    <ClCompile Include="Player\PlayerState\IdleState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerMoveState.cpp">
+    <ClCompile Include="Player\PlayerState\MoveState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerJumpState.cpp">
+    <ClCompile Include="Player\PlayerState\JumpState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerHitState.cpp">
+    <ClCompile Include="Player\PlayerState\HitState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerInhaleState.cpp">
+    <ClCompile Include="Player\PlayerState\InhaleState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerMouthHoldState.cpp">
+    <ClCompile Include="Player\PlayerState\MouthHoldState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerState\InhaleHoldState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,25 +143,28 @@
     <ClInclude Include="System\Lerp.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerStateBase.h">
+    <ClInclude Include="Player\PlayerState\StateBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerIdleState.h">
+    <ClInclude Include="Player\PlayerState\IdleState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerMoveState.h">
+    <ClInclude Include="Player\PlayerState\MoveState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerJumpState.h">
+    <ClInclude Include="Player\PlayerState\JumpState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerHitState.h">
+    <ClInclude Include="Player\PlayerState\HitState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerInhaleState.h">
+    <ClInclude Include="Player\PlayerState\InhaleState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerMouthHoldState.h">
+    <ClInclude Include="Player\PlayerState\MouthHoldState.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerState\InhaleHoldState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

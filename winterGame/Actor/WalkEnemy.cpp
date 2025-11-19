@@ -4,7 +4,7 @@
 #include"../Player/Player.h"
 #include<memory>
 #include"../System/Camera.h"
-#include"../Player/PlayerHitState.h"
+#include"../Player/PlayerState/HitState.h"
 namespace
 {
 	constexpr int kHp = 1;
@@ -106,7 +106,7 @@ void Walk::Update(EnemyBase& enemy)
 		//エネミーの状態遷移
 		enemy.ChangeState(std::make_unique<Death>());
 		//プレイヤーの状態遷移
-		player->ChangeState(std::make_unique<PlayerHitState>());
+		player->ChangeState(std::make_unique<PlayerState::HitState>());
 	}
 }
 
