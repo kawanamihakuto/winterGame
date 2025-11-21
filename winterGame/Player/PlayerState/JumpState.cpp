@@ -9,12 +9,12 @@ void PlayerState::JumpState::Enter(Player& player)
 	switch (player.GetMouthState())
 	{
 	case MouthState::Empty:
-		//‰æ‘œ‚ğJump‚É•ÏX
-		player.SetGraph(player.GetImages().jump);
+		//Œû‚ğ•Â‚¶‚é
+		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthClosed);
 		break;
 	case MouthState::Holding:
-		//‰æ‘œ‚ğ
-		player.SetGraph(player.GetImages().mouthHoldJump);
+		//‚Ù‚¨‚Î‚è
+		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthFull);
 		break;
 	}
 

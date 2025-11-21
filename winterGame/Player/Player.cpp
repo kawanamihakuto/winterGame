@@ -9,22 +9,24 @@
 #include"PlayerState/JumpState.h"
 #include"PlayerState/HitState.h"
 #include"PlayerState/InhaleState.h"
-Player::Player(PlayerImages& imgs) :
+Player::Player(int graphHandle) :
 	velocity_{ 0.0f,0.0f },
 	GameObject({ 320,240 }),
 	isGround_(true),
-	images_(imgs),
-	currentImage_(imgs.idle),
+	currentImage_(graphHandle),
 	hp_(5),
 	rectColor_(0x0000ff),
 	isGenerateInhale_(false),
 	isDeleteInhale_(false),
 	isRight_(true),
 	isInhaleHold_(false),
-	mouthState_(MouthState::Empty)
+	mouthState_(MouthState::Empty),
+	graphCutNo_(PlayerGraphCutNo::mouthClosed)
 {
 	state_ = std::make_unique<PlayerState::IdleState>();
 }
+
+
 
 Player::~Player()
 {
@@ -51,7 +53,7 @@ void Player::Draw(Camera& camera)
 {
 	//プレイヤー表示
 	DrawRectRotaGraph(position_.x + camera.GetDrawOffset().x, position_.y + camera.GetDrawOffset().y,
-		0, 0, PlayerConstant::kWidth, PlayerConstant::kHeight,
+		16 * static_cast<int>(graphCutNo_), 0, PlayerConstant::kWidth, PlayerConstant::kHeight,
 		PlayerConstant::kSize, 0, currentImage_, true,!isRight_);
 #ifdef _DEBUG
 	//当たり判定表示

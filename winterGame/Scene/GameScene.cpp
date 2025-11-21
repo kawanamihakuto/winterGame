@@ -16,6 +16,9 @@ GameScene::GameScene(SceneController& controller) :Scene(controller),
 update_(&GameScene::FadeInUpdate),
 draw_(&GameScene::FadeDraw)
 {
+
+	graphHandle_ = LoadGraph("data/kirby.png");
+	assert(graphHandle_ > -1);
 	//プレイヤーの画像をロード
 	//idle
 	//move
@@ -54,7 +57,7 @@ draw_(&GameScene::FadeDraw)
 	assert(EnemyImgs_.walk_inhaled>-1);
 
 	//プレイヤー生成
-	player_ = std::make_shared<Player>(playerImgs_);
+	player_ = std::make_shared<Player>(graphHandle_);
 	//歩く敵生成
 	std::shared_ptr<WalkEnemy> we = std::make_shared<WalkEnemy>(Vector2{ 600,200 }, EnemyImgs_, player_);
 	enemies_.push_back(we);
@@ -67,6 +70,7 @@ draw_(&GameScene::FadeDraw)
 GameScene::~GameScene()
 {
 	//画像をすべてデリート
+	DeleteGraph(graphHandle_);
 	//プレイヤー
 	DeleteGraph(playerImgs_.idle);
 	DeleteGraph(playerImgs_.move);

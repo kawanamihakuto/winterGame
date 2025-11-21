@@ -10,11 +10,11 @@ class Camera;
 namespace PlayerConstant
 {
 	//プレイヤーの幅
-	constexpr int kWidth = 32;
+	constexpr int kWidth = 16;
 	//プレイヤーの高さ
-	constexpr int kHeight = 32;
+	constexpr int kHeight = 16;
 	//プレイヤーの拡大倍率
-	constexpr float kSize = 2.0f;
+	constexpr float kSize = 3.0f;
 	//仮の地面
 	constexpr int kGround = 400;
 	//横方向の移動スピード
@@ -30,19 +30,6 @@ namespace PlayerConstant
 }
 
 /// <summary>
-/// プレイヤーの各画像
-/// </summary>
-struct PlayerImages
-{
-	int idle;
-	int move;
-	int jump;
-	int inhale;
-	int mouthHoldIdle;
-	int mouthHoldMove;
-	int mouthHoldJump;
-};
-/// <summary>
 /// プレイヤーがほおばっているかどうか
 /// </summary>
 enum class MouthState
@@ -50,7 +37,15 @@ enum class MouthState
 	Empty,
 	Holding
 };
-
+/// <summary>
+/// プレイヤーの画像の切り取りラインをenumで決める
+/// </summary>
+enum class PlayerGraphCutNo
+{
+	mouthClosed,
+	mouthOpen,
+	mouthFull
+};
 /// <summary>
 /// プレイヤークラス
 /// </summary>
@@ -59,7 +54,7 @@ class Player :public GameObject
 public:
 
 
-	Player(PlayerImages& imgs);
+	Player(int GraphHandle);
 	~Player();
 
 	void Init()override;
@@ -96,9 +91,6 @@ public:
 	//HPのセッター
 	void SetHp(int hp) { hp_ = hp; }
 	
-	//プレイヤーの画像すべてのゲッター
-	const PlayerImages& GetImages()const { return images_; }
-
 	//吸い込みオブジェクトを生成するかのゲッター
 	bool GetGenerateInhale() { return isGenerateInhale_; }
 	//吸い込みオブジェクトを生成するかのセッター
@@ -123,6 +115,8 @@ public:
 	MouthState GetMouthState() { return mouthState_; }
 	//ほおばっているかどうかのセッター
 	void SetMouthState(MouthState mouthState) { mouthState_ = mouthState; }
+	//プレイヤーの画像の切り取り位置のセッター
+	void SetPlayerGraphCutNo(PlayerGraphCutNo pgcn) { graphCutNo_ = pgcn; }
 
 	/// <summary>
 	/// ステート切り替えの関数
@@ -150,8 +144,6 @@ private:
 	Vector2 velocity_;
 	//地面にいるかどうか
 	bool isGround_;
-	//画像ハンドルをまとめて持つ
-	PlayerImages images_;
 	//現在の画像
 	int currentImage_;
 	//プレイヤーのHP
@@ -168,4 +160,6 @@ private:
 	bool isInhaleHold_;
 	//ほおばっているかどうかのステート
 	MouthState mouthState_;
+	//プレイヤーの画像切り取りラインを入れる変数
+	PlayerGraphCutNo graphCutNo_;
 };

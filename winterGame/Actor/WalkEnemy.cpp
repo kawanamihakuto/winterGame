@@ -20,15 +20,15 @@ namespace
 
 	constexpr float kNockbackSpeed = 4.0f;
 	constexpr float kNockBackTimeMax = 20;
+
+	constexpr int kWalkEnemyGraphCutRow = 3;
 }
 
-WalkEnemy::WalkEnemy(Vector2 pos,EnemyImages& imgs,std::shared_ptr<Player>player) :
-	images_(imgs),
-	EnemyBase(kHp,{0,0}, pos,imgs,images_.walk_walk,player,false,0)
+WalkEnemy::WalkEnemy(Vector2 pos,int graphHandle,std::shared_ptr<Player>player) :
+	EnemyBase(kHp,{0,0}, pos,graphHandle,player,false,0)
 
 {
 	state_ = std::make_unique<Walk>();
-	currentImage_ = images_.walk_walk;
 }
 
 WalkEnemy::~WalkEnemy()
@@ -52,8 +52,8 @@ void WalkEnemy::Draw()
 void WalkEnemy::Draw(Camera& camera)
 {
 	DrawRectRotaGraph(position_.x +camera.GetDrawOffset().x, position_.y + camera.GetDrawOffset().y,
-		0, 0, kWidth, kHeight,
-		kSize,0, currentImage_, true);
+		kWidth * static_cast<int>(graphCutNo_), 0, kWidth, kHeight,
+		kSize,0, graphHandle_, true);
 	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (kHeight * 0.5f)+camera.GetDrawOffset().y, kWidth, kHeight);
 	rect_.Draw(0x0000ff,false);
 }
@@ -68,7 +68,7 @@ void WalkEnemy::ChangeState(std::unique_ptr<EnemyStateBase>newState)
 
 void Walk::Enter(EnemyBase& enemy)
 {
-	enemy.SetGraph(enemy.GetImages().walk_walk);
+	enemy.set
 }
 void Walk::Update(EnemyBase& enemy)
 {

@@ -22,7 +22,7 @@ public:
 
 	std::unique_ptr<EnemyStateBase>state_;
 
-	EnemyBase(const int hp, const Vector2 vel, const Vector2 pos,EnemyImages& imgs ,const int currentImage, std::shared_ptr<Player>player, bool isPlayerOnRight,int nockBackTime);
+	EnemyBase(const int hp, const Vector2 vel, const Vector2 pos,const int handle , std::shared_ptr<Player>player, bool isPlayerOnRight,int nockBackTime);
 	virtual~EnemyBase();
 	virtual void Init()override = 0;
 	virtual void Update()override = 0;
@@ -43,8 +43,8 @@ public:
 	Rect& GetHitRect() { return rect_; }
 
 	//<画像ハンドルのセッター>
-	int GetGraph() { return currentImage_; }
-	void SetGraph(int handle) { currentImage_ = handle; }
+	int GetGraph() { return graphHandle_; }
+	void SetGraph(int handle) { graphHandle_ = handle; }
 
 	//プレイヤーが右にいるかどうかのフラグのゲッター・セッター
 	bool GetPlayerOnRight() { return isPlayerOnRight_; }
@@ -53,17 +53,12 @@ public:
 	//プレイヤーの参照のゲッター
 	std::shared_ptr<Player> GetPlayer()const { return player_; }
 
-	//imagesのゲッター
-	const EnemyImages& GetImages() const { return images_; }
-
 	int GetNockBackTime() { return nockBackTime_; }
 	void SetNockBackTime(int time) { nockBackTime_ = time; }
 
 	//死んでいるかどうかフラグのゲッター・セッター
 	bool GetIsDead() { return isDead_; }
 	void SetIsDead(bool isDead) { isDead_ = isDead; }
-
-	
 
 	/// <summary>
 	/// 重力用関数
@@ -83,11 +78,10 @@ protected:
 
 	bool isDead_;
 
-	//現在の画像
-	int currentImage_;
+	//画像ハンドル
+	int graphHandle_;
 
-	EnemyImages images_;
-
+	//プレイヤーのポインタを入れる変数
 	std::shared_ptr<Player>player_;
 
 	//プレイヤーが右にいるかどうかのフラグ

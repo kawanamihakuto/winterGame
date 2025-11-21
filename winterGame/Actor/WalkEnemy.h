@@ -9,14 +9,13 @@ class Rect;
 class Player;
 class Camera;
 /// <summary>
-/// WalkEnemyの各画像
+/// 歩くだけの敵の画像の切り取りラインをenumで決める
 /// </summary>
-struct WalkEnemyImages
+enum class WalkEnemyGraphCutNo
 {
-	int walk;
-	int death;
+	one,
+	two
 };
-
 /// <summary>
 /// 歩く敵クラス
 /// </summary>
@@ -26,7 +25,7 @@ public:
 	//現在のステートを入れる変数
 //	std::unique_ptr<WalkEnemyStateBase> state_;
 
-	WalkEnemy(Vector2 pos,EnemyImages& imgs,std::shared_ptr<Player>player);
+	WalkEnemy(Vector2 pos,int graphHandle,std::shared_ptr<Player>player);
 	~WalkEnemy ();
 	void Init()override;
 	void Update() override;
@@ -35,10 +34,12 @@ public:
 
 	void ChangeState(std::unique_ptr<EnemyStateBase>newState);
 	Vector2 GetPosition() const { return position_; }
+
+	//歩くだけの敵の画像の切り取り位置のセッター
+	void SetWalkEnemyGraphCutNo(WalkEnemyGraphCutNo pgcn) { graphCutNo_ = pgcn; }
 private:
-	//画像ハンドルをまとめて持つ
-	EnemyImages images_;
-	
+	//歩くだけの敵の画像切り取り位置を決める
+	WalkEnemyGraphCutNo graphCutNo_;
 };
 
 /// <summary>

@@ -7,7 +7,7 @@
 void PlayerState::InhaleState::Enter(Player& player)
 {
 	//画像をInhaleに変更
-	player.SetGraph(player.GetImages().inhale);
+	player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthOpen);
 	//吸い込みオブジェクトの生成をリクエストする
 	player.SetGenerateInhale(true);
 	//横方向のvelocityを0にする

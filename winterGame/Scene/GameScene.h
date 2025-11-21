@@ -8,6 +8,7 @@ class Player;
 class EnemyBase;
 class Inhale;
 class Camera;
+
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -50,6 +51,8 @@ private:
 	PlayerImages playerImgs_;
 	//敵の画像構造体
 	EnemyImages EnemyImgs_;
+
+	int graphHandle_;
 public:
 	//コンストラクタ
 	GameScene(SceneController& controller);
