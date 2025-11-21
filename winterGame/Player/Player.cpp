@@ -57,7 +57,8 @@ void Player::Draw(Camera& camera)
 		PlayerConstant::kSize, 0, currentImage_, true,!isRight_);
 #ifdef _DEBUG
 	//当たり判定表示
-	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (PlayerConstant::kHeight / 2) + camera.GetDrawOffset().y, PlayerConstant::kWidth, PlayerConstant::kHeight);
+	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (PlayerConstant::kHeight / 2) + camera.GetDrawOffset().y,
+		PlayerConstant::kWidth * PlayerConstant::kRectSize, PlayerConstant::kHeight * PlayerConstant::kRectSize);
 	rect_.Draw(rectColor_, false);
 	//プレイヤーのHP表示
 	DrawFormatString(0, 0, 0xffffff, "%d", hp_);

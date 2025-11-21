@@ -17,6 +17,9 @@ public:
 	void Draw()override;
 	void Draw(Camera& camera);
 
-	Vector2 Vlerp(const Vector2 stert, const Vector2 end, float t);
+	bool GetIsActive() { return isActive_; }
+	void SetIsActive(bool isActive) { isActive_ = isActive; }
+private:
+	bool isActive_;
 };
 

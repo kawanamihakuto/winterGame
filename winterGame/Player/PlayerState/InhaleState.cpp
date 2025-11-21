@@ -17,7 +17,7 @@ void PlayerState::InhaleState::Enter(Player& player)
 void PlayerState::InhaleState::Update(Player& player, Input& input)
 {
 	//ƒ{ƒ^ƒ“‚ğ—£‚µ‚½‚ç‹z‚¢‚İ‚ğI‚í‚é
-	if (!input.IsPressed("inhale"))
+	if (!input.IsPressed("attack"))
 	{
 		player.ChangeState(std::make_unique<IdleState>());
 		player.SetDeleteInhale(true);

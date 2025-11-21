@@ -151,6 +151,7 @@
     <ClCompile Include="Player\PlayerState\IdleState.cpp" />
     <ClCompile Include="Player\PlayerState\StateBase.cpp" />
     <ClCompile Include="Player\PlayerState\SpitState.cpp" />
+    <ClCompile Include="Actor\Shot.cpp" />
     <ClCompile Include="System\Lerp.cpp" />
     <ClCompile Include="System\Camera.cpp" />
     <ClCompile Include="Scene\GameoverScene.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Player\PlayerState\IdleState.h" />
     <ClInclude Include="Player\PlayerState\StateBase.h" />
     <ClInclude Include="Player\PlayerState\SpitState.h" />
+    <ClInclude Include="Actor\Shot.h" />
     <ClInclude Include="System\Lerp.h" />
     <ClInclude Include="System\Camera.h" />
     <ClInclude Include="Game.h" />

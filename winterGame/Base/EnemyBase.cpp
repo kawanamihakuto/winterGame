@@ -11,7 +11,8 @@ isDead_(false),
 player_(player),
 isPlayerOnRight_(isPlayerOnRight),
 nockBackTime_(nockBackTime),
-currentImage_(handle)
+graphHandle_(handle),
+graphCutNo_(EnemyGraphCutNo::one)
 { 
 }
 

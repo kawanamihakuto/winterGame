@@ -10,10 +10,10 @@ namespace
 	constexpr int kHp = 1;
 	constexpr float kSpeed = 1.5f;
 
-	constexpr int kWidth = 32;
-	constexpr int kHeight = 32;
-	constexpr float kSize = 2.0f;
-
+	constexpr int kWidth = 16;
+	constexpr int kHeight = 16;
+	constexpr float kSize = 3.0f;
+	constexpr float kRectSize = 2.0f;
 	constexpr float kGravity = 0.5f;
 	constexpr int kGround = 400;
 	constexpr float kMaxSpeed = 1.5f;
@@ -21,8 +21,10 @@ namespace
 	constexpr float kNockbackSpeed = 4.0f;
 	constexpr float kNockBackTimeMax = 20;
 
-	constexpr int kWalkEnemyGraphCutRow = 3;
+	constexpr int kWalkEnemyGraphCutRow = 2;
+
 }
+
 
 WalkEnemy::WalkEnemy(Vector2 pos,int graphHandle,std::shared_ptr<Player>player) :
 	EnemyBase(kHp,{0,0}, pos,graphHandle,player,false,0)
@@ -52,9 +54,10 @@ void WalkEnemy::Draw()
 void WalkEnemy::Draw(Camera& camera)
 {
 	DrawRectRotaGraph(position_.x +camera.GetDrawOffset().x, position_.y + camera.GetDrawOffset().y,
-		kWidth * static_cast<int>(graphCutNo_), 0, kWidth, kHeight,
+		kWidth * static_cast<int>(graphCutNo_), kWalkEnemyGraphCutRow * kHeight, kWidth, kHeight,
 		kSize,0, graphHandle_, true);
-	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (kHeight * 0.5f)+camera.GetDrawOffset().y, kWidth, kHeight);
+	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (kHeight * 0.5f)+camera.GetDrawOffset().y,
+		kWidth * kRectSize , kHeight * kRectSize);
 	rect_.Draw(0x0000ff,false);
 }
 
@@ -68,7 +71,6 @@ void WalkEnemy::ChangeState(std::unique_ptr<EnemyStateBase>newState)
 
 void Walk::Enter(EnemyBase& enemy)
 {
-	enemy.set
 }
 void Walk::Update(EnemyBase& enemy)
 {
@@ -93,7 +95,6 @@ void Walk::Update(EnemyBase& enemy)
 	auto player = enemy.GetPlayer();
 	Vector2 pos = enemy.GetPosition();
 	Rect& rect = enemy.GetHitRect();
-//	rect.SetCenter(pos.x,pos.y + (kHeight/2),kWidth ,kHeight);
 	Rect& playerRect = player->GetHitRect();
 	//“–‚½‚è”»’è
 	if (rect.IsCollision(playerRect))
@@ -117,7 +118,6 @@ void Walk::Exit(EnemyBase& enemy)
 
 void Death::Enter(EnemyBase& enemy)
 {
-	enemy.SetGraph(enemy.GetImages().walk_death);
 }
 void Death::Update(EnemyBase& enemy)
 {
@@ -166,7 +166,6 @@ void None::Exit(EnemyBase& enemy)
 
 void Inhaled::Enter(EnemyBase& enemy)
 {
-	enemy.SetGraph(enemy.GetImages().walk_inhaled);
 	enemy.SetVelocity({ 0,0 });
 }
 

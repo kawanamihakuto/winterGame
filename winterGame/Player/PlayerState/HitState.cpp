@@ -32,7 +32,7 @@ void PlayerState::HitState::Update(Player& player, Input& input)
 		player.ChangeState(std::make_unique<PlayerState::IdleState>());
 	}
 
-	if (input.IsPressed("inhale"))
+	if (input.IsPressed("attack"))
 	{
 
 		player.ChangeState(std::make_unique<PlayerState::InhaleState>());

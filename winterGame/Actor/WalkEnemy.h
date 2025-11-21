@@ -8,14 +8,7 @@ class EnemyStatebase;
 class Rect;
 class Player;
 class Camera;
-/// <summary>
-/// 歩くだけの敵の画像の切り取りラインをenumで決める
-/// </summary>
-enum class WalkEnemyGraphCutNo
-{
-	one,
-	two
-};
+
 /// <summary>
 /// 歩く敵クラス
 /// </summary>
@@ -35,11 +28,8 @@ public:
 	void ChangeState(std::unique_ptr<EnemyStateBase>newState);
 	Vector2 GetPosition() const { return position_; }
 
-	//歩くだけの敵の画像の切り取り位置のセッター
-	void SetWalkEnemyGraphCutNo(WalkEnemyGraphCutNo pgcn) { graphCutNo_ = pgcn; }
 private:
-	//歩くだけの敵の画像切り取り位置を決める
-	WalkEnemyGraphCutNo graphCutNo_;
+	
 };
 
 /// <summary>

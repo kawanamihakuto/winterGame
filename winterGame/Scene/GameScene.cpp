@@ -16,51 +16,19 @@ GameScene::GameScene(SceneController& controller) :Scene(controller),
 update_(&GameScene::FadeInUpdate),
 draw_(&GameScene::FadeDraw)
 {
-
+	//ゲーム内画像ハンドル
 	graphHandle_ = LoadGraph("data/kirby.png");
 	assert(graphHandle_ > -1);
-	//プレイヤーの画像をロード
-	//idle
-	//move
-	//jump
-	//inhale(吸い込み)
-	//mouthHoldIdle
-	//mouthHoldMove;
-	playerImgs_ = 
-	{
-		LoadGraph("data/player/Idle.png"),
-		LoadGraph("data/player/Move.png"),
-		LoadGraph("data/player/Jump.png"),
-		LoadGraph("data/player/Inhale.png"),
-		LoadGraph("data/player/MouthHoldIdle.png"),
-		LoadGraph("data/player/MouthHoldMove.png"),
-		LoadGraph("data/player/MouthHoldJump.png")
-	};
-	assert(playerImgs_.idle>-1);
-	assert(playerImgs_.move>-1);
-	assert(playerImgs_.jump>-1);
-	assert(playerImgs_.inhale>-1);
-	assert(playerImgs_.mouthHoldIdle>-1);
-	assert(playerImgs_.mouthHoldMove>-1);
-	assert(playerImgs_.mouthHoldJump>-1);
-	//歩くエネミーの画像をロード
-	//walk
-	//Death
-	EnemyImgs_ = 
-	{
-		LoadGraph("data/walkEnemy/Walk.png"),
-		LoadGraph("data/walkEnemy/Death.png"),
-		LoadGraph("data/walkEnemy/Inhaled.png")
-	};
-	assert(EnemyImgs_.walk_walk>-1);
-	assert(EnemyImgs_.walk_death>-1);
-	assert(EnemyImgs_.walk_inhaled>-1);
 
 	//プレイヤー生成
 	player_ = std::make_shared<Player>(graphHandle_);
 	//歩く敵生成
-	std::shared_ptr<WalkEnemy> we = std::make_shared<WalkEnemy>(Vector2{ 600,200 }, EnemyImgs_, player_);
-	enemies_.push_back(we);
+	std::shared_ptr<WalkEnemy> we1 = std::make_shared<WalkEnemy>(Vector2{ 600,200 },graphHandle_, player_);
+	std::shared_ptr<WalkEnemy> we2 = std::make_shared<WalkEnemy>(Vector2{ 700,200 },graphHandle_, player_);
+	std::shared_ptr<WalkEnemy> we3 = std::make_shared<WalkEnemy>(Vector2{ 800,200 },graphHandle_, player_);
+	enemies_.push_back(we1);
+	enemies_.push_back(we2);
+	enemies_.push_back(we3);
 
 	camera_ = std::make_shared<Camera>();
 	//フェード用のフレームを初期化
@@ -71,18 +39,6 @@ GameScene::~GameScene()
 {
 	//画像をすべてデリート
 	DeleteGraph(graphHandle_);
-	//プレイヤー
-	DeleteGraph(playerImgs_.idle);
-	DeleteGraph(playerImgs_.move);
-	DeleteGraph(playerImgs_.jump);
-	DeleteGraph(playerImgs_.inhale);
-	DeleteGraph(playerImgs_.mouthHoldIdle);
-	DeleteGraph(playerImgs_.mouthHoldMove);
-	DeleteGraph(playerImgs_.mouthHoldJump);
-	//歩く敵
-	DeleteGraph(EnemyImgs_.walk_walk);
-	DeleteGraph(EnemyImgs_.walk_death);
-	DeleteGraph(EnemyImgs_.walk_inhaled); 
 }
 
 void GameScene::FadeInUpdate(Input&)
@@ -110,9 +66,16 @@ void GameScene::NormalUpdate(Input& input)
 	//吸い込みオブジェクトの生成処理
 	if (player_->GetGenerateInhale())
 	{
-		printfDx("new\n");
-		//吸い込みオブジェクト生成
-		inhale_ = std::make_shared<Inhale>(player_->GetPosition());
+		if (!inhale_)
+		{
+			//吸い込みオブジェクト生成
+			inhale_ = std::make_shared<Inhale>(player_->GetPosition());	
+			inhale_->Init();
+		}
+		else if (inhale_ &&!inhale_->GetIsActive())
+		{
+			inhale_->Init();
+		}
 		player_->SetGenerateInhale(false);
 	}
 
@@ -138,8 +101,7 @@ void GameScene::NormalUpdate(Input& input)
 	//吸い込みオブジェクトの削除
 	if (player_->GetDeleteInhale())
 	{
-		printfDx("delete\n");
-		inhale_.reset();
+		inhale_->SetIsActive(false);
 		player_->SetDeleteInhale(false);
 	}
 

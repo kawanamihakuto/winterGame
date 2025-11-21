@@ -23,7 +23,7 @@ Input::Input():
 	inputTable_["jump"] = { {PeripheralType::keyboard,KEY_INPUT_SPACE},
 							{PeripheralType::pad1,PAD_INPUT_B} };
 
-	inputTable_["inhale"] = { {PeripheralType::keyboard,KEY_INPUT_Z},
+	inputTable_["attack"] = { {PeripheralType::keyboard,KEY_INPUT_Z},
 							{PeripheralType::pad1,PAD_INPUT_A} };
 
 

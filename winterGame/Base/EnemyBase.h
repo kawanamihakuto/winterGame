@@ -9,7 +9,14 @@ struct EnemyImages
 	int walk_death;
 	int walk_inhaled;
 };
-
+/// <summary>
+/// 敵の画像の切り取りラインをenumで決める
+/// </summary>
+enum class EnemyGraphCutNo
+{
+	one,
+	two
+};
 class Player;
 class EnemyStateBase;
 class Camera;
@@ -60,6 +67,8 @@ public:
 	bool GetIsDead() { return isDead_; }
 	void SetIsDead(bool isDead) { isDead_ = isDead; }
 
+	//歩くだけの敵の画像の切り取り位置のセッター
+	void SetEnemyGraphCutNo(EnemyGraphCutNo egcn) { graphCutNo_ = egcn; }
 	/// <summary>
 	/// 重力用関数
 	/// </summary>
@@ -89,6 +98,9 @@ protected:
 
 	//ノックバックの時間
 	int nockBackTime_;
+
+	//歩くだけの敵の画像切り取り位置を決める
+	EnemyGraphCutNo graphCutNo_;
 };
 /// <summary>
 /// エネミーステート基底クラス

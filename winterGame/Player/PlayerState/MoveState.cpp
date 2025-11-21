@@ -13,7 +13,7 @@ void PlayerState::MoveState::Enter(Player& player)
 		//Œû‚ğ•Â‚¶‚é
 		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthClosed);
 		break;
-	case MouthState::Holding:
+	case MouthState::HoldingEnemy:
 		//‚Ù‚¨‚Î‚è
 		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthFull);
 		break;
@@ -41,7 +41,7 @@ void PlayerState::MoveState::Update(Player& player, Input& input)
 		return;
 	}
 	//‹z‚¢‚İ“ü—Í‚ª‚ ‚Á‚½‚çInhaleó‘Ô‚ÉØ‚è‘Ö‚¦‚é
-	if (input.IsPressed("inhale"))
+	if (input.IsPressed("attack"))
 	{
 		player.ChangeState(std::make_unique<InhaleState>());
 		return;

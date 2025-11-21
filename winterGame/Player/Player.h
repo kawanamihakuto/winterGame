@@ -15,6 +15,8 @@ namespace PlayerConstant
 	constexpr int kHeight = 16;
 	//プレイヤーの拡大倍率
 	constexpr float kSize = 3.0f;
+	//プレイヤーの当たり判定拡大倍率
+	constexpr float kRectSize = 1.0f;
 	//仮の地面
 	constexpr int kGround = 400;
 	//横方向の移動スピード
@@ -35,7 +37,8 @@ namespace PlayerConstant
 enum class MouthState
 {
 	Empty,
-	Holding
+	HoldingEnemy,
+	HoldingAir
 };
 /// <summary>
 /// プレイヤーの画像の切り取りラインをenumで決める
@@ -118,6 +121,11 @@ public:
 	//プレイヤーの画像の切り取り位置のセッター
 	void SetPlayerGraphCutNo(PlayerGraphCutNo pgcn) { graphCutNo_ = pgcn; }
 
+	//吐き出しフラグのゲッター
+	bool GetIsSpit() { return isSpit_; }
+	//吐き出しフラグのセッター
+	void SetIsSpit(bool isSpit) { isSpit_ = isSpit; }
+
 	/// <summary>
 	/// ステート切り替えの関数
 	/// </summary>
@@ -150,9 +158,9 @@ private:
 	int hp_;
 	//当たり判定用のカラー
 	int rectColor_;
-	//吸い込みオブジェクトを生成するリクエスト
+	//吸い込みオブジェクトを生成するリクエストフラグ
 	bool isGenerateInhale_;
-	//吸い込みオブジェクトを削除するリクエスト
+	//吸い込みオブジェクトを削除するリクエストフラグ
 	bool isDeleteInhale_;
 	//右を向いているかどうか
 	bool isRight_;
@@ -162,4 +170,6 @@ private:
 	MouthState mouthState_;
 	//プレイヤーの画像切り取りラインを入れる変数
 	PlayerGraphCutNo graphCutNo_;
+	//吐き出しのリクエストフラグ
+	bool isSpit_;
 };

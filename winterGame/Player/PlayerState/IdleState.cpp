@@ -4,6 +4,7 @@
 #include"MoveState.h"
 #include"InhaleState.h"
 #include"JumpState.h"
+#include"SpitState.h"
 void PlayerState::IdleState::Enter(Player& player)
 {
 	switch (player.GetMouthState())
@@ -12,8 +13,11 @@ void PlayerState::IdleState::Enter(Player& player)
 		//Œû‚ğ•Â‚¶‚é
 		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthClosed);
 		break;
-	case MouthState::Holding:
+	case MouthState::HoldingEnemy:
 		//‚Ù‚¨‚Î‚è
+		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthFull);
+		break;
+	case MouthState::HoldingAir:
 		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthFull);
 		break;
 	}
@@ -24,6 +28,24 @@ void PlayerState::IdleState::Enter(Player& player)
 
 void PlayerState::IdleState::Update(Player& player, Input& input)
 {
+	switch (player.GetMouthState())
+	{
+	case MouthState::Empty:
+		
+		//‹z‚¢‚İ“ü—Í‚ª“ü‚Á‚Ä‚¢‚½‚çInhaleó‘Ô‚ÉØ‚è‘Ö‚¦‚é
+		if (input.IsTriggered("attack"))
+		{
+			player.ChangeState(std::make_unique<InhaleState>());
+		}
+		break;
+	case MouthState::HoldingEnemy:
+		if (input.IsTriggered("attack"))
+		{
+			player.ChangeState(std::make_unique<SpitState>());
+		}
+		break;
+	}
+
 	if (input.IsPressed("left") && input.IsPressed("right"))
 	{
 
@@ -43,11 +65,7 @@ void PlayerState::IdleState::Update(Player& player, Input& input)
 	{
 		player.ChangeState(std::make_unique<JumpState>());
 	}
-	//‹z‚¢‚İ“ü—Í‚ª“ü‚Á‚Ä‚¢‚½‚çInhaleó‘Ô‚ÉØ‚è‘Ö‚¦‚é
-	else if (input.IsTriggered("inhale"))
-	{
-		player.ChangeState(std::make_unique<InhaleState>());
-	}
+	
 
 	player.UpdatePhysics();
 }

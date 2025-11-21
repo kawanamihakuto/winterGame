@@ -46,12 +46,6 @@ private:
 	//カメラのポインタ
 	std::shared_ptr<Camera>camera_;
 
-
-	//プレイヤーの画像構造体
-	PlayerImages playerImgs_;
-	//敵の画像構造体
-	EnemyImages EnemyImgs_;
-
 	int graphHandle_;
 public:
 	//コンストラクタ
