@@ -9,7 +9,7 @@ Input::Input():
 	//イベント名を添え字にして、
 	// 右辺に実際の入力種別と入力コードの配列を置く
 	inputTable_["ok"] = { {PeripheralType::keyboard,KEY_INPUT_RETURN},
-							{PeripheralType::pad1,PAD_INPUT_START} };
+							{PeripheralType::pad1,PAD_INPUT_R} };
 
 	inputTable_["left"] = { {PeripheralType::keyboard,KEY_INPUT_LEFT},
 							{PeripheralType::pad1,PAD_INPUT_LEFT} };
@@ -21,10 +21,10 @@ Input::Input():
 							{PeripheralType::pad1,PAD_INPUT_DOWN} };
 
 	inputTable_["jump"] = { {PeripheralType::keyboard,KEY_INPUT_SPACE},
-							{PeripheralType::pad1,PAD_INPUT_A} };
+							{PeripheralType::pad1,PAD_INPUT_B} };
 
 	inputTable_["inhale"] = { {PeripheralType::keyboard,KEY_INPUT_Z},
-							{PeripheralType::pad1,PAD_INPUT_B} };
+							{PeripheralType::pad1,PAD_INPUT_A} };
 
 
 

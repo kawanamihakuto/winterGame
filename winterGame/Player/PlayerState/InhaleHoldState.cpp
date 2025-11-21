@@ -1,6 +1,6 @@
 #include "InhaleHoldState.h"
 #include"../Player.h"
-#include"MouthHoldState.h"
+#include"IdleState.h"
 void PlayerState::InhaleHoldState::Enter(Player& player)
 {
 }
@@ -10,8 +10,8 @@ void PlayerState::InhaleHoldState::Update(Player& player, Input& input)
 	//‹z‚¢‚İó‘Ô‚ÌŒp‘±‚ªfalse‚É‚È‚Á‚½‚ç
 	if (!player.GetIsInhaledHold())
 	{
-		//‚Ù‚¨‚Î‚èó‘Ô‚É•ÏX
-		player.ChangeState(std::make_unique<PlayerState::MouthHoldState>());
+		player.SetMouthState(MouthState::Holding);
+		player.ChangeState(std::make_unique<IdleState>());
 	}
 	player.UpdatePhysics();
 }

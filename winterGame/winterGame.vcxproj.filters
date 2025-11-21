@@ -84,10 +84,10 @@
     <ClCompile Include="Player\PlayerState\InhaleState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerState\MouthHoldState.cpp">
+    <ClCompile Include="Player\PlayerState\InhaleHoldState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerState\InhaleHoldState.cpp">
+    <ClCompile Include="Player\PlayerState\SpitState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -161,10 +161,10 @@
     <ClInclude Include="Player\PlayerState\InhaleState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerState\MouthHoldState.h">
+    <ClInclude Include="Player\PlayerState\InhaleHoldState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerState\InhaleHoldState.h">
+    <ClInclude Include="Player\PlayerState\SpitState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

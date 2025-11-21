@@ -6,8 +6,18 @@
 #include"InhaleState.h"
 void PlayerState::JumpState::Enter(Player& player)
 {
-	//‰æ‘œ‚ğJump‚É•ÏX
-	player.SetGraph(player.GetImages().jump);
+	switch (player.GetMouthState())
+	{
+	case MouthState::Empty:
+		//‰æ‘œ‚ğJump‚É•ÏX
+		player.SetGraph(player.GetImages().jump);
+		break;
+	case MouthState::Holding:
+		//‰æ‘œ‚ğ
+		player.SetGraph(player.GetImages().mouthHoldJump);
+		break;
+	}
+
 	// ã•ûŒü‚Ö‘¬“x‚ğ—^‚¦‚é
 	Vector2 vel = player.GetVelocity();
 	vel.y = -PlayerConstant::kJumpPower;

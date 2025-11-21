@@ -9,8 +9,6 @@
 #include"PlayerState/JumpState.h"
 #include"PlayerState/HitState.h"
 #include"PlayerState/InhaleState.h"
-#include"PlayerState/MouthHoldState.h"
-
 Player::Player(PlayerImages& imgs) :
 	velocity_{ 0.0f,0.0f },
 	GameObject({ 320,240 }),
@@ -22,7 +20,8 @@ Player::Player(PlayerImages& imgs) :
 	isGenerateInhale_(false),
 	isDeleteInhale_(false),
 	isRight_(true),
-	isInhaleHold_(false)
+	isInhaleHold_(false),
+	mouthState_(MouthState::Empty)
 {
 	state_ = std::make_unique<PlayerState::IdleState>();
 }
@@ -53,7 +52,7 @@ void Player::Draw(Camera& camera)
 	//プレイヤー表示
 	DrawRectRotaGraph(position_.x + camera.GetDrawOffset().x, position_.y + camera.GetDrawOffset().y,
 		0, 0, PlayerConstant::kWidth, PlayerConstant::kHeight,
-		PlayerConstant::kSize, 0, currentImage_, true);
+		PlayerConstant::kSize, 0, currentImage_, true,!isRight_);
 #ifdef _DEBUG
 	//当たり判定表示
 	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (PlayerConstant::kHeight / 2) + camera.GetDrawOffset().y, PlayerConstant::kWidth, PlayerConstant::kHeight);

@@ -6,8 +6,17 @@
 #include"JumpState.h"
 void PlayerState::IdleState::Enter(Player& player)
 {
-	//‰æ‘œ‚ğIdle‚É•ÏX 
-	player.SetGraph(player.GetImages().idle);
+	switch (player.GetMouthState())
+	{
+	case MouthState::Empty:
+		//‰æ‘œ‚ğIdle‚É•ÏX 
+		player.SetGraph(player.GetImages().idle);
+		break;
+	case MouthState::Holding:
+		player.SetGraph(player.GetImages().mouthHoldIdle);
+		break;
+	}
+	
 	// velocity‚ğ0‚É‚·‚é
 	player.SetVelocity({ 0.0f,0.0f });
 }
@@ -34,7 +43,7 @@ void PlayerState::IdleState::Update(Player& player, Input& input)
 		player.ChangeState(std::make_unique<JumpState>());
 	}
 	//‹z‚¢‚İ“ü—Í‚ª“ü‚Á‚Ä‚¢‚½‚çInhaleó‘Ô‚ÉØ‚è‘Ö‚¦‚é
-	else if (input.IsPressed("inhale"))
+	else if (input.IsTriggered("inhale"))
 	{
 		player.ChangeState(std::make_unique<InhaleState>());
 	}

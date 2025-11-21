@@ -1,18 +1,18 @@
 #pragma once
 #include "StateBase.h"
-
 namespace PlayerState
 {
 	/// <summary>
-	/// 口に含んでいる状態クラス
+	/// 吐き出し状態クラス
 	/// </summary>
-	class MouthHoldState :public StateBase
+	class SpitState :public StateBase
 	{
 	public:
 		void Enter(Player& player)override;
 		void Update(Player& player, Input& input) override;
 		void Exit(Player& player)override;
 	};
-
 }
+
+
 

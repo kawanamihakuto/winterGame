@@ -6,7 +6,6 @@ class Player;
 class Input;
 class Rect;
 class Camera;
-
 //プレイヤー関連の定数群
 namespace PlayerConstant
 {
@@ -39,8 +38,19 @@ struct PlayerImages
 	int move;
 	int jump;
 	int inhale;
-	int mouthHold;
+	int mouthHoldIdle;
+	int mouthHoldMove;
+	int mouthHoldJump;
 };
+/// <summary>
+/// プレイヤーがほおばっているかどうか
+/// </summary>
+enum class MouthState
+{
+	Empty,
+	Holding
+};
+
 /// <summary>
 /// プレイヤークラス
 /// </summary>
@@ -109,6 +119,11 @@ public:
 	//吸い込み状態を継続するかどうかのセッター
 	void SetIsInhaledHold(bool isInhaledHold) { isInhaleHold_ = isInhaledHold; }
 
+	//ほおばっているかどうかのゲッター
+	MouthState GetMouthState() { return mouthState_; }
+	//ほおばっているかどうかのセッター
+	void SetMouthState(MouthState mouthState) { mouthState_ = mouthState; }
+
 	/// <summary>
 	/// ステート切り替えの関数
 	/// </summary>
@@ -151,4 +166,6 @@ private:
 	bool isRight_;
 	//吸い込み状態を継続するかどうか
 	bool isInhaleHold_;
+	//ほおばっているかどうかのステート
+	MouthState mouthState_;
 };

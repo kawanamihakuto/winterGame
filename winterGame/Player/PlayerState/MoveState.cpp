@@ -7,8 +7,17 @@
 
 void PlayerState::MoveState::Enter(Player& player)
 {
-	//‰æ‘œ‚ğMove‚É•ÏX
-	player.SetGraph(player.GetImages().move);
+	switch (player.GetMouthState())
+	{
+	case MouthState::Empty:
+		//‰æ‘œ‚ğMove‚É•ÏX
+		player.SetGraph(player.GetImages().move);
+		break;
+	case MouthState::Holding:
+		//‰æ‘œ‚ğ‚Ù‚¨‚Î‚èó‘Ô‚ÌMove‚É•ÏX
+		player.SetGraph(player.GetImages().mouthHoldMove);
+		break;
+	}
 }
 
 void PlayerState::MoveState::Update(Player& player, Input& input)
