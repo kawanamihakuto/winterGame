@@ -8,11 +8,11 @@ void PlayerState::JumpState::Enter(Player& player)
 {
 	switch (player.GetMouthState())
 	{
-	case MouthState::Empty:
+	case MouthState::empty:
 		//Œû‚ð•Â‚¶‚é
 		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthClosed);
 		break;
-	case MouthState::HoldingEnemy:
+	case MouthState::holdingEnemy:
 		//‚Ù‚¨‚Î‚è
 		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthFull);
 		break;

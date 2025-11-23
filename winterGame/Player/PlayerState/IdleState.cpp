@@ -9,15 +9,15 @@ void PlayerState::IdleState::Enter(Player& player)
 {
 	switch (player.GetMouthState())
 	{
-	case MouthState::Empty:
+	case MouthState::empty:
 		//Œû‚ğ•Â‚¶‚é
 		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthClosed);
 		break;
-	case MouthState::HoldingEnemy:
+	case MouthState::holdingEnemy:
 		//‚Ù‚¨‚Î‚è
 		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthFull);
 		break;
-	case MouthState::HoldingAir:
+	case MouthState::holdingAir:
 		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthFull);
 		break;
 	}
@@ -30,7 +30,7 @@ void PlayerState::IdleState::Update(Player& player, Input& input)
 {
 	switch (player.GetMouthState())
 	{
-	case MouthState::Empty:
+	case MouthState::empty:
 		
 		//‹z‚¢‚İ“ü—Í‚ª“ü‚Á‚Ä‚¢‚½‚çInhaleó‘Ô‚ÉØ‚è‘Ö‚¦‚é
 		if (input.IsTriggered("attack"))
@@ -38,7 +38,7 @@ void PlayerState::IdleState::Update(Player& player, Input& input)
 			player.ChangeState(std::make_unique<InhaleState>());
 		}
 		break;
-	case MouthState::HoldingEnemy:
+	case MouthState::holdingEnemy:
 		if (input.IsTriggered("attack"))
 		{
 			player.ChangeState(std::make_unique<SpitState>());

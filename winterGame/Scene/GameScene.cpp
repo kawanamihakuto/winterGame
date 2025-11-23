@@ -9,6 +9,8 @@
 #include<cassert>
 #include"../Actor/Inhale.h"
 #include"../System/Camera.h"
+#include"../Actor/StarShot.h"
+#include"../Actor/AirShot.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -54,6 +56,43 @@ void GameScene::FadeInUpdate(Input&)
 
 void GameScene::NormalUpdate(Input& input)
 {
+	//吸い込みオブジェクトの生成処理
+	if (player_->GetGenerateInhale())
+	{
+		//吸い込みオブジェクトが生成されていなかったら
+		if (!inhale_)
+		{
+			//吸い込みオブジェクト生成
+			inhale_ = std::make_shared<Inhale>(player_->GetPosition());
+			//初期化
+			inhale_->Init();
+		}
+		//吸い込みオブジェクトが生成済み&Activeじゃないなら
+		else if (inhale_ && !inhale_->GetIsActive())
+		{
+			//初期化のみ
+			inhale_->Init();
+		}
+		//リクエスト返却
+		player_->SetGenerateInhale(false);
+	}
+	//弾の生成処理
+	if (player_->GetIsSpit())
+	{
+		//弾の種類を判定
+		switch (player_->GetStarOrAir())
+		{
+		case StarOrAir::star:
+			//星弾を生成
+			shots_.push_back(std::make_shared<StarShot>(player_->GetPosition(),graphHandle_));
+			break;
+		case StarOrAir::air:
+			//空気弾を生成
+			shots_.push_back(std::make_shared<AirShot>(player_->GetPosition(),graphHandle_));
+			break;
+		}	
+	}
+
 	//プレイヤーのUpdate
 	player_->Update(input);
 	//エネミー全体のUpdate
@@ -61,33 +100,25 @@ void GameScene::NormalUpdate(Input& input)
 	{
 		enemy->Update();
 	}
-
+	//カメラのUpdate
 	camera_->Update(*player_);
-	//吸い込みオブジェクトの生成処理
-	if (player_->GetGenerateInhale())
-	{
-		if (!inhale_)
-		{
-			//吸い込みオブジェクト生成
-			inhale_ = std::make_shared<Inhale>(player_->GetPosition());	
-			inhale_->Init();
-		}
-		else if (inhale_ &&!inhale_->GetIsActive())
-		{
-			inhale_->Init();
-		}
-		player_->SetGenerateInhale(false);
-	}
-
+	
 	//吸い込みオブジェクトがあったら
 	if (inhale_)
 	{
 		//吸い込みオブジェクトのUpdate
 		inhale_->Update(player_, enemies_);
 	}
-	
+
+	//弾全体のUpdate
+	for (auto& shot : shots_)
+	{
+		shot->Update(player_,enemies_);
+	}
+
+	//エネミーの削除
 	//remove_ifで消すべき要素を後ろに詰める
-	auto newEnd = std::remove_if(
+	auto newEnemyEnd = std::remove_if(
 		enemies_.begin(),//vectorの最初の要素
 		enemies_.end(),//vectorの最後の'次'の要素(end()に到達したらループ終了する)
 		[](const std::shared_ptr<EnemyBase>& enemy)//ラムダ式(引数にremove_ifで現在の要素を渡す)
@@ -96,7 +127,17 @@ void GameScene::NormalUpdate(Input& input)
 			return enemy->GetIsDead();
 		});
 	//remove_ifで後ろに詰められた要素を消す
-	enemies_.erase(newEnd, enemies_.end());
+	enemies_.erase(newEnemyEnd, enemies_.end());
+
+	//弾の削除
+	auto newShotEnd = std::remove_if(
+		shots_.begin(),
+		shots_.end(),
+		[](const std::shared_ptr<Shot>& shot)
+		{
+			return shot->GetIsActive();
+		});
+	shots_.erase(newShotEnd, shots_.end());
 
 	//吸い込みオブジェクトの削除
 	if (player_->GetDeleteInhale())

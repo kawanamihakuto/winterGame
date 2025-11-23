@@ -1,0 +1,16 @@
+#pragma once
+#include "Shot.h"
+class AirShot :public Shot
+{
+public:
+	AirShot(Vector2 pos, int graphHandle);
+	virtual ~AirShot();
+
+	void Init()override;
+	void Init(std::shared_ptr<Player>player)override;
+	void Update()override;
+	void Update(std::shared_ptr<Player>player, std::vector<std::shared_ptr<EnemyBase>>enemies)override;
+	void Draw()override;
+	void Draw(Camera& camera)override;
+};
+

@@ -12,7 +12,7 @@
 Player::Player(int graphHandle) :
 	velocity_{ 0.0f,0.0f },
 	GameObject({ 320,240 }),
-	isGround_(true),
+	isGround_(false),
 	currentImage_(graphHandle),
 	hp_(5),
 	rectColor_(0x0000ff),
@@ -20,8 +20,9 @@ Player::Player(int graphHandle) :
 	isDeleteInhale_(false),
 	isRight_(true),
 	isInhaleHold_(false),
-	mouthState_(MouthState::Empty),
-	graphCutNo_(PlayerGraphCutNo::mouthClosed)
+	mouthState_(MouthState::empty),
+	graphCutNo_(PlayerGraphCutNo::mouthClosed),
+	isSpit_(false)
 {
 	state_ = std::make_unique<PlayerState::IdleState>();
 }

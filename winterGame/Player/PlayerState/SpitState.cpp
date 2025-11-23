@@ -3,12 +3,15 @@
 #include"IdleState.h"
 void PlayerState::SpitState::Enter(Player& player)
 {
-	player.SetMouthState(MouthState::Empty);
+	player.SetMouthState(MouthState::empty);
 	player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthOpen);
+	player.SetIsSpit(true);
 }
 
 void PlayerState::SpitState::Update(Player& player, Input& input)
 {
+	
+
 	player.ChangeState(std::make_unique<IdleState>());
 }
 

@@ -8,7 +8,7 @@ class Player;
 class EnemyBase;
 class Inhale;
 class Camera;
-
+class Shot;
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -45,6 +45,8 @@ private:
 	std::shared_ptr<Inhale>inhale_;
 	//カメラのポインタ
 	std::shared_ptr<Camera>camera_;
+	//弾のポインタ
+	std::vector<std::shared_ptr<Shot>>shots_;
 
 	int graphHandle_;
 public:

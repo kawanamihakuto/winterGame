@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\AirShot.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Base\EnemyBase.cpp" />
     <ClCompile Include="Base\GameObject.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="Player\PlayerState\StateBase.cpp" />
     <ClCompile Include="Player\PlayerState\SpitState.cpp" />
     <ClCompile Include="Actor\Shot.cpp" />
+    <ClCompile Include="Actor\StarShot.cpp" />
     <ClCompile Include="System\Lerp.cpp" />
     <ClCompile Include="System\Camera.cpp" />
     <ClCompile Include="Scene\GameoverScene.cpp" />
@@ -167,6 +169,7 @@
     <ClCompile Include="Actor\WalkEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\AirShot.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Base\EnemyBase.h" />
     <ClInclude Include="Player\PlayerState\InhaleHoldState.h" />
@@ -178,6 +181,7 @@
     <ClInclude Include="Player\PlayerState\StateBase.h" />
     <ClInclude Include="Player\PlayerState\SpitState.h" />
     <ClInclude Include="Actor\Shot.h" />
+    <ClInclude Include="Actor\StarShot.h" />
     <ClInclude Include="System\Lerp.h" />
     <ClInclude Include="System\Camera.h" />
     <ClInclude Include="Game.h" />

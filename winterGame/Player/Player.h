@@ -36,9 +36,9 @@ namespace PlayerConstant
 /// </summary>
 enum class MouthState
 {
-	Empty,
-	HoldingEnemy,
-	HoldingAir
+	empty,
+	holdingEnemy,
+	holdingAir
 };
 /// <summary>
 /// プレイヤーの画像の切り取りラインをenumで決める
@@ -48,6 +48,12 @@ enum class PlayerGraphCutNo
 	mouthClosed,
 	mouthOpen,
 	mouthFull
+};
+
+enum class StarOrAir
+{
+	star,
+	air
 };
 /// <summary>
 /// プレイヤークラス
@@ -126,6 +132,9 @@ public:
 	//吐き出しフラグのセッター
 	void SetIsSpit(bool isSpit) { isSpit_ = isSpit; }
 
+	StarOrAir GetStarOrAir() { return starOrAir_; }
+	void SetStarOrAir(StarOrAir starOrAir) { starOrAir_ = starOrAir; }
+
 	/// <summary>
 	/// ステート切り替えの関数
 	/// </summary>
@@ -172,4 +181,6 @@ private:
 	PlayerGraphCutNo graphCutNo_;
 	//吐き出しのリクエストフラグ
 	bool isSpit_;
+	//星弾か空気弾か決めるための変数
+	StarOrAir starOrAir_;
 };
