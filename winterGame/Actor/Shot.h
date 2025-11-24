@@ -8,7 +8,7 @@ class Camera;
 class Shot :public GameObject
 {
 public:
-	Shot(Vector2 pos,int graphHandle);
+	Shot(bool isRight,Vector2 pos,int graphHandle);
 	virtual ~Shot();
 
 	void Init()override = 0;

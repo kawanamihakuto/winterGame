@@ -2,7 +2,7 @@
 
 constexpr float kAirGraphCutRow = 5;
 
-AirShot::AirShot(Vector2 pos, int graphHandle):Shot(pos,graphHandle)
+AirShot::AirShot(bool isRight,Vector2 pos, int graphHandle):Shot(isRight,pos,graphHandle)
 {
 
 }

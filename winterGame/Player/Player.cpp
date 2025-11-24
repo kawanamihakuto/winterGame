@@ -22,7 +22,8 @@ Player::Player(int graphHandle) :
 	isInhaleHold_(false),
 	mouthState_(MouthState::empty),
 	graphCutNo_(PlayerGraphCutNo::mouthClosed),
-	isSpit_(false)
+	isSpit_(false),
+	starOrAir_(StarOrAir::star)
 {
 	state_ = std::make_unique<PlayerState::IdleState>();
 }

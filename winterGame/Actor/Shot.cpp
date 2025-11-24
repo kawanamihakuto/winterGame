@@ -12,11 +12,11 @@
 
 
 
-Shot::Shot(Vector2 pos,int graphHandle):
+Shot::Shot(bool isRight,Vector2 pos,int graphHandle):
 	GameObject(pos),
 	velocity_({0.0f,0.0f}),
 	graphHandle_(graphHandle),
-	isRight_(false),
+	isRight_(isRight),
 	isActive_(false)
 {
 }

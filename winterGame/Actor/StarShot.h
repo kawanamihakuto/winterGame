@@ -4,7 +4,7 @@
 class StarShot :public Shot
 {
 public:
-	StarShot(Vector2 pos,int graphHandle);
+	StarShot(bool isRight,Vector2 pos,int graphHandle);
 	virtual ~StarShot();
 
 	void Init()override;

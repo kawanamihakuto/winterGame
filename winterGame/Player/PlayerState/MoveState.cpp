@@ -4,7 +4,7 @@
 #include"IdleState.h"
 #include"JumpState.h"
 #include"InhaleState.h"
-
+#include"SpitState.h"
 void PlayerState::MoveState::Enter(Player& player)
 {
 	switch (player.GetMouthState())
@@ -22,6 +22,23 @@ void PlayerState::MoveState::Enter(Player& player)
 
 void PlayerState::MoveState::Update(Player& player, Input& input)
 {
+	switch (player.GetMouthState())
+	{
+	case MouthState::empty:
+
+		//‹z‚¢‚İ“ü—Í‚ª“ü‚Á‚Ä‚¢‚½‚çInhaleó‘Ô‚ÉØ‚è‘Ö‚¦‚é
+		if (input.IsTriggered("attack"))
+		{
+			player.ChangeState(std::make_unique<InhaleState>());
+		}
+		break;
+	case MouthState::holdingEnemy:
+		if (input.IsTriggered("attack"))
+		{
+			player.ChangeState(std::make_unique<SpitState>());
+		}
+		break;
+	}
 	Vector2 vel = player.GetVelocity();
 	//¶‰E‚Ì“ü—Í‚Å‘¬“x‚ğ•ÏX
 	if (input.IsPressed("left"))

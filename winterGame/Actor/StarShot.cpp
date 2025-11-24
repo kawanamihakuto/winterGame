@@ -1,16 +1,27 @@
 #include "StarShot.h"
 #include"../Player/Player.h"
 #include"../System/Camera.h"
+#include"../Base/EnemyBase.h"
+#include"WalkEnemy.h"
 #include<DxLib.h>
 constexpr float kSpeed = 3.0f;
 constexpr int kStarGraphCutRow = 1;
-constexpr int kWidth = 32;
-constexpr int kHeight = 32;
+constexpr int kWidth = 16;
+constexpr int kHeight = 16;
 constexpr int kSize = 2;
 
-StarShot::StarShot(Vector2 pos, int graphHandle) :Shot(pos,graphHandle)
+StarShot::StarShot(bool isRight,Vector2 pos, int graphHandle) :Shot(isRight,pos,graphHandle)
 {
-
+	if (isRight)
+	{
+		isRight_ = true;
+		velocity_.x = kSpeed;
+	}
+	else
+	{
+		isRight_ = false;
+		velocity_.x = -kSpeed;
+	}
 }
 
 StarShot::~StarShot()
@@ -32,17 +43,20 @@ void StarShot::Update()
 
 void StarShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_ptr<EnemyBase>> enemies)
 {
-	if (player->GetIsRight())
-	{
-		isRight_ = true;
-		velocity_.x = kSpeed;
-	}
-	else
-	{
-		isRight_ = false;
-		velocity_.x = -kSpeed;
-	}
 	position_ += velocity_;
+	
+	for (auto& enemies : enemies)
+	{
+		//すべてのエネミーとの当たり判定をチェック
+		if (rect_.IsCollision(enemies->GetHitRect()))
+		{
+			//1体でもエネミーが吸い込み範囲にいたら
+			// プレイヤーに吸い込み状態を継続させる
+			player->SetIsInhaledHold(true);
+			//エネミーのステートを変更
+			enemies->ChangeState(std::make_unique<Death>());
+		}
+	}
 }
 
 void StarShot::Draw()

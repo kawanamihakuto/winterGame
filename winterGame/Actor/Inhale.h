@@ -8,10 +8,11 @@ class Camera;
 class Inhale :public GameObject
 {
 public:
-	Inhale(Vector2 pos);
+	Inhale(Vector2 pos,int graphHandle);
 	~Inhale();
 
 	void Init()override;
+	void Init(std::shared_ptr<Player>player);
 	void Update()override;
 	void Update(std::shared_ptr<Player>player,std::vector<std::shared_ptr<EnemyBase>>enemies);
 	void Draw()override;
@@ -21,5 +22,7 @@ public:
 	void SetIsActive(bool isActive) { isActive_ = isActive; }
 private:
 	bool isActive_;
+	bool isRight_;
+	int graphHandle_;
 };
 

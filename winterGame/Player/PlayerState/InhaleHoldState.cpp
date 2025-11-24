@@ -11,6 +11,7 @@ void PlayerState::InhaleHoldState::Update(Player& player, Input& input)
 	if (!player.GetIsInhaledHold())
 	{
 		player.SetMouthState(MouthState::holdingEnemy);
+		player.SetStarOrAir(StarOrAir::star);
 		player.ChangeState(std::make_unique<IdleState>());
 	}
 	player.UpdatePhysics();

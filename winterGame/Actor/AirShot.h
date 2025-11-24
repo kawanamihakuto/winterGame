@@ -3,7 +3,7 @@
 class AirShot :public Shot
 {
 public:
-	AirShot(Vector2 pos, int graphHandle);
+	AirShot(bool isRight,Vector2 pos, int graphHandle);
 	virtual ~AirShot();
 
 	void Init()override;

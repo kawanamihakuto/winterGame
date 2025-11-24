@@ -63,7 +63,7 @@ void GameScene::NormalUpdate(Input& input)
 		if (!inhale_)
 		{
 			//吸い込みオブジェクト生成
-			inhale_ = std::make_shared<Inhale>(player_->GetPosition());
+			inhale_ = std::make_shared<Inhale>(player_->GetPosition(),graphHandle_);
 			//初期化
 			inhale_->Init();
 		}
@@ -71,7 +71,7 @@ void GameScene::NormalUpdate(Input& input)
 		else if (inhale_ && !inhale_->GetIsActive())
 		{
 			//初期化のみ
-			inhale_->Init();
+			inhale_->Init(player_);
 		}
 		//リクエスト返却
 		player_->SetGenerateInhale(false);
@@ -84,13 +84,15 @@ void GameScene::NormalUpdate(Input& input)
 		{
 		case StarOrAir::star:
 			//星弾を生成
-			shots_.push_back(std::make_shared<StarShot>(player_->GetPosition(),graphHandle_));
+			shots_.push_back( std::make_shared<StarShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_));
 			break;
 		case StarOrAir::air:
 			//空気弾を生成
-			shots_.push_back(std::make_shared<AirShot>(player_->GetPosition(),graphHandle_));
+			shots_.push_back(std::make_shared<AirShot>(player_->GetIsRight(), player_->GetPosition(),graphHandle_));
 			break;
 		}	
+		//リクエスト返却
+		player_->SetIsSpit(false);
 	}
 
 	//プレイヤーのUpdate
@@ -194,6 +196,10 @@ void GameScene::NormalDraw()
 	{
 		//吸い込みオブジェクトのDraw
 		inhale_->Draw(*camera_);
+	}
+	for (auto& shot : shots_)
+	{
+		shot->Draw(*camera_);
 	}
 }
 
