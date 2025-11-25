@@ -23,6 +23,8 @@ void PlayerState::JumpState::Enter(Player& player)
 	Vector2 vel = player.GetVelocity();
 	vel.y = -PlayerConstant::kJumpPower;
 	player.SetVelocity(vel);
+
+	player.OnJump();
 }
 
 void PlayerState::JumpState::Update(Player& player, Input& input)
@@ -35,12 +37,14 @@ void PlayerState::JumpState::Update(Player& player, Input& input)
 		if (input.IsTriggered("attack"))
 		{
 			player.ChangeState(std::make_unique<InhaleState>());
+			return;
 		}
 		break;
 	case MouthState::holdingEnemy:
 		if (input.IsTriggered("attack"))
 		{
 			player.ChangeState(std::make_unique<SpitState>());
+			return;
 		}
 		break;
 	}

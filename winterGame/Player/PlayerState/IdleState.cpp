@@ -36,12 +36,14 @@ void PlayerState::IdleState::Update(Player& player, Input& input)
 		if (input.IsTriggered("attack"))
 		{
 			player.ChangeState(std::make_unique<InhaleState>());
+			return;
 		}
 		break;
 	case MouthState::holdingEnemy:
 		if (input.IsTriggered("attack"))
 		{
 			player.ChangeState(std::make_unique<SpitState>());
+			return;
 		}
 		break;
 	}
@@ -54,19 +56,21 @@ void PlayerState::IdleState::Update(Player& player, Input& input)
 	else if (input.IsPressed("left"))
 	{
 		player.ChangeState(std::make_unique<MoveState>());
+		return;
 	}
 	//‰E‚Ì“ü—Í‚ª“ü‚Á‚Ä‚¢‚½‚çMoveó‘Ô‚ÉØ‚è‘Ö‚¦‚é
 	else if (input.IsPressed("right"))
 	{
 		player.ChangeState(std::make_unique<MoveState>());
+		return;
 	}
 	//ƒWƒƒƒ“ƒv“ü—Í‚ª“ü‚Á‚Ä‚¢‚½‚çJumpó‘Ô‚ÉØ‚è‘Ö‚¦‚é
-	else if (input.IsPressed("jump"))
+	else if (input.IsPressed("jump")&& player.GetIsGround())
 	{
 		player.ChangeState(std::make_unique<JumpState>());
+		return;
 	}
 	
-
 	player.UpdatePhysics();
 }
 

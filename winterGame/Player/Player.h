@@ -135,6 +135,10 @@ public:
 	StarOrAir GetStarOrAir() { return starOrAir_; }
 	void SetStarOrAir(StarOrAir starOrAir) { starOrAir_ = starOrAir; }
 
+	bool GetIsGround()const { return isGround_; }
+
+	void OnJump() { isGround_ = false; }
+
 	/// <summary>
 	/// ステート切り替えの関数
 	/// </summary>

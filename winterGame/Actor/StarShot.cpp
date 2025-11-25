@@ -55,6 +55,8 @@ void StarShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_pt
 			player->SetIsInhaledHold(true);
 			//エネミーのステートを変更
 			enemies->ChangeState(std::make_unique<Death>());
+
+			isActive_ = true;
 		}
 	}
 }

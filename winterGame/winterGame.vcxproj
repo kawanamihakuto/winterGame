@@ -144,7 +144,8 @@
     <ClCompile Include="Base\EnemyBase.cpp" />
     <ClCompile Include="Base\GameObject.cpp" />
     <ClCompile Include="Actor\Inhale.cpp" />
-    <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="Player\PlayerState\HoveringState.cpp" />
+    <ClCompile Include="System\BoxCollider.cpp" />
     <ClCompile Include="Player\PlayerState\InhaleHoldState.cpp" />
     <ClCompile Include="Player\PlayerState\InhaleState.cpp" />
     <ClCompile Include="Player\PlayerState\HitState.cpp" />
@@ -173,7 +174,8 @@
     <ClInclude Include="Actor\AirShot.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Base\EnemyBase.h" />
-    <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="Player\PlayerState\HoveringState.h" />
+    <ClInclude Include="System\BoxCollider.h" />
     <ClInclude Include="Player\PlayerState\InhaleHoldState.h" />
     <ClInclude Include="Player\PlayerState\InhaleState.h" />
     <ClInclude Include="Player\PlayerState\HitState.h" />
