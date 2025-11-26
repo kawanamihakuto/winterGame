@@ -50,9 +50,6 @@ void StarShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_pt
 		//すべてのエネミーとの当たり判定をチェック
 		if (rect_.IsCollision(enemies->GetHitRect()))
 		{
-			//1体でもエネミーが吸い込み範囲にいたら
-			// プレイヤーに吸い込み状態を継続させる
-			player->SetIsInhaledHold(true);
 			//エネミーのステートを変更
 			enemies->ChangeState(std::make_unique<Death>());
 

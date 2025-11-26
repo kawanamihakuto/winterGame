@@ -29,6 +29,8 @@ namespace PlayerConstant
 	constexpr float kMaxSpeed = 3.0f;
 	//摩擦の強さ
 	constexpr float kFriction = 0.90f;
+	//ホバリングの強さ
+	constexpr float kHoveringPower = 4.0f;
 }
 
 /// <summary>
@@ -73,7 +75,7 @@ public:
 	void Draw(Camera& camera);
 
 	//ポジションのゲッター
-	 Vector2 GetPosition(){ return position_; }
+	Vector2 GetPosition(){ return position_; }
 	 //ポジションのセッター
 	void SetPosition(const Vector2& pos) { position_ = pos; }
 

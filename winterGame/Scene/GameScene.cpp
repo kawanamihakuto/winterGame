@@ -56,6 +56,36 @@ void GameScene::FadeInUpdate(Input&)
 
 void GameScene::NormalUpdate(Input& input)
 {
+	//プレイヤーのUpdate
+	player_->Update(input);
+
+	//弾の生成処理
+	if (player_->GetIsSpit())
+	{
+		//弾の種類を判定
+		switch (player_->GetStarOrAir())
+		{
+		case StarOrAir::star:
+			//星弾を生成
+			shots_.push_back(std::make_shared<StarShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_));
+			break;
+		case StarOrAir::air:
+			//空気弾を生成
+			shots_.push_back(std::make_shared<AirShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_));
+			break;
+		}
+		//リクエスト返却
+		player_->SetIsSpit(false);
+	}
+
+	//エネミー全体のUpdate
+	for (auto& enemy : enemies_)
+	{
+		enemy->Update();
+	}
+	//カメラのUpdate
+	camera_->Update(*player_);
+
 	//吸い込みオブジェクトの生成処理
 	if (player_->GetGenerateInhale())
 	{
@@ -63,9 +93,9 @@ void GameScene::NormalUpdate(Input& input)
 		if (!inhale_)
 		{
 			//吸い込みオブジェクト生成
-			inhale_ = std::make_shared<Inhale>(player_->GetPosition(),graphHandle_);
+			inhale_ = std::make_shared<Inhale>(player_->GetPosition(), graphHandle_);
 			//初期化
-			inhale_->Init();
+			inhale_->Init(player_);
 		}
 		//吸い込みオブジェクトが生成済み&Activeじゃないなら
 		else if (inhale_ && !inhale_->GetIsActive())
@@ -76,34 +106,6 @@ void GameScene::NormalUpdate(Input& input)
 		//リクエスト返却
 		player_->SetGenerateInhale(false);
 	}
-	//弾の生成処理
-	if (player_->GetIsSpit())
-	{
-		//弾の種類を判定
-		switch (player_->GetStarOrAir())
-		{
-		case StarOrAir::star:
-			//星弾を生成
-			shots_.push_back( std::make_shared<StarShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_));
-			break;
-		case StarOrAir::air:
-			//空気弾を生成
-			shots_.push_back(std::make_shared<AirShot>(player_->GetIsRight(), player_->GetPosition(),graphHandle_));
-			break;
-		}	
-		//リクエスト返却
-		player_->SetIsSpit(false);
-	}
-
-	//プレイヤーのUpdate
-	player_->Update(input);
-	//エネミー全体のUpdate
-	for (auto& enemy : enemies_)
-	{
-		enemy->Update();
-	}
-	//カメラのUpdate
-	camera_->Update(*player_);
 	
 	//吸い込みオブジェクトがあったら
 	if (inhale_)

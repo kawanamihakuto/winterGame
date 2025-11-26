@@ -5,6 +5,7 @@
 #include"MoveState.h"
 #include"InhaleState.h"
 #include"SpitState.h"
+#include"HoveringState.h"
 void PlayerState::JumpState::Enter(Player& player)
 {
 	switch (player.GetMouthState())
@@ -37,6 +38,11 @@ void PlayerState::JumpState::Update(Player& player, Input& input)
 		if (input.IsTriggered("attack"))
 		{
 			player.ChangeState(std::make_unique<InhaleState>());
+			return;
+		}
+		if (input.IsTriggered("up"))
+		{
+			player.ChangeState(std::make_unique<HoveringState>());
 			return;
 		}
 		break;
