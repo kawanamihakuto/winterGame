@@ -1,5 +1,5 @@
 #pragma once
-#include"Geometry.h"
+#include"../System/Geometry.h"
 /// <summary>
 /// ’ZŒa‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 /// </summary>

@@ -4,7 +4,7 @@
 #include"../Base/EnemyBase.h"
 #include"WalkEnemy.h"
 #include<DxLib.h>
-constexpr float kSpeed = 3.0f;
+constexpr float kSpeed = 6.0f;
 constexpr int kStarGraphCutRow = 1;
 constexpr int kWidth = 16;
 constexpr int kHeight = 16;
@@ -53,7 +53,7 @@ void StarShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_pt
 			//エネミーのステートを変更
 			enemies->ChangeState(std::make_unique<Death>());
 
-			isActive_ = true;
+			isActive_ = false;
 		}
 	}
 }

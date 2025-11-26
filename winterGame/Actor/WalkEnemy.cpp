@@ -1,6 +1,6 @@
 #include<DxLib.h>
 #include "WalkEnemy.h"
-#include"../System/Rect.h"
+#include"../Collision/Rect.h"
 #include"../Player/Player.h"
 #include<memory>
 #include"../System/Camera.h"

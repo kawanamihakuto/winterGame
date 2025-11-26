@@ -10,8 +10,10 @@ constexpr float kSpeed = 6.0f;
 constexpr int kWidth = 16;
 constexpr int kHeight = 16;
 constexpr int kSize = 1;
+constexpr int kCountMax = 20;
 
-AirShot::AirShot(bool isRight,Vector2 pos, int graphHandle):Shot(isRight,pos,graphHandle)
+AirShot::AirShot(bool isRight,Vector2 pos, int graphHandle):Shot(isRight,pos,graphHandle),
+count_(0)
 {
 	if (isRight)
 	{
@@ -43,6 +45,7 @@ void AirShot::Update()
 
 void AirShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_ptr<EnemyBase>> enemies)
 {
+	count_++;
 	position_ += velocity_;
 
 	for (auto& enemies : enemies)
@@ -53,11 +56,14 @@ void AirShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_ptr
 			//エネミーのステートを変更
 			enemies->ChangeState(std::make_unique<Death>());
 
-			isActive_ = true;
+			isActive_ = false;
 		}
 	}
 
-
+	if (count_ >= kCountMax)
+	{
+		isActive_ = false;
+	}
 }
 
 void AirShot::Draw()

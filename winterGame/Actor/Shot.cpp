@@ -1,7 +1,7 @@
 #include "Shot.h"
 #include<memory>
 #include<vector>
-#include"../System/Rect.h"
+#include"../Collision/Rect.h"
 #include"../Player/Player.h"
 #include"../Base/EnemyBase.h"
 #include<DxLib.h>
@@ -17,7 +17,7 @@ Shot::Shot(bool isRight,Vector2 pos,int graphHandle):
 	velocity_({0.0f,0.0f}),
 	graphHandle_(graphHandle),
 	isRight_(isRight),
-	isActive_(false)
+	isActive_(true)
 {
 }
 

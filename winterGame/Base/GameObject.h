@@ -1,6 +1,6 @@
 #pragma once
 #include"../System/Geometry.h"
-#include"../System/Rect.h"
+#include"../Collision/Rect.h"
 /// <summary>
 /// ゲーム全体のオブジェクト基底クラス
 /// </summary>

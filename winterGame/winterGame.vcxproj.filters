@@ -48,7 +48,7 @@
     <ClCompile Include="Player\Player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="System\Rect.cpp">
+    <ClCompile Include="Collision\Rect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Base\EnemyBase.cpp">
@@ -99,10 +99,10 @@
     <ClCompile Include="Actor\AirShot.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="System\BoxCollider.cpp">
+    <ClCompile Include="Player\PlayerState\HoveringState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerState\HoveringState.cpp">
+    <ClCompile Include="Collision\CollisionManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,7 +140,7 @@
     <ClInclude Include="Player\Player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="System\Rect.h">
+    <ClInclude Include="Collision\Rect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Base\EnemyBase.h">
@@ -191,10 +191,13 @@
     <ClInclude Include="Actor\AirShot.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="System\BoxCollider.h">
+    <ClInclude Include="Player\PlayerState\HoveringState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerState\HoveringState.h">
+    <ClInclude Include="Collision\CollisionManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\CollisionLayer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

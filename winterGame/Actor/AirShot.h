@@ -12,5 +12,9 @@ public:
 	void Update(std::shared_ptr<Player>player, std::vector<std::shared_ptr<EnemyBase>>enemies)override;
 	void Draw()override;
 	void Draw(Camera& camera)override;
+
+private:
+	//¶‚«‚Ä‚¢‚éŠÔ‚ÌƒJƒEƒ“ƒg
+	int count_;
 };
 

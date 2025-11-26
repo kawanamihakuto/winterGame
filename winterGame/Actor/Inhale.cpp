@@ -1,7 +1,7 @@
 #include "Inhale.h"
 #include<memory>
 #include<vector>
-#include"../System/Rect.h"
+#include"../Collision/Rect.h"
 #include"../Player/Player.h"
 #include"../Base/EnemyBase.h"
 #include<DxLib.h>

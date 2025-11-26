@@ -1,7 +1,7 @@
 #include<DxLib.h>
 #include "Player.h"
 #include"../Scene/GameScene.h"
-#include"../System/Rect.h"
+#include"../Collision/Rect.h"
 #include"../System/Input.h"
 #include"../System/Camera.h"
 #include"PlayerState/IdleState.h"

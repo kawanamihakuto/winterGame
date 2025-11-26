@@ -139,7 +139,7 @@ void GameScene::NormalUpdate(Input& input)
 		shots_.end(),
 		[](const std::shared_ptr<Shot>& shot)
 		{
-			return shot->GetIsActive();
+			return !shot->GetIsActive();
 		});
 	shots_.erase(newShotEnd, shots_.end());
 

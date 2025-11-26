@@ -10,8 +10,6 @@ void PlayerState::SpitState::Enter(Player& player)
 
 void PlayerState::SpitState::Update(Player& player, Input& input)
 {
-	
-
 	player.ChangeState(std::make_unique<IdleState>());
 }
 
