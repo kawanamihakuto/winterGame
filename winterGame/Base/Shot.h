@@ -18,6 +18,15 @@ public:
 	void Draw()override = 0;
 	virtual void Draw(Camera& camera) = 0;
 
+	//当たり判定の形を返すゲッター
+	Rect GetColliderRect()const override;
+	//自身のレイヤーを返すゲッター
+	CollisionLayer GetCollisionLayer()const override;
+	//当たりたいレイヤーを返すゲッター
+	CollisionLayer GetHitMask()const override;
+	//当たった時の処理を行う関数
+	void OnCollision(GameObject& other) override;
+
 	bool GetIsActive() { return isActive_; }
 	void SetIsActive(bool isActive) { isActive_ = isActive; }
 protected:

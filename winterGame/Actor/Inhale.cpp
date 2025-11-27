@@ -18,13 +18,12 @@ constexpr int kHeight = 32;
 constexpr int kSize = 2;
 //プレイヤーからのoffsetX
 constexpr int kOffsetX = 48;
-//吸い込むときのLerpのtの値
-constexpr float kInhaleLerpT = 0.05f;
 
-Inhale::Inhale(Vector2 pos,int graphHandle) : GameObject(pos),
+Inhale::Inhale(Vector2 pos,int graphHandle,std::shared_ptr<Player>player) : GameObject(pos),
 	isActive_(false),
 	graphHandle_(graphHandle),
-	isRight_(false)
+	isRight_(false),
+	player_(player)
 {
 }
 
@@ -89,21 +88,6 @@ void Inhale::Update(std::shared_ptr<Player>player,std::vector<std::shared_ptr<En
 	{
 		//プレイヤーの吸い込み状態の継続をいったんfalseにする
 		player->SetIsInhaledHold(false);
-		Lerp lerp;
-		for (auto& enemies : enemies)
-		{
-			//すべてのエネミーとの当たり判定をチェック
-			if (rect_.IsCollision(enemies->GetHitRect()))
-			{
-				//1体でもエネミーが吸い込み範囲にいたら
-				// プレイヤーに吸い込み状態を継続させる
-				player->SetIsInhaledHold(true);
-				//エネミーのステートを変更
-				enemies->ChangeState(std::make_unique<Inhaled>());
-				//吸い込まれている敵の挙動をLerpで実装
-				enemies->SetPosition(lerp.VLerp(enemies->GetPosition(), player->GetPosition(), kInhaleLerpT));
-			}
-		}
 	}
 }
 
@@ -125,6 +109,31 @@ void Inhale::Draw(Camera& camera)
 	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (kHeight * 0.3f) + camera.GetDrawOffset().y, kWidth, kHeight);
 	rect_.Draw(0x00ffff, false);
 #endif // _DEBUG
+}
+
+Rect Inhale::GetColliderRect() const
+{
+	return rect_;
+}
+
+CollisionLayer Inhale::GetCollisionLayer() const
+{
+	return CollisionLayers::kInhale;
+}
+
+CollisionLayer Inhale::GetHitMask() const
+{
+	return CollisionLayers::kEnemy;
+}
+
+void Inhale::OnCollision(GameObject& other)
+{
+	if (other.GetCollisionLayer() & CollisionLayers::kEnemy)
+	{
+		//1体でもエネミーが吸い込み範囲にいたら
+				// プレイヤーに吸い込み状態を継続させる
+		player_->SetIsInhaledHold(true);
+	}
 }
 
 

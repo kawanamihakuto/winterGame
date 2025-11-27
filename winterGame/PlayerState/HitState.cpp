@@ -6,10 +6,6 @@
 #include"InhaleState.h"
 void PlayerState::HitState::Enter(Player& player)
 {
-	//hp‚ğŒ¸‚ç‚·ˆ—
-	int hp = player.GetHp();
-	hp -= 1;
-	player.SetHp(hp);
 #ifdef _DEBUG
 	int rectColor = 0xff0000;
 	player.SetRectColor(rectColor);

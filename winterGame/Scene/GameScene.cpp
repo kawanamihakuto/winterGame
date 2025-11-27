@@ -58,7 +58,26 @@ void GameScene::NormalUpdate(Input& input)
 {
 	//プレイヤーのUpdate
 	player_->Update(input);
+	//エネミー全体のUpdate
+	for (auto& enemy : enemies_)
+	{
+		enemy->Update();
+	}
+	//カメラのUpdate
+	camera_->Update(*player_);
 
+	//吸い込みオブジェクトがあったら
+	if (inhale_)
+	{
+		//吸い込みオブジェクトのUpdate
+		inhale_->Update(player_, enemies_);
+	}
+
+	//弾全体のUpdate
+	for (auto& shot : shots_)
+	{
+		shot->Update(player_, enemies_);
+	}
 	//弾の生成処理
 	if (player_->GetIsSpit())
 	{
@@ -78,14 +97,6 @@ void GameScene::NormalUpdate(Input& input)
 		player_->SetIsSpit(false);
 	}
 
-	//エネミー全体のUpdate
-	for (auto& enemy : enemies_)
-	{
-		enemy->Update();
-	}
-	//カメラのUpdate
-	camera_->Update(*player_);
-
 	//吸い込みオブジェクトの生成処理
 	if (player_->GetGenerateInhale())
 	{
@@ -93,7 +104,7 @@ void GameScene::NormalUpdate(Input& input)
 		if (!inhale_)
 		{
 			//吸い込みオブジェクト生成
-			inhale_ = std::make_shared<Inhale>(player_->GetPosition(), graphHandle_);
+			inhale_ = std::make_shared<Inhale>(player_->GetPosition(), graphHandle_,player_);
 			//初期化
 			inhale_->Init(player_);
 		}
@@ -106,19 +117,30 @@ void GameScene::NormalUpdate(Input& input)
 		//リクエスト返却
 		player_->SetGenerateInhale(false);
 	}
-	
-	//吸い込みオブジェクトがあったら
-	if (inhale_)
+	//登録クリア
+	collisionManager_.Clear();
+	//プレイヤーを追加
+	collisionManager_.Add(*player_);
+	//エネミーの追加
+	for (auto& enemy : enemies_)
 	{
-		//吸い込みオブジェクトのUpdate
-		inhale_->Update(player_, enemies_);
+		collisionManager_.Add(*enemy);
 	}
-
-	//弾全体のUpdate
+	//弾の追加
 	for (auto& shot : shots_)
 	{
-		shot->Update(player_,enemies_);
+		collisionManager_.Add(*shot);
 	}
+	//吸い込みオブジェクトの追加
+	if (inhale_)
+	{
+		if (inhale_->GetIsActive())
+		{
+			collisionManager_.Add(*inhale_);
+		}
+	}
+	//登録されたすべてのオブジェクトの当たり判定を行う
+	collisionManager_.CheckAll();
 
 	//エネミーの削除
 	//remove_ifで消すべき要素を後ろに詰める

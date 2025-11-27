@@ -5,6 +5,7 @@
 #include<memory>
 #include"Camera.h"
 #include"HitState.h"
+#include"Lerp.h"
 namespace
 {
 	constexpr int kHp = 1;
@@ -22,7 +23,8 @@ namespace
 	constexpr float kNockBackTimeMax = 20;
 
 	constexpr int kWalkEnemyGraphCutRow = 2;
-
+	//吸い込むときのLerpのtの値
+	constexpr float kInhaleLerpT = 0.05f;
 }
 
 
@@ -91,24 +93,6 @@ void Walk::Update(EnemyBase& enemy)
 	enemy.SetVelocity(vel);
 
 	enemy.ApplyMovement();
-
-	auto player = enemy.GetPlayer();
-	Vector2 pos = enemy.GetPosition();
-	Rect& rect = enemy.GetHitRect();
-	Rect& playerRect = player->GetHitRect();
-	//当たり判定
-	if (rect.IsCollision(playerRect))
-	{
-		//プレイヤーが右にいるか左にいるかを判定
-		float enemyToPlayer = player->GetPosition().x - enemy.GetPosition().x;
-		bool isplayerOnRight = enemyToPlayer > 0 ? true : false;
-		enemy.SetPlayerOnRight(isplayerOnRight);
-
-		//エネミーの状態遷移
-		enemy.ChangeState(std::make_unique<Death>());
-		//プレイヤーの状態遷移
-		player->ChangeState(std::make_unique<PlayerState::HitState>());
-	}
 }
 
 void Walk::Exit(EnemyBase& enemy)
@@ -118,6 +102,7 @@ void Walk::Exit(EnemyBase& enemy)
 
 void Death::Enter(EnemyBase& enemy)
 {
+	enemy.SetIsAlive(false);
 }
 void Death::Update(EnemyBase& enemy)
 {
@@ -150,12 +135,12 @@ void Death::Update(EnemyBase& enemy)
 
 void Death::Exit(EnemyBase& enemy)
 {
-	//isDead_をtrueにする
-	enemy.SetIsDead(true);
 }
 
 void None::Enter(EnemyBase& enemy)
 {
+	//isDead_をtrueにする
+	enemy.SetIsDead(true);
 }
 void None::Update(EnemyBase& enemy)
 {
@@ -166,20 +151,16 @@ void None::Exit(EnemyBase& enemy)
 
 void Inhaled::Enter(EnemyBase& enemy)
 {
+	enemy.SetIsInhaled(true);
 	enemy.SetVelocity({ 0,0 });
 }
 
 void Inhaled::Update(EnemyBase& enemy)
 {
-	Rect& rect = enemy.GetHitRect();
 	auto player = enemy.GetPlayer();
-	Rect& playerRect = player->GetHitRect();
-	//当たり判定
-	if (rect.IsCollision(playerRect))
-	{
-		//エネミーの状態遷移
-		enemy.ChangeState(std::make_unique<Death>());
-	}
+	Lerp lerp;
+	//吸い込まれている敵の挙動をLerpで実装
+	enemy.SetPosition(lerp.VLerp(enemy.GetPosition(), player->GetPosition(), kInhaleLerpT));
 	enemy.Gravity();
 	enemy.ApplyMovement();
 }

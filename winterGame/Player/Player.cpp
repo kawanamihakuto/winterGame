@@ -67,13 +67,29 @@ void Player::Draw(Camera& camera)
 #endif // _DEBUG
 }
 
-bool Player::CheckCollision(const Rect& other) const
+Rect Player::GetColliderRect() const
 {
-	return false;
+	return rect_;
 }
 
-void Player::OnHit(Rect* other)
+CollisionLayer Player::GetCollisionLayer() const
 {
+	return CollisionLayers::kPlayer;
+}
+
+CollisionLayer Player::GetHitMask() const
+{
+	return CollisionLayers::kEnemy;
+}
+
+void Player::OnCollision(GameObject& other)
+{
+	if (other.GetCollisionLayer() & CollisionLayers::kEnemy)
+	{
+		hp_ -= 1;
+		//ƒvƒŒƒCƒ„[‚Ìó‘Ô‘JˆÚ
+		ChangeState(std::make_unique<PlayerState::HitState>());
+	}
 }
 
 void Player::ChangeState(std::unique_ptr<StateBase> newState)

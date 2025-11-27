@@ -36,8 +36,14 @@ public:
 	virtual void Draw()override = 0;
 	virtual void Draw(Camera& camera) = 0;
 
-	bool CheckCollision(const Rect& other)const override;
-	void OnHit(Rect* other)override;
+	//当たり判定の形を返すゲッター
+	Rect GetColliderRect()const override;
+	//自身のレイヤーを返すゲッター
+	CollisionLayer GetCollisionLayer()const override;
+	//当たりたいレイヤーを返すゲッター
+	CollisionLayer GetHitMask()const override;
+	//当たった時の処理を行う関数
+	void OnCollision(GameObject& other) override;
 
 	virtual void ChangeState(std::unique_ptr<EnemyStateBase> newState) = 0;
 
@@ -70,6 +76,12 @@ public:
 	bool GetIsDead() { return isDead_; }
 	void SetIsDead(bool isDead) { isDead_ = isDead; }
 
+	bool GetIsAlive() { return isAlive_; }
+	void SetIsAlive(bool isAlive) { isAlive_ = isAlive; }
+
+	bool GetIsInhaled() { return isInhaled_; }
+	void SetIsInhaled(bool isInhaled) { isInhaled_ = isInhaled; }
+
 	//歩くだけの敵の画像の切り取り位置のセッター
 	void SetEnemyGraphCutNo(EnemyGraphCutNo egcn) { graphCutNo_ = egcn; }
 	/// <summary>
@@ -90,6 +102,9 @@ protected:
 
 	bool isDead_;
 
+	bool isAlive_;
+
+	bool isInhaled_;
 	//画像ハンドル
 	int graphHandle_;
 

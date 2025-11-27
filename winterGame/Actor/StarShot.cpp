@@ -44,18 +44,6 @@ void StarShot::Update()
 void StarShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_ptr<EnemyBase>> enemies)
 {
 	position_ += velocity_;
-	
-	for (auto& enemies : enemies)
-	{
-		//すべてのエネミーとの当たり判定をチェック
-		if (rect_.IsCollision(enemies->GetHitRect()))
-		{
-			//エネミーのステートを変更
-			enemies->ChangeState(std::make_unique<Death>());
-
-			isActive_ = false;
-		}
-	}
 }
 
 void StarShot::Draw()

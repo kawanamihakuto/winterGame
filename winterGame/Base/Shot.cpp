@@ -25,3 +25,26 @@ Shot::~Shot()
 {
 
 }
+
+Rect Shot::GetColliderRect() const
+{
+	return rect_;
+}
+
+CollisionLayer Shot::GetCollisionLayer() const
+{
+	return CollisionLayers::kAttack;
+}
+
+CollisionLayer Shot::GetHitMask() const
+{
+	return CollisionLayers::kEnemy;
+}
+
+void Shot::OnCollision(GameObject& other)
+{
+	if (other.GetCollisionLayer() & CollisionLayers::kEnemy)
+	{
+		isActive_ = false;
+	}
+}

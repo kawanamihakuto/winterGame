@@ -2,8 +2,8 @@
 #include "Scene.h"
 #include<memory>
 #include<vector>
-#include"Player.h"
-#include"WalkEnemy.h"
+
+#include"CollisionManager.h"
 class Player;
 class EnemyBase;
 class Inhale;
@@ -14,6 +14,12 @@ class Shot;
 /// </summary>
 class GameScene :public Scene
 {
+public:
+	//コンストラクタ
+	GameScene(SceneController& controller);
+	~GameScene();
+	void Update(Input&)override;
+	void Draw()override;
 private:
 	//フェードインアウト用
 	int frame_ = 0;
@@ -47,12 +53,7 @@ private:
 	std::shared_ptr<Camera>camera_;
 	//弾のポインタ
 	std::vector<std::shared_ptr<Shot>>shots_;
-
+	//当たり判定を行うCollisionManager
+	CollisionManager collisionManager_;
 	int graphHandle_;
-public:
-	//コンストラクタ
-	GameScene(SceneController& controller);
-	~GameScene();
-	void Update(Input&)override;
-	void Draw()override;
 };

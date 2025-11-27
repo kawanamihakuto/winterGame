@@ -1,15 +1,19 @@
 #pragma once
 #include<vector>
-class Rect;
+class GameObject;
 class CollisionManager
 {
 public:
-	void Add(Rect* rect);
-
+	//当たり判定を行いたいオブジェクトを追加する関数
+	void Add(GameObject& object);
+	//毎フレーム最初に呼んで登録をクリアする関数
 	void Clear();
+	//登録されたすべてのオブジェクトの当たり判定を行う関数
+	void CheckAll();
 
-
-		 
 private:
-	std::vector<Rect*> colliders_;
+	//レイヤーの条件を満たしているかのチェックをする関数
+	bool CanCollide(const GameObject& a, const GameObject& b)const;
+	//登録されたオブジェクトを入れるvector
+	std::vector<GameObject*> objects_;
 };

@@ -42,3 +42,22 @@ void Camera::Draw()
 
 }
 
+Rect Camera::GetColliderRect() const
+{
+	return rect_;
+}
+
+CollisionLayer Camera::GetCollisionLayer() const
+{
+	return CollisionLayers::kNone;
+}
+
+CollisionLayer Camera::GetHitMask() const
+{
+	return CollisionLayers::kNone;
+}
+
+void Camera::OnCollision(GameObject& other)
+{
+}
+
