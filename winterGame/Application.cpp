@@ -1,8 +1,8 @@
 #include<DxLib.h>
 #include "Application.h"
-#include"System/Input.h"
-#include"Scene/SceneController.h"
-#include"Scene/TitleScene.h"
+#include"Input.h"
+#include"SceneController.h"
+#include"TitleScene.h"
 constexpr int kDefaultWindowWidth = 1080;//デフォルトウィンドウ幅
 constexpr int kDefaultWindowHeight = 720;//デフォルトウィンドウ高さ
 constexpr int kDefaultColorBit = 32;//デフォルトカラービット

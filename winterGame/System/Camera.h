@@ -1,5 +1,5 @@
 #pragma once
-#include"../base/GameObject.h"
+#include"base/GameObject.h"
 class Player;
 
 class Camera :public GameObject

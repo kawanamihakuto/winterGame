@@ -1,5 +1,5 @@
 #pragma once
-#include "../Base/EnemyBase.h"
+#include "Base/EnemyBase.h"
 #include <memory>
 
 class WalkEnemy;

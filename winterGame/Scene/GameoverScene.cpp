@@ -1,9 +1,9 @@
 #include "GameoverScene.h"
 #include<DxLib.h>
-#include"../System/Input.h"
+#include"Input.h"
 #include"TitleScene.h"
 #include"SceneController.h"
-#include"../Application.h"
+#include"Application.h"
 GameoverScene::GameoverScene(SceneController& controller) :Scene(controller)
 {
 

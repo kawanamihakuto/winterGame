@@ -1,16 +1,16 @@
 #include "GameScene.h"
 #include<DxLib.h>
 #include"SceneController.h"
-#include"../Application.h"
-#include"../System/Input.h"
+#include"Application.h"
+#include"Input.h"
 #include"GameoverScene.h"
-#include"../Player/Player.h"
-#include"../Actor/WalkEnemy.h"
+#include"Player.h"
+#include"WalkEnemy.h"
 #include<cassert>
-#include"../Actor/Inhale.h"
-#include"../System/Camera.h"
-#include"../Actor/StarShot.h"
-#include"../Actor/AirShot.h"
+#include"Actor/Inhale.h"
+#include"Camera.h"
+#include"Actor/StarShot.h"
+#include"Actor/AirShot.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 

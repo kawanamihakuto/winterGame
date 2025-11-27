@@ -1,5 +1,5 @@
 #pragma once
-#include "../Base/Shot.h"
+#include "Base/Shot.h"
 
 class StarShot :public Shot
 {

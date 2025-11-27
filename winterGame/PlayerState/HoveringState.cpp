@@ -1,6 +1,6 @@
 #include "HoveringState.h"
-#include"../Player.h"
-#include"../../System/Input.h"
+#include"Player.h"
+#include"Input.h"
 #include"SpitState.h"
 void PlayerState::HoveringState::Enter(Player& player)
 {

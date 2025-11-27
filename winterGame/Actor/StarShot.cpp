@@ -1,7 +1,7 @@
 #include "StarShot.h"
-#include"../Player/Player.h"
-#include"../System/Camera.h"
-#include"../Base/EnemyBase.h"
+#include"Player.h"
+#include"Camera.h"
+#include"Base/EnemyBase.h"
 #include"WalkEnemy.h"
 #include<DxLib.h>
 constexpr float kSpeed = 6.0f;

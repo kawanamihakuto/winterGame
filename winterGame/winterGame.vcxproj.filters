@@ -54,7 +54,7 @@
     <ClCompile Include="Base\EnemyBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\WalkEnemy.cpp">
+    <ClCompile Include="Enemy\WalkEnemy.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Actor\Inhale.cpp">
@@ -66,28 +66,28 @@
     <ClCompile Include="System\Lerp.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerState\StateBase.cpp">
+    <ClCompile Include="PlayerState\StateBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerState\IdleState.cpp">
+    <ClCompile Include="PlayerState\IdleState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerState\MoveState.cpp">
+    <ClCompile Include="PlayerState\MoveState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerState\JumpState.cpp">
+    <ClCompile Include="PlayerState\JumpState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerState\HitState.cpp">
+    <ClCompile Include="PlayerState\HitState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerState\InhaleState.cpp">
+    <ClCompile Include="PlayerState\InhaleState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerState\InhaleHoldState.cpp">
+    <ClCompile Include="PlayerState\InhaleHoldState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerState\SpitState.cpp">
+    <ClCompile Include="PlayerState\SpitState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Base\Shot.cpp">
@@ -99,7 +99,7 @@
     <ClCompile Include="Actor\AirShot.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerState\HoveringState.cpp">
+    <ClCompile Include="PlayerState\HoveringState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Collision\CollisionManager.cpp">
@@ -146,7 +146,7 @@
     <ClInclude Include="Base\EnemyBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\WalkEnemy.h">
+    <ClInclude Include="Enemy\WalkEnemy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Actor\Inhale.h">
@@ -158,28 +158,28 @@
     <ClInclude Include="System\Lerp.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerState\StateBase.h">
+    <ClInclude Include="PlayerState\StateBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerState\IdleState.h">
+    <ClInclude Include="PlayerState\IdleState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerState\MoveState.h">
+    <ClInclude Include="PlayerState\MoveState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerState\JumpState.h">
+    <ClInclude Include="PlayerState\JumpState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerState\HitState.h">
+    <ClInclude Include="PlayerState\HitState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerState\InhaleState.h">
+    <ClInclude Include="PlayerState\InhaleState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerState\InhaleHoldState.h">
+    <ClInclude Include="PlayerState\InhaleHoldState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerState\SpitState.h">
+    <ClInclude Include="PlayerState\SpitState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Base\Shot.h">
@@ -191,7 +191,7 @@
     <ClInclude Include="Actor\AirShot.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player\PlayerState\HoveringState.h">
+    <ClInclude Include="PlayerState\HoveringState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Collision\CollisionManager.h">

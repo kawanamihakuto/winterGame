@@ -2,8 +2,8 @@
 #include "Scene.h"
 #include<memory>
 #include<vector>
-#include"../Player/Player.h"
-#include"../Actor/WalkEnemy.h"
+#include"Player.h"
+#include"WalkEnemy.h"
 class Player;
 class EnemyBase;
 class Inhale;

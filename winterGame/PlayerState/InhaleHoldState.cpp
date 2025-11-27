@@ -1,5 +1,5 @@
 #include "InhaleHoldState.h"
-#include"../Player.h"
+#include"Player.h"
 #include"IdleState.h"
 void PlayerState::InhaleHoldState::Enter(Player& player)
 {

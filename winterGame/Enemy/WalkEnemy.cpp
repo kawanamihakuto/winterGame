@@ -1,10 +1,10 @@
 #include<DxLib.h>
 #include "WalkEnemy.h"
-#include"../Collision/Rect.h"
-#include"../Player/Player.h"
+#include"Collision/Rect.h"
+#include"Player.h"
 #include<memory>
-#include"../System/Camera.h"
-#include"../Player/PlayerState/HitState.h"
+#include"Camera.h"
+#include"HitState.h"
 namespace
 {
 	constexpr int kHp = 1;

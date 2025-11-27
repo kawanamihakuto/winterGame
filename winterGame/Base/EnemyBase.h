@@ -36,6 +36,9 @@ public:
 	virtual void Draw()override = 0;
 	virtual void Draw(Camera& camera) = 0;
 
+	bool CheckCollision(const Rect& other)const override;
+	void OnHit(Rect* other)override;
+
 	virtual void ChangeState(std::unique_ptr<EnemyStateBase> newState) = 0;
 
 	//ポジションのゲッター・セッター

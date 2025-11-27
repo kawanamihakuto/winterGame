@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)Enemy;$(ProjectDir);$(ProjectDir)Base;$(ProjectDir)Collision;$(ProjectDir)Player;$(ProjectDir)Scene;$(ProjectDir)System;$(ProjectDir)PlayerState</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -94,7 +94,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)Enemy;$(ProjectDir);$(ProjectDir)Base;$(ProjectDir)Collision;$(ProjectDir)Player;$(ProjectDir)Scene;$(ProjectDir)System;$(ProjectDir)PlayerState</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -110,7 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)Enemy;$(ProjectDir);$(ProjectDir)Base;$(ProjectDir)Collision;$(ProjectDir)Player;$(ProjectDir)Scene;$(ProjectDir)System;$(ProjectDir)PlayerState</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)Enemy;$(ProjectDir);$(ProjectDir)Base;$(ProjectDir)Collision;$(ProjectDir)Player;$(ProjectDir)Scene;$(ProjectDir)System;$(ProjectDir)PlayerState</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -145,15 +145,15 @@
     <ClCompile Include="Base\GameObject.cpp" />
     <ClCompile Include="Actor\Inhale.cpp" />
     <ClCompile Include="Collision\CollisionManager.cpp" />
-    <ClCompile Include="Player\PlayerState\HoveringState.cpp" />
-    <ClCompile Include="Player\PlayerState\InhaleHoldState.cpp" />
-    <ClCompile Include="Player\PlayerState\InhaleState.cpp" />
-    <ClCompile Include="Player\PlayerState\HitState.cpp" />
-    <ClCompile Include="Player\PlayerState\JumpState.cpp" />
-    <ClCompile Include="Player\PlayerState\MoveState.cpp" />
-    <ClCompile Include="Player\PlayerState\IdleState.cpp" />
-    <ClCompile Include="Player\PlayerState\StateBase.cpp" />
-    <ClCompile Include="Player\PlayerState\SpitState.cpp" />
+    <ClCompile Include="PlayerState\HoveringState.cpp" />
+    <ClCompile Include="PlayerState\InhaleHoldState.cpp" />
+    <ClCompile Include="PlayerState\InhaleState.cpp" />
+    <ClCompile Include="PlayerState\HitState.cpp" />
+    <ClCompile Include="PlayerState\JumpState.cpp" />
+    <ClCompile Include="PlayerState\MoveState.cpp" />
+    <ClCompile Include="PlayerState\IdleState.cpp" />
+    <ClCompile Include="PlayerState\StateBase.cpp" />
+    <ClCompile Include="PlayerState\SpitState.cpp" />
     <ClCompile Include="Base\Shot.cpp" />
     <ClCompile Include="Actor\StarShot.cpp" />
     <ClCompile Include="System\Lerp.cpp" />
@@ -168,7 +168,7 @@
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneController.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
-    <ClCompile Include="Actor\WalkEnemy.cpp" />
+    <ClCompile Include="Enemy\WalkEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor\AirShot.h" />
@@ -176,15 +176,15 @@
     <ClInclude Include="Base\EnemyBase.h" />
     <ClInclude Include="Collision\CollisionLayer.h" />
     <ClInclude Include="Collision\CollisionManager.h" />
-    <ClInclude Include="Player\PlayerState\HoveringState.h" />
-    <ClInclude Include="Player\PlayerState\InhaleHoldState.h" />
-    <ClInclude Include="Player\PlayerState\InhaleState.h" />
-    <ClInclude Include="Player\PlayerState\HitState.h" />
-    <ClInclude Include="Player\PlayerState\JumpState.h" />
-    <ClInclude Include="Player\PlayerState\MoveState.h" />
-    <ClInclude Include="Player\PlayerState\IdleState.h" />
-    <ClInclude Include="Player\PlayerState\StateBase.h" />
-    <ClInclude Include="Player\PlayerState\SpitState.h" />
+    <ClInclude Include="PlayerState\HoveringState.h" />
+    <ClInclude Include="PlayerState\InhaleHoldState.h" />
+    <ClInclude Include="PlayerState\InhaleState.h" />
+    <ClInclude Include="PlayerState\HitState.h" />
+    <ClInclude Include="PlayerState\JumpState.h" />
+    <ClInclude Include="PlayerState\MoveState.h" />
+    <ClInclude Include="PlayerState\IdleState.h" />
+    <ClInclude Include="PlayerState\StateBase.h" />
+    <ClInclude Include="PlayerState\SpitState.h" />
     <ClInclude Include="Base\Shot.h" />
     <ClInclude Include="Actor\StarShot.h" />
     <ClInclude Include="System\Lerp.h" />
@@ -201,7 +201,7 @@
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\SceneController.h" />
     <ClInclude Include="Scene\TitleScene.h" />
-    <ClInclude Include="Actor\WalkEnemy.h" />
+    <ClInclude Include="Enemy\WalkEnemy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,6 @@
 #include "InhaleState.h"
-#include"../Player.h"
-#include"../../System/Input.h"
+#include"Player.h"
+#include"Input.h"
 #include"IdleState.h"
 #include"InhaleHoldState.h"
 #include<memory>

@@ -1,14 +1,14 @@
 #include "Shot.h"
 #include<memory>
 #include<vector>
-#include"../Collision/Rect.h"
-#include"../Player/Player.h"
-#include"../Base/EnemyBase.h"
+#include"Collision/Rect.h"
+#include"Player.h"
+#include"Base/EnemyBase.h"
 #include<DxLib.h>
-#include"../System/Camera.h"
-#include"../Actor/WalkEnemy.h"
-#include"../System/Lerp.h"
-#include"../Player/PlayerState/InhaleHoldState.h"
+#include"Camera.h"
+#include"WalkEnemy.h"
+#include"Lerp.h"
+#include"InhaleHoldState.h"
 
 
 

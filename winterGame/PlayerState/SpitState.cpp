@@ -1,5 +1,5 @@
 #include "SpitState.h"
-#include"../Player.h"
+#include"Player.h"
 #include"IdleState.h"
 void PlayerState::SpitState::Enter(Player& player)
 {

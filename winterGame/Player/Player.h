@@ -1,5 +1,5 @@
 #pragma once
-#include "../Base/GameObject.h"
+#include "Base/GameObject.h"
 #include<memory>
 class StateBase;
 class Player;
@@ -73,6 +73,9 @@ public:
 	void Update(Input& input);
 	void Draw()override;
 	void Draw(Camera& camera);
+
+	bool CheckCollision(const Rect& other)const override;
+	void OnHit(Rect* other)override;
 
 	//ポジションのゲッター
 	Vector2 GetPosition(){ return position_; }

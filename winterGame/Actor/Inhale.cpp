@@ -1,15 +1,15 @@
 #include "Inhale.h"
 #include<memory>
 #include<vector>
-#include"../Collision/Rect.h"
-#include"../Player/Player.h"
-#include"../Base/EnemyBase.h"
+#include"Collision/Rect.h"
+#include"Player.h"
+#include"Base/EnemyBase.h"
 #include<DxLib.h>
-#include"../System/Camera.h"
+#include"Camera.h"
 #include"WalkEnemy.h"
-#include"../System/Lerp.h"
-#include"../Player/PlayerState/InhaleHoldState.h"
-#include "../Base/Shot.h"
+#include"Lerp.h"
+#include"InhaleHoldState.h"
+#include "Base/Shot.h"
 //‹z‚¢‚İ”ÍˆÍ‚Ì•
 constexpr int kWidth = 32;
 //‹z‚¢‚İ”ÍˆÍ‚Ì‚‚³

@@ -1,14 +1,14 @@
 #include<DxLib.h>
 #include "Player.h"
-#include"../Scene/GameScene.h"
-#include"../Collision/Rect.h"
-#include"../System/Input.h"
-#include"../System/Camera.h"
-#include"PlayerState/IdleState.h"
-#include"PlayerState/MoveState.h"
-#include"PlayerState/JumpState.h"
-#include"PlayerState/HitState.h"
-#include"PlayerState/InhaleState.h"
+#include"GameScene.h"
+#include"Collision/Rect.h"
+#include"Input.h"
+#include"Camera.h"
+#include"IdleState.h"
+#include"MoveState.h"
+#include"JumpState.h"
+#include"HitState.h"
+#include"InhaleState.h"
 Player::Player(int graphHandle) :
 	velocity_{ 0.0f,0.0f },
 	GameObject({ 320,240 }),
@@ -65,6 +65,15 @@ void Player::Draw(Camera& camera)
 	//プレイヤーのHP表示
 	DrawFormatString(0, 0, 0xffffff, "%d", hp_);
 #endif // _DEBUG
+}
+
+bool Player::CheckCollision(const Rect& other) const
+{
+	return false;
+}
+
+void Player::OnHit(Rect* other)
+{
 }
 
 void Player::ChangeState(std::unique_ptr<StateBase> newState)

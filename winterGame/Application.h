@@ -1,5 +1,5 @@
 #pragma once
-#include"System/Geometry.h"
+#include"Geometry.h"
 /// <summary>
 /// アプリケーション全体を管理する
 /// シングルトンクラス

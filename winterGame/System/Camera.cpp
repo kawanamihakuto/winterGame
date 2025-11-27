@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include<cmath>
-#include"../Player/Player.h"
-#include"../Application.h"
+#include"Player.h"
+#include"Application.h"
 #include"Lerp.h"
 
 Camera::Camera() : GameObject(Vector2{320,320}),

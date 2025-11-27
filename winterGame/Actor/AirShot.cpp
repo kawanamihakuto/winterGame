@@ -1,8 +1,8 @@
 #include "AirShot.h"
-#include"../Player/Player.h"
-#include"../System/Camera.h"
-#include"../Base/EnemyBase.h"
-#include"WalkEnemy.h"
+#include"Player.h"
+#include"Camera.h"
+#include"Base/EnemyBase.h"
+#include"Enemy/WalkEnemy.h"
 #include<DxLib.h>
 
 constexpr float kAirGraphCutRow = 5;

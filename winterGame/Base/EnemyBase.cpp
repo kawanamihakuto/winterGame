@@ -1,5 +1,5 @@
 #include "EnemyBase.h"
-#include"../Player/Player.h"
+#include"Player.h"
 #include<memory>
 
 constexpr int kGround = 400;
@@ -34,4 +34,14 @@ void EnemyBase::ApplyMovement()
 		position_.y = kGround;
 		velocity_.y = 0.0f;
 	}
+}
+
+bool EnemyBase::CheckCollision(const Rect& other)const
+{
+	return false;
+}
+
+void EnemyBase::OnHit(Rect* other)
+{
+
 }
