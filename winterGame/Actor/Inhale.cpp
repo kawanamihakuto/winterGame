@@ -9,7 +9,7 @@
 #include"WalkEnemy.h"
 #include"../System/Lerp.h"
 #include"../Player/PlayerState/InhaleHoldState.h"
-#include "Shot.h"
+#include "../Base/Shot.h"
 //‹z‚¢‚İ”ÍˆÍ‚Ì•
 constexpr int kWidth = 32;
 //‹z‚¢‚İ”ÍˆÍ‚Ì‚‚³

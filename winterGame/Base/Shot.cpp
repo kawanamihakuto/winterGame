@@ -6,7 +6,7 @@
 #include"../Base/EnemyBase.h"
 #include<DxLib.h>
 #include"../System/Camera.h"
-#include"WalkEnemy.h"
+#include"../Actor/WalkEnemy.h"
 #include"../System/Lerp.h"
 #include"../Player/PlayerState/InhaleHoldState.h"
 
