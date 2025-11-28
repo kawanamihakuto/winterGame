@@ -9,7 +9,7 @@ void PlayerState::InhaleState::Enter(Player& player)
 	//画像をInhaleに変更
 	player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthOpen);
 	//吸い込みオブジェクトの生成をリクエストする
-	player.SetGenerateInhale(true);
+	player.StartInhale();
 	//横方向のvelocityを0にする
 	player.SetVelocity({ 0.0f,player.GetVelocity().y });
 }
@@ -20,7 +20,7 @@ void PlayerState::InhaleState::Update(Player& player, Input& input)
 	if (!input.IsPressed("attack"))
 	{
 		player.ChangeState(std::make_unique<IdleState>());
-		player.SetDeleteInhale(true);
+		player.EndInhale();
 	}
 	//吸い込み状態の継続がtrueになったら
 	if (player.GetIsInhaledHold())

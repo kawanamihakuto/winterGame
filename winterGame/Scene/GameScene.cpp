@@ -11,6 +11,7 @@
 #include"Camera.h"
 #include"Actor/StarShot.h"
 #include"Actor/AirShot.h"
+#include"../Actor/PlayerInhaledRect.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -70,7 +71,7 @@ void GameScene::NormalUpdate(Input& input)
 	if (inhale_)
 	{
 		//吸い込みオブジェクトのUpdate
-		inhale_->Update(player_, enemies_);
+		inhale_->Update();
 	}
 
 	//弾全体のUpdate
@@ -105,17 +106,18 @@ void GameScene::NormalUpdate(Input& input)
 		{
 			//吸い込みオブジェクト生成
 			inhale_ = std::make_shared<Inhale>(player_->GetPosition(), graphHandle_,player_);
+			playerInhaledRect_ = std::make_shared<PlayerInhaledRect>(player_->GetPosition(), player_);
 			//初期化
-			inhale_->Init(player_);
+			inhale_->Init();
+			playerInhaledRect_->Init();
 		}
 		//吸い込みオブジェクトが生成済み&Activeじゃないなら
 		else if (inhale_ && !inhale_->GetIsActive())
 		{
 			//初期化のみ
-			inhale_->Init(player_);
+			inhale_->Init();
+			playerInhaledRect_->Init();
 		}
-		//リクエスト返却
-		player_->SetGenerateInhale(false);
 	}
 	//登録クリア
 	collisionManager_.Clear();
@@ -169,7 +171,6 @@ void GameScene::NormalUpdate(Input& input)
 	if (player_->GetDeleteInhale())
 	{
 		inhale_->SetIsActive(false);
-		player_->SetDeleteInhale(false);
 	}
 
 	//ボタンが押されたらフェードアウトを始める

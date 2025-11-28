@@ -9,6 +9,9 @@
 #include"JumpState.h"
 #include"HitState.h"
 #include"InhaleState.h"
+
+constexpr int kInhaledRectWidth = 8;
+
 Player::Player(int graphHandle) :
 	velocity_{ 0.0f,0.0f },
 	GameObject({ 320,240 }),
@@ -43,6 +46,9 @@ void Player::Update()
 }
 void Player::Update(Input& input)
 {
+	isGenerateInhale_ = false;
+	isDeleteInhale_ = false;
+
 	//現在の状態のUpdateを呼び出す
 	state_->Update(*this, input);
 }
@@ -62,6 +68,7 @@ void Player::Draw(Camera& camera)
 	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (PlayerConstant::kHeight / 2) + camera.GetDrawOffset().y,
 		PlayerConstant::kWidth * PlayerConstant::kRectSize, PlayerConstant::kHeight * PlayerConstant::kRectSize);
 	rect_.Draw(rectColor_, false);
+	
 	//プレイヤーのHP表示
 	DrawFormatString(0, 0, 0xffffff, "%d", hp_);
 #endif // _DEBUG
@@ -74,7 +81,7 @@ Rect Player::GetColliderRect() const
 
 CollisionLayer Player::GetCollisionLayer() const
 {
-	return CollisionLayers::kPlayer;
+	return CollisionLayers::kNormalPlayer;
 }
 
 CollisionLayer Player::GetHitMask() const

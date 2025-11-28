@@ -12,9 +12,10 @@ namespace CollisionLayers
 	//ビットシフト
 	//1<<n -> 1をnaビット左にずらす
 	constexpr CollisionLayer kNone	 = 0;
-	constexpr CollisionLayer kPlayer = 1 << 0;
+	constexpr CollisionLayer kNormalPlayer = 1 << 0;
 	constexpr CollisionLayer kEnemy	 = 1 << 1;
 	constexpr CollisionLayer kInhale = 1 << 2;
 	constexpr CollisionLayer kAttack = 1 << 3;
+	constexpr CollisionLayer kInhaledPlayer = 1 << 4;
 }
 

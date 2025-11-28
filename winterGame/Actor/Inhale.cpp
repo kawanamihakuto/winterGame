@@ -33,15 +33,11 @@ Inhale::~Inhale()
 
 void Inhale::Init()
 {
-	
-}
-void Inhale::Init(std::shared_ptr<Player>player)
-{
 	isActive_ = true;
 	//プレイヤーのpositionを取得
-	Vector2 playerPos = player->GetPosition();
+	Vector2 playerPos = player_->GetPosition();
 
-	bool isPlayerRight = player->GetIsRight();
+	bool isPlayerRight = player_->GetIsRight();
 	//プレイヤーが右を向いていたら
 	if (isPlayerRight)
 	{
@@ -57,19 +53,16 @@ void Inhale::Init(std::shared_ptr<Player>player)
 		position_.x = playerPos.x - kOffsetX;
 	}
 	//プレイヤーの高さに合わせる
-	position_.y = player->GetPosition().y;
+	position_.y = player_->GetPosition().y;
 
 }
+
 void Inhale::Update()
 {
-}
-
-void Inhale::Update(std::shared_ptr<Player>player,std::vector<std::shared_ptr<EnemyBase>>enemies)
-{
 	//プレイヤーのpositionを取得
-	Vector2 playerPos = player->GetPosition();
-
-	bool isPlayerRight = player->GetIsRight();
+	Vector2 playerPos =  player_->GetPosition();
+	//プレイヤーの向きを取得
+	bool isPlayerRight = player_->GetIsRight();
 	//プレイヤーが右を向いていたら
 	if (isPlayerRight)
 	{
@@ -87,14 +80,12 @@ void Inhale::Update(std::shared_ptr<Player>player,std::vector<std::shared_ptr<En
 	if (isActive_)
 	{
 		//プレイヤーの吸い込み状態の継続をいったんfalseにする
-		player->SetIsInhaledHold(false);
+		player_->SetIsInhaledHold(false);
 	}
 }
 
 void Inhale::Draw()
-{
-	
-	
+{	
 }
 
 void Inhale::Draw(Camera& camera)
@@ -104,10 +95,13 @@ void Inhale::Draw(Camera& camera)
 		DrawRectRotaGraph(position_.x + camera.GetDrawOffset().x, position_.y + (kHeight * 0.5f) + camera.GetDrawOffset().y,
 			16 * 3, 0, kWidth, kHeight, kSize, 0, graphHandle_,true, !isRight_);
 	}
+	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (kHeight * 0.3f) + camera.GetDrawOffset().y, kWidth, kHeight);
 #ifdef _DEBUG
 	//当たり判定を可視化
-	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (kHeight * 0.3f) + camera.GetDrawOffset().y, kWidth, kHeight);
-	rect_.Draw(0x00ffff, false);
+	if (isActive_)
+	{
+		rect_.Draw(0x00ffff, false);
+	}
 #endif // _DEBUG
 }
 

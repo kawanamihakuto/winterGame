@@ -9,6 +9,7 @@ class EnemyBase;
 class Inhale;
 class Camera;
 class Shot;
+class PlayerInhaledRect;
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -49,6 +50,8 @@ private:
 	std::vector<std::shared_ptr<EnemyBase>>enemies_;
 	//吸い込みオブジェクトのポインタ
 	std::shared_ptr<Inhale>inhale_;
+	//吸い込み中に出す当たり判定のポインタ
+	std::shared_ptr<PlayerInhaledRect>playerInhaledRect_;
 	//カメラのポインタ
 	std::shared_ptr<Camera>camera_;
 	//弾のポインタ

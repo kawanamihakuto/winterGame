@@ -63,8 +63,6 @@ enum class StarOrAir
 class Player :public GameObject
 {
 public:
-
-
 	Player(int GraphHandle);
 	~Player();
 
@@ -113,13 +111,20 @@ public:
 	
 	//吸い込みオブジェクトを生成するかのゲッター
 	bool GetGenerateInhale() { return isGenerateInhale_; }
-	//吸い込みオブジェクトを生成するかのセッター
-	void SetGenerateInhale(bool isGenerate) { isGenerateInhale_ = isGenerate; }
+	//吸い込み状態になったときに呼ぶ
+	void StartInhale() { isGenerateInhale_ = true; }
 
 	//吸い込みオブジェクトを削除するかのゲッター
 	bool GetDeleteInhale() { return isDeleteInhale_; }
-	//吸い込みオブジェクトを削除するかのセッター
-	void SetDeleteInhale(bool isDelete) { isDeleteInhale_ = isDelete; }
+	//吸い込み状態が終わるときに呼ぶ
+	void EndInhale() { isDeleteInhale_ = true; }
+
+//	//吸い込み中に出す当たり判定を生成するかのゲッター
+//	bool GetGenerateInhaleRect() { return isGanarateInhaledRect_; }
+//	void StartInhaledRect() { isGanarateInhaledRect_ = true; }
+
+//	bool GetDeleteInhaledRect() { return isDeleteInhaledRect_; }
+//	void EndInhaledRect() { isDeleteInhaledRect_ = true; }
 
 	//右を向いているかどうかのゲッター
 	bool GetIsRight() { return isRight_; }
@@ -198,4 +203,9 @@ private:
 	bool isSpit_;
 	//星弾か空気弾か決めるための変数
 	StarOrAir starOrAir_;
+	//吸い込み状態中に出す当たり判定の生成リクエスト
+	bool isGanarateInhaledRect_;
+	//吸い込み状態中に出す当たり判定の削除リクエスト
+	bool isDeleteInhaledRect_;
+	Rect inhaledRect_;
 };

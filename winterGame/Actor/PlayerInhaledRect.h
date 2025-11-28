@@ -1,15 +1,16 @@
 #pragma once
-#include "Base/GameObject.h"
+#include "GameObject.h"
 #include<memory>
 #include<vector>
-class EnemyBase;
+
 class Player;
+class EnemyBase;
 class Camera;
-class Inhale :public GameObject
+class PlayerInhaledRect :public GameObject
 {
 public:
-	Inhale(Vector2 pos,int graphHandle,std::shared_ptr<Player>player);
-	~Inhale();
+	PlayerInhaledRect(Vector2 pos, std::shared_ptr<Player>player);
+	~PlayerInhaledRect();
 
 	void Init()override;
 	void Update()override;
@@ -33,7 +34,6 @@ public:
 private:
 	bool isActive_;
 	bool isRight_;
-	int graphHandle_;
 
 	std::shared_ptr<Player>player_;
 };

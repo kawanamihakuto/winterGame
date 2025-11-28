@@ -55,24 +55,17 @@ CollisionLayer EnemyBase::GetCollisionLayer() const
 
 CollisionLayer EnemyBase::GetHitMask() const
 {
-	return CollisionLayers::kPlayer | 
-		   CollisionLayers::kInhale | 
-		   CollisionLayers::kAttack;
+	return  CollisionLayers::kNormalPlayer |
+			CollisionLayers::kInhale |
+			CollisionLayers::kAttack |
+			CollisionLayers::kInhaledPlayer;
 }
 
 void EnemyBase::OnCollision(GameObject& other)
 {
-	if (other.GetCollisionLayer() & CollisionLayers::kPlayer)
+	if (other.GetCollisionLayer() & CollisionLayers::kNormalPlayer)
 	{
-		if (isInhaled_)
-		{
-			ChangeState(std::make_unique<None>());
-		}
-		else if (!isInhaled_)
-		{
-			ChangeState(std::make_unique<Death>());
-		}
-		
+		ChangeState(std::make_unique<Death>());
 	}
 	if (other.GetCollisionLayer() & CollisionLayers::kInhale)
 	{
@@ -84,6 +77,11 @@ void EnemyBase::OnCollision(GameObject& other)
 
 		//エネミーの状態遷移
 		ChangeState(std::make_unique<Inhaled>());
+	}
+
+	if (other.GetCollisionLayer() & CollisionLayers::kInhaledPlayer)
+	{
+		ChangeState(std::make_unique<None>());
 	}
 
 	if (other.GetCollisionLayer() & CollisionLayers::kAttack)

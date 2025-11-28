@@ -20,5 +20,5 @@ void PlayerState::InhaleHoldState::Update(Player& player, Input& input)
 void PlayerState::InhaleHoldState::Exit(Player& player)
 {
 	//吸い込みオブジェクトの削除をリクエストする
-	player.SetDeleteInhale(true);
+	player.EndInhale();
 }
