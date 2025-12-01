@@ -20,7 +20,7 @@ namespace
 	constexpr float kMaxSpeed = 1.5f;
 
 	constexpr float kNockbackSpeed = 4.0f;
-	constexpr float kNockBackTimeMax = 20;
+	constexpr int kNockBackTimeMax = 20;
 
 	constexpr int kWalkEnemyGraphCutRow = 2;
 	//‹z‚¢‚Ş‚Æ‚«‚ÌLerp‚Ìt‚Ì’l

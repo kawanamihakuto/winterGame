@@ -73,7 +73,10 @@ void GameScene::NormalUpdate(Input& input)
 		//吸い込みオブジェクトのUpdate
 		inhale_->Update();
 	}
-
+	if (playerInhaledRect_)
+	{
+		playerInhaledRect_->Update();
+	}
 	//弾全体のUpdate
 	for (auto& shot : shots_)
 	{
@@ -98,7 +101,7 @@ void GameScene::NormalUpdate(Input& input)
 		player_->SetIsSpit(false);
 	}
 
-	//吸い込みオブジェクトの生成処理
+	//吸い込みオブジェクトと吸い込み中に出す当たり判定の生成処理
 	if (player_->GetGenerateInhale())
 	{
 		//吸い込みオブジェクトが生成されていなかったら
@@ -141,6 +144,13 @@ void GameScene::NormalUpdate(Input& input)
 			collisionManager_.Add(*inhale_);
 		}
 	}
+	if (playerInhaledRect_)
+	{
+		if (playerInhaledRect_->GetIsActive())
+		{
+			collisionManager_.Add(*playerInhaledRect_);
+		}
+	}
 	//登録されたすべてのオブジェクトの当たり判定を行う
 	collisionManager_.CheckAll();
 
@@ -171,6 +181,7 @@ void GameScene::NormalUpdate(Input& input)
 	if (player_->GetDeleteInhale())
 	{
 		inhale_->SetIsActive(false);
+		playerInhaledRect_->SetIsActive(false);
 	}
 
 	//ボタンが押されたらフェードアウトを始める
@@ -221,6 +232,10 @@ void GameScene::NormalDraw()
 	{
 		//吸い込みオブジェクトのDraw
 		inhale_->Draw(*camera_);
+	}
+	if (playerInhaledRect_)
+	{
+		playerInhaledRect_->Draw(*camera_);
 	}
 	for (auto& shot : shots_)
 	{

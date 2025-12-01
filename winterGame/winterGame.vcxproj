@@ -146,6 +146,7 @@
     <ClCompile Include="Actor\Inhale.cpp" />
     <ClCompile Include="Collision\CollisionManager.cpp" />
     <ClCompile Include="Actor\PlayerInhaledRect.cpp" />
+    <ClCompile Include="System\IntervalChecker.cpp" />
     <ClCompile Include="PlayerState\HoveringState.cpp" />
     <ClCompile Include="PlayerState\InhaleHoldState.cpp" />
     <ClCompile Include="PlayerState\InhaleState.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Collision\CollisionLayer.h" />
     <ClInclude Include="Collision\CollisionManager.h" />
     <ClInclude Include="Actor\PlayerInhaledRect.h" />
+    <ClInclude Include="System\IntervalChecker.h" />
     <ClInclude Include="PlayerState\HoveringState.h" />
     <ClInclude Include="PlayerState\InhaleHoldState.h" />
     <ClInclude Include="PlayerState\InhaleState.h" />

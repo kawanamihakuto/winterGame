@@ -4,6 +4,9 @@
 #include"IdleState.h"
 #include"MoveState.h"
 #include"InhaleState.h"
+#include"HoveringState.h"
+
+
 void PlayerState::HitState::Enter(Player& player)
 {
 #ifdef _DEBUG
@@ -13,26 +16,37 @@ void PlayerState::HitState::Enter(Player& player)
 }
 void PlayerState::HitState::Update(Player& player, Input& input)
 {
-	if (input.IsPressed("left"))
+	player.NockBackTimeUpdate();
+
+	if (player.IsNockBackEnd())
 	{
-		player.SetIsRight(false);
-		player.ChangeState(std::make_unique<PlayerState::MoveState>());
-	}
-	else if (input.IsPressed("right"))
-	{
-		player.SetIsRight(true);
-		player.ChangeState(std::make_unique<PlayerState::MoveState>());
-	}
-	else
-	{
-		player.ChangeState(std::make_unique<PlayerState::IdleState>());
+		player.SetVelocity({ 0,0 });
+		if (input.IsPressed("left"))
+		{
+			player.SetIsRight(false);
+			player.ChangeState(std::make_unique<PlayerState::MoveState>());
+			return;
+		}
+		else if (input.IsPressed("right"))
+		{
+			player.SetIsRight(true);
+			player.ChangeState(std::make_unique<PlayerState::MoveState>());
+			return;
+		}
+
+		if (input.IsTriggered("up"))
+		{
+			player.ChangeState(std::make_unique<PlayerState::HoveringState>());
+			return;
+		}
+
+		if (input.IsTriggered("attack"))
+		{
+			player.ChangeState(std::make_unique<PlayerState::InhaleState>());
+			return;
+		}
 	}
 
-	if (input.IsPressed("attack"))
-	{
-
-		player.ChangeState(std::make_unique<PlayerState::InhaleState>());
-	}
 	player.UpdatePhysics();
 }
 void PlayerState::HitState::Exit(Player& player)

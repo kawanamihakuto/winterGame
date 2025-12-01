@@ -21,6 +21,9 @@ public:
 	virtual CollisionLayer GetHitMask()const = 0;
 	//当たった時の処理を行う関数
 	virtual void OnCollision(GameObject& other) = 0;
+	//ポジションのゲッター
+	const Vector2& GetPosition()const { return position_; }
+
 protected:
 	//Vector2でポジションを管理
 	Vector2 position_;

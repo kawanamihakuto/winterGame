@@ -31,6 +31,9 @@ namespace PlayerConstant
 	constexpr float kFriction = 0.90f;
 	//ホバリングの強さ
 	constexpr float kHoveringPower = 4.0f;
+
+	constexpr float kNockbackSpeed = 4.0f;
+	constexpr int kNockBackTimeMax = 10;
 }
 
 /// <summary>
@@ -82,18 +85,18 @@ public:
 	void OnCollision(GameObject& other) override;
 
 	//ポジションのゲッター
-	Vector2 GetPosition(){ return position_; }
-	 //ポジションのセッター
+	Vector2 GetPosition() { return position_; }
+	//ポジションのセッター
 	void SetPosition(const Vector2& pos) { position_ = pos; }
 
 	//Velocityのゲッター
 	Vector2 GetVelocity() { return velocity_; }
 	//Velocityのセッター
 	void SetVelocity(const Vector2& dir) { velocity_ = dir; }
-	
+
 	//Rectのゲッター
 	Rect& GetHitRect() { return rect_; }
-	
+
 	//現在の画像ハンドルのゲッター
 	int GetGraph() { return currentImage_; }
 	//現在の画像ハンドルのセッター
@@ -108,7 +111,7 @@ public:
 	int GetHp() { return hp_; }
 	//HPのセッター
 	void SetHp(int hp) { hp_ = hp; }
-	
+
 	//吸い込みオブジェクトを生成するかのゲッター
 	bool GetGenerateInhale() { return isGenerateInhale_; }
 	//吸い込み状態になったときに呼ぶ
@@ -118,13 +121,6 @@ public:
 	bool GetDeleteInhale() { return isDeleteInhale_; }
 	//吸い込み状態が終わるときに呼ぶ
 	void EndInhale() { isDeleteInhale_ = true; }
-
-//	//吸い込み中に出す当たり判定を生成するかのゲッター
-//	bool GetGenerateInhaleRect() { return isGanarateInhaledRect_; }
-//	void StartInhaledRect() { isGanarateInhaledRect_ = true; }
-
-//	bool GetDeleteInhaledRect() { return isDeleteInhaledRect_; }
-//	void EndInhaledRect() { isDeleteInhaledRect_ = true; }
 
 	//右を向いているかどうかのゲッター
 	bool GetIsRight() { return isRight_; }
@@ -154,6 +150,10 @@ public:
 	bool GetIsGround()const { return isGround_; }
 
 	void OnJump() { isGround_ = false; }
+	//ノックバックする時間のカウンター
+	void NockBackTimeUpdate() { nockBackTime_++; }
+	//ノックバック状態が終わったかどうかのゲッター
+	bool IsNockBackEnd() { return nockBackTime_ >= PlayerConstant::kNockBackTimeMax; }
 
 	/// <summary>
 	/// ステート切り替えの関数
@@ -174,6 +174,7 @@ public:
 	/// 物理的な移動処理のまとめ
 	/// </summary>
 	void UpdatePhysics();
+
 private:
 	//現在のステートを入れる変数
 	std::unique_ptr<StateBase>state_;
@@ -207,5 +208,8 @@ private:
 	bool isGanarateInhaledRect_;
 	//吸い込み状態中に出す当たり判定の削除リクエスト
 	bool isDeleteInhaledRect_;
-	Rect inhaledRect_;
+	//ノックバックの時間カウンター
+	int nockBackTime_;
+	//無敵時間用フレームカウンター
+	int invincinleFrame_;
 };

@@ -26,12 +26,14 @@ Player::Player(int graphHandle) :
 	mouthState_(MouthState::empty),
 	graphCutNo_(PlayerGraphCutNo::mouthClosed),
 	isSpit_(false),
-	starOrAir_(StarOrAir::star)
+	starOrAir_(StarOrAir::star),
+	isGanarateInhaledRect_(false),
+	isDeleteInhaledRect_(false),
+	invincinleFrame_(0),
+	nockBackTime_(0)
 {
 	state_ = std::make_unique<PlayerState::IdleState>();
 }
-
-
 
 Player::~Player()
 {
@@ -62,13 +64,13 @@ void Player::Draw(Camera& camera)
 	//プレイヤー表示
 	DrawRectRotaGraph(position_.x + camera.GetDrawOffset().x, position_.y + camera.GetDrawOffset().y,
 		16 * static_cast<int>(graphCutNo_), 0, PlayerConstant::kWidth, PlayerConstant::kHeight,
-		PlayerConstant::kSize, 0, currentImage_, true,!isRight_);
+		PlayerConstant::kSize, 0, currentImage_, true, !isRight_);
 #ifdef _DEBUG
 	//当たり判定表示
 	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (PlayerConstant::kHeight / 2) + camera.GetDrawOffset().y,
 		PlayerConstant::kWidth * PlayerConstant::kRectSize, PlayerConstant::kHeight * PlayerConstant::kRectSize);
 	rect_.Draw(rectColor_, false);
-	
+
 	//プレイヤーのHP表示
 	DrawFormatString(0, 0, 0xffffff, "%d", hp_);
 #endif // _DEBUG
@@ -94,6 +96,16 @@ void Player::OnCollision(GameObject& other)
 	if (other.GetCollisionLayer() & CollisionLayers::kEnemy)
 	{
 		hp_ -= 1;
+
+		if (position_.x - other.GetPosition().x <= 0)
+		{
+			velocity_.x = -PlayerConstant::kNockbackSpeed;
+		}
+		else
+		{
+			velocity_.x = PlayerConstant::kNockbackSpeed;
+		}
+		nockBackTime_ = 0;
 		//プレイヤーの状態遷移
 		ChangeState(std::make_unique<PlayerState::HitState>());
 	}
@@ -140,3 +152,4 @@ void Player::UpdatePhysics()
 	//velocityをpositionに加える
 	ApplyMovement();
 }
+

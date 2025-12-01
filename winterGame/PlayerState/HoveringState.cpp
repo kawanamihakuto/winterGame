@@ -2,6 +2,7 @@
 #include"Player.h"
 #include"Input.h"
 #include"SpitState.h"
+#include"../System/IntervalChecker.h"
 void PlayerState::HoveringState::Enter(Player& player)
 {
 	player.SetMouthState(MouthState::holdingAir);
@@ -15,11 +16,16 @@ void PlayerState::HoveringState::Enter(Player& player)
 void PlayerState::HoveringState::Update(Player& player,Input& input)
 {
 	auto vel = player.GetVelocity();
-	if (input.IsTriggered("up"))
+
+	
+	if (hoveringInterval_.Check())
 	{
-		
-		vel.y -= PlayerConstant::kHoveringPower;
+		if (input.IsPressed("up"))
+		{
+			vel.y -= PlayerConstant::kHoveringPower;
+		}
 	}
+	
 	if (input.IsPressed("left"))
 	{
 		player.SetIsRight(false);
