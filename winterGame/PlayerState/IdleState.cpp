@@ -6,6 +6,7 @@
 #include"JumpState.h"
 #include"SpitState.h"
 #include"HoveringState.h"
+#include"SwallowState.h"
 void PlayerState::IdleState::Enter(Player& player)
 {
 	switch (player.GetMouthState())
@@ -22,7 +23,7 @@ void PlayerState::IdleState::Enter(Player& player)
 		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthFull);
 		break;
 	}
-	
+
 	// velocity‚ğ0‚É‚·‚é
 	player.SetVelocity({ 0.0f,0.0f });
 }
@@ -32,7 +33,7 @@ void PlayerState::IdleState::Update(Player& player, Input& input)
 	switch (player.GetMouthState())
 	{
 	case MouthState::empty:
-		
+
 		//‹z‚¢‚İ“ü—Í‚ª“ü‚Á‚Ä‚¢‚½‚çInhaleó‘Ô‚ÉØ‚è‘Ö‚¦‚é
 		if (input.IsTriggered("attack"))
 		{
@@ -71,9 +72,14 @@ void PlayerState::IdleState::Update(Player& player, Input& input)
 		return;
 	}
 	//ƒWƒƒƒ“ƒv“ü—Í‚ª“ü‚Á‚Ä‚¢‚½‚çJumpó‘Ô‚ÉØ‚è‘Ö‚¦‚é
-	else if (input.IsPressed("jump")&& player.GetIsGround())
+	else if (input.IsPressed("jump") && player.GetIsGround())
 	{
 		player.ChangeState(std::make_unique<JumpState>());
+		return;
+	}
+	else if ((input.IsTriggered("down") && player.GetMouthState() == MouthState::holdingEnemy))
+	{
+		player.ChangeState(std::make_unique<SwallowState>());
 		return;
 	}
 	

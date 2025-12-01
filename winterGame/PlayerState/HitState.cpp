@@ -9,6 +9,9 @@
 
 void PlayerState::HitState::Enter(Player& player)
 {
+	player.SetMouthState(MouthState::empty);
+	player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthClosed);
+
 #ifdef _DEBUG
 	int rectColor = 0xff0000;
 	player.SetRectColor(rectColor);
@@ -31,6 +34,11 @@ void PlayerState::HitState::Update(Player& player, Input& input)
 		{
 			player.SetIsRight(true);
 			player.ChangeState(std::make_unique<PlayerState::MoveState>());
+			return;
+		}
+		else
+		{
+			player.ChangeState(std::make_unique<PlayerState::IdleState>());
 			return;
 		}
 

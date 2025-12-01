@@ -22,7 +22,7 @@ namespace PlayerConstant
 	//横方向の移動スピード
 	constexpr float kMoveSpeed = 1.0f;
 	//重力
-	constexpr float kGravity = 0.4f;
+	constexpr float kGravity = 0.3f;
 	//ジャンプの強さ
 	constexpr float kJumpPower = 8.0f;
 	//横方向のマックススピード
@@ -153,7 +153,7 @@ public:
 	//ノックバックする時間のカウンター
 	void NockBackTimeUpdate() { nockBackTime_++; }
 	//ノックバック状態が終わったかどうかのゲッター
-	bool IsNockBackEnd() { return nockBackTime_ >= PlayerConstant::kNockBackTimeMax; }
+	bool IsNockBackEnd();
 
 	/// <summary>
 	/// ステート切り替えの関数

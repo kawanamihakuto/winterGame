@@ -111,6 +111,16 @@ void Player::OnCollision(GameObject& other)
 	}
 }
 
+bool Player::IsNockBackEnd()
+{ 
+	if (nockBackTime_ >= PlayerConstant::kNockBackTimeMax)
+	{
+		nockBackTime_ = 0;
+		return true;
+	}	 
+	return false;
+}
+
 void Player::ChangeState(std::unique_ptr<StateBase> newState)
 {
 	//ƒvƒŒƒCƒ„[‚Ìó‘Ô‚ğØ‚è‘Ö‚¦‚éˆ—

@@ -11,7 +11,9 @@ private:
 public:
 	//引数でインターバルが何フレームかを受け取る
 	IntervalChecker(int n);
-	//チェックを行う関数
+	//カウントを進めてチェックを行う関数
 	bool Check();
+	//タイマーをリセットする関数
+	void ResetTimer();
 };
 

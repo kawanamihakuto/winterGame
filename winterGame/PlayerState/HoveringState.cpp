@@ -17,13 +17,14 @@ void PlayerState::HoveringState::Update(Player& player,Input& input)
 {
 	auto vel = player.GetVelocity();
 
-	
 	if (hoveringInterval_.Check())
 	{
 		if (input.IsPressed("up"))
 		{
+			hoveringInterval_.ResetTimer();
 			vel.y -= PlayerConstant::kHoveringPower;
 		}
+		
 	}
 	
 	if (input.IsPressed("left"))

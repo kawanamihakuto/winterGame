@@ -10,9 +10,13 @@ bool IntervalChecker::Check()
 {
 	if (--timer_ <= 0)
 	{
-		timer_ = interval_;
 		return true;
 	}
 
 	return false;
+}
+
+void IntervalChecker::ResetTimer()
+{
+	timer_ = interval_;
 }
