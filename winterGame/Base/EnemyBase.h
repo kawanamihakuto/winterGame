@@ -3,12 +3,6 @@
 #include<memory>
 #include<vector>
 
-struct EnemyImages
-{
-	int walk_walk;
-	int walk_death;
-	int walk_inhaled;
-};
 /// <summary>
 /// 敵の画像の切り取りラインをenumで決める
 /// </summary>
@@ -17,6 +11,13 @@ enum class EnemyGraphCutNo
 	one,
 	two
 };
+
+enum class EnemyType
+{
+	walk,
+	fly,
+};
+
 class Player;
 class EnemyStateBase;
 class Camera;
@@ -29,7 +30,7 @@ public:
 
 	std::unique_ptr<EnemyStateBase>state_;
 
-	EnemyBase(const int hp, const Vector2 vel, const Vector2 pos,const int handle , std::shared_ptr<Player>player, bool isPlayerOnRight,int nockBackTime);
+	EnemyBase(const int hp, const Vector2 vel, const Vector2 pos,const int handle , std::shared_ptr<Player>player, bool isPlayerOnRight,int nockBackTime,EnemyType enemyType);
 	virtual~EnemyBase();
 	virtual void Init()override = 0;
 	virtual void Update()override = 0;
@@ -119,6 +120,8 @@ protected:
 
 	//歩くだけの敵の画像切り取り位置を決める
 	EnemyGraphCutNo graphCutNo_;
+	//エネミーの種類
+	EnemyType enemyType_;
 };
 /// <summary>
 /// エネミーステート基底クラス
@@ -130,6 +133,54 @@ public:
 	virtual void Enter(EnemyBase& enemy)  = 0;
 	virtual void Update(EnemyBase& enemy) = 0;
 	virtual void Exit(EnemyBase& enemy)  = 0;
+};
+
+/// <summary>
+/// Move状態クラス
+/// </summary>
+class Move : public EnemyStateBase
+{
+	void Enter(EnemyBase& enemy)override;
+	void Update(EnemyBase& enemy)override;
+	void Exit(EnemyBase& enemy)override;
+};
+
+/// <summary>
+/// Walk状態クラス
+/// </summary>
+class Walk : public EnemyStateBase
+{
+	void Enter(EnemyBase& enemy) override;
+	void Update(EnemyBase& enemy) override;
+	void Exit(EnemyBase& enemy) override;
+};
+/// <summary>
+/// Death状態クラス
+/// </summary>
+class Death : public EnemyStateBase
+{
+	void Enter(EnemyBase& enemy) override;
+	void Update(EnemyBase& enemy) override;
+	void Exit(EnemyBase& enemy) override;
+};
+/// <summary>
+/// None状態クラス
+/// (画面外状態)
+/// </summary>
+class None : public EnemyStateBase
+{
+	void Enter(EnemyBase& enemy) override;
+	void Update(EnemyBase& enemy) override;
+	void Exit(EnemyBase& enemy) override;
+};
+/// <summary>
+/// 吸い込まれている状態クラス
+/// </summary>
+class Inhaled : public EnemyStateBase
+{
+	void Enter(EnemyBase& enemy) override;
+	void Update(EnemyBase& enemy) override;
+	void Exit(EnemyBase& enemy) override;
 };
 
 

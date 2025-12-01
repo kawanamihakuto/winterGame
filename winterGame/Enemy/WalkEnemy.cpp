@@ -15,7 +15,7 @@ namespace
 	constexpr int kHeight = 16;
 	constexpr float kSize = 3.0f;
 	constexpr float kRectSize = 2.0f;
-	constexpr float kGravity = 0.5f;
+	
 	constexpr int kGround = 400;
 	constexpr float kMaxSpeed = 1.5f;
 
@@ -23,13 +23,12 @@ namespace
 	constexpr int kNockBackTimeMax = 20;
 
 	constexpr int kWalkEnemyGraphCutRow = 2;
-	//ãzÇ¢çûÇﬁÇ∆Ç´ÇÃLerpÇÃtÇÃíl
-	constexpr float kInhaleLerpT = 0.05f;
+
 }
 
 
 WalkEnemy::WalkEnemy(Vector2 pos,int graphHandle,std::shared_ptr<Player>player) :
-	EnemyBase(kHp,{0,0}, pos,graphHandle,player,false,0)
+	EnemyBase(kHp,{0,0}, pos,graphHandle,player,false,0,EnemyType::walk)
 
 {
 	state_ = std::make_unique<Walk>();
