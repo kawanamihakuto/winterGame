@@ -83,6 +83,8 @@ public:
 	bool GetIsInhaled() { return isInhaled_; }
 	void SetIsInhaled(bool isInhaled) { isInhaled_ = isInhaled; }
 
+	const EnemyType& GetEnemyType() const { return enemyType_; }
+
 	//歩くだけの敵の画像の切り取り位置のセッター
 	void SetEnemyGraphCutNo(EnemyGraphCutNo egcn) { graphCutNo_ = egcn; }
 	/// <summary>
@@ -143,16 +145,6 @@ class Move : public EnemyStateBase
 	void Enter(EnemyBase& enemy)override;
 	void Update(EnemyBase& enemy)override;
 	void Exit(EnemyBase& enemy)override;
-};
-
-/// <summary>
-/// Walk状態クラス
-/// </summary>
-class Walk : public EnemyStateBase
-{
-	void Enter(EnemyBase& enemy) override;
-	void Update(EnemyBase& enemy) override;
-	void Exit(EnemyBase& enemy) override;
 };
 /// <summary>
 /// Death状態クラス

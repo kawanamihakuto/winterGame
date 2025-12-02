@@ -106,20 +106,41 @@ void Move::Enter(EnemyBase& enemy)
 void Move::Update(EnemyBase& enemy)
 {
 	Vector2 vel = enemy.GetVelocity();
-	vel.x -= kSpeed;
-
-	if (vel.x >= kMaxSpeed)
+	switch (enemy.GetEnemyType())
 	{
-		vel.x = kMaxSpeed;
-	}
-	if (vel.x <= -kMaxSpeed)
-	{
-		vel.x = -kMaxSpeed;
-	}
+	case EnemyType::walk:
+		vel.x -= kSpeed;
 
-	enemy.SetVelocity(vel);
+		if (vel.x >= kMaxSpeed)
+		{
+			vel.x = kMaxSpeed;
+		}
+		if (vel.x <= -kMaxSpeed)
+		{
+			vel.x = -kMaxSpeed;
+		}
 
-	enemy.ApplyMovement();
+		enemy.SetVelocity(vel);
+		enemy.Gravity();
+		enemy.ApplyMovement();
+		break;
+	case EnemyType::fly:
+		vel.x -= kSpeed;
+
+		if (vel.x >= kMaxSpeed)
+		{
+			vel.x = kMaxSpeed;
+		}
+		if (vel.x <= -kMaxSpeed)
+		{
+			vel.x = -kMaxSpeed;
+		}
+
+		enemy.SetVelocity(vel);
+
+		enemy.ApplyMovement();
+		break;
+	}
 }
 
 void Move::Exit(EnemyBase& enemy)
@@ -133,6 +154,14 @@ void Death::Enter(EnemyBase& enemy)
 
 void Death::Update(EnemyBase& enemy)
 {
+	switch (enemy.GetEnemyType())
+	{
+	case EnemyType::walk:
+		enemy.Gravity();
+		break;
+	case EnemyType::fly:
+		break;
+	}
 	Vector2 vel = enemy.GetVelocity();
 	bool isPlayerOnRight = enemy.GetPlayerOnRight();
 
@@ -144,8 +173,6 @@ void Death::Update(EnemyBase& enemy)
 	{
 		vel.x = kNockbackSpeed;
 	}
-
-	enemy.Gravity();
 
 	enemy.SetVelocity(vel);
 

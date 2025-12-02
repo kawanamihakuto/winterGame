@@ -12,6 +12,7 @@
 #include"Actor/StarShot.h"
 #include"Actor/AirShot.h"
 #include"../Actor/PlayerInhaledRect.h"
+#include"FlyEnemy.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -26,12 +27,20 @@ draw_(&GameScene::FadeDraw)
 	//プレイヤー生成
 	player_ = std::make_shared<Player>(graphHandle_);
 	//歩く敵生成
-	std::shared_ptr<WalkEnemy> we1 = std::make_shared<WalkEnemy>(Vector2{ 600,200 },graphHandle_, player_);
-	std::shared_ptr<WalkEnemy> we2 = std::make_shared<WalkEnemy>(Vector2{ 700,200 },graphHandle_, player_);
-	std::shared_ptr<WalkEnemy> we3 = std::make_shared<WalkEnemy>(Vector2{ 800,200 },graphHandle_, player_);
+	std::shared_ptr<WalkEnemy> we1 = std::make_shared<WalkEnemy>(Vector2{ 600,350 },graphHandle_, player_);
+	std::shared_ptr<WalkEnemy> we2 = std::make_shared<WalkEnemy>(Vector2{ 700,350 },graphHandle_, player_);
+	std::shared_ptr<WalkEnemy> we3 = std::make_shared<WalkEnemy>(Vector2{ 800,350 },graphHandle_, player_);
+	//飛んでる敵生成
+	std::shared_ptr<FlyEnemy> fe1 = std::make_shared<FlyEnemy>(Vector2{ 600,250 }, graphHandle_, player_);
+	std::shared_ptr<FlyEnemy> fe2 = std::make_shared<FlyEnemy>(Vector2{ 700,250 }, graphHandle_, player_);
+	std::shared_ptr<FlyEnemy> fe3 = std::make_shared<FlyEnemy>(Vector2{ 800,250 }, graphHandle_, player_);
+	
 	enemies_.push_back(we1);
 	enemies_.push_back(we2);
 	enemies_.push_back(we3);
+	enemies_.push_back(fe1);
+	enemies_.push_back(fe2);
+	enemies_.push_back(fe3);
 
 	camera_ = std::make_shared<Camera>();
 	//フェード用のフレームを初期化
