@@ -2,8 +2,9 @@
 #include "Scene.h"
 #include<memory>
 #include<vector>
-
 #include"CollisionManager.h"
+class Stage;
+class TileMapRenderer;
 class Player;
 class EnemyBase;
 class Inhale;
@@ -43,7 +44,10 @@ private:
 	//Draw関数を代入できるメンバ関数ポインタ
 	using DrawFunc_t = void(GameScene::*)();
 	DrawFunc_t draw_;
-
+	//ステージデータ
+	std::unique_ptr<Stage>stage_;
+	//マップチップ描画
+	std::shared_ptr<TileMapRenderer>mapRenderer_;
 	//プレイヤーのポインタ
 	std::shared_ptr<Player>player_;
 	//エネミーのポインタ

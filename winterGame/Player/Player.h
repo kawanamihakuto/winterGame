@@ -18,7 +18,7 @@ namespace PlayerConstant
 	//プレイヤーの当たり判定拡大倍率
 	constexpr float kRectSize = 1.0f;
 	//仮の地面
-	constexpr int kGround = 400;
+	constexpr int kGround = 720;
 	//横方向の移動スピード
 	constexpr float kMoveSpeed = 1.0f;
 	//重力

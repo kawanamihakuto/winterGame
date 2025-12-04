@@ -13,6 +13,8 @@
 #include"Actor/AirShot.h"
 #include"../Actor/PlayerInhaledRect.h"
 #include"FlyEnemy.h"
+#include"Stage/Stage.h"
+#include"Stage/TileMapRenderer.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -23,6 +25,15 @@ draw_(&GameScene::FadeDraw)
 	//ゲーム内画像ハンドル
 	graphHandle_ = LoadGraph("data/kirby.png");
 	assert(graphHandle_ > -1);
+
+	//フェード用のフレームを初期化
+	frame_ = fade_interval;
+
+	//ステージデータのロード
+	stage_ = std::make_unique<Stage>();
+	stage_->Load(1);
+
+	mapRenderer_ = std::make_shared<TileMapRenderer>(graphHandle_,16,16);
 
 	//プレイヤー生成
 	player_ = std::make_shared<Player>(graphHandle_);
@@ -43,8 +54,6 @@ draw_(&GameScene::FadeDraw)
 	enemies_.push_back(fe3);
 
 	camera_ = std::make_shared<Camera>();
-	//フェード用のフレームを初期化
-	frame_ = fade_interval;	
 }
 
 GameScene::~GameScene()
@@ -228,6 +237,8 @@ void GameScene::NormalDraw()
 	//ウィンドウサイズ取得
 	const auto& wsize = Application::GetInstance().GetWindowSize();
 	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
+
+	mapRenderer_->Draw(*stage_,*camera_);
 
 	//プレイヤーのDraw
 	player_->Draw(*camera_);

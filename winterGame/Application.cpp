@@ -54,6 +54,7 @@ void Application::Run()
 		LONGLONG start = GetNowHiPerformanceCount();
 
 		ClearDrawScreen();
+		
 		//入力情報の更新
 		input.Update();
 		//シーンの更新

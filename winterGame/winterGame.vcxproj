@@ -148,6 +148,7 @@
     <ClCompile Include="Actor\PlayerInhaledRect.cpp" />
     <ClCompile Include="Enemy\FlyEnemy.cpp" />
     <ClCompile Include="PlayerState\SwallowState.cpp" />
+    <ClCompile Include="Stage\Stage.cpp" />
     <ClCompile Include="System\IntervalChecker.cpp" />
     <ClCompile Include="PlayerState\HoveringState.cpp" />
     <ClCompile Include="PlayerState\InhaleHoldState.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="Scene\SceneController.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
     <ClCompile Include="Enemy\WalkEnemy.cpp" />
+    <ClCompile Include="Stage\TileMapRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor\AirShot.h" />
@@ -183,6 +185,8 @@
     <ClInclude Include="Actor\PlayerInhaledRect.h" />
     <ClInclude Include="Enemy\FlyEnemy.h" />
     <ClInclude Include="PlayerState\SwallowState.h" />
+    <ClInclude Include="Stage\Stage.h" />
+    <ClInclude Include="Stage\StageData.h" />
     <ClInclude Include="System\IntervalChecker.h" />
     <ClInclude Include="PlayerState\HoveringState.h" />
     <ClInclude Include="PlayerState\InhaleHoldState.h" />
@@ -210,6 +214,11 @@
     <ClInclude Include="Scene\SceneController.h" />
     <ClInclude Include="Scene\TitleScene.h" />
     <ClInclude Include="Enemy\WalkEnemy.h" />
+    <ClInclude Include="Stage\TileMapRenderer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\stage1.fmf" />
+    <None Include="data\stage1.ppj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
