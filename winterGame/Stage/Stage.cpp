@@ -3,61 +3,69 @@
 #include<cassert>
 #include<algorithm>
 #include"StageData.h"
-void Stage::Load(int stageNo)
+#include <fstream>
+#include <sstream>
+#include <cstdio>
+bool Stage::Load(int stageNo)
 {
-    char filePath[256];
-    sprintf_s(filePath, "data/stage%d.fmf", stageNo);
+    char path[64];
+    sprintf_s(path, "data/stage%02d.csv", stageNo);
+  
+    return LoadCsv(path);
+}
 
-    int handle = FileRead_open(filePath);
-    assert(handle != -1);
+bool Stage::LoadCsv(const std::string& path)
+{
+    //以前のステージデータを破棄
+    data_.clear();
+    size_ = { 0, 0 };
+    //CSVファイルを開く
+    std::ifstream ifs(path);
+    if (!ifs)
+    {
+        assert(false && "Stage CSV not found");
+        return false;
+    }
+    //一行分の文字列
+    std::string line;
+    //横マス数
+    int width = 0;
+    //縦マス数
+    int height = 0;
+    //一行ずつ読み込む
+    while (std::getline(ifs, line))
+    {
+        std::stringstream ss(line);
+        std::string cell;
+        int x = 0;
+        //カンマ区切りで数値を読む
+        while (std::getline(ss, cell, ','))
+        {
+            //文字列→数値に変換して格納
+            data_.push_back(static_cast<uint16_t>(std::stoi(cell)));
+            x++;
+        }
+        //最初の行で横サイズを決定
+        if (width == 0)
+            width = x;
 
-    // ① ヘッダを読む
-    DataHeader header{};
-    FileRead_read(&header, sizeof(header), handle);
+        height++;
+    }
+    //マップサイズを保存
+    size_ = { width, height };
+    return true;
+}
 
-    printfDx(
-        "Header id=%.4s w=%u h=%u size=%u bitCount=%u layer=%u\n",
-        header.identifier,
-        header.width,
-        header.height,
-        header.size,
-        header.setting.bitCount,
-        header.setting.layerCount
-    );
-
-    // ★★★ ② ここ！！ ★★★
-    int bytesPerChip = header.setting.bitCount / 8; // bitCount=16 → 2
-    int oneLayerSize = header.width * header.height * bytesPerChip;
-
-    FileRead_seek(
-        handle,
-        sizeof(DataHeader) + oneLayerSize * 0, // レイヤー0
-        SEEK_SET
-    );
-
-    uint8_t raw[16]{};
-    FileRead_read(raw, 16, handle);
-
-    printfDx("raw bytes (layer0): ");
-    for (int i = 0; i < 16; ++i)
-        printfDx("%02X ", raw[i]);
-    printfDx("\n");
-
-    // ③ ここからが本番読み込み（後で直す）
-    // ↓ 今はまだ書かなくていい
+uint16_t Stage::GetData(int xidx, int yidx)const
+{
+    //範囲チェック
+    assert(xidx >= 0 && xidx < size_.w);
+    assert(yidx >= 0 && yidx < size_.h);
+    //2次元→１次元変換
+    return data_[yidx * size_.w + xidx];
 }
 
 Size Stage::MapSize()const
 {
-	return dataSize_;
-}
-
-uint8_t Stage::GetData(int xidx, int yidx)const
-{
-	return data_[yidx * dataSize_.w + xidx];
-}
-
-const std::vector<uint16_t>& Stage::GetAllData() const
-{
-	return data_;
+    return size_;
 }

@@ -32,7 +32,8 @@ draw_(&GameScene::FadeDraw)
 	//ステージデータのロード
 	stage_ = std::make_unique<Stage>();
 	stage_->Load(1);
-
+	Size s = stage_->MapSize();
+	printfDx("Stage loaded W=%d H=%d\n", s.w, s.h);
 	mapRenderer_ = std::make_shared<TileMapRenderer>(graphHandle_,16,16);
 
 	//プレイヤー生成
