@@ -67,7 +67,8 @@ void PlayerInhaledRect::Update()
 
 void PlayerInhaledRect::Draw(Camera& camera)
 {
-	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (kHeight * 0.3f) + camera.GetDrawOffset().y, kWidth, kHeight);
+	Vector2 screen = camera.WorldToScreen(position_);
+	rect_.SetCenter(screen.x, screen.y, kWidth, kHeight);
 #ifdef _DEBUG
 	//“–‚½‚è”»’è‚ð‰ÂŽ‹‰»
 	if (isActive_)

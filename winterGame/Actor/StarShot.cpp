@@ -52,12 +52,13 @@ void StarShot::Draw()
 
 void StarShot::Draw(Camera& camera)
 {
-	DrawRectRotaGraph(position_.x + camera.GetDrawOffset().x,position_.y +camera.GetDrawOffset().y,
+	Vector2 screen = camera.WorldToScreen(position_);
+	DrawRectRotaGraph(screen.x,screen.y,
 		0, kHeight * kStarGraphCutRow,kWidth,kHeight,
 		kSize,0,graphHandle_,true,!isRight_);
 #ifdef _DEBUG
 	//“–‚½‚è”»’è•\Ž¦
-	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + camera.GetDrawOffset().y,
+	rect_.SetCenter(screen.x, screen.y,
 		kWidth * kSize, kHeight * kSize);
 	rect_.Draw(0x00aaff, false);
 #endif // _DEBUG

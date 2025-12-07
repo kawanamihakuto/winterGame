@@ -61,14 +61,27 @@ void Player::Draw()
 
 void Player::Draw(Camera& camera)
 {
+	Vector2 screen = camera.WorldToScreen(position_);
+	
+	int srcX = PlayerConstant::kWidth * static_cast<int>(graphCutNo_);
+	int srcY = 0;
+
 	//プレイヤー表示
-	DrawRectRotaGraph(position_.x + camera.GetDrawOffset().x, position_.y + camera.GetDrawOffset().y,
-		16 * static_cast<int>(graphCutNo_), 0, PlayerConstant::kWidth, PlayerConstant::kHeight,
-		PlayerConstant::kSize, 0, currentImage_, true, !isRight_);
+	DrawRectRotaGraph(
+		(int)screen.x,
+		(int)screen.y,
+		srcX, srcY,
+		16, 16,
+		3.0,
+		0.0,
+		currentImage_,
+		TRUE,
+		!isRight_
+	);
 #ifdef _DEBUG
 	//当たり判定表示
-	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (PlayerConstant::kHeight / 2) + camera.GetDrawOffset().y,
-		PlayerConstant::kWidth * PlayerConstant::kRectSize, PlayerConstant::kHeight * PlayerConstant::kRectSize);
+	rect_.SetCenter(screen.x, screen.y,
+		PlayerConstant::kWidth, PlayerConstant::kHeight);
 	rect_.Draw(rectColor_, false);
 
 	//プレイヤーのHP表示

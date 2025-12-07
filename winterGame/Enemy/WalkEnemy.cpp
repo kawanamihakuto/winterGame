@@ -13,10 +13,10 @@ namespace
 
 	constexpr int kWidth = 16;
 	constexpr int kHeight = 16;
-	constexpr float kSize = 3.0f;
+	constexpr float kWorldSize = 16*3;
 	constexpr float kRectSize = 2.0f;
 	
-	constexpr int kGround = 400;
+	constexpr int kGround = 0;
 	constexpr float kMaxSpeed = 1.5f;
 
 	constexpr float kNockbackSpeed = 4.0f;
@@ -54,10 +54,15 @@ void WalkEnemy::Draw()
 
 void WalkEnemy::Draw(Camera& camera)
 {
-	DrawRectRotaGraph(position_.x +camera.GetDrawOffset().x, position_.y + camera.GetDrawOffset().y,
-		kWidth * static_cast<int>(graphCutNo_), kWalkEnemyGraphCutRow * kHeight, kWidth, kHeight,
-		kSize,0, graphHandle_, true);
-	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (kHeight * 0.5f)+camera.GetDrawOffset().y,
+	Vector2 screen = camera.WorldToScreen(position_);
+
+	DrawRectRotaGraph(screen.x,screen.y,
+		kWidth * static_cast<int>(graphCutNo_), kWalkEnemyGraphCutRow * kHeight,
+		kWidth, kHeight,
+		3.0,0,
+		graphHandle_, true,isRight_);
+
+	rect_.SetCenter(screen.x, screen.y,
 		kWidth * kRectSize , kHeight * kRectSize);
 	rect_.Draw(0x0000ff,false);
 	rect_.Draw(0x0000ff,false);

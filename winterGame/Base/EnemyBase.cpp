@@ -3,7 +3,7 @@
 #include"WalkEnemy.h"
 #include<memory>
 #include"../System/Lerp.h"
-constexpr int kGround = 400;
+constexpr int kGround = 720;
 constexpr int kSpeed = 1.5f;
 constexpr int kMaxSpeed = 1.5f;
 constexpr float kNockbackSpeed = 4.0f;
@@ -24,7 +24,8 @@ graphHandle_(handle),
 graphCutNo_(EnemyGraphCutNo::one),
 isAlive_(true),
 isInhaled_(false),
-enemyType_(enemyType)
+enemyType_(enemyType),
+isRight_(false)
 { 
 }
 
@@ -140,6 +141,15 @@ void Move::Update(EnemyBase& enemy)
 
 		enemy.ApplyMovement();
 		break;
+	}
+
+	if (vel.x > 0)
+	{
+		enemy.OnRight();
+	}
+	else if (vel.x < 0)
+	{
+		enemy.OnLeft();
 	}
 }
 

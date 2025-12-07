@@ -13,8 +13,8 @@ namespace PlayerConstant
 	constexpr int kWidth = 16;
 	//プレイヤーの高さ
 	constexpr int kHeight = 16;
-	//プレイヤーの拡大倍率
-	constexpr float kSize = 3.0f;
+	//プレイヤーの表示サイズ
+	constexpr int kWorldSize = 16*3;
 	//プレイヤーの当たり判定拡大倍率
 	constexpr float kRectSize = 1.0f;
 	//仮の地面

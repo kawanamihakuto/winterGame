@@ -14,7 +14,6 @@
 #include"../Actor/PlayerInhaledRect.h"
 #include"FlyEnemy.h"
 #include"Stage/Stage.h"
-#include"Stage/TileMapRenderer.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -32,10 +31,7 @@ draw_(&GameScene::FadeDraw)
 	//ステージデータのロード
 	stage_ = std::make_unique<Stage>();
 	stage_->Load(1);
-	Size s = stage_->MapSize();
-	printfDx("Stage loaded W=%d H=%d\n", s.w, s.h);
-	mapRenderer_ = std::make_shared<TileMapRenderer>(graphHandle_,16,16);
-
+	stage_->Init(graphHandle_, 16, 16);
 	//プレイヤー生成
 	player_ = std::make_shared<Player>(graphHandle_);
 	//歩く敵生成
@@ -83,8 +79,10 @@ void GameScene::NormalUpdate(Input& input)
 	{
 		enemy->Update();
 	}
+	//カメラのターゲットを設定
+	camera_->SetTarget(player_->GetPosition());
 	//カメラのUpdate
-	camera_->Update(*player_);
+	camera_->Update();
 
 	//吸い込みオブジェクトがあったら
 	if (inhale_)
@@ -239,7 +237,7 @@ void GameScene::NormalDraw()
 	const auto& wsize = Application::GetInstance().GetWindowSize();
 	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
 
-	mapRenderer_->Draw(*stage_,*camera_);
+	stage_->Draw(*camera_);
 
 	//プレイヤーのDraw
 	player_->Draw(*camera_);

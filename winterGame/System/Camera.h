@@ -9,9 +9,8 @@ public:
 	~Camera();
 
 	void Init();
-	void Init(Player& player);
+	void SetTarget(const Vector2& pos);
 	void Update();
-	void Update(Player& player);
 	void Draw();
 
 	//当たり判定の形を返すゲッター
@@ -23,6 +22,7 @@ public:
 	//当たった時の処理を行う関数
 	void OnCollision(GameObject& other) override;
 
+	Vector2 WorldToScreen(const Vector2& world)const;
 //DrawOffsetのゲッター
 	Vector2 GetDrawOffset() { return drawOffset_; }
 
@@ -30,5 +30,6 @@ public:
 
 private:
 	Vector2 drawOffset_;
+	Vector2 target_;
 };
 

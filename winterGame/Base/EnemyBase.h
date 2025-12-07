@@ -85,6 +85,9 @@ public:
 
 	const EnemyType& GetEnemyType() const { return enemyType_; }
 
+	void OnRight() { isRight_ = true; }
+	void OnLeft() { isRight_ = false; }
+
 	//歩くだけの敵の画像の切り取り位置のセッター
 	void SetEnemyGraphCutNo(EnemyGraphCutNo egcn) { graphCutNo_ = egcn; }
 	/// <summary>
@@ -124,6 +127,8 @@ protected:
 	EnemyGraphCutNo graphCutNo_;
 	//エネミーの種類
 	EnemyType enemyType_;
+
+	bool isRight_;
 };
 /// <summary>
 /// エネミーステート基底クラス

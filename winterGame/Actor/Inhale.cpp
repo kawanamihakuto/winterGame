@@ -90,12 +90,13 @@ void Inhale::Draw()
 
 void Inhale::Draw(Camera& camera)
 {
+	Vector2 screen = camera.WorldToScreen(position_);
 	if (isActive_)
 	{
-		DrawRectRotaGraph(position_.x + camera.GetDrawOffset().x, position_.y + (kHeight * 0.5f) + camera.GetDrawOffset().y,
+		DrawRectRotaGraph(screen.x, screen.y,
 			16 * 3, 0, kWidth, kHeight, kSize, 0, graphHandle_,true, !isRight_);
 	}
-	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + (kHeight * 0.3f) + camera.GetDrawOffset().y, kWidth, kHeight);
+	rect_.SetCenter(screen.x, screen.y, kWidth, kHeight);
 #ifdef _DEBUG
 	//“–‚½‚è”»’è‚ð‰ÂŽ‹‰»
 	if (isActive_)

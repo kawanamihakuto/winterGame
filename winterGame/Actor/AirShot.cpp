@@ -60,12 +60,13 @@ void AirShot::Draw()
 
 void AirShot::Draw(Camera& camera)
 {
-	DrawRectRotaGraph(position_.x + camera.GetDrawOffset().x, position_.y + camera.GetDrawOffset().y,
+	Vector2 screen = camera.WorldToScreen(position_);
+	DrawRectRotaGraph(screen.x, screen.y,
 		0, kHeight * kAirGraphCutRow, kWidth * 3, kHeight * 2,
 		kSize, 0, graphHandle_, true, !isRight_);
 #ifdef _DEBUG
 	//“–‚½‚è”»’è•\Ž¦
-	rect_.SetCenter(position_.x + camera.GetDrawOffset().x, position_.y + camera.GetDrawOffset().y,
+	rect_.SetCenter(screen.x, screen.y,
 		kWidth * 2 * kSize, kHeight* 2 * kSize);
 	rect_.Draw(0x00aaff, false);
 #endif // _DEBUG

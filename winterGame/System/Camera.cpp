@@ -5,7 +5,8 @@
 #include"Lerp.h"
 
 Camera::Camera() : GameObject(Vector2{320,320}),
-drawOffset_({0,0})
+drawOffset_({0,0}),
+target_({0,0})
 {
 }
 
@@ -15,26 +16,15 @@ Camera::~Camera()
 void Camera::Init()
 {
 }
-void Camera::Init(Player& player)
+void Camera::SetTarget(const Vector2& pos)
 {
-	position_ = player.GetPosition();
+	target_ = pos;
 }
 
 void Camera::Update()
 {
-}
-
-void Camera::Update(Player& player)
-{
 	Lerp lerp;
-	position_ = lerp.VLerp(position_, player.GetPosition(), 0.1f);
-
-	drawOffset_.x = position_.x * -1;
-	drawOffset_.y = position_.y * -1;
-
-	auto wsize = Application::GetInstance().GetWindowSize();
-	drawOffset_.x += wsize.w * 0.5f;
-	drawOffset_.y += wsize.h * 0.5f;
+	position_ = lerp.VLerp(position_, target_, 0.1f);
 }
 
 void Camera::Draw()
@@ -59,5 +49,13 @@ CollisionLayer Camera::GetHitMask() const
 
 void Camera::OnCollision(GameObject& other)
 {
+}
+
+Vector2 Camera::WorldToScreen(const Vector2& world) const
+{
+	auto wsize = Application::GetInstance().GetWindowSize();
+
+	return{ world.x - position_.x + wsize.w * 0.5f,
+		world.y - position_.y + wsize.h * 0.5f };
 }
 
