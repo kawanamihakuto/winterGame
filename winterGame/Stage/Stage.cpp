@@ -72,10 +72,6 @@ bool Stage::LoadCsv(const std::string& path)
     //マップサイズを保存
     size_ = { width_, height_ };
 
-    printfDx(
-        "Stage loaded W=%d H=%d data=%d\n",
-        width_, height_, (int)data_.size()
-    );
     return true;
 }
 

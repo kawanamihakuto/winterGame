@@ -9,7 +9,7 @@ void PlayerState::HoveringState::Enter(Player& player)
 	player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthFull);
 	player.SetStarOrAir(StarOrAir::air);
 	auto vel = player.GetVelocity();
-	vel.y -= PlayerConstant::kHoveringPower;
+	vel.y = -PlayerConstant::kHoveringPower;
 	player.SetVelocity(vel);
 }
 
@@ -24,7 +24,6 @@ void PlayerState::HoveringState::Update(Player& player,Input& input)
 			hoveringInterval_.ResetTimer();
 			vel.y -= PlayerConstant::kHoveringPower;
 		}
-		
 	}
 	
 	if (input.IsPressed("left"))
