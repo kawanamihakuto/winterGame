@@ -1,5 +1,6 @@
 #include "CollisionManager.h"
 #include"GameObject.h"
+#include"../Stage/Stage.h"
 void CollisionManager::Add(GameObject& object)
 {
 	//ƒAƒhƒŒƒX‚¾‚¯•ÛŽ
@@ -42,7 +43,14 @@ void CollisionManager::CheckMapCollision(const Stage& stage)
 {
 	for (auto& obj : objects_)
 	{
-		if(obj->)
+		if (!obj->IsMapCollision())
+		{
+			continue;
+		}
+
+		Rect objRect = obj->GetColliderRect();
+
+		auto tiles = stage.
 	}
 }
 

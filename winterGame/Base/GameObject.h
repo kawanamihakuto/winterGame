@@ -2,6 +2,7 @@
 #include"Geometry.h"
 #include"Rect.h"
 #include"CollisionLayer.h"
+struct TileCollision;
 /// <summary>
 /// ゲーム全体のオブジェクト基底クラス
 /// </summary>

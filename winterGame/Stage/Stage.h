@@ -2,10 +2,12 @@
 #include"System/Geometry.h"
 #include<vector>
 #include<string>
+#include"../Collision/Rect.h"
+struct TileCollision;
+class Camera;
 /// <summary>
 /// ステージデータを管理するクラス
 /// </summary>
-class Camera;
 class Stage
 {
 public:
@@ -17,6 +19,8 @@ public:
 	uint16_t GetData(int x, int y)const;
 	//マップ全体のサイズ取得
 	Size MapSize()const;
+	//当たる宇ううううううううう
+	std::vector<TileCollision>GetSolidTiles(const Rect& objRect)const;
 
 	void Draw(Camera& camera);
 private:
