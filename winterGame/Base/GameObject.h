@@ -23,6 +23,10 @@ public:
 	virtual void OnCollision(GameObject& other) = 0;
 	//ポジションのゲッター
 	const Vector2& GetPosition()const { return position_; }
+	//マップとの当たり判定があるかどうかを返す関数
+	virtual bool IsMapCollision()const { return false; }
+	//マップタイルと当たった時の処理を行う関数
+	virtual void OnCollisionTile(const TileCollision& tile) {}
 
 protected:
 	//Vector2でポジションを管理

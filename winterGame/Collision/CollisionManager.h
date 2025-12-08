@@ -1,6 +1,7 @@
 #pragma once
 #include<vector>
 class GameObject;
+class Stage;
 class CollisionManager
 {
 public:
@@ -10,6 +11,8 @@ public:
 	void Clear();
 	//登録されたすべてのオブジェクトの当たり判定を行う関数
 	void CheckAll();
+	//登録されたオブジェクトのうち、ステージとの当たり判定を行う関数
+	void CheckMapCollision(const Stage& stage);
 
 private:
 	//レイヤーの条件を満たしているかのチェックをする関数

@@ -38,6 +38,14 @@ void CollisionManager::CheckAll()
 	}
 }
 
+void CollisionManager::CheckMapCollision(const Stage& stage)
+{
+	for (auto& obj : objects_)
+	{
+		if(obj->)
+	}
+}
+
 bool CollisionManager::CanCollide(const GameObject& a, const GameObject& b) const
 {
 	//a‚ªb‚É“–‚½‚é‚©‚Ç‚¤‚©”»’è

@@ -17,6 +17,11 @@ namespace
     constexpr int kTileWorldSize = 16 * 3;
 }
 
+struct TileCollision
+{
+    Rect rect;
+};
+
 void Stage::Init(int graphHandle,int chipW,int chipH)
 {
     tileGraph_ = graphHandle;
@@ -111,9 +116,9 @@ void Stage::Draw(Camera& camera)
             int posY = static_cast<int>(y * kChipSize);
 
             // 画面外は描画しない
-            if (posX < 0 - kChipSize) continue;
+            if (posX < 0 - kTileWorldSize) continue;
             if (posX > kScreenWidth) continue;
-            if (posY < 0 - kChipSize) continue;
+            if (posY < 0 - kTileWorldSize) continue;
             if (posY > kScreenHeight) continue;
 
             // 設置するチップ
@@ -123,8 +128,8 @@ void Stage::Draw(Camera& camera)
             Vector2 worldPos{ x * kTileWorldSize,y * kTileWorldSize };
             Vector2 screen = camera.WorldToScreen(worldPos);
 
-            if (screen.x < -chipW_ || screen.x > kScreenWidth) continue;
-            if (screen.y < -chipH_ || screen.y > kScreenHeight) continue;
+            if (screen.x < -kTileWorldSize || screen.x > kScreenWidth) continue;
+            if (screen.y < -kTileWorldSize || screen.y > kScreenHeight) continue;
 
             // マップチップのグラフィック切り出し座標
             int srcX = (chipNo % tilesPerRow) * kTileSrcSize;
