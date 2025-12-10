@@ -124,6 +124,11 @@ void Player::OnCollision(GameObject& other)
 	}
 }
 
+void Player::OnCollisionTile(const Rect& tileRect)
+{
+
+}
+
 bool Player::IsNockBackEnd()
 { 
 	if (nockBackTime_ >= PlayerConstant::kNockBackTimeMax)

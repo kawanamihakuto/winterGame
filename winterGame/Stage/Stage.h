@@ -19,8 +19,8 @@ public:
 	uint16_t GetData(int x, int y)const;
 	//マップ全体のサイズ取得
 	Size MapSize()const;
-	//当たる宇ううううううううう
-	std::vector<TileCollision>GetSolidTiles(const Rect& objRect)const;
+	//当たる可能性があるRectを返す
+	std::vector<Rect>GetSolidTiles(const Rect& objRect)const;
 
 	void Draw(Camera& camera);
 private:

@@ -84,6 +84,12 @@ public:
 	//当たった時の処理を行う関数
 	void OnCollision(GameObject& other) override;
 
+	//マップとの当たり判定があるかどうかを返す関数
+	bool IsMapCollision()const override{ return true; }
+
+	//マップタイルと当たった時の処理を行う関数
+	void OnCollisionTile(const Rect& tileRect)override;
+
 	//ポジションのゲッター
 	Vector2 GetPosition() { return position_; }
 	//ポジションのセッター

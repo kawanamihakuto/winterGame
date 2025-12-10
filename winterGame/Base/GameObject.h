@@ -27,7 +27,7 @@ public:
 	//マップとの当たり判定があるかどうかを返す関数
 	virtual bool IsMapCollision()const { return false; }
 	//マップタイルと当たった時の処理を行う関数
-	virtual void OnCollisionTile(const TileCollision& tile) {}
+	virtual void OnCollisionTile(const Rect& tileRect) = 0;
 
 protected:
 	//Vector2でポジションを管理
