@@ -80,7 +80,7 @@ void PlayerState::JumpState::Update(Player& player, Input& input)
 	}
 
 	player.SetVelocity(vel);
-	player.UpdatePhysics();
+	player.Gravity();
 
 	auto pos = player.GetPosition();
 	//’n–Ê‚É’…’n‚µ‚½‚çIdle‚©Move‚Ö‘JˆÚ

@@ -168,6 +168,8 @@ void GameScene::NormalUpdate(Input& input)
 			collisionManager_.Add(*playerInhaledRect_);
 		}
 	}
+
+	collisionManager_.CheckMapCollision(*stage_);
 	//登録されたすべてのオブジェクトの当たり判定を行う
 	collisionManager_.CheckAll();
 

@@ -53,6 +53,13 @@ void Player::Update(Input& input)
 
 	//現在の状態のUpdateを呼び出す
 	state_->Update(*this, input);
+
+	rect_.SetCenter(
+		position_.x,
+		position_.y,
+		PlayerConstant::kWidth,
+		PlayerConstant::kHeight
+	);
 }
 
 void Player::Draw()
@@ -80,9 +87,10 @@ void Player::Draw(Camera& camera)
 	);
 #ifdef _DEBUG
 	//当たり判定表示
-	rect_.SetCenter(screen.x, screen.y,
+	Rect drawRect = rect_;
+	drawRect.SetCenter(screen.x, screen.y,
 		PlayerConstant::kWidth, PlayerConstant::kHeight);
-	rect_.Draw(rectColor_, false);
+	drawRect.Draw(rectColor_, false);
 
 	//プレイヤーのHP表示
 	DrawFormatString(0, 0, 0xffffff, "%d", hp_);
@@ -126,7 +134,7 @@ void Player::OnCollision(GameObject& other)
 
 void Player::OnCollisionTile(const Rect& tileRect)
 {
-
+	
 }
 
 bool Player::IsNockBackEnd()
@@ -159,25 +167,12 @@ void Player::Gravity()
 	velocity_.y += PlayerConstant::kGravity;
 }
 
-void Player::ApplyMovement()
+void Player::ApplyMovementX()
 {
-	//velをposに反映
-	position_ += velocity_;
-
-	//仮の地面判定の処理
-	if (position_.y >= PlayerConstant::kGround)
-	{
-		position_.y = PlayerConstant::kGround;
-		velocity_.y = 0.0f;
-		isGround_ = true;
-	}
+	position_.x += velocity_.x;
 }
 
-void Player::UpdatePhysics()
+void Player::ApplyMovementY()
 {
-	//重力処理
-	Gravity();
-	//velocityをpositionに加える
-	ApplyMovement();
+	position_.y += velocity_.y;
 }
-

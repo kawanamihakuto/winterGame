@@ -54,8 +54,8 @@ void PlayerState::HitState::Update(Player& player, Input& input)
 			return;
 		}
 	}
-
-	player.UpdatePhysics();
+	
+	player.Gravity();
 }
 void PlayerState::HitState::Exit(Player& player)
 {

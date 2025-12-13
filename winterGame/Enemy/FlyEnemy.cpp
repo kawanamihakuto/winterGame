@@ -35,6 +35,8 @@ void FlyEnemy::Init()
 void FlyEnemy::Update()
 {
 	state_->Update(*this);
+	rect_.SetCenter(position_.x, position_.y,
+		kWidth * kRectSize, kHeight * kRectSize);
 }
 
 void FlyEnemy::Draw()
@@ -47,9 +49,14 @@ void FlyEnemy::Draw(Camera& camera)
 	DrawRectRotaGraph(screen.x, screen.y,
 		kWidth * static_cast<int>(graphCutNo_), kFlyEnemyCutRow * kHeight, kWidth, kHeight,
 		kSize, 0, graphHandle_, true,isRight_);
-	rect_.SetCenter(screen.x, screen.y,
+	Rect drawRect = rect_;
+	drawRect.SetCenter(screen.x, screen.y,
 		kWidth * kRectSize, kHeight * kRectSize);
-	rect_.Draw(0x0000ff, false);
+	drawRect.Draw(0x0000ff, false);
+}
+
+void FlyEnemy::OnCollisionTile(const Rect& tileRect)
+{
 }
 
 void FlyEnemy::ChangeState(std::unique_ptr<EnemyStateBase>newState)

@@ -14,7 +14,7 @@ void PlayerState::InhaleHoldState::Update(Player& player, Input& input)
 		player.SetStarOrAir(StarOrAir::star);
 		player.ChangeState(std::make_unique<IdleState>());
 	}
-	player.UpdatePhysics();
+	player.Gravity();
 }
 
 void PlayerState::InhaleHoldState::Exit(Player& player)

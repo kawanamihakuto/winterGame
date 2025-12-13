@@ -55,7 +55,7 @@ void PlayerState::HoveringState::Update(Player& player,Input& input)
 		return;
 	}
 	player.SetVelocity(vel);
-	player.UpdatePhysics();
+	player.Gravity();
 }
 
 void PlayerState::HoveringState::Exit(Player& player)

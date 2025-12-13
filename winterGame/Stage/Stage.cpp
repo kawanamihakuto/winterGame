@@ -109,14 +109,15 @@ std::vector<Rect> Stage::GetSolidTiles(const Rect& objRect) const
     //オブジェクトのRectを
     //どのタイル範囲にかかっているかに変換
     int leftTile = objRect.left_ / kTileWorldSize;
-    int rightTile = objRect.right_ / kTileWorldSize;
+    int rightTile = (objRect.right_ -1) / kTileWorldSize;
     int topTile = objRect.top_ / kTileWorldSize;
-    int bottomTile = objRect.bottom_ / kTileWorldSize;
+    int bottomTile = (objRect.bottom_-1) / kTileWorldSize;
     //範囲補正
     leftTile = (std::max)(0, leftTile);
     topTile = (std::max)(0, topTile);
     rightTile = (std::min)(width_ - 1, rightTile);
     bottomTile = (std::min)(height_ - 1, bottomTile);
+
     //指定された範囲のタイルをチェック
     for (int ty = topTile; ty <= bottomTile; ty++)
     {
@@ -124,6 +125,7 @@ std::vector<Rect> Stage::GetSolidTiles(const Rect& objRect) const
         {
             //タイルID取得
             int tileId = GetData(tx, ty);
+
             //0なら当たり判定なし
             if (tileId == 0)
             {
@@ -132,10 +134,12 @@ std::vector<Rect> Stage::GetSolidTiles(const Rect& objRect) const
 
             //Rectを作る
             Rect tileRect;
-            tileRect.SetCenter(tx + (kTileWorldSize * 0.5f),
-                topTile + (kTileWorldSize * 0.5f),
-                kTileWorldSize, kTileWorldSize);
-
+            tileRect.SetCenter(
+                tx * kTileWorldSize + kTileWorldSize * 0.5f,
+                ty * kTileWorldSize + kTileWorldSize * 0.5f,
+                kTileWorldSize,
+                kTileWorldSize
+            );
             result.push_back(tileRect);
         }
     }

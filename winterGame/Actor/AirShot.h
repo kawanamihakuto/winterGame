@@ -13,6 +13,9 @@ public:
 	void Draw()override;
 	void Draw(Camera& camera)override;
 
+	//マップタイルと当たった時の処理を行う関数
+	void OnCollisionTile(const Rect& tileRect)override;
+
 private:
 	//生きている時間のカウント
 	int count_;

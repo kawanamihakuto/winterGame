@@ -64,3 +64,7 @@ void StarShot::Draw(Camera& camera)
 #endif // _DEBUG
 }
 
+void StarShot::OnCollisionTile(const Rect& tileRect)
+{
+}
+

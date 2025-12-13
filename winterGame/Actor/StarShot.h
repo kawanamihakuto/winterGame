@@ -13,5 +13,8 @@ public:
 	void Update(std::shared_ptr<Player>player, std::vector<std::shared_ptr<EnemyBase>>enemies)override;
 	void Draw()override;
 	void Draw(Camera& camera)override;
+
+	//マップタイルと当たった時の処理を行う関数
+	void OnCollisionTile(const Rect& tileRect)override;
 };
 

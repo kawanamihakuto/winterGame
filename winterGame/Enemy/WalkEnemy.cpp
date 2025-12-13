@@ -46,6 +46,8 @@ void WalkEnemy::Init()
 void WalkEnemy::Update()
 {
 	state_->Update(*this);
+	rect_.SetCenter(position_.x, position_.y,
+		kWidth * kRectSize, kHeight * kRectSize);
 }
 void WalkEnemy::Draw()
 {
@@ -61,13 +63,17 @@ void WalkEnemy::Draw(Camera& camera)
 		kWidth, kHeight,
 		3.0,0,
 		graphHandle_, true,isRight_);
-
-	rect_.SetCenter(screen.x, screen.y,
+	Rect drawRect = rect_;
+	drawRect.SetCenter(screen.x, screen.y,
 		kWidth * kRectSize , kHeight * kRectSize);
-	rect_.Draw(0x0000ff,false);
-	rect_.Draw(0x0000ff,false);
+	drawRect.Draw(0x0000ff,false);
 }
 
+
+void WalkEnemy::OnCollisionTile(const Rect& tileRect)
+{
+
+}
 
 void WalkEnemy::ChangeState(std::unique_ptr<EnemyStateBase>newState)
 {

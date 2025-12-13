@@ -71,3 +71,7 @@ void AirShot::Draw(Camera& camera)
 	rect_.Draw(0x00aaff, false);
 #endif // _DEBUG
 }
+
+void AirShot::OnCollisionTile(const Rect& tileRect)
+{
+}

@@ -46,6 +46,9 @@ public:
 	//当たった時の処理を行う関数
 	void OnCollision(GameObject& other) override;
 
+	//マップタイルと当たった時の処理を行う関数
+	virtual void OnCollisionTile(const Rect& tileRect)override = 0;
+
 	virtual void ChangeState(std::unique_ptr<EnemyStateBase> newState) = 0;
 
 	//ポジションのゲッター・セッター

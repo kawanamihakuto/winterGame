@@ -131,4 +131,8 @@ void Inhale::OnCollision(GameObject& other)
 	}
 }
 
+void Inhale::OnCollisionTile(const Rect& tileRect)
+{
+}
+
 

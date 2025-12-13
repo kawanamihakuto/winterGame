@@ -83,7 +83,7 @@ void PlayerState::IdleState::Update(Player& player, Input& input)
 		return;
 	}
 	
-	player.UpdatePhysics();
+	player.Gravity();
 }
 
 void PlayerState::IdleState::Exit(Player& player)

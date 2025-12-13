@@ -87,7 +87,7 @@ void PlayerState::MoveState::Update(Player& player, Input& input)
 		player.ChangeState(std::make_unique<IdleState>());
 	}
 
-	player.UpdatePhysics();
+	player.Gravity();
 }
 void PlayerState::MoveState::Exit(Player& player)
 {
