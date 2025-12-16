@@ -54,7 +54,9 @@ enum class PlayerGraphCutNo
 	mouthOpen,
 	mouthFull
 };
-
+/// <summary>
+/// 星または空気を表す列挙型。
+/// </summary>
 enum class StarOrAir
 {
 	star,
@@ -181,13 +183,6 @@ public:
 	/// Y方向の移動を適用する関数
 	/// </summary>
 	void ApplyMovementY();
-
-
-	/// <summary>
-	/// 物理的な移動処理のまとめ
-	/// </summary>
-	void UpdatePhysics();
-
 private:
 	//現在のステートを入れる変数
 	std::unique_ptr<StateBase>state_;

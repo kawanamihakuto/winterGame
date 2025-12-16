@@ -74,6 +74,11 @@ void GameScene::NormalUpdate(Input& input)
 {
 	//プレイヤーのUpdate
 	player_->Update(input);
+
+	player_->ApplyMovementX();
+
+	player_->ApplyMovementY();
+
 	//エネミー全体のUpdate
 	for (auto& enemy : enemies_)
 	{
