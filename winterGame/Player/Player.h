@@ -62,6 +62,12 @@ enum class StarOrAir
 	star,
 	air
 };
+
+enum class CollisionAxis
+{
+	x,
+	y
+};
 /// <summary>
 /// プレイヤークラス
 /// </summary>
@@ -87,7 +93,7 @@ public:
 	void OnCollision(GameObject& other) override;
 
 	//マップとの当たり判定があるかどうかを返す関数
-	bool IsMapCollision()const override{ return true; }
+	bool IsMapCollision()const override { return true; }
 
 	//マップタイルと当たった時の処理を行う関数
 	void OnCollisionTile(const Rect& tileRect)override;
@@ -163,6 +169,8 @@ public:
 	//ノックバック状態が終わったかどうかのゲッター
 	bool IsNockBackEnd();
 
+	void SetCollisionAxis(CollisionAxis collisionAxis);
+
 	/// <summary>
 	/// ステート切り替えの関数
 	/// </summary>
@@ -220,4 +228,6 @@ private:
 	int nockBackTime_;
 	//無敵時間用フレームカウンター
 	int invincinleFrame_;
+	//x,y軸のどちらのマップとの判定をするか
+	CollisionAxis collisionAxis_;
 };

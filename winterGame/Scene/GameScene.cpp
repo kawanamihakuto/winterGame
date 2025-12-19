@@ -75,10 +75,6 @@ void GameScene::NormalUpdate(Input& input)
 	//プレイヤーのUpdate
 	player_->Update(input);
 
-	player_->ApplyMovementX();
-
-	player_->ApplyMovementY();
-
 	//エネミー全体のUpdate
 	for (auto& enemy : enemies_)
 	{
@@ -89,6 +85,35 @@ void GameScene::NormalUpdate(Input& input)
 	//カメラのUpdate
 	camera_->Update();
 
+	//------------------------------
+	//Y方向の移動、マップ衝突を行う
+	//------------------------------
+	collisionManager_.Clear();
+
+	//player処理
+	player_->SetCollisionAxis(CollisionAxis::y);
+	player_->ApplyMovementY();
+	collisionManager_.Add(*player_);
+
+	//マップ衝突(Y)
+	collisionManager_.CheckMapCollision(*stage_);
+
+	//------------------------------
+	//X方向の移動、マップ衝突を行う
+	//------------------------------
+	collisionManager_.Clear();
+
+	//player処理
+	player_->SetCollisionAxis(CollisionAxis::x);
+	player_->ApplyMovementX();
+	collisionManager_.Add(*player_);
+
+	//マップ衝突(X)
+	collisionManager_.CheckMapCollision(*stage_);
+
+	//----------------------------
+	//マップ衝突に影響しないUpdate
+	//----------------------------
 	//吸い込みオブジェクトがあったら
 	if (inhale_)
 	{
@@ -144,6 +169,9 @@ void GameScene::NormalUpdate(Input& input)
 			playerInhaledRect_->Init();
 		}
 	}
+	//-----------------------------
+	//オブジェクト同士の衝突判定
+	//-----------------------------
 	//登録クリア
 	collisionManager_.Clear();
 	//プレイヤーを追加
@@ -178,6 +206,9 @@ void GameScene::NormalUpdate(Input& input)
 	//登録されたすべてのオブジェクトの当たり判定を行う
 	collisionManager_.CheckAll();
 
+	//-----------------------
+	//オブジェクトの削除処理
+	//-----------------------
 	//エネミーの削除
 	//remove_ifで消すべき要素を後ろに詰める
 	auto newEnemyEnd = std::remove_if(

@@ -134,7 +134,24 @@ void Player::OnCollision(GameObject& other)
 
 void Player::OnCollisionTile(const Rect& tileRect)
 {
-	
+	//Yï˚å¸ÇÃè’ìÀîªíË
+	if (collisionAxis_ == CollisionAxis::y)
+	{
+		//óéâ∫íÜ
+		if (velocity_.y > 0)
+		{
+			position_.y = tileRect.top_ - rect_.GetHeight() * 0.5f;
+			velocity_.y = 0.0f;
+			isGround_ = true;
+		}
+		//è„è∏íÜ
+		else if (velocity_.y < 0)
+		{
+			position_.y = tileRect.bottom_ + rect_.GetHeight() * 0.5f;
+			velocity_.y = 0.0f;
+		}
+	}
+
 }
 
 bool Player::IsNockBackEnd()
@@ -145,6 +162,11 @@ bool Player::IsNockBackEnd()
 		return true;
 	}	 
 	return false;
+}
+
+void Player::SetCollisionAxis(CollisionAxis collisionAxis)
+{
+	collisionAxis_ = collisionAxis;
 }
 
 void Player::ChangeState(std::unique_ptr<StateBase> newState)
