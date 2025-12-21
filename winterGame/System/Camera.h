@@ -22,9 +22,6 @@ public:
 	//当たった時の処理を行う関数
 	void OnCollision(GameObject& other) override;
 
-	//マップタイルと当たった時の処理を行う関数
-	void OnCollisionTile(const Rect& tileRect)override {}
-
 	Vector2 WorldToScreen(const Vector2& world)const;
 //DrawOffsetのゲッター
 	Vector2 GetDrawOffset() { return drawOffset_; }

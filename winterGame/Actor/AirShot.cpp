@@ -72,6 +72,3 @@ void AirShot::Draw(Camera& camera)
 #endif // _DEBUG
 }
 
-void AirShot::OnCollisionTile(const Rect& tileRect)
-{
-}

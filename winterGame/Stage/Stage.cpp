@@ -146,6 +146,44 @@ std::vector<Rect> Stage::GetSolidTiles(const Rect& objRect) const
     return result;
 }
 
+bool Stage::IsCollision(Rect rect, Rect& chipRect)const
+{
+    for (int y = 0; y < kChipNumY; y++)
+    {
+        for (int x = 0; x < kChipNumX; x++)
+        {
+            //タイルID取得
+            int tileId = GetData(x, y);
+
+            if (tileId == 0)
+            {
+                continue;
+            }
+
+            int chipLeft = static_cast<int>(x * kTileWorldSize);
+            int chipRight = static_cast<int>(chipLeft + kTileWorldSize);
+            int chipTop = static_cast<int>(y * kTileWorldSize);
+            int chipBottom = static_cast<int>(chipTop + kTileWorldSize);
+
+            //絶対に当たらない場合
+            if (chipLeft > rect.GetRight())continue;
+            if (chipTop > rect.GetBottom())continue;
+            if (chipRight < rect.GetLeft())continue;
+            if (chipBottom < rect.GetTop())continue;
+
+            //ぶつかったマップチップの短形を設定する
+            chipRect.left_ = static_cast<float>(chipLeft);
+            chipRect.right_ = static_cast<float>(chipRight);
+            chipRect.top_ = static_cast<float>(chipTop);
+            chipRect.bottom_ = static_cast<float>(chipBottom);
+
+            //いずれかのチップに当たっていたら終了する
+            return true;
+        }
+    }
+    return false;
+}
+
 void Stage::Draw(Camera& camera)
 {
     int imgW, imgH;

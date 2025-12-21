@@ -10,9 +10,6 @@ public:
 	void Draw() override;
 	void Draw(Camera& camera) override;
 
-	//マップタイルと当たった時の処理を行う関数
-	void OnCollisionTile(const Rect& tileRect)override;
-
 	void ChangeState(std::unique_ptr<EnemyStateBase>);
 	Vector2 GetPosition() const { return position_; }
 private:

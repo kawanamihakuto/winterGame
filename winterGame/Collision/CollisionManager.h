@@ -11,9 +11,6 @@ public:
 	void Clear();
 	//登録されたすべてのオブジェクトの当たり判定を行う関数
 	void CheckAll();
-	//登録されたオブジェクトのうち、ステージとの当たり判定を行う関数
-	void CheckMapCollision(const Stage& stage);
-
 private:
 	//レイヤーの条件を満たしているかのチェックをする関数
 	bool CanCollide(const GameObject& a, const GameObject& b)const;

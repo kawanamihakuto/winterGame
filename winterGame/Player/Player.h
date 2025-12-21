@@ -6,6 +6,7 @@ class Player;
 class Input;
 class Rect;
 class Camera;
+class Stage;
 //プレイヤー関連の定数群
 namespace PlayerConstant
 {
@@ -16,7 +17,7 @@ namespace PlayerConstant
 	//プレイヤーの表示サイズ
 	constexpr int kWorldSize = 16*3;
 	//プレイヤーの当たり判定拡大倍率
-	constexpr float kRectSize = 1.0f;
+	constexpr float kRectSize = 2.0f;
 	//仮の地面
 	constexpr int kGround = 800;
 	//横方向の移動スピード
@@ -63,11 +64,6 @@ enum class StarOrAir
 	air
 };
 
-enum class CollisionAxis
-{
-	x,
-	y
-};
 /// <summary>
 /// プレイヤークラス
 /// </summary>
@@ -79,7 +75,7 @@ public:
 
 	void Init()override;
 	void Update()override;
-	void Update(Input& input);
+	void Update(Input& input,Stage& stage);
 	void Draw()override;
 	void Draw(Camera& camera);
 
@@ -91,12 +87,6 @@ public:
 	CollisionLayer GetHitMask()const override;
 	//当たった時の処理を行う関数
 	void OnCollision(GameObject& other) override;
-
-	//マップとの当たり判定があるかどうかを返す関数
-	bool IsMapCollision()const override { return true; }
-
-	//マップタイルと当たった時の処理を行う関数
-	void OnCollisionTile(const Rect& tileRect)override;
 
 	//ポジションのゲッター
 	Vector2 GetPosition() { return position_; }
@@ -161,6 +151,7 @@ public:
 	StarOrAir GetStarOrAir() { return starOrAir_; }
 	void SetStarOrAir(StarOrAir starOrAir) { starOrAir_ = starOrAir; }
 
+	void SetIsGround(bool isGround) { isGround_ = isGround; }
 	bool GetIsGround()const { return isGround_; }
 
 	void OnJump() { isGround_ = false; }
@@ -169,7 +160,7 @@ public:
 	//ノックバック状態が終わったかどうかのゲッター
 	bool IsNockBackEnd();
 
-	void SetCollisionAxis(CollisionAxis collisionAxis);
+	
 
 	/// <summary>
 	/// ステート切り替えの関数
@@ -191,6 +182,16 @@ public:
 	/// Y方向の移動を適用する関数
 	/// </summary>
 	void ApplyMovementY();
+	/// <summary>
+	/// X方向のマップとの衝突判定
+	/// </summary>
+	/// <param name="stage">stage情報</param>
+	void MapCollisionX(const Stage& stage,Rect tileRect);
+	/// <summary>
+	/// Y方向のマップとの衝突判定
+	/// </summary>
+	/// <param name="stage">stage情報</param>
+	void MapCollisionY(const Stage& stage,Rect tileRect);
 private:
 	//現在のステートを入れる変数
 	std::unique_ptr<StateBase>state_;
@@ -228,6 +229,4 @@ private:
 	int nockBackTime_;
 	//無敵時間用フレームカウンター
 	int invincinleFrame_;
-	//x,y軸のどちらのマップとの判定をするか
-	CollisionAxis collisionAxis_;
 };

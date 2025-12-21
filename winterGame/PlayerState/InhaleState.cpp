@@ -28,7 +28,6 @@ void PlayerState::InhaleState::Update(Player& player, Input& input)
 		//‹z‚¢‚İŒp‘±ó‘Ô‚É‚·‚é
 		player.ChangeState(std::make_unique<PlayerState::InhaleHoldState>());
 	}
-	player.Gravity();
 }
 
 void PlayerState::InhaleState::Exit(Player& player)

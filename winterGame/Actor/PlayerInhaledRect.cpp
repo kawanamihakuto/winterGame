@@ -102,10 +102,6 @@ void PlayerInhaledRect::OnCollision(GameObject& other)
 	}
 }
 
-void PlayerInhaledRect::OnCollisionTile(const Rect& tileRect)
-{
-}
-
 void PlayerInhaledRect::Draw()
 {
 }

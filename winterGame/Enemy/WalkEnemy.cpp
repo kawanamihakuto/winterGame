@@ -70,11 +70,6 @@ void WalkEnemy::Draw(Camera& camera)
 }
 
 
-void WalkEnemy::OnCollisionTile(const Rect& tileRect)
-{
-
-}
-
 void WalkEnemy::ChangeState(std::unique_ptr<EnemyStateBase>newState)
 {
 	state_->Exit(*this);

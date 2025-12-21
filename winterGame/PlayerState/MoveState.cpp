@@ -66,9 +66,6 @@ void PlayerState::MoveState::Update(Player& player, Input& input)
 		return;
 	}
 
-	//–€ŽCˆ—
-	vel.x *= PlayerConstant::kFriction;
-
 	//‘¬“x§ŒÀ
 	if (vel.x >= PlayerConstant::kMaxSpeed)
 	{
@@ -86,8 +83,6 @@ void PlayerState::MoveState::Update(Player& player, Input& input)
 	{
 		player.ChangeState(std::make_unique<IdleState>());
 	}
-
-	player.Gravity();
 }
 void PlayerState::MoveState::Exit(Player& player)
 {

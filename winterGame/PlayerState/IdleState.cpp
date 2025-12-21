@@ -82,8 +82,6 @@ void PlayerState::IdleState::Update(Player& player, Input& input)
 		player.ChangeState(std::make_unique<SwallowState>());
 		return;
 	}
-	
-	player.Gravity();
 }
 
 void PlayerState::IdleState::Exit(Player& player)

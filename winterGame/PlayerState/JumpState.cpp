@@ -19,7 +19,7 @@ void PlayerState::JumpState::Enter(Player& player)
 		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthFull);
 		break;
 	}
-
+	player.SetIsGround(false);
 	// ã•ûŒü‚Ö‘¬“x‚ð—^‚¦‚é
 	Vector2 vel = player.GetVelocity();
 	vel.y = -PlayerConstant::kJumpPower;
@@ -80,26 +80,18 @@ void PlayerState::JumpState::Update(Player& player, Input& input)
 	}
 
 	player.SetVelocity(vel);
-	player.Gravity();
 
 	auto pos = player.GetPosition();
-	//’n–Ê‚É’…’n‚µ‚½‚çIdle‚©Move‚Ö‘JˆÚ
-	if (pos.y >= PlayerConstant::kGround)
+	
+	if (player.GetIsGround() == true)
 	{
-		if (input.IsPressed("left") || input.IsPressed("right"))
-		{
-			player.ChangeState(std::make_unique<MoveState>());
-		}
-		else
-		{
-			player.ChangeState(std::make_unique<IdleState>());
-		}
+		player.ChangeState(std::make_unique<MoveState>());
 	}
+
 	if (input.IsPressed("attack"))
 	{
 		player.ChangeState(std::make_unique<InhaleState>());
 	}
-
 }
 
 void PlayerState::JumpState::Exit(Player& player)

@@ -2,6 +2,7 @@
 #include"Geometry.h"
 #include"Rect.h"
 #include"CollisionLayer.h"
+
 struct TileCollision;
 /// <summary>
 /// ゲーム全体のオブジェクト基底クラス
@@ -24,10 +25,6 @@ public:
 	virtual void OnCollision(GameObject& other) = 0;
 	//ポジションのゲッター
 	const Vector2& GetPosition()const { return position_; }
-	//マップとの当たり判定があるかどうかを返す関数
-	virtual bool IsMapCollision()const { return false; }
-	//マップタイルと当たった時の処理を行う関数
-	virtual void OnCollisionTile(const Rect& tileRect) = 0;
 
 protected:
 	//Vector2でポジションを管理
@@ -35,4 +32,3 @@ protected:
 	//当たり判定用の矩形
 	Rect rect_;
 };
-

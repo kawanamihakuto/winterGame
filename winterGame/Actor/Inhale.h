@@ -25,10 +25,6 @@ public:
 	//当たった時の処理を行う関数
 	void OnCollision(GameObject& other) override;
 
-
-	//マップタイルと当たった時の処理を行う関数
-	void OnCollisionTile(const Rect& tileRect)override;
-
 	//プレイヤーの参照のゲッター
 	std::shared_ptr<Player> GetPlayer()const { return player_; }
 

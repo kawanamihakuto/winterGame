@@ -8,6 +8,7 @@ void PlayerState::HoveringState::Enter(Player& player)
 	player.SetMouthState(MouthState::holdingAir);
 	player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthFull);
 	player.SetStarOrAir(StarOrAir::air);
+	player.SetIsGround(false);
 	auto vel = player.GetVelocity();
 	vel.y = -PlayerConstant::kHoveringPower;
 	player.SetVelocity(vel);
@@ -55,7 +56,6 @@ void PlayerState::HoveringState::Update(Player& player,Input& input)
 		return;
 	}
 	player.SetVelocity(vel);
-	player.Gravity();
 }
 
 void PlayerState::HoveringState::Exit(Player& player)

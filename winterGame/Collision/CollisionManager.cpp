@@ -39,38 +39,6 @@ void CollisionManager::CheckAll()
 	}
 }
 
-void CollisionManager::CheckMapCollision(const Stage& stage)
-{
-	//登録されたすべてのオブジェクトに対して衝突チェック
-	for (auto& obj : objects_)
-	{
-		//マップと当たりたいかどうかをチェック
-		if (!obj->IsMapCollision())
-		{
-			continue;
-		}
-		//オブジェクトの当たり判定を取得
-		Rect objRect = obj->GetColliderRect();
-		//当たる可能性があるタイルのRectを取得
-		auto tileRects = stage.GetSolidTiles(objRect);
-
-		//tileRects分回す
-		for (const auto& tileRect : tileRects)
-		{
-			//Rect同士が当たっていないなら無視する
-			if (!objRect.IsCollision(tileRect))
-			{
-				continue;
-			}
-			//オブジェクトに処理を任せる
-			obj->OnCollisionTile(tileRect);
-
-			//処理をした後のRectをとる
-			objRect = obj->GetColliderRect();
-		}
-	}
-}
-
 bool CollisionManager::CanCollide(const GameObject& a, const GameObject& b) const
 {
 	//aがbに当たるかどうか判定

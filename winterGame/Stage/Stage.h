@@ -21,6 +21,8 @@ public:
 	Size MapSize()const;
 	//当たる可能性があるRectを返す
 	std::vector<Rect>GetSolidTiles(const Rect& objRect)const;
+	//マップチップの当たり判定
+	bool IsCollision(Rect rect, Rect& chipRect)const;
 
 	void Draw(Camera& camera);
 private:

@@ -55,10 +55,6 @@ void FlyEnemy::Draw(Camera& camera)
 	drawRect.Draw(0x0000ff, false);
 }
 
-void FlyEnemy::OnCollisionTile(const Rect& tileRect)
-{
-}
-
 void FlyEnemy::ChangeState(std::unique_ptr<EnemyStateBase>newState)
 {
 	state_->Exit(*this);

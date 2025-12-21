@@ -9,6 +9,7 @@
 #include"JumpState.h"
 #include"HitState.h"
 #include"InhaleState.h"
+#include"Stage/Stage.h"
 
 constexpr int kInhaledRectWidth = 8;
 
@@ -46,20 +47,43 @@ void Player::Init()
 void Player::Update()
 {
 }
-void Player::Update(Input& input)
+void Player::Update(Input& input,Stage& stage)
 {
 	isGenerateInhale_ = false;
 	isDeleteInhale_ = false;
-
 	//現在の状態のUpdateを呼び出す
 	state_->Update(*this, input);
 
+	Rect tileRect;
+
+	//いったんisGroundをfalseにする
+	isGround_ = false;
+	//重力
+	Gravity();
+	ApplyMovementY();
+	//Rectの更新
 	rect_.SetCenter(
 		position_.x,
 		position_.y,
-		PlayerConstant::kWidth,
-		PlayerConstant::kHeight
+		PlayerConstant::kWidth * PlayerConstant::kRectSize,
+		PlayerConstant::kHeight * PlayerConstant::kRectSize
 	);
+	MapCollisionY(stage, tileRect);
+
+	//X方向の移動
+	ApplyMovementX();
+	//Rectの更新
+	rect_.SetCenter(
+		position_.x,
+		position_.y,
+		PlayerConstant::kWidth * PlayerConstant::kRectSize,
+		PlayerConstant::kHeight * PlayerConstant::kRectSize
+	);
+	//X方向のマップ衝突判定
+	MapCollisionX(stage, tileRect);
+	
+	printfDx("y=%.4f vy=%.4f ground=%d\n",
+		position_.y, velocity_.y, isGround_);
 }
 
 void Player::Draw()
@@ -89,7 +113,8 @@ void Player::Draw(Camera& camera)
 	//当たり判定表示
 	Rect drawRect = rect_;
 	drawRect.SetCenter(screen.x, screen.y,
-		PlayerConstant::kWidth, PlayerConstant::kHeight);
+		PlayerConstant::kWidth * PlayerConstant::kRectSize,
+		PlayerConstant::kHeight * PlayerConstant::kRectSize);
 	drawRect.Draw(rectColor_, false);
 
 	//プレイヤーのHP表示
@@ -132,28 +157,6 @@ void Player::OnCollision(GameObject& other)
 	}
 }
 
-void Player::OnCollisionTile(const Rect& tileRect)
-{
-	//Y方向の衝突判定
-	if (collisionAxis_ == CollisionAxis::y)
-	{
-		//落下中
-		if (velocity_.y > 0)
-		{
-			position_.y = tileRect.top_ - rect_.GetHeight() * 0.5f;
-			velocity_.y = 0.0f;
-			isGround_ = true;
-		}
-		//上昇中
-		else if (velocity_.y < 0)
-		{
-			position_.y = tileRect.bottom_ + rect_.GetHeight() * 0.5f;
-			velocity_.y = 0.0f;
-		}
-	}
-
-}
-
 bool Player::IsNockBackEnd()
 { 
 	if (nockBackTime_ >= PlayerConstant::kNockBackTimeMax)
@@ -162,11 +165,6 @@ bool Player::IsNockBackEnd()
 		return true;
 	}	 
 	return false;
-}
-
-void Player::SetCollisionAxis(CollisionAxis collisionAxis)
-{
-	collisionAxis_ = collisionAxis;
 }
 
 void Player::ChangeState(std::unique_ptr<StateBase> newState)
@@ -185,16 +183,86 @@ void Player::ChangeState(std::unique_ptr<StateBase> newState)
 
 void Player::Gravity()
 {
-	//重力分下方向に力を加える
-	velocity_.y += PlayerConstant::kGravity;
+	if (!isGround_)
+	{
+		//重力分下方向に力を加える
+		velocity_.y += PlayerConstant::kGravity;
+	}
 }
 
 void Player::ApplyMovementX()
 {
+	//摩擦処理
+	velocity_.x *= PlayerConstant::kFriction;
 	position_.x += velocity_.x;
 }
 
 void Player::ApplyMovementY()
 {
 	position_.y += velocity_.y;
+}
+
+void Player::MapCollisionX(const Stage& stage,Rect tileRect)
+{
+	if (stage.IsCollision(rect_, tileRect))
+	{
+		// 右に移動して壁に当たった場合
+		if (velocity_.x > 0.0f)
+		{
+			// プレイヤーの右端をタイルの左端に合わせる
+			position_.x = tileRect.left_ - rect_.GetWidth() * 0.5f - 0.01f;
+		}
+		// 左に移動して壁に当たった場合
+		else if (velocity_.x < 0.0f)
+		{
+			// プレイヤーの左端をタイルの右端に合わせる
+			position_.x = tileRect.right_ + rect_.GetWidth() * 0.5f+0.01f;
+		}
+
+		// 壁に当たったのでX速度はゼロ
+		velocity_.x = 0.0f;
+
+		// 押し戻した後は必ずRectを更新（超重要）
+		rect_.SetCenter(
+			position_.x,
+			position_.y,
+			PlayerConstant::kWidth * PlayerConstant::kRectSize,
+			PlayerConstant::kHeight * PlayerConstant::kRectSize
+		);
+	}
+}
+
+void Player::MapCollisionY(const Stage& stage,Rect tileRect)
+{	
+	if (stage.IsCollision(rect_, tileRect))
+	{
+		// 落下中（床）
+		if (velocity_.y > 0.0f)
+		{
+			// プレイヤーの足を床の上にぴったり合わせる
+			position_.y = tileRect.top_ - rect_.GetHeight() * 0.5f - 0.01f;
+
+			// 落下速度を完全に止める
+			velocity_.y = 0.0f;
+
+			// 接地フラグをtrueにする
+			isGround_ = true;
+		}
+		// 上昇中（天井）
+		else if (velocity_.y < 0.0f)
+		{
+			// プレイヤーの頭を天井の下に合わせる
+			position_.y = tileRect.bottom_ + rect_.GetHeight() * 0.5f+0.01f;
+
+			// 上方向速度を止める
+			velocity_.y = 0.0f;
+		}
+		// 押し戻し後のRect更新
+		rect_.SetCenter(
+			position_.x,
+			position_.y,
+			PlayerConstant::kWidth * PlayerConstant::kRectSize,
+			PlayerConstant::kHeight * PlayerConstant::kRectSize
+		);
+	}
 }
