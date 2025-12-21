@@ -2,13 +2,11 @@
 #include "Base/EnemyBase.h"
 #include <memory>
 
-class WalkEnemy;
 class WalkEnemyStateBase;
 class EnemyStatebase;
-class Rect;
 class Player;
 class Camera;
-
+class Stage;
 /// <summary>
 /// •à‚­“GƒNƒ‰ƒX
 /// </summary>
@@ -19,6 +17,7 @@ public:
 	~WalkEnemy ();
 	void Init()override;
 	void Update() override;
+	void Update(Stage& stage)override;
 	void Draw() override;
 	void Draw(Camera& camera) override;
 

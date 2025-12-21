@@ -1,5 +1,6 @@
 #pragma once
 #include "EnemyBase.h"
+class Stage;
 class FlyEnemy :public EnemyBase
 {
 public:
@@ -7,6 +8,7 @@ public:
 	~FlyEnemy();
 	void Init()override;
 	void Update() override;
+	void Update(Stage& stage) override;
 	void Draw() override;
 	void Draw(Camera& camera) override;
 

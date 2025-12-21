@@ -49,6 +49,9 @@ void WalkEnemy::Update()
 	rect_.SetCenter(position_.x, position_.y,
 		kWidth * kRectSize, kHeight * kRectSize);
 }
+void WalkEnemy::Update(Stage& stage)
+{
+}
 void WalkEnemy::Draw()
 {
 

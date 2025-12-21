@@ -39,6 +39,10 @@ void FlyEnemy::Update()
 		kWidth * kRectSize, kHeight * kRectSize);
 }
 
+void FlyEnemy::Update(Stage& stage)
+{
+}
+
 void FlyEnemy::Draw()
 {
 
