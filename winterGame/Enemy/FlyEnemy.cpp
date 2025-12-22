@@ -34,13 +34,15 @@ void FlyEnemy::Init()
 
 void FlyEnemy::Update()
 {
-	state_->Update(*this);
-	rect_.SetCenter(position_.x, position_.y,
-		kWidth * kRectSize, kHeight * kRectSize);
 }
 
 void FlyEnemy::Update(Stage& stage)
 {
+	state_->Update(*this);
+	ApplyMovementX();
+	ApplyMovementY();
+	rect_.SetCenter(position_.x, position_.y,
+		kWidth * kRectSize, kHeight * kRectSize);
 }
 
 void FlyEnemy::Draw()

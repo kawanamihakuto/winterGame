@@ -38,15 +38,14 @@ void EnemyBase::Gravity()
 	velocity_.y += 0.5f;
 }
 
-void EnemyBase::ApplyMovement()
+void EnemyBase::ApplyMovementX()
 {
-	position_ += velocity_;
+	position_.x += velocity_.x;
+}
 
-	if (position_.y >= kGround)
-	{
-		position_.y = kGround;
-		velocity_.y = 0.0f;
-	}
+void EnemyBase::ApplyMovementY()
+{
+	position_.y += velocity_.y;
 }
 
 Rect EnemyBase::GetColliderRect() const
@@ -110,7 +109,15 @@ void Move::Update(EnemyBase& enemy)
 	switch (enemy.GetEnemyType())
 	{
 	case EnemyType::walk:
-		vel.x -= kSpeed;
+		if (enemy.GetIsRight())
+		{
+			vel.x += kSpeed;
+		}
+		else
+		{
+			vel.x -= kSpeed;
+		}
+		
 
 		if (vel.x >= kMaxSpeed)
 		{
@@ -122,8 +129,6 @@ void Move::Update(EnemyBase& enemy)
 		}
 
 		enemy.SetVelocity(vel);
-		enemy.Gravity();
-		enemy.ApplyMovement();
 		break;
 	case EnemyType::fly:
 		vel.x -= kSpeed;
@@ -138,8 +143,6 @@ void Move::Update(EnemyBase& enemy)
 		}
 
 		enemy.SetVelocity(vel);
-
-		enemy.ApplyMovement();
 		break;
 	}
 
@@ -186,8 +189,6 @@ void Death::Update(EnemyBase& enemy)
 
 	enemy.SetVelocity(vel);
 
-	enemy.ApplyMovement();
-
 	auto nockBackTime = enemy.GetNockBackTime();
 	nockBackTime += 1;
 	if (nockBackTime >= kNockBackTimeMax)
@@ -227,8 +228,6 @@ void Inhaled::Update(EnemyBase& enemy)
 	Lerp lerp;
 	//‹z‚¢ž‚Ü‚ê‚Ä‚¢‚é“G‚Ì‹““®‚ðLerp‚ÅŽÀ‘•
 	enemy.SetPosition(lerp.VLerp(enemy.GetPosition(), player->GetPosition(), kInhaleLerpT));
-	enemy.Gravity();
-	enemy.ApplyMovement();
 }
 
 void Inhaled::Exit(EnemyBase& enemy)

@@ -44,6 +44,7 @@ void StarShot::Update()
 void StarShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_ptr<EnemyBase>> enemies)
 {
 	position_ += velocity_;
+	rect_.SetCenter(position_.x, position_.y, kWidth, kHeight);
 }
 
 void StarShot::Draw()
@@ -58,9 +59,10 @@ void StarShot::Draw(Camera& camera)
 		kSize,0,graphHandle_,true,!isRight_);
 #ifdef _DEBUG
 	//“–‚½‚è”»’è•\Ž¦
-	rect_.SetCenter(screen.x, screen.y,
+	Rect drawRect = rect_;
+	drawRect.SetCenter(screen.x, screen.y,
 		kWidth * kSize, kHeight * kSize);
-	rect_.Draw(0x00aaff, false);
+	drawRect.Draw(0x00aaff, false);
 #endif // _DEBUG
 }
 

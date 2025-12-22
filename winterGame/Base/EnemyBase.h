@@ -90,6 +90,8 @@ public:
 	void OnRight() { isRight_ = true; }
 	void OnLeft() { isRight_ = false; }
 
+	bool GetIsRight() { return isRight_; }
+
 	//歩くだけの敵の画像の切り取り位置のセッター
 	void SetEnemyGraphCutNo(EnemyGraphCutNo egcn) { graphCutNo_ = egcn; }
 	/// <summary>
@@ -98,10 +100,14 @@ public:
 	void Gravity();
 
 	/// <summary>
-	/// 移動を適用する関数
+	/// X移動を適用する関数
 	/// </summary>
-	void ApplyMovement();
+	void ApplyMovementX();
 
+	/// <summary>
+	/// Y移動を適用する関数
+	/// </summary>
+	void ApplyMovementY();
 protected:
 	//体力
 	int hp_;

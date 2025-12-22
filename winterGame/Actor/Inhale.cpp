@@ -82,6 +82,7 @@ void Inhale::Update()
 		//ƒvƒŒƒCƒ„[‚Ì‹z‚¢ž‚Ýó‘Ô‚ÌŒp‘±‚ð‚¢‚Á‚½‚ñfalse‚É‚·‚é
 		player_->SetIsInhaledHold(false);
 	}
+	rect_.SetCenter(position_.x, position_.y, kWidth, kHeight);
 }
 
 void Inhale::Draw()
@@ -96,12 +97,15 @@ void Inhale::Draw(Camera& camera)
 		DrawRectRotaGraph(screen.x, screen.y,
 			16 * 3, 0, kWidth, kHeight, kSize, 0, graphHandle_,true, !isRight_);
 	}
-	rect_.SetCenter(screen.x, screen.y, kWidth, kHeight);
+	Rect drawRect = rect_;
+	drawRect.SetCenter(screen.x, screen.y,
+		kWidth , kHeight);
+	
 #ifdef _DEBUG
 	//“–‚½‚è”»’è‚ð‰ÂŽ‹‰»
 	if (isActive_)
 	{
-		rect_.Draw(0x00ffff, false);
+		drawRect.Draw(0x0000ff, false);
 	}
 #endif // _DEBUG
 }

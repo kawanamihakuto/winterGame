@@ -6,6 +6,7 @@
 #include"Camera.h"
 #include"HitState.h"
 #include"Lerp.h"
+#include"Stage/Stage.h"
 namespace
 {
 	constexpr int kHp = 1;
@@ -45,12 +46,23 @@ void WalkEnemy::Init()
 
 void WalkEnemy::Update()
 {
-	state_->Update(*this);
-	rect_.SetCenter(position_.x, position_.y,
-		kWidth * kRectSize, kHeight * kRectSize);
 }
 void WalkEnemy::Update(Stage& stage)
 {
+	state_->Update(*this);
+
+	Rect tileRect;
+	//重力
+	Gravity();
+	ApplyMovementY();
+	rect_.SetCenter(position_.x, position_.y,
+		kWidth * kRectSize, kHeight * kRectSize);
+	MapCollisionY(stage,tileRect);
+
+	ApplyMovementX();
+	rect_.SetCenter(position_.x, position_.y,
+		kWidth * kRectSize, kHeight * kRectSize);
+	MapCollisionX(stage, tileRect);
 }
 void WalkEnemy::Draw()
 {
@@ -80,3 +92,66 @@ void WalkEnemy::ChangeState(std::unique_ptr<EnemyStateBase>newState)
 	state_->Enter(*this);
 }
 
+void WalkEnemy::MapCollisionX(const Stage& stage, Rect tileRect)
+{
+	if (stage.IsCollision(rect_, tileRect))
+	{
+		// 右に移動して壁に当たった場合
+		if (velocity_.x > 0.0f)
+		{
+			//右端をタイルの左端に合わせる
+			position_.x = tileRect.left_ - rect_.GetWidth() * 0.5f - 0.01f;
+			isRight_ = false;
+		}
+		// 左に移動して壁に当たった場合
+		else if (velocity_.x < 0.0f)
+		{
+			//左端をタイルの右端に合わせる
+			position_.x = tileRect.right_ + rect_.GetWidth() * 0.5f + 0.01f;
+			isRight_ = true;
+		}
+
+		// 壁に当たったのでX速度はゼロ
+		velocity_.x = 0.0f;
+
+		// 押し戻した後は必ずRectを更新
+		rect_.SetCenter(
+			position_.x,
+			position_.y,
+			PlayerConstant::kWidth * PlayerConstant::kRectSize,
+			PlayerConstant::kHeight * PlayerConstant::kRectSize
+		);
+	}
+}
+
+void WalkEnemy::MapCollisionY(const Stage& stage, Rect tileRect)
+{
+	if (stage.IsCollision(rect_, tileRect))
+	{
+		// 落下中（床）
+		if (velocity_.y > 0.0f)
+		{
+			//床の上に合わせる
+			position_.y = tileRect.top_ - rect_.GetHeight() * 0.5f - 0.01f;
+
+			// 落下速度を完全に止める
+			velocity_.y = 0.0f;
+		}
+		// 上昇中（天井）
+		else if (velocity_.y < 0.0f)
+		{
+			//天井の下に合わせる
+			position_.y = tileRect.bottom_ + rect_.GetHeight() * 0.5f + 0.01f;
+
+			// 上方向速度を止める
+			velocity_.y = 0.0f;
+		}
+		// 押し戻し後のRect更新
+		rect_.SetCenter(
+			position_.x,
+			position_.y,
+			PlayerConstant::kWidth * PlayerConstant::kRectSize,
+			PlayerConstant::kHeight * PlayerConstant::kRectSize
+		);
+	}
+}

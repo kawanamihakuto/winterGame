@@ -52,6 +52,7 @@ void AirShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_ptr
 	{
 		isActive_ = false;
 	}
+	rect_.SetCenter(position_.x, position_.y, kWidth, kHeight);
 }
 
 void AirShot::Draw()
@@ -65,10 +66,11 @@ void AirShot::Draw(Camera& camera)
 		0, kHeight * kAirGraphCutRow, kWidth * 3, kHeight * 2,
 		kSize, 0, graphHandle_, true, !isRight_);
 #ifdef _DEBUG
+	Rect drawRect = rect_;
 	//“–‚½‚è”»’è•\Ž¦
-	rect_.SetCenter(screen.x, screen.y,
+	drawRect.SetCenter(screen.x, screen.y,
 		kWidth * 2 * kSize, kHeight* 2 * kSize);
-	rect_.Draw(0x00aaff, false);
+	drawRect.Draw(0x00aaff, false);
 #endif // _DEBUG
 }
 

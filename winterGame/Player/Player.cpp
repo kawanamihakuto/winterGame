@@ -100,7 +100,7 @@ void Player::Draw(Camera& camera)
 	//プレイヤー表示
 	DrawRectRotaGraph(
 		(int)screen.x,
-		(int)screen.y,
+		(int)screen.y-5.0f,
 		srcX, srcY,
 		16, 16,
 		3.0,
@@ -222,7 +222,7 @@ void Player::MapCollisionX(const Stage& stage,Rect tileRect)
 		// 壁に当たったのでX速度はゼロ
 		velocity_.x = 0.0f;
 
-		// 押し戻した後は必ずRectを更新（超重要）
+		// 押し戻した後は必ずRectを更新
 		rect_.SetCenter(
 			position_.x,
 			position_.y,

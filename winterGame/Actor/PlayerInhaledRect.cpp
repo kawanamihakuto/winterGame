@@ -62,18 +62,22 @@ void PlayerInhaledRect::Update()
 	}
 	//ƒvƒŒƒCƒ„[‚Ì‚‚³‚É‡‚í‚¹‚é
 	position_.y = playerPos.y;
+
+	rect_.SetCenter(position_.x, position_.y, kWidth, kHeight);
 }
 
 
 void PlayerInhaledRect::Draw(Camera& camera)
 {
 	Vector2 screen = camera.WorldToScreen(position_);
-	rect_.SetCenter(screen.x, screen.y, kWidth, kHeight);
+	Rect drawRect = rect_;
+	drawRect.SetCenter(screen.x, screen.y,
+		kWidth, kHeight);
 #ifdef _DEBUG
 	//“–‚½‚è”»’è‚ğ‰Â‹‰»
 	if (isActive_)
 	{
-		rect_.Draw(0xff00ff, false);
+		drawRect.Draw(0xff00ff, false);
 	}
 #endif // _DEBUG
 }

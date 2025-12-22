@@ -39,9 +39,9 @@ draw_(&GameScene::FadeDraw)
 	std::shared_ptr<WalkEnemy> we2 = std::make_shared<WalkEnemy>(Vector2{ 700,350 },graphHandle_, player_);
 	std::shared_ptr<WalkEnemy> we3 = std::make_shared<WalkEnemy>(Vector2{ 800,350 },graphHandle_, player_);
 	//飛んでる敵生成
-	std::shared_ptr<FlyEnemy> fe1 = std::make_shared<FlyEnemy>(Vector2{ 600,250 }, graphHandle_, player_);
-	std::shared_ptr<FlyEnemy> fe2 = std::make_shared<FlyEnemy>(Vector2{ 700,250 }, graphHandle_, player_);
-	std::shared_ptr<FlyEnemy> fe3 = std::make_shared<FlyEnemy>(Vector2{ 800,250 }, graphHandle_, player_);
+	std::shared_ptr<FlyEnemy> fe1 = std::make_shared<FlyEnemy>(Vector2{ 600,600 }, graphHandle_, player_);
+	std::shared_ptr<FlyEnemy> fe2 = std::make_shared<FlyEnemy>(Vector2{ 700,600 }, graphHandle_, player_);
+	std::shared_ptr<FlyEnemy> fe3 = std::make_shared<FlyEnemy>(Vector2{ 800,600 }, graphHandle_, player_);
 	
 	enemies_.push_back(we1);
 	enemies_.push_back(we2);
@@ -78,7 +78,7 @@ void GameScene::NormalUpdate(Input& input)
 	//エネミー全体のUpdate
 	for (auto& enemy : enemies_)
 	{
-		enemy->Update();
+		enemy->Update(*stage_);
 	}
 	//カメラのターゲットを設定
 	camera_->SetTarget(player_->GetPosition());

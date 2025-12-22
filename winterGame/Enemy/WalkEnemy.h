@@ -24,6 +24,17 @@ public:
 	void ChangeState(std::unique_ptr<EnemyStateBase>newState);
 	Vector2 GetPosition() const { return position_; }
 
+	/// <summary>
+	/// X方向のマップとの衝突判定
+	/// </summary>
+	/// <param name="stage">stage情報</param>
+	void MapCollisionX(const Stage& stage, Rect tileRect);
+	/// <summary>
+	/// Y方向のマップとの衝突判定
+	/// </summary>
+	/// <param name="stage">stage情報</param>
+	void MapCollisionY(const Stage& stage, Rect tileRect);
+
 private:
 };
 
