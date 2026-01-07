@@ -81,9 +81,9 @@ void Player::Update(Input& input,Stage& stage)
 	);
 	//X•ûŒü‚Ìƒ}ƒbƒvÕ“Ë”»’è
 	MapCollisionX(stage, tileRect);
-	
-	printfDx("y=%.4f vy=%.4f ground=%d\n",
-		position_.y, velocity_.y, isGround_);
+	//
+	//printfDx("y=%.4f vy=%.4f ground=%d\n",
+	//	position_.y, velocity_.y, isGround_);
 }
 
 void Player::Draw()
