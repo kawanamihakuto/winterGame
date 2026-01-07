@@ -41,6 +41,7 @@ bool Stage::LoadCsv(const std::string& path)
 {
     //以前のステージデータを破棄
     data_.clear();
+    enemySpawns_.clear();
     size_ = { 0, 0 };
     width_ = 0;
     height_ = 0;
@@ -64,8 +65,25 @@ bool Stage::LoadCsv(const std::string& path)
         //カンマ区切りで数値を読む
         while (std::getline(ss, cell, ',')&& x < kChipNumX)
         {
-            //文字列→数値に変換して格納
-            data_.push_back(static_cast<uint16_t>(std::stoi(cell)));
+            int chip = std::stoi(cell);
+
+            if (chip == 18)
+            {
+                EnemySpawn enemySpawn = { 18,Vector2{ static_cast<float>(x * kTileWorldSize) ,static_cast<float>(height_ * kTileWorldSize) } };
+                enemySpawns_.push_back(enemySpawn);
+                data_.push_back(static_cast < uint16_t>(0));
+            }
+            else if (chip == 27)
+            {
+                EnemySpawn enemySpawn = { 27,Vector2{ static_cast<float>(x * kTileWorldSize) ,static_cast<float>(height_ * kTileWorldSize) } };
+                enemySpawns_.push_back(enemySpawn);
+                data_.push_back(static_cast <uint16_t>(0));
+            }
+            else
+            {
+                //文字列→数値に変換して格納
+                data_.push_back(static_cast<uint16_t>(chip));
+            }
             x++;
         }
         //最初の行で横サイズを決定
@@ -148,9 +166,9 @@ std::vector<Rect> Stage::GetSolidTiles(const Rect& objRect) const
 
 bool Stage::IsCollision(Rect rect, Rect& chipRect)const
 {
-    for (int y = 0; y < kChipNumY; y++)
+    for (int y = 0; y < height_; y++)
     {
-        for (int x = 0; x < kChipNumX; x++)
+        for (int x = 0; x < width_; x++)
         {
             //タイルID取得
             int tileId = GetData(x, y);
@@ -224,4 +242,9 @@ void Stage::Draw(Camera& camera)
                 tileGraph_, true);
         }
     }
+}
+
+const std::vector<EnemySpawn>& Stage::GetEnemySpawns() const
+{
+    return enemySpawns_;
 }

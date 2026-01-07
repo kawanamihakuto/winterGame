@@ -5,6 +5,13 @@
 #include"../Collision/Rect.h"
 struct TileCollision;
 class Camera;
+
+struct EnemySpawn
+{
+	int type;
+	Vector2 pos;
+};
+
 /// <summary>
 /// ステージデータを管理するクラス
 /// </summary>
@@ -25,6 +32,8 @@ public:
 	bool IsCollision(Rect rect, Rect& chipRect)const;
 
 	void Draw(Camera& camera);
+
+	const std::vector<EnemySpawn>& GetEnemySpawns()const;
 private:
 	//CSVを読み込んでマップデータを作る
 	bool LoadCsv(const std::string& path);
@@ -36,5 +45,7 @@ private:
 	int tileGraph_;
 	int chipW_;
 	int chipH_;
+
+	std::vector<EnemySpawn>enemySpawns_;
 };
 

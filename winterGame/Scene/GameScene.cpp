@@ -34,21 +34,36 @@ draw_(&GameScene::FadeDraw)
 	stage_->Init(graphHandle_, 16, 16);
 	//ƒvƒŒƒCƒ„[¶¬
 	player_ = std::make_shared<Player>(graphHandle_);
+
+	const auto& spawns = stage_->GetEnemySpawns();
+
+	for (const auto spawn : spawns)
+	{
+		if (spawn.type == 18)
+		{
+			enemies_.push_back(std::make_shared<WalkEnemy>(spawn.pos, graphHandle_, player_));
+		}
+		else if (spawn.type == 27)
+		{
+			enemies_.push_back(std::make_shared<FlyEnemy>(spawn.pos, graphHandle_, player_));
+		}
+	}
+
 	//•à‚­“G¶¬
-	std::shared_ptr<WalkEnemy> we1 = std::make_shared<WalkEnemy>(Vector2{ 600,350 },graphHandle_, player_);
-	std::shared_ptr<WalkEnemy> we2 = std::make_shared<WalkEnemy>(Vector2{ 700,350 },graphHandle_, player_);
-	std::shared_ptr<WalkEnemy> we3 = std::make_shared<WalkEnemy>(Vector2{ 800,350 },graphHandle_, player_);
+//	std::shared_ptr<WalkEnemy> we1 = std::make_shared<WalkEnemy>(Vector2{ 600,350 },graphHandle_, player_);
+//	std::shared_ptr<WalkEnemy> we2 = std::make_shared<WalkEnemy>(Vector2{ 700,350 },graphHandle_, player_);
+//	std::shared_ptr<WalkEnemy> we3 = std::make_shared<WalkEnemy>(Vector2{ 800,350 },graphHandle_, player_);
 	//”ò‚ñ‚Å‚é“G¶¬
-	std::shared_ptr<FlyEnemy> fe1 = std::make_shared<FlyEnemy>(Vector2{ 600,600 }, graphHandle_, player_);
-	std::shared_ptr<FlyEnemy> fe2 = std::make_shared<FlyEnemy>(Vector2{ 700,600 }, graphHandle_, player_);
-	std::shared_ptr<FlyEnemy> fe3 = std::make_shared<FlyEnemy>(Vector2{ 800,600 }, graphHandle_, player_);
+//	std::shared_ptr<FlyEnemy> fe1 = std::make_shared<FlyEnemy>(Vector2{ 600,600 }, graphHandle_, player_);
+//	std::shared_ptr<FlyEnemy> fe2 = std::make_shared<FlyEnemy>(Vector2{ 700,600 }, graphHandle_, player_);
+//	std::shared_ptr<FlyEnemy> fe3 = std::make_shared<FlyEnemy>(Vector2{ 800,600 }, graphHandle_, player_);
 	
-	enemies_.push_back(we1);
-	enemies_.push_back(we2);
-	enemies_.push_back(we3);
-	enemies_.push_back(fe1);
-	enemies_.push_back(fe2);
-	enemies_.push_back(fe3);
+//	enemies_.push_back(we1);
+//	enemies_.push_back(we2);
+//	enemies_.push_back(we3);
+//	enemies_.push_back(fe1);
+//	enemies_.push_back(fe2);
+//	enemies_.push_back(fe3);
 
 	camera_ = std::make_shared<Camera>();
 }
