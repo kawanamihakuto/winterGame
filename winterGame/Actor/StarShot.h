@@ -10,7 +10,7 @@ public:
 	void Init()override;
 	void Init(std::shared_ptr<Player>player)override;
 	void Update()override;
-	void Update(std::shared_ptr<Player>player, std::vector<std::shared_ptr<EnemyBase>>enemies)override;
+	void Update(std::shared_ptr<Player>player, std::vector<std::shared_ptr<EnemyBase>>enemies,Stage& stage)override;
 	void Draw()override;
 	void Draw(Camera& camera)override;
 };

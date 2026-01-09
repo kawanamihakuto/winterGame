@@ -15,7 +15,7 @@ constexpr int kInhaledRectWidth = 8;
 
 Player::Player(int graphHandle) :
 	velocity_{ 0.0f,0.0f },
-	GameObject({ 320,240 }),
+	GameObject({ 320,640 }),
 	isGround_(false),
 	currentImage_(graphHandle),
 	hp_(5),

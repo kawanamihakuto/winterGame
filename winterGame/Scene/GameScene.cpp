@@ -49,22 +49,6 @@ draw_(&GameScene::FadeDraw)
 		}
 	}
 
-	//歩く敵生成
-//	std::shared_ptr<WalkEnemy> we1 = std::make_shared<WalkEnemy>(Vector2{ 600,350 },graphHandle_, player_);
-//	std::shared_ptr<WalkEnemy> we2 = std::make_shared<WalkEnemy>(Vector2{ 700,350 },graphHandle_, player_);
-//	std::shared_ptr<WalkEnemy> we3 = std::make_shared<WalkEnemy>(Vector2{ 800,350 },graphHandle_, player_);
-	//飛んでる敵生成
-//	std::shared_ptr<FlyEnemy> fe1 = std::make_shared<FlyEnemy>(Vector2{ 600,600 }, graphHandle_, player_);
-//	std::shared_ptr<FlyEnemy> fe2 = std::make_shared<FlyEnemy>(Vector2{ 700,600 }, graphHandle_, player_);
-//	std::shared_ptr<FlyEnemy> fe3 = std::make_shared<FlyEnemy>(Vector2{ 800,600 }, graphHandle_, player_);
-	
-//	enemies_.push_back(we1);
-//	enemies_.push_back(we2);
-//	enemies_.push_back(we3);
-//	enemies_.push_back(fe1);
-//	enemies_.push_back(fe2);
-//	enemies_.push_back(fe3);
-
 	camera_ = std::make_shared<Camera>();
 }
 
@@ -93,7 +77,7 @@ void GameScene::NormalUpdate(Input& input)
 	//エネミー全体のUpdate
 	for (auto& enemy : enemies_)
 	{
-		enemy->Update(*stage_);
+		enemy->Update(*stage_,*camera_);
 	}
 	//カメラのターゲットを設定
 	camera_->SetTarget(player_->GetPosition());
@@ -113,7 +97,7 @@ void GameScene::NormalUpdate(Input& input)
 	//弾全体のUpdate
 	for (auto& shot : shots_)
 	{
-		shot->Update(player_, enemies_);
+		shot->Update(player_, enemies_,*stage_);
 	}
 	//弾の生成処理
 	if (player_->GetIsSpit())

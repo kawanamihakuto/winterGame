@@ -3,6 +3,7 @@
 #include"../System/Camera.h"
 #include"../System/Lerp.h"
 #include"../Player/Player.h"
+#include"Application.h"
 constexpr int kHp = 1;
 constexpr int kWidth = 16;
 constexpr int kHeight = 16;
@@ -21,6 +22,8 @@ FlyEnemy::FlyEnemy(Vector2 pos, int graphHandle, std::shared_ptr<Player> player)
 	EnemyBase(kHp, {0,0},pos,graphHandle,player,false,0,EnemyType::fly)
 {
 	state_ = std::make_unique<Move>();
+	rect_.SetCenter(position_.x, position_.y,
+		kWidth * kRectSize, kHeight * kRectSize);
 }
 
 FlyEnemy::~FlyEnemy()
@@ -36,8 +39,13 @@ void FlyEnemy::Update()
 {
 }
 
-void FlyEnemy::Update(Stage& stage)
+void FlyEnemy::Update(Stage& stage,Camera& camera)
 {
+	auto wsize = Application::GetInstance().GetWindowSize();
+	if (position_.x < camera.GetPosition().x - wsize.w / 2 - kWidth * kSize|| position_.x >= camera.GetPosition().x + wsize.w / 2 + kWidth * kSize)
+	{
+		return;
+	}
 	state_->Update(*this);
 	ApplyMovementX();
 	ApplyMovementY();

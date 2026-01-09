@@ -7,6 +7,7 @@
 #include"HitState.h"
 #include"Lerp.h"
 #include"Stage/Stage.h"
+#include"Application.h"
 namespace
 {
 	constexpr int kHp = 1;
@@ -14,6 +15,8 @@ namespace
 
 	constexpr int kWidth = 16;
 	constexpr int kHeight = 16;
+	constexpr float kSize = 3.0f;
+
 	constexpr float kWorldSize = 16*3;
 	constexpr float kRectSize = 2.0f;
 	
@@ -33,6 +36,8 @@ WalkEnemy::WalkEnemy(Vector2 pos,int graphHandle,std::shared_ptr<Player>player) 
 
 {
 	state_ = std::make_unique<Move>();
+	rect_.SetCenter(position_.x, position_.y,
+		kWidth * kRectSize, kHeight * kRectSize);
 }
 
 WalkEnemy::~WalkEnemy()
@@ -47,8 +52,13 @@ void WalkEnemy::Init()
 void WalkEnemy::Update()
 {
 }
-void WalkEnemy::Update(Stage& stage)
+void WalkEnemy::Update(Stage& stage,Camera& camera)
 {
+	auto wsize = Application::GetInstance().GetWindowSize();
+	if (position_.x < camera.GetPosition().x - wsize.w / 2 - kWidth * kSize || position_.x >= camera.GetPosition().x + wsize.w / 2 + kWidth * kSize)
+	{
+		return;
+	}
 	state_->Update(*this);
 
 	Rect tileRect;

@@ -43,7 +43,7 @@ void AirShot::Update()
 {
 }
 
-void AirShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_ptr<EnemyBase>> enemies)
+void AirShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_ptr<EnemyBase>> enemies,Stage& stage)
 {
 	count_++;
 	position_ += velocity_;
@@ -53,6 +53,8 @@ void AirShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_ptr
 		isActive_ = false;
 	}
 	rect_.SetCenter(position_.x, position_.y, kWidth, kHeight);
+	Rect tileRect;
+	MapCollisionX(stage, tileRect);
 }
 
 void AirShot::Draw()

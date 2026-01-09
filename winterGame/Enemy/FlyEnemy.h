@@ -8,7 +8,7 @@ public:
 	~FlyEnemy();
 	void Init()override;
 	void Update() override;
-	void Update(Stage& stage) override;
+	void Update(Stage& stage,Camera& camera) override;
 	void Draw() override;
 	void Draw(Camera& camera) override;
 

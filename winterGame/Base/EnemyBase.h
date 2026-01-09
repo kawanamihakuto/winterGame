@@ -35,7 +35,7 @@ public:
 	virtual~EnemyBase();
 	virtual void Init()override = 0;
 	virtual void Update()override = 0;
-	virtual void Update(Stage& stage) = 0;
+	virtual void Update(Stage& stage,Camera& camera) = 0;
 	virtual void Draw()override = 0;
 	virtual void Draw(Camera& camera) = 0;
 

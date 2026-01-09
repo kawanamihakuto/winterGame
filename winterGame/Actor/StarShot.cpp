@@ -41,10 +41,12 @@ void StarShot::Update()
 {
 }
 
-void StarShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_ptr<EnemyBase>> enemies)
+void StarShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_ptr<EnemyBase>> enemies,Stage& stage)
 {
 	position_ += velocity_;
 	rect_.SetCenter(position_.x, position_.y, kWidth, kHeight);
+	Rect tileRect;
+	MapCollisionX(stage, tileRect);
 }
 
 void StarShot::Draw()

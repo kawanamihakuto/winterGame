@@ -9,7 +9,7 @@
 #include"WalkEnemy.h"
 #include"Lerp.h"
 #include"InhaleHoldState.h"
-
+#include"Stage/Stage.h"
 
 
 Shot::Shot(bool isRight,Vector2 pos,int graphHandle):
@@ -44,6 +44,14 @@ CollisionLayer Shot::GetHitMask() const
 void Shot::OnCollision(GameObject& other)
 {
 	if (other.GetCollisionLayer() & CollisionLayers::kEnemy)
+	{
+		isActive_ = false;
+	}
+}
+
+void Shot::MapCollisionX(const Stage& stage, Rect tileRect)
+{
+	if (stage.IsCollision(rect_, tileRect))
 	{
 		isActive_ = false;
 	}
