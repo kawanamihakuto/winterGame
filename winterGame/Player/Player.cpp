@@ -10,7 +10,7 @@
 #include"HitState.h"
 #include"InhaleState.h"
 #include"Stage/Stage.h"
-
+#include"Application.h"
 constexpr int kInhaledRectWidth = 8;
 
 Player::Player(int graphHandle) :
@@ -31,7 +31,8 @@ Player::Player(int graphHandle) :
 	isGanarateInhaledRect_(false),
 	isDeleteInhaledRect_(false),
 	invincinleFrame_(0),
-	nockBackTime_(0)
+	nockBackTime_(0),
+	isCollisionDoor_(false)
 {
 	state_ = std::make_unique<PlayerState::IdleState>();
 }
@@ -49,6 +50,7 @@ void Player::Update()
 }
 void Player::Update(Input& input,Stage& stage)
 {
+	isCollisionDoor_ = false;
 	isGenerateInhale_ = false;
 	isDeleteInhale_ = false;
 	//現在の状態のUpdateを呼び出す
@@ -81,9 +83,13 @@ void Player::Update(Input& input,Stage& stage)
 	);
 	//X方向のマップ衝突判定
 	MapCollisionX(stage, tileRect);
-	//
-	//printfDx("y=%.4f vy=%.4f ground=%d\n",
-	//	position_.y, velocity_.y, isGround_);
+
+	auto wsize = Application::GetInstance().GetWindowSize();
+
+	if (position_.y <= 305)
+	{
+		position_.y = 305;
+	}
 }
 
 void Player::Draw()
@@ -119,6 +125,7 @@ void Player::Draw(Camera& camera)
 
 	//プレイヤーのHP表示
 	DrawFormatString(0, 0, 0xffffff, "%d", hp_);
+	DrawFormatString(16, 16, 0xffffff, "%f , %f", position_.x, position_.y);
 #endif // _DEBUG
 }
 
@@ -134,7 +141,8 @@ CollisionLayer Player::GetCollisionLayer() const
 
 CollisionLayer Player::GetHitMask() const
 {
-	return CollisionLayers::kEnemy;
+	return CollisionLayers::kEnemy |
+		CollisionLayers::kDoor;
 }
 
 void Player::OnCollision(GameObject& other)
@@ -154,6 +162,12 @@ void Player::OnCollision(GameObject& other)
 		nockBackTime_ = 0;
 		//プレイヤーの状態遷移
 		ChangeState(std::make_unique<PlayerState::HitState>());
+	}
+
+	
+	if (other.GetCollisionLayer() & CollisionLayers::kDoor)
+	{
+		isCollisionDoor_ = true;
 	}
 }
 

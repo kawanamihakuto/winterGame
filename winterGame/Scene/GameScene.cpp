@@ -14,6 +14,8 @@
 #include"../Actor/PlayerInhaledRect.h"
 #include"FlyEnemy.h"
 #include"Stage/Stage.h"
+#include"Actor/Door.h"
+#include"ClearScene.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -50,6 +52,8 @@ draw_(&GameScene::FadeDraw)
 	}
 
 	camera_ = std::make_shared<Camera>();
+
+	door_ = std::make_shared<Door>(graphHandle_);
 }
 
 GameScene::~GameScene()
@@ -99,6 +103,9 @@ void GameScene::NormalUpdate(Input& input)
 	{
 		shot->Update(player_, enemies_,*stage_);
 	}
+
+	door_->Update();
+
 	//弾の生成処理
 	if (player_->GetIsSpit())
 	{
@@ -172,6 +179,8 @@ void GameScene::NormalUpdate(Input& input)
 		}
 	}
 
+	collisionManager_.Add(*door_);
+
 	//登録されたすべてのオブジェクトの当たり判定を行う
 	collisionManager_.CheckAll();
 
@@ -209,10 +218,13 @@ void GameScene::NormalUpdate(Input& input)
 	}
 
 	//ボタンが押されたらフェードアウトを始める
-	if (input.IsTriggered("ok"))
+	if (player_->GetIsCollisionDoor())
 	{
-		update_ = &GameScene::FadeOutUpdate;
-		draw_ = &GameScene::FadeDraw;
+		if (input.IsPressed("up"))
+		{
+			update_ = &GameScene::FadeOutUpdate;
+			draw_ = &GameScene::FadeDraw;
+		}
 	}
 }
 
@@ -221,7 +233,7 @@ void GameScene::FadeOutUpdate(Input&)
 	//フェードアウトし終わったらシーンを切り替える
 	if (++frame_ >= fade_interval)
 	{
-		controller_.ChangeScene(std::make_shared<GameoverScene>(controller_));
+		controller_.ChangeScene(std::make_shared<ClearScene>(controller_));
 		return;
 	}
 }
@@ -231,6 +243,33 @@ void GameScene::FadeDraw()
 	//ウィンドウサイズ取得
 	const auto& wsize = Application::GetInstance().GetWindowSize();
 	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
+
+	stage_->Draw(*camera_);
+
+	door_->Draw(*camera_);
+
+	//プレイヤーのDraw
+	player_->Draw(*camera_);
+	//エネミー全体のDraw
+	for (auto& enemy : enemies_)
+	{
+		enemy->Draw(*camera_);
+	}
+	//吸い込みオブジェクトがあったら
+	if (inhale_)
+	{
+		//吸い込みオブジェクトのDraw
+		inhale_->Draw(*camera_);
+	}
+	if (playerInhaledRect_)
+	{
+		playerInhaledRect_->Draw(*camera_);
+	}
+	for (auto& shot : shots_)
+	{
+		shot->Draw(*camera_);
+	}
+
 	//フェード処理
 	float rate = static_cast<float>(frame_) / static_cast<float>(fade_interval);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 * rate);
@@ -245,6 +284,8 @@ void GameScene::NormalDraw()
 	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
 
 	stage_->Draw(*camera_);
+
+	door_->Draw(*camera_);
 
 	//プレイヤーのDraw
 	player_->Draw(*camera_);

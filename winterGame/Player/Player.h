@@ -31,7 +31,7 @@ namespace PlayerConstant
 	//摩擦の強さ
 	constexpr float kFriction = 0.90f;
 	//ホバリングの強さ
-	constexpr float kHoveringPower = 4.0f;
+	constexpr float kHoveringPower = 6.5f;
 
 	constexpr float kNockbackSpeed = 4.0f;
 	constexpr int kNockBackTimeMax = 10;
@@ -159,8 +159,8 @@ public:
 	void NockBackTimeUpdate() { nockBackTime_++; }
 	//ノックバック状態が終わったかどうかのゲッター
 	bool IsNockBackEnd();
-
-	
+	//ドアに触れているかどうかのゲッター
+	bool GetIsCollisionDoor() { return isCollisionDoor_; }
 
 	/// <summary>
 	/// ステート切り替えの関数
@@ -229,4 +229,6 @@ private:
 	int nockBackTime_;
 	//無敵時間用フレームカウンター
 	int invincinleFrame_;
+	//ドアに触れているかどうか
+	bool isCollisionDoor_;
 };

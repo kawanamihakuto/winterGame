@@ -144,9 +144,12 @@
     <ClCompile Include="Base\EnemyBase.cpp" />
     <ClCompile Include="Base\GameObject.cpp" />
     <ClCompile Include="Actor\Inhale.cpp" />
+    <ClCompile Include="Scene\ClearScene.cpp" />
     <ClCompile Include="Collision\CollisionManager.cpp" />
     <ClCompile Include="Actor\PlayerInhaledRect.cpp" />
+    <ClCompile Include="Actor\Door.cpp" />
     <ClCompile Include="Enemy\FlyEnemy.cpp" />
+    <ClCompile Include="PlayerState\NoneState.cpp" />
     <ClCompile Include="PlayerState\SwallowState.cpp" />
     <ClCompile Include="Stage\Stage.cpp" />
     <ClCompile Include="System\IntervalChecker.cpp" />
@@ -179,10 +182,13 @@
     <ClInclude Include="Actor\AirShot.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Base\EnemyBase.h" />
+    <ClInclude Include="Scene\ClearScene.h" />
     <ClInclude Include="Collision\CollisionLayer.h" />
     <ClInclude Include="Collision\CollisionManager.h" />
     <ClInclude Include="Actor\PlayerInhaledRect.h" />
+    <ClInclude Include="Actor\Door.h" />
     <ClInclude Include="Enemy\FlyEnemy.h" />
+    <ClInclude Include="PlayerState\NoneState.h" />
     <ClInclude Include="PlayerState\SwallowState.h" />
     <ClInclude Include="Stage\Stage.h" />
     <ClInclude Include="Stage\StageData.h" />

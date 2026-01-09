@@ -14,3 +14,10 @@ Vector2 Lerp::VLerp(const Vector2 stert, const Vector2 end, float t)
 
     return ret;
 }
+
+float Lerp::FLerp(const float stert, const float end, float t)
+{
+    float ret;
+    ret = std::lerp(stert, end, t);
+    return ret;
+}

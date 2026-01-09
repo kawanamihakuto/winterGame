@@ -11,6 +11,7 @@ class Inhale;
 class Camera;
 class Shot;
 class PlayerInhaledRect;
+class Door;
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -60,6 +61,9 @@ private:
 	std::shared_ptr<Camera>camera_;
 	//弾のポインタ
 	std::vector<std::shared_ptr<Shot>>shots_;
+	//ドアのポインタ
+	std::shared_ptr<Door>door_;
+
 	//当たり判定を行うCollisionManager
 	CollisionManager collisionManager_;
 	int graphHandle_;

@@ -23,7 +23,7 @@ void PlayerState::HoveringState::Update(Player& player,Input& input)
 		if (input.IsPressed("up"))
 		{
 			hoveringInterval_.ResetTimer();
-			vel.y -= PlayerConstant::kHoveringPower;
+			vel.y = -PlayerConstant::kHoveringPower;
 		}
 	}
 	

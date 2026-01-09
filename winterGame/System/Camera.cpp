@@ -4,7 +4,7 @@
 #include"Application.h"
 #include"Lerp.h"
 
-Camera::Camera() : GameObject(Vector2{320,320}),
+Camera::Camera() : GameObject(Vector2{320,640}),
 drawOffset_({0,0}),
 target_({0,0})
 {
@@ -24,7 +24,7 @@ void Camera::SetTarget(const Vector2& pos)
 void Camera::Update()
 {
 	Lerp lerp;
-	position_ = lerp.VLerp(position_, target_, 0.1f);
+	position_.x = lerp.FLerp(position_.x, target_.x, 0.1f);
 }
 
 void Camera::Draw()
