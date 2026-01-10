@@ -34,13 +34,26 @@ void PlayerState::IdleState::Update(Player& player, Input& input)
 	{
 	case MouthState::empty:
 
-		//‹z‚¢‚İ“ü—Í‚ª“ü‚Á‚Ä‚¢‚½‚çInhaleó‘Ô‚ÉØ‚è‘Ö‚¦‚é
-		if (input.IsTriggered("attack"))
+		if (player.GetIsGround())
 		{
-			player.ChangeState(std::make_unique<InhaleState>());
-			return;
+			//‹z‚¢‚İ“ü—Í‚ª“ü‚Á‚Ä‚¢‚½‚çInhaleó‘Ô‚ÉØ‚è‘Ö‚¦‚é
+			if (input.IsTriggered("attack"))
+			{
+				player.ChangeState(std::make_unique<InhaleState>());
+				return;
+			}
 		}
-		if (input.IsTriggered("up"))
+		else
+		{
+			//‹z‚¢‚İ“ü—Í‚ª“ü‚Á‚Ä‚¢‚½‚çInhaleó‘Ô‚ÉØ‚è‘Ö‚¦‚é
+			if (input.IsPressed("attack"))
+			{
+				player.ChangeState(std::make_unique<InhaleState>());
+				return;
+			}
+		}
+		
+		if (input.IsPressed("up"))
 		{
 			player.ChangeState(std::make_unique<HoveringState>());
 			return;

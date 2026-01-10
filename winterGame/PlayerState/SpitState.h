@@ -11,6 +11,8 @@ namespace PlayerState
 		void Enter(Player& player)override;
 		void Update(Player& player, Input& input) override;
 		void Exit(Player& player)override;
+	private:
+		int count_;
 	};
 }
 

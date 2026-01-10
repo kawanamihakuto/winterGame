@@ -75,8 +75,11 @@ void GameScene::FadeInUpdate(Input&)
 
 void GameScene::NormalUpdate(Input& input)
 {
-	//プレイヤーのUpdate
-	player_->Update(input,*stage_);
+	if (!player_->GetIsDead())
+	{
+		//プレイヤーのUpdate
+		player_->Update(input, *stage_);
+	}
 
 	//エネミー全体のUpdate
 	for (auto& enemy : enemies_)

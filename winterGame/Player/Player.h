@@ -161,6 +161,8 @@ public:
 	bool IsNockBackEnd();
 	//ドアに触れているかどうかのゲッター
 	bool GetIsCollisionDoor() { return isCollisionDoor_; }
+	//死亡しているかどうかのゲッター
+	bool GetIsDead() { return isDead_; }
 
 	/// <summary>
 	/// ステート切り替えの関数
@@ -231,4 +233,8 @@ private:
 	int invincinleFrame_;
 	//ドアに触れているかどうか
 	bool isCollisionDoor_;
+	//死亡フラグ
+	bool isDead_;
+	//死亡演出の回転値
+	double deadAnimAngleNum_;
 };

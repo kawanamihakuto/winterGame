@@ -18,7 +18,7 @@ Player::Player(int graphHandle) :
 	GameObject({ 320,640 }),
 	isGround_(false),
 	currentImage_(graphHandle),
-	hp_(5),
+	hp_(1),
 	rectColor_(0x0000ff),
 	isGenerateInhale_(false),
 	isDeleteInhale_(false),
@@ -32,7 +32,9 @@ Player::Player(int graphHandle) :
 	isDeleteInhaledRect_(false),
 	invincinleFrame_(0),
 	nockBackTime_(0),
-	isCollisionDoor_(false)
+	isCollisionDoor_(false),
+	isDead_(false),
+	deadAnimAngleNum_(0.0)
 {
 	state_ = std::make_unique<PlayerState::IdleState>();
 }
@@ -90,6 +92,11 @@ void Player::Update(Input& input,Stage& stage)
 	{
 		position_.y = 305;
 	}
+
+	if (hp_ <= 0)
+	{
+		isDead_ = true;
+	}
 }
 
 void Player::Draw()
@@ -103,18 +110,39 @@ void Player::Draw(Camera& camera)
 	int srcX = PlayerConstant::kWidth * static_cast<int>(graphCutNo_);
 	int srcY = 0;
 
-	//プレイヤー表示
-	DrawRectRotaGraph(
-		(int)screen.x,
-		(int)screen.y-5.0f,
-		srcX, srcY,
-		16, 16,
-		3.0,
-		0.0,
-		currentImage_,
-		TRUE,
-		!isRight_
-	);
+	if (isDead_)
+	{
+		deadAnimAngleNum_ += 0.1;
+		position_.y += 3.0f;
+
+		DrawRectRotaGraph(
+			(int)screen.x,
+			(int)screen.y - 5.0f,
+			srcX, srcY,
+			16, 16,
+			3.0,
+			deadAnimAngleNum_,
+			currentImage_,
+			TRUE,
+			!isRight_
+		);
+	}
+	else
+	{
+		//プレイヤー表示
+		DrawRectRotaGraph(
+			(int)screen.x,
+			(int)screen.y - 5.0f,
+			srcX, srcY,
+			16, 16,
+			3.0,
+			0.0,
+			currentImage_,
+			TRUE,
+			!isRight_
+		);
+	}
+
 #ifdef _DEBUG
 	//当たり判定表示
 	Rect drawRect = rect_;
