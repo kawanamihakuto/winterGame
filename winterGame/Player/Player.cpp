@@ -13,14 +13,24 @@
 #include"Application.h"
 #include"HitStopState.h"
 #include"DeadAnimState.h"
-constexpr int kInhaledRectWidth = 8;
+
+namespace
+{
+	constexpr int kInhaledRectWidth = 8;
+	constexpr int kInvincibleTime = 45;
+	constexpr int kInvincibleFlashingInterval = 4;
+	constexpr int kDefaultHp = 5;
+	constexpr Vector2 kStartPosition = { 320,640 };
+	constexpr int kCeiling = 305;
+}
+
 
 Player::Player(int graphHandle) :
 	velocity_{ 0.0f,0.0f },
-	GameObject({ 320,640 }),
+	GameObject(kStartPosition),
 	isGround_(false),
 	currentImage_(graphHandle),
-	hp_(1),
+	hp_(kDefaultHp),
 	rectColor_(0x0000ff),
 	isGenerateInhale_(false),
 	isDeleteInhale_(false),
@@ -32,7 +42,8 @@ Player::Player(int graphHandle) :
 	starOrAir_(StarOrAir::star),
 	isGanarateInhaledRect_(false),
 	isDeleteInhaledRect_(false),
-	invincinleFrame_(0),
+	invincibleFrame_(0),
+	isInvincible_(false),
 	nockBackTime_(0),
 	isCollisionDoor_(false),
 	isDead_(false),
@@ -66,9 +77,6 @@ void Player::Update(Input& input,Stage& stage)
 
 	if (!isDead_)
 	{
-		
-
-
 		Rect tileRect;
 
 		//いったんisGroundをfalseにする
@@ -99,15 +107,23 @@ void Player::Update(Input& input,Stage& stage)
 
 	}
 	
-	if (position_.y <= 305)
+	if (position_.y <= kCeiling)
 	{
-		position_.y = 305;
+		position_.y = kCeiling;
 	}
 	
 	if (isDead_)
 	{
 		ApplyMovementX();
 		ApplyMovementY();
+	}
+	else
+	{
+		if (position_.y >= 1100)
+		{
+			isDead_ = true;
+			ChangeState(std::make_unique<PlayerState::DeadAnimState>());
+		}
 	}
 }
 
@@ -124,8 +140,6 @@ void Player::Draw(Camera& camera)
 
 	if (isDead_)
 	{
-		
-	
 		DrawRectRotaGraph(
 			(int)screen.x,
 			(int)screen.y - 5.0f,
@@ -140,18 +154,44 @@ void Player::Draw(Camera& camera)
 	}
 	else
 	{
-		//プレイヤー表示
-		DrawRectRotaGraph(
-			(int)screen.x,
-			(int)screen.y - 5.0f,
-			srcX, srcY,
-			16, 16,
-			3.0,
-			0.0,
-			currentImage_,
-			TRUE,
-			!isRight_
-		);
+		if (isInvincible_)
+		{
+			if ((invincibleFrame_++ / kInvincibleFlashingInterval) % 2 == 0)
+			{
+				//プレイヤー表示
+				DrawRectRotaGraph(
+					(int)screen.x,
+					(int)screen.y - 5.0f,
+					srcX, srcY,
+					16, 16,
+					3.0,
+					0.0,
+					currentImage_,
+					TRUE,
+					!isRight_
+				);
+			}
+			if (invincibleFrame_ >= kInvincibleTime)
+			{
+				invincibleFrame_ = 0;
+				isInvincible_ = false;
+			}
+		}
+		else
+		{
+			//プレイヤー表示
+			DrawRectRotaGraph(
+				(int)screen.x,
+				(int)screen.y - 5.0f,
+				srcX, srcY,
+				16, 16,
+				3.0,
+				0.0,
+				currentImage_,
+				TRUE,
+				!isRight_
+			);
+		}
 	}
 
 #ifdef _DEBUG
@@ -165,6 +205,7 @@ void Player::Draw(Camera& camera)
 	//プレイヤーのHP表示
 	DrawFormatString(0, 0, 0xffffff, "%d", hp_);
 	DrawFormatString(16, 16, 0xffffff, "%f , %f", position_.x, position_.y);
+	DrawFormatString(16, 32, 0xffffff, "%d",isInvincible_);
 #endif // _DEBUG
 }
 
@@ -188,8 +229,12 @@ void Player::OnCollision(GameObject& other)
 {
 	if (other.GetCollisionLayer() & CollisionLayers::kEnemy)
 	{
+		if (isInvincible_)
+		{
+			return;
+		}
 		hp_ -= 1;
-
+		isInvincible_ = true;
 		if (position_.x - other.GetPosition().x <= 0)
 		{
 			velocity_.x = -PlayerConstant::kNockbackSpeed;

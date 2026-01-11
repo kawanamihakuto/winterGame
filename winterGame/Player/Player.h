@@ -167,6 +167,8 @@ public:
 	double GetDeadAnimAngle() { return deadAnimAngleNum_; }
 	void SetDeadAnimAngle(double num) { deadAnimAngleNum_ = num; }
 
+	
+
 	/// <summary>
 	/// ステート切り替えの関数
 	/// </summary>
@@ -233,7 +235,9 @@ private:
 	//ノックバックの時間カウンター
 	int nockBackTime_;
 	//無敵時間用フレームカウンター
-	int invincinleFrame_;
+	int invincibleFrame_;
+	//無敵時間中かどうか
+	bool isInvincible_;
 	//ドアに触れているかどうか
 	bool isCollisionDoor_;
 	//死亡フラグ

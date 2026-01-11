@@ -6,6 +6,7 @@
 #include"InhaleState.h"
 #include"HoveringState.h"
 #include"HitStopState.h"
+#include<DxLib.h>
 
 void PlayerState::HitState::Enter(Player& player)
 {
