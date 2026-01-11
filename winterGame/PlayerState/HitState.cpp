@@ -5,7 +5,7 @@
 #include"MoveState.h"
 #include"InhaleState.h"
 #include"HoveringState.h"
-
+#include"HitStopState.h"
 
 void PlayerState::HitState::Enter(Player& player)
 {
@@ -19,6 +19,12 @@ void PlayerState::HitState::Enter(Player& player)
 }
 void PlayerState::HitState::Update(Player& player, Input& input)
 {
+	if (player.GetIsDead())
+	{
+		player.ChangeState(std::make_unique<PlayerState::HitStopState>());
+		return;
+	}
+
 	player.NockBackTimeUpdate();
 
 	if (player.IsNockBackEnd())

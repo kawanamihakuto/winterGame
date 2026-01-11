@@ -75,39 +75,41 @@ void GameScene::FadeInUpdate(Input&)
 
 void GameScene::NormalUpdate(Input& input)
 {
+	//プレイヤーのUpdate
+	player_->Update(input, *stage_);
+
 	if (!player_->GetIsDead())
 	{
-		//プレイヤーのUpdate
-		player_->Update(input, *stage_);
+		//エネミー全体のUpdate
+		for (auto& enemy : enemies_)
+		{
+			enemy->Update(*stage_, *camera_);
+		}
+		//カメラのターゲットを設定
+		camera_->SetTarget(player_->GetPosition());
+		//カメラのUpdate
+		camera_->Update();
+
+		//吸い込みオブジェクトがあったら
+		if (inhale_)
+		{
+			//吸い込みオブジェクトのUpdate
+			inhale_->Update();
+		}
+		if (playerInhaledRect_)
+		{
+			playerInhaledRect_->Update();
+		}
+		//弾全体のUpdate
+		for (auto& shot : shots_)
+		{
+			shot->Update(player_, enemies_, *stage_);
+		}
+
+		door_->Update();
 	}
 
-	//エネミー全体のUpdate
-	for (auto& enemy : enemies_)
-	{
-		enemy->Update(*stage_,*camera_);
-	}
-	//カメラのターゲットを設定
-	camera_->SetTarget(player_->GetPosition());
-	//カメラのUpdate
-	camera_->Update();
-
-	//吸い込みオブジェクトがあったら
-	if (inhale_)
-	{
-		//吸い込みオブジェクトのUpdate
-		inhale_->Update();
-	}
-	if (playerInhaledRect_)
-	{
-		playerInhaledRect_->Update();
-	}
-	//弾全体のUpdate
-	for (auto& shot : shots_)
-	{
-		shot->Update(player_, enemies_,*stage_);
-	}
-
-	door_->Update();
+	
 
 	//弾の生成処理
 	if (player_->GetIsSpit())
@@ -229,6 +231,12 @@ void GameScene::NormalUpdate(Input& input)
 			draw_ = &GameScene::FadeDraw;
 		}
 	}
+
+	if (player_->GetIsDead() && player_->GetPosition().y >= 1200)
+	{
+		update_ = &GameScene::FadeOutUpdate;
+		draw_ = &GameScene::FadeDraw;
+	}
 }
 
 void GameScene::FadeOutUpdate(Input&)
@@ -236,8 +244,16 @@ void GameScene::FadeOutUpdate(Input&)
 	//フェードアウトし終わったらシーンを切り替える
 	if (++frame_ >= fade_interval)
 	{
-		controller_.ChangeScene(std::make_shared<ClearScene>(controller_));
-		return;
+		if (player_->GetIsDead())
+		{
+			controller_.ChangeScene(std::make_shared<GameoverScene>(controller_));
+			return;
+		}
+		else
+		{
+			controller_.ChangeScene(std::make_shared<ClearScene>(controller_));
+			return;
+		}
 	}
 }
 

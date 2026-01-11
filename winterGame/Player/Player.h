@@ -164,6 +164,9 @@ public:
 	//死亡しているかどうかのゲッター
 	bool GetIsDead() { return isDead_; }
 
+	double GetDeadAnimAngle() { return deadAnimAngleNum_; }
+	void SetDeadAnimAngle(double num) { deadAnimAngleNum_ = num; }
+
 	/// <summary>
 	/// ステート切り替えの関数
 	/// </summary>

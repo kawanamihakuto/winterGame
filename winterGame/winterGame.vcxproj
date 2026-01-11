@@ -144,6 +144,8 @@
     <ClCompile Include="Base\EnemyBase.cpp" />
     <ClCompile Include="Base\GameObject.cpp" />
     <ClCompile Include="Actor\Inhale.cpp" />
+    <ClCompile Include="PlayerState\DeadAnimState.cpp" />
+    <ClCompile Include="PlayerState\HitStopState.cpp" />
     <ClCompile Include="Scene\ClearScene.cpp" />
     <ClCompile Include="Collision\CollisionManager.cpp" />
     <ClCompile Include="Actor\PlayerInhaledRect.cpp" />
@@ -182,6 +184,8 @@
     <ClInclude Include="Actor\AirShot.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Base\EnemyBase.h" />
+    <ClInclude Include="PlayerState\DeadAnimState.h" />
+    <ClInclude Include="PlayerState\HitStopState.h" />
     <ClInclude Include="Scene\ClearScene.h" />
     <ClInclude Include="Collision\CollisionLayer.h" />
     <ClInclude Include="Collision\CollisionManager.h" />

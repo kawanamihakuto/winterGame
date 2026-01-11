@@ -11,6 +11,8 @@
 #include"InhaleState.h"
 #include"Stage/Stage.h"
 #include"Application.h"
+#include"HitStopState.h"
+#include"DeadAnimState.h"
 constexpr int kInhaledRectWidth = 8;
 
 Player::Player(int graphHandle) :
@@ -55,47 +57,57 @@ void Player::Update(Input& input,Stage& stage)
 	isCollisionDoor_ = false;
 	isGenerateInhale_ = false;
 	isDeleteInhale_ = false;
+	if (hp_ <= 0)
+	{
+		isDead_ = true;
+	}
 	//現在の状態のUpdateを呼び出す
 	state_->Update(*this, input);
 
-	Rect tileRect;
+	if (!isDead_)
+	{
+		
 
-	//いったんisGroundをfalseにする
-	isGround_ = false;
-	//重力
-	Gravity();
-	ApplyMovementY();
-	//Rectの更新
-	rect_.SetCenter(
-		position_.x,
-		position_.y,
-		PlayerConstant::kWidth * PlayerConstant::kRectSize,
-		PlayerConstant::kHeight * PlayerConstant::kRectSize
-	);
-	MapCollisionY(stage, tileRect);
 
-	//X方向の移動
-	ApplyMovementX();
-	//Rectの更新
-	rect_.SetCenter(
-		position_.x,
-		position_.y,
-		PlayerConstant::kWidth * PlayerConstant::kRectSize,
-		PlayerConstant::kHeight * PlayerConstant::kRectSize
-	);
-	//X方向のマップ衝突判定
-	MapCollisionX(stage, tileRect);
+		Rect tileRect;
 
-	auto wsize = Application::GetInstance().GetWindowSize();
+		//いったんisGroundをfalseにする
+		isGround_ = false;
+		//重力
+		Gravity();
+		ApplyMovementY();
+		//Rectの更新
+		rect_.SetCenter(
+			position_.x,
+			position_.y,
+			PlayerConstant::kWidth * PlayerConstant::kRectSize,
+			PlayerConstant::kHeight * PlayerConstant::kRectSize
+		);
+		MapCollisionY(stage, tileRect);
 
+		//X方向の移動
+		ApplyMovementX();
+		//Rectの更新
+		rect_.SetCenter(
+			position_.x,
+			position_.y,
+			PlayerConstant::kWidth * PlayerConstant::kRectSize,
+			PlayerConstant::kHeight * PlayerConstant::kRectSize
+		);
+		//X方向のマップ衝突判定
+		MapCollisionX(stage, tileRect);
+
+	}
+	
 	if (position_.y <= 305)
 	{
 		position_.y = 305;
 	}
-
-	if (hp_ <= 0)
+	
+	if (isDead_)
 	{
-		isDead_ = true;
+		ApplyMovementX();
+		ApplyMovementY();
 	}
 }
 
@@ -112,9 +124,8 @@ void Player::Draw(Camera& camera)
 
 	if (isDead_)
 	{
-		deadAnimAngleNum_ += 0.1;
-		position_.y += 3.0f;
-
+		
+	
 		DrawRectRotaGraph(
 			(int)screen.x,
 			(int)screen.y - 5.0f,
