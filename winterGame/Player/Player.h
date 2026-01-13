@@ -167,7 +167,7 @@ public:
 	double GetDeadAnimAngle() { return deadAnimAngleNum_; }
 	void SetDeadAnimAngle(double num) { deadAnimAngleNum_ = num; }
 
-	
+	int GetMaxHp();
 
 	/// <summary>
 	/// ステート切り替えの関数

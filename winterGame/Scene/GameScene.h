@@ -12,6 +12,8 @@ class Camera;
 class Shot;
 class PlayerInhaledRect;
 class Door;
+class PlayerHPUI;
+class UIFrame;
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -63,8 +65,17 @@ private:
 	std::vector<std::shared_ptr<Shot>>shots_;
 	//ドアのポインタ
 	std::shared_ptr<Door>door_;
+	//プレイヤーのHPUIのポインタ
+	std::shared_ptr<PlayerHPUI>playerHPUI_;
+	//UIフレームのポインタ
+	std::shared_ptr<UIFrame>UIFrame_;
 
 	//当たり判定を行うCollisionManager
 	CollisionManager collisionManager_;
+	//プレイヤー、敵、地形の画像ハンドル
 	int graphHandle_;
+	//プレイヤーのHp画像ハンドル
+	int playerHpGraphHandle_;
+	//UIフレーム画像ハンドル
+	int UIFrameGraphHandle_;
 };

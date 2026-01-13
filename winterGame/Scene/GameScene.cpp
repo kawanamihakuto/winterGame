@@ -16,6 +16,8 @@
 #include"Stage/Stage.h"
 #include"Actor/Door.h"
 #include"ClearScene.h"
+#include"PlayerHPUI.h"
+#include"UIFrame.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -26,6 +28,10 @@ draw_(&GameScene::FadeDraw)
 	//ゲーム内画像ハンドル
 	graphHandle_ = LoadGraph("data/kirby.png");
 	assert(graphHandle_ > -1);
+	playerHpGraphHandle_ = LoadGraph("data/Heart.png");
+	assert(playerHpGraphHandle_ > -1);
+	UIFrameGraphHandle_ = LoadGraph("data/UIframe.png");
+	assert(UIFrameGraphHandle_ > -1);
 
 	//フェード用のフレームを初期化
 	frame_ = fade_interval;
@@ -54,12 +60,17 @@ draw_(&GameScene::FadeDraw)
 	camera_ = std::make_shared<Camera>();
 
 	door_ = std::make_shared<Door>(graphHandle_);
+
+	playerHPUI_ = std::make_shared<PlayerHPUI>(playerHpGraphHandle_);
+
+	UIFrame_ = std::make_shared<UIFrame>(UIFrameGraphHandle_);
 }
 
 GameScene::~GameScene()
 {
 	//画像をすべてデリート
 	DeleteGraph(graphHandle_);
+	DeleteGraph(playerHpGraphHandle_);
 }
 
 void GameScene::FadeInUpdate(Input&)
@@ -289,6 +300,9 @@ void GameScene::FadeDraw()
 		shot->Draw(*camera_);
 	}
 
+	UIFrame_->Draw();
+	playerHPUI_->Draw(*player_);
+
 	//フェード処理
 	float rate = static_cast<float>(frame_) / static_cast<float>(fade_interval);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 * rate);
@@ -327,6 +341,9 @@ void GameScene::NormalDraw()
 	{
 		shot->Draw(*camera_);
 	}
+
+	UIFrame_->Draw();
+	playerHPUI_->Draw(*player_);
 }
 
 void GameScene::Update(Input& input)

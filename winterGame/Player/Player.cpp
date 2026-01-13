@@ -19,7 +19,7 @@ namespace
 	constexpr int kInhaledRectWidth = 8;
 	constexpr int kInvincibleTime = 45;
 	constexpr int kInvincibleFlashingInterval = 4;
-	constexpr int kDefaultHp = 2;
+	constexpr int kDefaultHp = 3;
 	constexpr Vector2 kStartPosition = { 320,640 };
 	constexpr int kCeiling = 305;
 }
@@ -263,6 +263,11 @@ bool Player::IsNockBackEnd()
 		return true;
 	}	 
 	return false;
+}
+
+int Player::GetMaxHp()
+{
+	return kDefaultHp;
 }
 
 void Player::ChangeState(std::unique_ptr<StateBase> newState)

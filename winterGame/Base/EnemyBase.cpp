@@ -74,6 +74,11 @@ void EnemyBase::OnCollision(GameObject& other)
 {
 	if (other.GetCollisionLayer() & CollisionLayers::kNormalPlayer)
 	{
+		auto player = GetPlayer();
+		//プレイヤーが右にいるか左にいるかを判定
+		float enemyToPlayer = player->GetPosition().x - position_.x;
+		bool isplayerOnRight = enemyToPlayer > 0 ? true : false;
+		SetPlayerOnRight(isplayerOnRight);
 		ChangeState(std::make_unique<Death>());
 	}
 	if (other.GetCollisionLayer() & CollisionLayers::kInhale)
