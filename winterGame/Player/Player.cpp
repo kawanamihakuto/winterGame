@@ -19,7 +19,7 @@ namespace
 	constexpr int kInhaledRectWidth = 8;
 	constexpr int kInvincibleTime = 45;
 	constexpr int kInvincibleFlashingInterval = 4;
-	constexpr int kDefaultHp = 1;
+	constexpr int kDefaultHp = 2;
 	constexpr Vector2 kStartPosition = { 320,640 };
 	constexpr int kCeiling = 305;
 }
