@@ -92,8 +92,6 @@ public:
 
 	bool GetIsRight() { return isRight_; }
 
-	//歩くだけの敵の画像の切り取り位置のセッター
-	void SetEnemyGraphCutNo(EnemyGraphCutNo egcn) { graphCutNo_ = egcn; }
 	/// <summary>
 	/// 重力用関数
 	/// </summary>
@@ -132,11 +130,13 @@ protected:
 	int nockBackTime_;
 
 	//歩くだけの敵の画像切り取り位置を決める
-	EnemyGraphCutNo graphCutNo_;
+	int graphCutNo_;
 	//エネミーの種類
 	EnemyType enemyType_;
 
 	bool isRight_;
+	//アニメーション用カウンター
+	int counter_;
 };
 /// <summary>
 /// エネミーステート基底クラス

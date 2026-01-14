@@ -10,7 +10,7 @@ namespace
 }
 
 
-Door::Door(int graphHandle) :GameObject({1600,720}),
+Door::Door(int graphHandle) :GameObject({6800,720}),
 graphHandle_(graphHandle)
 {
 	rect_.SetCenter(position_.x, position_.y, kWidth * kSize, kHeight * kSize);

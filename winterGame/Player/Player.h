@@ -31,7 +31,7 @@ namespace PlayerConstant
 	//–€ŽC‚Ì‹­‚³
 	constexpr float kFriction = 0.90f;
 	//ƒzƒoƒŠƒ“ƒO‚Ì‹­‚³
-	constexpr float kHoveringPower = 6.5f;
+	constexpr float kHoveringPower = 5.5f;
 
 	constexpr float kNockbackSpeed = 4.0f;
 	constexpr int kNockBackTimeMax = 10;

@@ -14,6 +14,7 @@ constexpr float kSpeed = 1.5f;
 constexpr float kMaxSpeed = 1.5f;
 constexpr float kNockbackSpeed = 4.0f;
 constexpr int kNockBackTimeMax = 20;
+constexpr int kAnimChangeFrame = 15;
 
 //‹z‚¢ž‚Þ‚Æ‚«‚ÌLerp‚Ìt‚Ì’l
 constexpr float kInhaleLerpT = 0.05f;
@@ -51,6 +52,15 @@ void FlyEnemy::Update(Stage& stage,Camera& camera)
 	ApplyMovementY();
 	rect_.SetCenter(position_.x, position_.y,
 		kWidth * kRectSize, kHeight * kRectSize);
+
+	if (!isInhaled_)
+	{
+		if (counter_++ >= kAnimChangeFrame)
+		{
+			counter_ = 0;
+			(graphCutNo_ += 1) %= 2;
+		}
+	}
 }
 
 void FlyEnemy::Draw()

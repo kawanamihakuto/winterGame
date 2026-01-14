@@ -20,8 +20,10 @@ namespace
 	constexpr int kInvincibleTime = 45;
 	constexpr int kInvincibleFlashingInterval = 4;
 	constexpr int kDefaultHp = 3;
-	constexpr Vector2 kStartPosition = { 320,640 };
+	constexpr Vector2 kStartPosition = { 640,752 };
 	constexpr int kCeiling = 305;
+	constexpr int kLeftLimit = 120;
+	constexpr int kRightLimit = 7120;
 }
 
 
@@ -124,6 +126,15 @@ void Player::Update(Input& input,Stage& stage)
 			isDead_ = true;
 			ChangeState(std::make_unique<PlayerState::DeadAnimState>());
 		}
+	}
+
+	if (position_.x <= kLeftLimit)
+	{
+		position_.x = kLeftLimit;
+	}
+	if (position_.x >= kRightLimit)
+	{
+		position_.x = kRightLimit;
 	}
 }
 

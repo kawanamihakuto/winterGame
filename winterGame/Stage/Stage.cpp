@@ -10,8 +10,8 @@
 #include"Camera.h"
 namespace
 {
-    constexpr int kChipNumX = 60;
-    constexpr int kChipNumY = 20;
+    constexpr int kChipNumX = 150;
+    constexpr int kChipNumY = 22;
     constexpr int kChipSize = 16;
     constexpr int kTileSrcSize = 16;
     constexpr int kTileWorldSize = 16 * 3;
@@ -216,10 +216,10 @@ void Stage::Draw(Camera& camera)
             int posY = static_cast<int>(y * kChipSize);
 
             // 画面外は描画しない
-            if (posX < 0 - kTileWorldSize) continue;
-            if (posX > kScreenWidth) continue;
-            if (posY < 0 - kTileWorldSize) continue;
-            if (posY > kScreenHeight) continue;
+         //   if (posX < 0 - kTileWorldSize) continue;
+          //  if (posX > kScreenWidth) continue;
+          //  if (posY < 0 - kTileWorldSize) continue;
+          //  if (posY > kScreenHeight) continue;
 
             // 設置するチップ
             int chipNo = GetData(x,y);

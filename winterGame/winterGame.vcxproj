@@ -144,7 +144,8 @@
     <ClCompile Include="Base\EnemyBase.cpp" />
     <ClCompile Include="Base\GameObject.cpp" />
     <ClCompile Include="Actor\Inhale.cpp" />
-    <ClCompile Include="PlayerHPUI.cpp" />
+    <ClCompile Include="Bg.cpp" />
+    <ClCompile Include="UI\PlayerHPUI.cpp" />
     <ClCompile Include="PlayerState\DeadAnimState.cpp" />
     <ClCompile Include="PlayerState\HitStopState.cpp" />
     <ClCompile Include="Scene\ClearScene.cpp" />
@@ -180,13 +181,14 @@
     <ClCompile Include="Scene\SceneController.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
     <ClCompile Include="Enemy\WalkEnemy.cpp" />
-    <ClCompile Include="UIFrame.cpp" />
+    <ClCompile Include="UI\UIFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor\AirShot.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Base\EnemyBase.h" />
-    <ClInclude Include="PlayerHPUI.h" />
+    <ClInclude Include="Bg.h" />
+    <ClInclude Include="UI\PlayerHPUI.h" />
     <ClInclude Include="PlayerState\DeadAnimState.h" />
     <ClInclude Include="PlayerState\HitStopState.h" />
     <ClInclude Include="Scene\ClearScene.h" />
@@ -226,7 +228,7 @@
     <ClInclude Include="Scene\SceneController.h" />
     <ClInclude Include="Scene\TitleScene.h" />
     <ClInclude Include="Enemy\WalkEnemy.h" />
-    <ClInclude Include="UIFrame.h" />
+    <ClInclude Include="UI\UIFrame.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\stage1.fmf" />

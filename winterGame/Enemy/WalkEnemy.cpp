@@ -27,7 +27,7 @@ namespace
 	constexpr int kNockBackTimeMax = 20;
 
 	constexpr int kWalkEnemyGraphCutRow = 2;
-
+	constexpr int kAnimChangeFrame = 15;
 }
 
 
@@ -73,6 +73,15 @@ void WalkEnemy::Update(Stage& stage,Camera& camera)
 	rect_.SetCenter(position_.x, position_.y,
 		kWidth * kRectSize, kHeight * kRectSize);
 	MapCollisionX(stage, tileRect);
+
+	if (!isInhaled_)
+	{
+		if (counter_++ >= kAnimChangeFrame)
+		{
+			counter_ = 0;
+			(graphCutNo_ += 1) %= 2;
+		}
+	}
 }
 void WalkEnemy::Draw()
 {

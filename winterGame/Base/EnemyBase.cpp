@@ -21,11 +21,12 @@ player_(player),
 isPlayerOnRight_(isPlayerOnRight),
 nockBackTime_(nockBackTime),
 graphHandle_(handle),
-graphCutNo_(EnemyGraphCutNo::one),
+graphCutNo_(0),
 isAlive_(true),
 isInhaled_(false),
 enemyType_(enemyType),
-isRight_(false)
+isRight_(false),
+counter_(0)
 { 
 }
 

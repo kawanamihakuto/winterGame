@@ -4,7 +4,15 @@
 #include"Application.h"
 #include"Lerp.h"
 
-Camera::Camera() : GameObject(Vector2{320,640}),
+namespace
+{
+	constexpr float kCameraLeftLimit = 640.0f;
+	constexpr float kCameraRightLimit = 6600;
+
+	constexpr Vector2 kDefaultPosition = { 640.0f,640.0f };
+}
+
+Camera::Camera() : GameObject(kDefaultPosition),
 drawOffset_({0,0}),
 target_({0,0})
 {
@@ -25,6 +33,15 @@ void Camera::Update()
 {
 	Lerp lerp;
 	position_.x = lerp.FLerp(position_.x, target_.x, 0.1f);
+
+	if (position_.x <= kCameraLeftLimit)
+	{
+		position_.x = kCameraLeftLimit;
+	}
+	if (position_.x >= kCameraRightLimit)
+	{
+		position_.x = kCameraRightLimit;
+	}
 }
 
 void Camera::Draw()

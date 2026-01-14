@@ -14,6 +14,6 @@ namespace PlayerState
 		void Update(Player& player, Input& input) override;
 		void Exit(Player& player)override;
 	private:
-		IntervalChecker hoveringInterval_{30};
+		IntervalChecker hoveringInterval_{10};
 	};
 }

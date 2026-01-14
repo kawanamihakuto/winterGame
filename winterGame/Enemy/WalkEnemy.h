@@ -3,7 +3,7 @@
 #include <memory>
 
 class WalkEnemyStateBase;
-class EnemyStatebase;
+class EnemyStateBase;
 class Player;
 class Camera;
 class Stage;
