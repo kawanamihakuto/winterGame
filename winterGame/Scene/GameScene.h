@@ -14,6 +14,7 @@ class PlayerInhaledRect;
 class Door;
 class PlayerHPUI;
 class UIFrame;
+class Bg;
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -69,6 +70,8 @@ private:
 	std::shared_ptr<PlayerHPUI>playerHPUI_;
 	//UIフレームのポインタ
 	std::shared_ptr<UIFrame>UIFrame_;
+	//背景のポインタ
+	std::shared_ptr<Bg>Bg_;
 
 	//当たり判定を行うCollisionManager
 	CollisionManager collisionManager_;
@@ -78,4 +81,8 @@ private:
 	int playerHpGraphHandle_;
 	//UIフレーム画像ハンドル
 	int UIFrameGraphHandle_;
+	//背景(空)の画像ハンドル
+	int skyGraphHandle_;
+	//背景(雲)の画像ハンドル
+	int cloudGraphHandle_;
 };

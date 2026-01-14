@@ -16,8 +16,9 @@
 #include"Stage/Stage.h"
 #include"Actor/Door.h"
 #include"ClearScene.h"
-#include"PlayerHPUI.h"
-#include"UIFrame.h"
+#include"UI/PlayerHPUI.h"
+#include"UI/UIFrame.h"
+#include"Bg.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -32,6 +33,10 @@ draw_(&GameScene::FadeDraw)
 	assert(playerHpGraphHandle_ > -1);
 	UIFrameGraphHandle_ = LoadGraph("data/UIframe.png");
 	assert(UIFrameGraphHandle_ > -1);
+	skyGraphHandle_ = LoadGraph("data/SkyBg.png");
+	assert(skyGraphHandle_ > -1);
+	cloudGraphHandle_ = LoadGraph("data/CloudBg.png");
+	assert(cloudGraphHandle_ > -1);
 
 	//フェード用のフレームを初期化
 	frame_ = fade_interval;
@@ -64,6 +69,8 @@ draw_(&GameScene::FadeDraw)
 	playerHPUI_ = std::make_shared<PlayerHPUI>(playerHpGraphHandle_);
 
 	UIFrame_ = std::make_shared<UIFrame>(UIFrameGraphHandle_);
+
+	Bg_ = std::make_shared<Bg>(skyGraphHandle_, cloudGraphHandle_,(camera_->GetPosition().x - Application::GetInstance().GetWindowSize().w * 0.5f)* 0.5f);
 }
 
 GameScene::~GameScene()
@@ -71,6 +78,8 @@ GameScene::~GameScene()
 	//画像をすべてデリート
 	DeleteGraph(graphHandle_);
 	DeleteGraph(playerHpGraphHandle_);
+	DeleteGraph(skyGraphHandle_);
+	DeleteGraph(cloudGraphHandle_);
 }
 
 void GameScene::FadeInUpdate(Input&)
@@ -118,9 +127,9 @@ void GameScene::NormalUpdate(Input& input)
 		}
 
 		door_->Update();
-	}
 
-	
+		Bg_->Update(*player_,*camera_);
+	}
 
 	//弾の生成処理
 	if (player_->GetIsSpit())
@@ -274,6 +283,8 @@ void GameScene::FadeDraw()
 	const auto& wsize = Application::GetInstance().GetWindowSize();
 	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
 
+	Bg_->Draw();
+
 	stage_->Draw(*camera_);
 
 	door_->Draw(*camera_);
@@ -303,6 +314,8 @@ void GameScene::FadeDraw()
 	UIFrame_->Draw();
 	playerHPUI_->Draw(*player_);
 
+	
+
 	//フェード処理
 	float rate = static_cast<float>(frame_) / static_cast<float>(fade_interval);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 * rate);
@@ -315,6 +328,8 @@ void GameScene::NormalDraw()
 	//ウィンドウサイズ取得
 	const auto& wsize = Application::GetInstance().GetWindowSize();
 	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
+
+	Bg_->Draw();
 
 	stage_->Draw(*camera_);
 

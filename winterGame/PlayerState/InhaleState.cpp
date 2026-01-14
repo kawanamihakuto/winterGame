@@ -10,8 +10,6 @@ void PlayerState::InhaleState::Enter(Player& player)
 	player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthOpen);
 	//吸い込みオブジェクトの生成をリクエストする
 	player.StartInhale();
-	//横方向のvelocityを0にする
-	player.SetVelocity({ 0.0f,player.GetVelocity().y });
 }
 
 void PlayerState::InhaleState::Update(Player& player, Input& input)

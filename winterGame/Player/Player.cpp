@@ -217,6 +217,8 @@ void Player::Draw(Camera& camera)
 	DrawFormatString(0, 0, 0xffffff, "%d", hp_);
 	DrawFormatString(16, 16, 0xffffff, "%f , %f", position_.x, position_.y);
 	DrawFormatString(16, 32, 0xffffff, "%d",isInvincible_);
+	DrawFormatString(16, 48, 0xffffff, "%f , %f",velocity_.x,position_.y);
+
 #endif // _DEBUG
 }
 
@@ -306,8 +308,16 @@ void Player::Gravity()
 
 void Player::ApplyMovementX()
 {
-	//–€Cˆ—
-	velocity_.x *= PlayerConstant::kFriction;
+	if (isGround_)
+	{
+		//–€Cˆ—
+		velocity_.x *= PlayerConstant::kFriction;
+	}
+	else
+	{
+		//‹ó’†‚É‚¢‚é‚Æ‚«‚ÌŠµ«‚ğ’²®
+		velocity_.x *= 0.95f;
+	}
 	position_.x += velocity_.x;
 }
 

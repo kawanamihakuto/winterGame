@@ -1,7 +1,12 @@
 #include "Bg.h"
-
-Bg::Bg(int graphHandle):
-	skyGraphHandle_(graphHandle)
+#include <DxLib.h>
+#include"Application.h"
+#include "Player.h"
+#include"Camera.h"
+Bg::Bg(int skyGraphHandle,int cloudGraphHandle,float defaultPos):
+	skyGraphHandle_(skyGraphHandle),
+	cloudGraphHandle_(cloudGraphHandle),
+	scrollX_(defaultPos)
 {
 }
 
@@ -14,12 +19,25 @@ void Bg::Init()
 
 }
 
-void Bg::Update()
+void Bg::Update(Player& player,Camera& camera)
 {
+	auto wsize = Application::GetInstance().GetWindowSize();
+	auto pPos = player.GetPosition();
+	auto cPos = camera.GetPosition();
+	scrollX_ = ((cPos.x - wsize.w * 0.5f) * 0.5f);
 
+	if (scrollX_ < 0)
+	{
+		scrollX_ = 0;
+	}
 }
 
 void Bg::Draw()
 {
-
+	auto wsize = Application::GetInstance().GetWindowSize();
+	DrawRectRotaGraph(wsize.w/2,wsize.h/2,0,0,640,360,3.0,0.0,skyGraphHandle_, FALSE);
+	for (int i = 0; i < 4; i++)
+	{
+		DrawRectRotaGraph((i*640*3) - scrollX_, wsize.h / 2, 0, 0, 640, 360, 3.0, 0.0, cloudGraphHandle_, TRUE);
+	}
 }
