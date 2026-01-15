@@ -85,4 +85,6 @@ private:
 	int skyGraphHandle_;
 	//”wŒi(‰_)‚Ì‰æ‘œƒnƒ“ƒhƒ‹
 	int cloudGraphHandle_;
+	//”wŒi(‘¾—z)‚Ì‰æ‘œƒnƒ“ƒhƒ‹
+	int sunGraphHandle_;
 };

@@ -4,7 +4,7 @@ class Camera;
 class Bg
 {
 	public:
-	Bg(int skyGraphHnalde,int cloudGraphHandle,float defaultPos);
+	Bg(int skyGraphHnalde,int cloudGraphHandle,int sunGraphHandle,float defaultPos);
 	~Bg();
 	void Init();
 	void Update(Player& player,Camera& camera);
@@ -13,7 +13,7 @@ class Bg
 private:
 	int skyGraphHandle_;
 	int cloudGraphHandle_;
-
+	int sunGraphHandle_;
 	float scrollX_;
 };
 

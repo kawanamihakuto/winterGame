@@ -37,6 +37,8 @@ draw_(&GameScene::FadeDraw)
 	assert(skyGraphHandle_ > -1);
 	cloudGraphHandle_ = LoadGraph("data/CloudBg.png");
 	assert(cloudGraphHandle_ > -1);
+	sunGraphHandle_ = LoadGraph("data/SunBg.png");
+	assert(sunGraphHandle_ > -1);
 
 	//フェード用のフレームを初期化
 	frame_ = fade_interval;
@@ -70,7 +72,7 @@ draw_(&GameScene::FadeDraw)
 
 	UIFrame_ = std::make_shared<UIFrame>(UIFrameGraphHandle_);
 
-	Bg_ = std::make_shared<Bg>(skyGraphHandle_, cloudGraphHandle_,(camera_->GetPosition().x - Application::GetInstance().GetWindowSize().w * 0.5f)* 0.5f);
+	Bg_ = std::make_shared<Bg>(skyGraphHandle_, cloudGraphHandle_,sunGraphHandle_,(camera_->GetPosition().x - Application::GetInstance().GetWindowSize().w * 0.5f)* 0.5f);
 }
 
 GameScene::~GameScene()
@@ -80,6 +82,7 @@ GameScene::~GameScene()
 	DeleteGraph(playerHpGraphHandle_);
 	DeleteGraph(skyGraphHandle_);
 	DeleteGraph(cloudGraphHandle_);
+	DeleteGraph(sunGraphHandle_);
 }
 
 void GameScene::FadeInUpdate(Input&)
