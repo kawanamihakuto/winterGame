@@ -10,20 +10,28 @@
 #include"Lerp.h"
 #include"InhaleHoldState.h"
 #include "Base/Shot.h"
-//‹z‚¢‚İ”ÍˆÍ‚Ì•
-constexpr int kWidth = 32;
-//‹z‚¢‚İ”ÍˆÍ‚Ì‚‚³
-constexpr int kHeight = 32;
-//‹z‚¢‚İ”ÍˆÍ‚ÌŠg‘å”{—¦
-constexpr int kSize = 2;
-//ƒvƒŒƒCƒ„[‚©‚ç‚ÌoffsetX
-constexpr int kOffsetX = 48;
+
+namespace
+{
+	//‹z‚¢‚İ”ÍˆÍ‚Ì•
+	constexpr int kWidth = 16;
+	//‹z‚¢‚İ”ÍˆÍ‚Ì‚‚³
+	constexpr int kHeight = 16;
+	//‹z‚¢‚İ”ÍˆÍ‚ÌŠg‘å”{—¦
+	constexpr int kSize = 3;
+	//ƒvƒŒƒCƒ„[‚©‚ç‚ÌoffsetX
+	constexpr int kOffsetX = 40;
+	//ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌŠÔŠu
+	constexpr int kAnimFrameMax = 5;
+}
 
 Inhale::Inhale(Vector2 pos,int graphHandle,std::shared_ptr<Player>player) : GameObject(pos),
 	isActive_(false),
 	graphHandle_(graphHandle),
 	isRight_(false),
-	player_(player)
+	player_(player),
+	AnimCount_(0),
+	AnimNum_(0)
 {
 }
 
@@ -82,7 +90,18 @@ void Inhale::Update()
 		//ƒvƒŒƒCƒ„[‚Ì‹z‚¢‚İó‘Ô‚ÌŒp‘±‚ğ‚¢‚Á‚½‚ñfalse‚É‚·‚é
 		player_->SetIsInhaledHold(false);
 	}
-	rect_.SetCenter(position_.x, position_.y, kWidth, kHeight);
+	rect_.SetCenter(position_.x, position_.y, kWidth * 2, kHeight* 2);
+
+	if (AnimCount_++ >= kAnimFrameMax)
+	{
+		AnimCount_ = 0;
+		AnimNum_++;
+		
+		if (AnimNum_ >= 6)
+		{
+			AnimNum_ = 0;
+		}
+	}
 }
 
 void Inhale::Draw()
@@ -94,14 +113,15 @@ void Inhale::Draw(Camera& camera)
 	Vector2 screen = camera.WorldToScreen(position_);
 	if (isActive_)
 	{
-		DrawRectRotaGraph(screen.x, screen.y,
-			16 * 3, 0, kWidth, kHeight, kSize, 0, graphHandle_,true, !isRight_);
+		DrawRectRotaGraph(screen.x, screen.y - kHeight / 2,
+			(16 * 3) + (16 * AnimNum_) , 0, kWidth, kHeight, kSize, 0, graphHandle_,true, !isRight_);
 	}
-	Rect drawRect = rect_;
-	drawRect.SetCenter(screen.x, screen.y,
-		kWidth , kHeight);
 	
 #ifdef _DEBUG
+	Rect drawRect = rect_;
+	drawRect.SetCenter(screen.x, screen.y,
+		kWidth * 2, kHeight * 2);
+
 	//“–‚½‚è”»’è‚ğ‰Â‹‰»
 	if (isActive_)
 	{

@@ -35,6 +35,8 @@ private:
 	bool isRight_;
 	int graphHandle_;
 
+	int AnimCount_;
+	int AnimNum_;
 	std::shared_ptr<Player>player_;
 };
 
