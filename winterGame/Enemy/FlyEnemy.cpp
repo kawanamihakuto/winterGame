@@ -19,8 +19,8 @@ constexpr int kAnimChangeFrame = 15;
 //‹z‚¢‚Ş‚Æ‚«‚ÌLerp‚Ìt‚Ì’l
 constexpr float kInhaleLerpT = 0.05f;
 
-FlyEnemy::FlyEnemy(Vector2 pos, int graphHandle, std::shared_ptr<Player> player):
-	EnemyBase(kHp, {0,0},pos,graphHandle,player,false,0,EnemyType::fly)
+FlyEnemy::FlyEnemy(Vector2 pos, int graphHandle, std::shared_ptr<Player> player,std::shared_ptr<EffectManager>effectManager):
+	EnemyBase(kHp, {0,0},pos,graphHandle,player,false,0,EnemyType::fly,effectManager)
 {
 	state_ = std::make_unique<Move>();
 	rect_.SetCenter(position_.x, position_.y,

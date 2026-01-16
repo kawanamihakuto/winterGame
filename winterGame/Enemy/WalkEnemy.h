@@ -13,7 +13,7 @@ class Stage;
 class WalkEnemy :public EnemyBase
 {
 public:
-	WalkEnemy(Vector2 pos,int graphHandle,std::shared_ptr<Player>player);
+	WalkEnemy(Vector2 pos,int graphHandle,std::shared_ptr<Player>player,std::shared_ptr<EffectManager>effectManager);
 	~WalkEnemy ();
 	void Init()override;
 	void Update() override;

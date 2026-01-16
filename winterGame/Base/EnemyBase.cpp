@@ -3,17 +3,22 @@
 #include"WalkEnemy.h"
 #include<memory>
 #include"../System/Lerp.h"
-constexpr int kGround = 720;
-constexpr int kSpeed = 1.5f;
-constexpr int kMaxSpeed = 1.5f;
-constexpr float kNockbackSpeed = 4.0f;
-constexpr int kNockBackTimeMax = 20;
+#include"EffectManager.h"
 
-constexpr float kGravity = 0.5f;
-//‹z‚¢‚Ş‚Æ‚«‚ÌLerp‚Ìt‚Ì’l
-constexpr float kInhaleLerpT = 0.05f;
+namespace
+{
+	constexpr int kGround = 720;
+	constexpr int kSpeed = 1.5f;
+	constexpr int kMaxSpeed = 1.5f;
+	constexpr float kNockbackSpeed = 4.0f;
+	constexpr int kNockBackTimeMax = 20;
 
-EnemyBase::EnemyBase(const int hp, const Vector2 vel, const Vector2 pos,const int handle, std::shared_ptr<Player>player, bool isPlayerOnRight, int nockBackTime,EnemyType enemyType) :GameObject(pos),
+	constexpr float kGravity = 0.5f;
+	//‹z‚¢‚Ş‚Æ‚«‚ÌLerp‚Ìt‚Ì’l
+	constexpr float kInhaleLerpT = 0.05f;
+}
+
+EnemyBase::EnemyBase(const int hp, const Vector2 vel, const Vector2 pos,const int handle, std::shared_ptr<Player>player, bool isPlayerOnRight, int nockBackTime,EnemyType enemyType,std::shared_ptr<EffectManager> effectManager) :GameObject(pos),
 hp_(hp),
 velocity_(vel),
 isDead_(false),
@@ -26,7 +31,8 @@ isAlive_(true),
 isInhaled_(false),
 enemyType_(enemyType),
 isRight_(false),
-counter_(0)
+counter_(0),
+effectManager_(effectManager)
 { 
 }
 
@@ -101,6 +107,7 @@ void EnemyBase::OnCollision(GameObject& other)
 
 	if (other.GetCollisionLayer() & CollisionLayers::kAttack)
 	{
+		effectManager_->Generate(position_);
 		ChangeState(std::make_unique<None>());
 	}
 }

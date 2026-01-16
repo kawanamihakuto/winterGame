@@ -31,8 +31,8 @@ namespace
 }
 
 
-WalkEnemy::WalkEnemy(Vector2 pos,int graphHandle,std::shared_ptr<Player>player) :
-	EnemyBase(kHp,{0,0}, pos,graphHandle,player,false,0,EnemyType::walk)
+WalkEnemy::WalkEnemy(Vector2 pos,int graphHandle,std::shared_ptr<Player>player,std::shared_ptr<EffectManager>effectManager) :
+	EnemyBase(kHp,{0,0}, pos,graphHandle,player,false,0,EnemyType::walk,effectManager)
 
 {
 	state_ = std::make_unique<Move>();

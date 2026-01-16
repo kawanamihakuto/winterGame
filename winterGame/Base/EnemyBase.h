@@ -22,6 +22,7 @@ class Player;
 class EnemyStateBase;
 class Camera;
 class Stage;
+class EffectManager;
 /// <summary>
 /// エネミー基底クラス
 /// </summary>
@@ -31,7 +32,7 @@ public:
 
 	std::unique_ptr<EnemyStateBase>state_;
 
-	EnemyBase(const int hp, const Vector2 vel, const Vector2 pos,const int handle , std::shared_ptr<Player>player, bool isPlayerOnRight,int nockBackTime,EnemyType enemyType);
+	EnemyBase(const int hp, const Vector2 vel, const Vector2 pos,const int handle , std::shared_ptr<Player>player, bool isPlayerOnRight,int nockBackTime,EnemyType enemyType,std::shared_ptr<EffectManager> effectManager);
 	virtual~EnemyBase();
 	virtual void Init()override = 0;
 	virtual void Update()override = 0;
@@ -137,6 +138,8 @@ protected:
 	bool isRight_;
 	//アニメーション用カウンター
 	int counter_;
+
+	std::shared_ptr<EffectManager>effectManager_;
 };
 /// <summary>
 /// エネミーステート基底クラス

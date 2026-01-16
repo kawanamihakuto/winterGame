@@ -19,6 +19,7 @@
 #include"UI/PlayerHPUI.h"
 #include"UI/UIFrame.h"
 #include"Bg.h"
+#include"EffectManager.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -50,17 +51,19 @@ draw_(&GameScene::FadeDraw)
 	//プレイヤー生成
 	player_ = std::make_shared<Player>(graphHandle_);
 
+	effectManager_ = std::make_shared<EffectManager>(graphHandle_);
+
 	const auto& spawns = stage_->GetEnemySpawns();
 
 	for (const auto spawn : spawns)
 	{
 		if (spawn.type == 18)
 		{
-			enemies_.push_back(std::make_shared<WalkEnemy>(spawn.pos, graphHandle_, player_));
+			enemies_.push_back(std::make_shared<WalkEnemy>(spawn.pos, graphHandle_, player_, effectManager_));
 		}
 		else if (spawn.type == 27)
 		{
-			enemies_.push_back(std::make_shared<FlyEnemy>(spawn.pos, graphHandle_, player_));
+			enemies_.push_back(std::make_shared<FlyEnemy>(spawn.pos, graphHandle_, player_, effectManager_));
 		}
 	}
 
@@ -73,8 +76,6 @@ draw_(&GameScene::FadeDraw)
 	UIFrame_ = std::make_shared<UIFrame>(UIFrameGraphHandle_);
 
 	bg_ = std::make_shared<Bg>(skyGraphHandle_, cloudGraphHandle_,sunGraphHandle_,(camera_->GetPosition().x - Application::GetInstance().GetWindowSize().w * 0.5f)* 0.5f);
-
-	effectManager_ = std::make_shared<EffectManager>(graphHandle_);
 }
 
 GameScene::~GameScene()
@@ -134,6 +135,8 @@ void GameScene::NormalUpdate(Input& input)
 		door_->Update();
 
 		bg_->Update(*player_,*camera_);
+
+		effectManager_->Update();
 	}
 
 	//弾の生成処理
@@ -316,6 +319,8 @@ void GameScene::FadeDraw()
 		shot->Draw(*camera_);
 	}
 
+	effectManager_->Draw(*camera_);
+
 	UIFrame_->Draw();
 	playerHPUI_->Draw(*player_);
 
@@ -361,6 +366,8 @@ void GameScene::NormalDraw()
 	{
 		shot->Draw(*camera_);
 	}
+
+	effectManager_->Draw(*camera_);
 
 	UIFrame_->Draw();
 	playerHPUI_->Draw(*player_);
