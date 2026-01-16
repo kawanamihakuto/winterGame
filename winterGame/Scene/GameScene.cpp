@@ -72,7 +72,9 @@ draw_(&GameScene::FadeDraw)
 
 	UIFrame_ = std::make_shared<UIFrame>(UIFrameGraphHandle_);
 
-	Bg_ = std::make_shared<Bg>(skyGraphHandle_, cloudGraphHandle_,sunGraphHandle_,(camera_->GetPosition().x - Application::GetInstance().GetWindowSize().w * 0.5f)* 0.5f);
+	bg_ = std::make_shared<Bg>(skyGraphHandle_, cloudGraphHandle_,sunGraphHandle_,(camera_->GetPosition().x - Application::GetInstance().GetWindowSize().w * 0.5f)* 0.5f);
+
+	effectManager_ = std::make_shared<EffectManager>(graphHandle_);
 }
 
 GameScene::~GameScene()
@@ -131,7 +133,7 @@ void GameScene::NormalUpdate(Input& input)
 
 		door_->Update();
 
-		Bg_->Update(*player_,*camera_);
+		bg_->Update(*player_,*camera_);
 	}
 
 	//’e‚Ì¶¬ˆ—
@@ -286,7 +288,7 @@ void GameScene::FadeDraw()
 	const auto& wsize = Application::GetInstance().GetWindowSize();
 	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
 
-	Bg_->Draw();
+	bg_->Draw();
 
 	stage_->Draw(*camera_);
 
@@ -332,7 +334,7 @@ void GameScene::NormalDraw()
 	const auto& wsize = Application::GetInstance().GetWindowSize();
 	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
 
-	Bg_->Draw();
+	bg_->Draw();
 
 	stage_->Draw(*camera_);
 

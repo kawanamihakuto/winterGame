@@ -149,6 +149,7 @@
     <ClCompile Include="Base\GameObject.cpp" />
     <ClCompile Include="Actor\Inhale.cpp" />
     <ClCompile Include="Bg.cpp" />
+    <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="UI\PlayerHPUI.cpp" />
     <ClCompile Include="PlayerState\DeadAnimState.cpp" />
     <ClCompile Include="PlayerState\HitStopState.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Base\EnemyBase.h" />
     <ClInclude Include="Bg.h" />
+    <ClInclude Include="EffectManager.h" />
     <ClInclude Include="UI\PlayerHPUI.h" />
     <ClInclude Include="PlayerState\DeadAnimState.h" />
     <ClInclude Include="PlayerState\HitStopState.h" />

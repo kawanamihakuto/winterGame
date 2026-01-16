@@ -15,6 +15,7 @@ class Door;
 class PlayerHPUI;
 class UIFrame;
 class Bg;
+class EffectManager;
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -71,8 +72,9 @@ private:
 	//UIフレームのポインタ
 	std::shared_ptr<UIFrame>UIFrame_;
 	//背景のポインタ
-	std::shared_ptr<Bg>Bg_;
-
+	std::shared_ptr<Bg>bg_;
+	//エフェクトマネージャー
+	std::shared_ptr<EffectManager>effectManager_;
 	//当たり判定を行うCollisionManager
 	CollisionManager collisionManager_;
 	//プレイヤー、敵、地形の画像ハンドル
