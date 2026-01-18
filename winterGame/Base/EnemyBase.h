@@ -73,6 +73,8 @@ public:
 	//プレイヤーの参照のゲッター
 	std::shared_ptr<Player> GetPlayer()const { return player_; }
 
+	std::shared_ptr<EffectManager> GetEffectManager()const { return effectManager_; }
+
 	int GetNockBackTime() { return nockBackTime_; }
 	void SetNockBackTime(int time) { nockBackTime_ = time; }
 

@@ -4,7 +4,7 @@
 
 namespace
 {
-	constexpr int kFrameMax = 30;
+	constexpr int kFrameMax = 17;
 }
 
 EffectManager::EffectManager(int graphHandle):
@@ -37,7 +37,9 @@ void EffectManager::Draw(Camera& camera)
 	for (auto effect : effects_)
 	{
 		auto screen = camera.WorldToScreen(effect->pos);
-		DrawRectRotaGraph(screen.x, screen.y, 0, 16, 16, 16, 3.0, 0.0, graphHandle_, true);
+		effect->size += 0.2;
+		effect->angle += 0.13;
+		DrawRectRotaGraph(screen.x, screen.y, 0, 16, 16, 16, effect->size, effect->angle, graphHandle_, true);
 		effect->frame++;
 		if (effect->frame >= kFrameMax)
 		{

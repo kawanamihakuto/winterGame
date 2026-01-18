@@ -7,6 +7,8 @@ struct Effect
 	Vector2 pos;
 	int frame = 0;
 	bool isAlive = true;
+	double angle;
+	double size;
 }; 
 class Camera;
 class EffectManager

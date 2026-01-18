@@ -92,15 +92,40 @@ void WalkEnemy::Draw(Camera& camera)
 {
 	Vector2 screen = camera.WorldToScreen(position_);
 
-	DrawRectRotaGraph(screen.x,screen.y,
-		kWidth * static_cast<int>(graphCutNo_), kWalkEnemyGraphCutRow * kHeight,
-		kWidth, kHeight,
-		3.0,0,
-		graphHandle_, true,isRight_);
+	if (isAlive_)
+	{
+		DrawRectRotaGraph(screen.x, screen.y,
+			kWidth * static_cast<int>(graphCutNo_), kWalkEnemyGraphCutRow * kHeight,
+			kWidth, kHeight,
+			3.0, 0.0,
+			graphHandle_, true, isRight_);
+
+	}
+	else
+	{
+		if ((nockBackTime_/ 4) % 2 == 0)
+		{
+			DrawRectRotaGraph(
+				(int)screen.x,
+				(int)screen.y - 5.0f,
+				kWidth * static_cast<int>(graphCutNo_), kWalkEnemyGraphCutRow * kHeight,
+				kWidth, kHeight,
+				3.0,
+				0.0,
+				graphHandle_,
+				TRUE,
+				isRight_
+			);
+		}
+	}
+
+
+#ifdef _DEBUG
 	Rect drawRect = rect_;
 	drawRect.SetCenter(screen.x, screen.y,
-		kWidth * kRectSize , kHeight * kRectSize);
-	drawRect.Draw(0x0000ff,false);
+		kWidth * kRectSize, kHeight * kRectSize);
+	drawRect.Draw(0x0000ff, false);
+#endif // _DEBUG
 }
 
 

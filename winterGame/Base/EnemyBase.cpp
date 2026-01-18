@@ -206,6 +206,7 @@ void Death::Update(EnemyBase& enemy)
 	nockBackTime += 1;
 	if (nockBackTime >= kNockBackTimeMax)
 	{
+		enemy.GetEffectManager()->Generate(enemy.GetPosition());
 		enemy.ChangeState(std::make_unique<None>());
 	}
 	enemy.SetNockBackTime(nockBackTime);
