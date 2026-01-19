@@ -42,6 +42,12 @@ void TitleScene::NormalUpdate(Input& input)
 		frame_ = 0;
 		return;
 	}
+
+	if (input.IsTriggered("select"))
+	{
+
+	}
+	
 }
 
 void TitleScene::FadeOutUpdate(Input&)
