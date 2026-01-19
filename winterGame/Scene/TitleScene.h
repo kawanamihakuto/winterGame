@@ -28,8 +28,20 @@ private:
 	//Drawメンバ関数を代入できるメンバ関数ポインタ
 	using DrawFunc_t = void(TitleScene::*)();
 	DrawFunc_t draw_;
+
+	//タイトルグラフハンドル
+	int titleGraphHandle_;
+	//PressStartグラフハンドル
+	int pressStartGraphHandle_;
+	//背景グラフハンドル
+	int bgHandle_;
+
+	int count_;
+
+	bool isFadeInOrFadeOut_;
 public:
 	TitleScene(SceneController& controller);
+	~TitleScene();
 	void Update(Input&)override;
 	void Draw()override;
 };
