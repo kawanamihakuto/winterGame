@@ -36,9 +36,13 @@ private:
 	//背景グラフハンドル
 	int bgHandle_;
 
+	int gameGraphHandle_;
+
 	int count_;
 
 	bool isFadeInOrFadeOut_;
+
+	float playerFadePosX_;
 public:
 	TitleScene(SceneController& controller);
 	~TitleScene();
