@@ -22,8 +22,8 @@ namespace
 	constexpr int kDefaultHp = 3;
 	constexpr Vector2 kStartPosition = { 640,751 };
 	constexpr int kCeiling = 305;
-	constexpr int kLeftLimit = 120;
-	constexpr int kRightLimit = 7120;
+	constexpr int kLeftLimit = 16;
+	constexpr int kRightLimit = 7171;
 }
 
 
@@ -49,7 +49,8 @@ Player::Player(int graphHandle) :
 	nockBackTime_(0),
 	isCollisionDoor_(false),
 	isDead_(false),
-	deadAnimAngleNum_(0.0)
+	deadAnimAngleNum_(0.0),
+	stageNo_(1)
 {
 	state_ = std::make_unique<PlayerState::IdleState>();
 }
@@ -60,6 +61,17 @@ Player::~Player()
 
 void Player::Init()
 {
+	position_ = kStartPosition;
+	state_ = std::make_unique<PlayerState::IdleState>();
+	mouthState_ = MouthState::empty;
+	graphCutNo_ = PlayerGraphCutNo::mouthClosed;
+	velocity_ = { 0.0f,0.0f };
+	isRight_ = true;
+}
+
+void Player::Init(int stageNo)
+{
+	stageNo_ = stageNo;
 	position_ = kStartPosition;
 	state_ = std::make_unique<PlayerState::IdleState>();
 	mouthState_ = MouthState::empty;
@@ -114,39 +126,54 @@ void Player::Update(Input& input,Stage& stage)
 		MapCollisionX(stage, tileRect);
 
 	}
-	
-	if (position_.y <= kCeiling)
-	{
-		position_.y = kCeiling;
-	}
-	
+
 	if (isDead_)
 	{
 		ApplyMovementX();
 		ApplyMovementY();
 	}
-	else
+	
+	//ステージ1用の設定
+	if (stageNo_ == 1)
 	{
-		if (position_.y >= 1100)
+		if (isDead_)
 		{
-			isDead_ = true;
-			ChangeState(std::make_unique<PlayerState::DeadAnimState>());
+			ApplyMovementX();
+			ApplyMovementY();
+		}
+		else
+		{
+			//落下死
+			if (position_.y >= 1100)
+			{
+				isDead_ = true;
+				ChangeState(std::make_unique<PlayerState::DeadAnimState>());
+			}
+		}
+
+		//天井
+		if (position_.y <= kCeiling)
+		{
+			position_.y = kCeiling;
+		}
+		//ステージの左端
+		if (position_.x <= kLeftLimit)
+		{
+			position_.x = kLeftLimit;
+		}
+		//ステージの右端
+		if (position_.x >= kRightLimit)
+		{
+			position_.x = kRightLimit;
 		}
 	}
 
-	if (position_.x <= kLeftLimit)
-	{
-		position_.x = kLeftLimit;
-	}
-	if (position_.x >= kRightLimit)
-	{
-		position_.x = kRightLimit;
-	}
-
+#ifdef _DEBUG
 	if (CheckHitKey(KEY_INPUT_D))
 	{
 		position_.x = kRightLimit;
 	}
+#endif // _DEBUG
 }
 
 void Player::Draw()

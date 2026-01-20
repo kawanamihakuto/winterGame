@@ -74,6 +74,7 @@ public:
 	~Player();
 
 	void Init()override;
+	void Init(int stageNo);
 	void Update()override;
 	void Update(Input& input,Stage& stage);
 	void Draw()override;
@@ -244,4 +245,6 @@ private:
 	bool isDead_;
 	//€–S‰‰o‚Ì‰ñ“]’l
 	double deadAnimAngleNum_;
+
+	int stageNo_;
 };

@@ -70,6 +70,7 @@ draw_(&GameScene::FadeDraw)
 	}
 
 	camera_ = std::make_shared<Camera>();
+	camera_->Init(nowStageNo_);
 
 	door_ = std::make_shared<Door>(graphHandle_);
 
@@ -420,8 +421,8 @@ void GameScene::ChangeStage(int stageNo)
 		}
 	}
 
-	player_->Init();
-	camera_->Init();
+	player_->Init(stageNo);
+	camera_->Init(stageNo);
 	bg_->Init((camera_->GetPosition().x - Application::GetInstance().GetWindowSize().w * 0.5f) * 0.5f);
 	update_ = &GameScene::FadeInUpdate;
 	draw_ = &GameScene::FadeDraw;

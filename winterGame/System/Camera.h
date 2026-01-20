@@ -9,6 +9,7 @@ public:
 	~Camera();
 
 	void Init();
+	void Init(int stageNo);
 	void SetTarget(const Vector2& pos);
 	void Update();
 	void Draw();
@@ -31,5 +32,7 @@ public:
 private:
 	Vector2 drawOffset_;
 	Vector2 target_;
+
+	int stageNo_;
 };
 

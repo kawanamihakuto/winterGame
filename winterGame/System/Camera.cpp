@@ -14,16 +14,22 @@ namespace
 
 Camera::Camera() : GameObject(kDefaultPosition),
 drawOffset_({0,0}),
-target_({0,0})
+target_({0,0}),
+stageNo_(1)
 {
 }
 
 Camera::~Camera()
 {
 }
+
 void Camera::Init()
 {
+}
+void Camera::Init(int stageNo)
+{
 	position_ = kDefaultPosition;
+	stageNo_ = stageNo;
 }
 void Camera::SetTarget(const Vector2& pos)
 {
@@ -33,15 +39,23 @@ void Camera::SetTarget(const Vector2& pos)
 void Camera::Update()
 {
 	Lerp lerp;
-	position_.x = lerp.FLerp(position_.x, target_.x, 0.1f);
+	if (stageNo_ == 1)
+	{
+		position_.x = lerp.FLerp(position_.x, target_.x, 0.1f);
 
-	if (position_.x <= kCameraLeftLimit)
-	{
-		position_.x = kCameraLeftLimit;
+		if (position_.x <= kCameraLeftLimit)
+		{
+			position_.x = kCameraLeftLimit;
+		}
+		if (position_.x >= kCameraRightLimit)
+		{
+			position_.x = kCameraRightLimit;
+		}
 	}
-	if (position_.x >= kCameraRightLimit)
+
+	if (stageNo_ == 2)
 	{
-		position_.x = kCameraRightLimit;
+		position_.y = lerp.FLerp(position_.y, target_.y, 0.1f);
 	}
 }
 

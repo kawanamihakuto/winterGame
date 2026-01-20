@@ -58,13 +58,13 @@ bool Stage::LoadCsv(const std::string& path)
   
     //一行ずつ読み込む
     int y = 0;
-    while (std::getline(ifs, line)&&y < kChipNumY)
+    while (std::getline(ifs, line))
     {
         std::stringstream ss(line);
         std::string cell;
         int x = 0;
         //カンマ区切りで数値を読む
-        while (std::getline(ss, cell, ',')&& x < kChipNumX)
+        while (std::getline(ss, cell, ','))
         {
             int chip = std::stoi(cell);
 
