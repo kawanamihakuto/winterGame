@@ -6,7 +6,11 @@
 #include"Application.h"
 #include<cassert>
 #include"ClearScene.h"
-constexpr int fade_interval = 60;
+
+namespace
+{
+	constexpr int fade_interval = 60;
+}
 
 void TitleScene::FadeInUpdate(Input&)
 {
@@ -36,6 +40,14 @@ void TitleScene::NormalUpdate(Input& input)
 			isFadeInOrFadeOut_ = true;
 		}
 	}
+
+	if (playerCount_++ >= 30)
+	{
+		playerCount_ = 0;
+		playerSrcX_++;
+		playerSrcX_ %= 2;
+	}
+
 	if (input.IsTriggered("ok"))
 	{
 		update_ = &TitleScene::FadeOutUpdate;
@@ -46,7 +58,7 @@ void TitleScene::NormalUpdate(Input& input)
 
 	if (input.IsTriggered("select"))
 	{
-		controller_.ChangeScene(std::make_shared<ClearScene>(controller_));
+		controller_.GameEnd();
 		return;
 	}
 }
@@ -84,12 +96,15 @@ void TitleScene::NormalDraw()
 	GetGraphSize(pressStartGraphHandle_, &srcX, &srcY);
 	DrawRectRotaGraph(wsize.w * 0.6f, wsize.h * 0.7, 0, 0, srcX, srcY, 1.2, 0.0, pressStartGraphHandle_, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	//SelectEnd用画像描画
+	GetGraphSize(selectEndGraphHandle_, &srcX, &srcY);
+	DrawRectRotaGraph(wsize.w - 150, wsize.h - 30, 0, 0, srcX, srcY, 0.3, 0.0, selectEndGraphHandle_, true);
 
 	//プレイヤーフェード
-	DrawRectRotaGraph(playerFadePosX_, wsize.h * 0.5f, 16, 0, 16, 16, 55.0, 0.0, gameGraphHandle_, true);
+	DrawRectRotaGraph(playerFadePosX_, wsize.h * 0.5f, playerSrcX_ * 16, 0, 16, 16, 55.0, 0.0, gameGraphHandle_, true);
 
 #ifdef _DEBUG
-	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "TitleScene", 0xffffff);
+	DrawString(16, 16, "TitleScene", 0xffffff);
 #endif // _DEBUG
 }
 
@@ -113,6 +128,10 @@ void TitleScene::FadeDraw()
 	DrawRectRotaGraph(wsize.w * 0.6f, wsize.h * 0.7, 0, 0, srcX, srcY, 1.2, 0.0, pressStartGraphHandle_, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
+	//SelectEnd用画像描画
+	GetGraphSize(selectEndGraphHandle_, &srcX, &srcY);
+	DrawRectRotaGraph(wsize.w - 150, wsize.h - 30, 0, 0, srcX, srcY, 0.3, 0.0, selectEndGraphHandle_, true);
+
 	//プレイヤーフェード
 	DrawBox(playerFadePosX_, 0, playerFadePosX_ - wsize.w * 3, wsize.h, 0x000000, true);
 
@@ -134,13 +153,17 @@ TitleScene::TitleScene(SceneController& controller):Scene(controller)
 	assert(bgHandle_ > -1);
 	gameGraphHandle_ = LoadGraph("data/kirby.png");
 	assert(gameGraphHandle_ > -1);
+	selectEndGraphHandle_ = LoadGraph("data/SelectEnd.png");
+	assert(selectEndGraphHandle_ > -1);
 
 	update_ = &TitleScene::FadeInUpdate;
 	draw_ = &TitleScene::FadeDraw;
 	frame_ = fade_interval;
 	count_ = 0;
 	isFadeInOrFadeOut_ = true;
-	playerFadePosX_ = -30;
+	playerFadePosX_ = 50;
+	playerCount_ = 0;
+	playerSrcX_ = 0;
 }
 
 TitleScene::~TitleScene()

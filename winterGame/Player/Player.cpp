@@ -136,6 +136,11 @@ void Player::Update(Input& input,Stage& stage)
 	{
 		position_.x = kRightLimit;
 	}
+
+	if (CheckHitKey(KEY_INPUT_D))
+	{
+		position_.x = kRightLimit;
+	}
 }
 
 void Player::Draw()

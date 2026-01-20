@@ -92,14 +92,21 @@ void Application::Run()
 		//シーンの描画
 		controller.Draw();
 
-		
-
 		ScreenFlip();
 
+#ifdef _DEBUG
 		if (CheckHitKey(KEY_INPUT_ESCAPE))
 		{
 			break;
 		}
+#endif // _DEBUG
+
+		//ゲーム終了のリクエストがあればループを抜ける
+		if (controller.GetGameEnd())
+		{
+			break;
+		}
+		
 		//フレームレート60に固定
 		while (GetNowHiPerformanceCount() - start < 16667)
 		{

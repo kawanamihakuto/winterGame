@@ -335,10 +335,6 @@ void GameScene::FadeDraw()
 
 void GameScene::NormalDraw()
 {
-	//ウィンドウサイズ取得
-	const auto& wsize = Application::GetInstance().GetWindowSize();
-	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
-
 	bg_->Draw();
 
 	stage_->Draw(*camera_);
@@ -371,6 +367,11 @@ void GameScene::NormalDraw()
 
 	UIFrame_->Draw();
 	playerHPUI_->Draw(*player_);
+
+#ifdef _DEBUG
+	DrawString(64, 64, "GameScene", 0xffffff);
+#endif // _DEBUG
+
 }
 
 void GameScene::Update(Input& input)

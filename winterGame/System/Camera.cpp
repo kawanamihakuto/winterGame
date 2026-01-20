@@ -7,7 +7,7 @@
 namespace
 {
 	constexpr float kCameraLeftLimit = 640.0f;
-	constexpr float kCameraRightLimit = 6600;
+	constexpr float kCameraRightLimit = 6550;
 
 	constexpr Vector2 kDefaultPosition = { 640.0f,640.0f };
 }

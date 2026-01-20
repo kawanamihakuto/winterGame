@@ -12,6 +12,8 @@ private:
 	//現在スタックに積まれているシーン
 	//最後に積んだものがUpdateされる
 	std::list<std::shared_ptr<Scene>>scenes_;
+
+	bool isGameEnd_ = false;
 public:
 	/// <summary>
 	/// シーンの切り替え
@@ -38,5 +40,14 @@ public:
 	/// 内部に持っているシーンのDrawを呼び出す
 	/// </summary>
 	void Draw();
+	/// <summary>
+	/// ゲーム終了のリクエスト
+	/// </summary>
+	void GameEnd() { isGameEnd_ = true; }
+	/// <summary>
+	/// ゲーム終了のリクエストがあるか
+	/// </summary>
+	/// <returns></returns>
+	bool GetGameEnd() { return isGameEnd_; }
 };
 

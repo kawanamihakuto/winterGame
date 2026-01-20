@@ -38,11 +38,17 @@ private:
 
 	int gameGraphHandle_;
 
+	int selectEndGraphHandle_;
+
 	int count_;
 
 	bool isFadeInOrFadeOut_;
 
 	float playerFadePosX_;
+
+	int playerSrcX_;
+
+	int playerCount_;
 public:
 	TitleScene(SceneController& controller);
 	~TitleScene();
