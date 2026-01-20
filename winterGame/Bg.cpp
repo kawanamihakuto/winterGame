@@ -15,9 +15,9 @@ Bg::~Bg()
 {
 }
 
-void Bg::Init()
+void Bg::Init(int defaultPos)
 {
-
+	scrollX_ = defaultPos;
 }
 
 void Bg::Update(Player& player,Camera& camera)

@@ -28,6 +28,11 @@ public:
 	void Update(Input&)override;
 	void Draw()override;
 private:
+	//ステージ切り替え関数
+	void ChangeStage(int stageNo);
+	//現在のステージナンバー
+	int nowStageNo_;
+
 	//フェードインアウト用
 	int frame_ = 0;
 	//ゲーム中のフレームをカウント

@@ -44,10 +44,12 @@ draw_(&GameScene::FadeDraw)
 	//フェード用のフレームを初期化
 	frame_ = fade_interval;
 
+	nowStageNo_ = 1;
 	//ステージデータのロード
 	stage_ = std::make_unique<Stage>();
-	stage_->Load(1);
 	stage_->Init(graphHandle_, 16, 16);
+	stage_->Load(nowStageNo_);
+
 	//プレイヤー生成
 	player_ = std::make_shared<Player>(graphHandle_);
 
@@ -279,8 +281,17 @@ void GameScene::FadeOutUpdate(Input&)
 		}
 		else
 		{
-			controller_.ChangeScene(std::make_shared<ClearScene>(controller_));
-			return;
+			if (nowStageNo_ == 1)
+			{
+				nowStageNo_++;
+				ChangeStage(nowStageNo_);
+				return;
+			}
+			if (nowStageNo_ == 2)
+			{
+				controller_.ChangeScene(std::make_shared<ClearScene>(controller_));
+				return;
+			}
 		}
 	}
 }
@@ -370,8 +381,8 @@ void GameScene::NormalDraw()
 
 #ifdef _DEBUG
 	DrawString(64, 64, "GameScene", 0xffffff);
+	DrawFormatString(80, 80, 0xffffff, "stageNo:%d", nowStageNo_);
 #endif // _DEBUG
-
 }
 
 void GameScene::Update(Input& input)
@@ -384,4 +395,34 @@ void GameScene::Draw()
 {
 	//現在のDrawを実行
 	(this->*draw_)();
+}
+
+void GameScene::ChangeStage(int stageNo)
+{
+	stage_->Init(graphHandle_, 16, 16);
+	stage_->Load(stageNo);
+
+	//エネミーの配置をクリアする
+	enemies_.clear();
+	assert(enemies_.empty() == true);
+
+	const auto& spawns = stage_->GetEnemySpawns();
+
+	for (const auto spawn : spawns)
+	{
+		if (spawn.type == 18)
+		{
+			enemies_.push_back(std::make_shared<WalkEnemy>(spawn.pos, graphHandle_, player_, effectManager_));
+		}
+		else if (spawn.type == 27)
+		{
+			enemies_.push_back(std::make_shared<FlyEnemy>(spawn.pos, graphHandle_, player_, effectManager_));
+		}
+	}
+
+	player_->Init();
+	camera_->Init();
+	bg_->Init((camera_->GetPosition().x - Application::GetInstance().GetWindowSize().w * 0.5f) * 0.5f);
+	update_ = &GameScene::FadeInUpdate;
+	draw_ = &GameScene::FadeDraw;
 }

@@ -20,7 +20,7 @@ namespace
 	constexpr int kInvincibleTime = 45;
 	constexpr int kInvincibleFlashingInterval = 4;
 	constexpr int kDefaultHp = 3;
-	constexpr Vector2 kStartPosition = { 640,752 };
+	constexpr Vector2 kStartPosition = { 640,751 };
 	constexpr int kCeiling = 305;
 	constexpr int kLeftLimit = 120;
 	constexpr int kRightLimit = 7120;
@@ -60,6 +60,12 @@ Player::~Player()
 
 void Player::Init()
 {
+	position_ = kStartPosition;
+	state_ = std::make_unique<PlayerState::IdleState>();
+	mouthState_ = MouthState::empty;
+	graphCutNo_ = PlayerGraphCutNo::mouthClosed;
+	velocity_ = { 0.0f,0.0f };
+	isRight_ = true;
 }
 
 void Player::Update()

@@ -23,6 +23,7 @@ Camera::~Camera()
 }
 void Camera::Init()
 {
+	position_ = kDefaultPosition;
 }
 void Camera::SetTarget(const Vector2& pos)
 {

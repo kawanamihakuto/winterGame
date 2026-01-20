@@ -42,6 +42,7 @@ bool Stage::LoadCsv(const std::string& path)
     //以前のステージデータを破棄
     data_.clear();
     enemySpawns_.clear();
+    assert(enemySpawns_.empty() == true);
     size_ = { 0, 0 };
     width_ = 0;
     height_ = 0;

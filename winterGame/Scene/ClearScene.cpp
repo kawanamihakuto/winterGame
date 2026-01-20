@@ -103,11 +103,14 @@ void ClearScene::NormalUpdate(Input& input)
 		}
 	}
 
-	if (input.IsTriggered("ok"))
+	if (pressStartWaitingCount_ >= 350)
 	{
-		update_ = &ClearScene::FadeOutUpdate;
-		draw_ = &ClearScene::FadeDraw;
-		return;
+		if (input.IsTriggered("ok"))
+		{
+			update_ = &ClearScene::FadeOutUpdate;
+			draw_ = &ClearScene::FadeDraw;
+			return;
+		}
 	}
 }
 
