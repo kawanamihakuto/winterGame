@@ -53,5 +53,7 @@ private:
 	int pressStartGraphHandle_;
 	//PressStartを表示するまでの待機時間カウンター
 	int pressStartWaitingCount_;
+
+	int pressStartFadeCount_;
 };
 
