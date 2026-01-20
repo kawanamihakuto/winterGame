@@ -5,6 +5,7 @@
 #include"SceneController.h"
 #include"Application.h"
 #include<cassert>
+#include"ClearScene.h"
 constexpr int fade_interval = 60;
 
 void TitleScene::FadeInUpdate(Input&)
@@ -45,9 +46,9 @@ void TitleScene::NormalUpdate(Input& input)
 
 	if (input.IsTriggered("select"))
 	{
-
+		controller_.ChangeScene(std::make_shared<ClearScene>(controller_));
+		return;
 	}
-	
 }
 
 void TitleScene::FadeOutUpdate(Input&)
@@ -147,6 +148,7 @@ TitleScene::~TitleScene()
 	DeleteGraph(titleGraphHandle_);
 	DeleteGraph(pressStartGraphHandle_);
 	DeleteGraph(gameGraphHandle_);
+	DeleteGraph(bgHandle_);
 }
 
 void TitleScene::Update(Input& input)

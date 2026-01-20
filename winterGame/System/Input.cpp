@@ -26,7 +26,7 @@ Input::Input():
 	inputTable_["attack"] = { {PeripheralType::keyboard,KEY_INPUT_Z},
 							{PeripheralType::pad1,PAD_INPUT_A} };
 
-	inputTable_["select"] = {{PeripheralType::keyboard,KEY_INPUT_ESCAPE},
+	inputTable_["select"] = {{PeripheralType::keyboard,KEY_INPUT_P},
 		{PeripheralType::pad1,PAD_INPUT_L} };
 
 

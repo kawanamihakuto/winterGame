@@ -3,7 +3,8 @@
 #include"Input.h"
 #include"SceneController.h"
 #include"TitleScene.h"
-constexpr int kDefaultWindowWidth = 1080;//デフォルトウィンドウ幅
+#include"EffekseerForDXLib.h"
+constexpr int kDefaultWindowWidth = 1280;//デフォルトウィンドウ幅
 constexpr int kDefaultWindowHeight = 720;//デフォルトウィンドウ高さ
 constexpr int kDefaultColorBit = 32;//デフォルトカラービット
 
@@ -37,12 +38,41 @@ bool Application::Init()
 	{
 		return false;
 	}
+
+	SetDrawScreen(DX_SCREEN_BACK);
+
+
+	//DirectX11を使用する設定
+	//Effeksserを使用するには必ず設定する
+	SetUseDirect3DVersion(DX_DIRECT3D_11);
+
+	//Effeksserを初期化する
+	//引数は画面に表示する最大パーティクル数
+	if (Effkseer_Init(8000) == -1)
+	{
+		DxLib_End();
+		return -1;
+	}
+
+	//フルスクリーンウィンドウの切り替えでリソースが消えるのを防ぐ
+	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
+
+	// Effekseerに2D描画の設定をする。
+	Effekseer_Set2DSetting(windowSize_.w, windowSize_.h);
+
+	// Zバッファを有効にする。
+		// Effekseerを使用する場合、2DゲームでもZバッファを使用する。
+	SetUseZBuffer3D(TRUE);
+
+	// Zバッファへの書き込みを有効にする。
+	// Effekseerを使用する場合、2DゲームでもZバッファを使用する。
+	SetWriteZBuffer3D(TRUE);
+
 	return true;
 }
 
 void Application::Run()
 {
-	SetDrawScreen(DX_SCREEN_BACK);
 	Input input;//入力のためのオブジェクト
 	SceneController controller;//シーン遷移のためのオブジェクト
 	controller.ChangeScene(std::make_shared<TitleScene>(controller));
@@ -80,6 +110,7 @@ void Application::Run()
 
 void Application::Terminate()
 {
+	Effkseer_End();
 	DxLib_End();
 }
 
