@@ -13,7 +13,8 @@
 #include"Application.h"
 #include"HitStopState.h"
 #include"DeadAnimState.h"
-#include"../Item.h"
+#include"Item.h"
+#include"BossBattleState.h"
 
 namespace
 {
@@ -53,7 +54,8 @@ Player::Player(int graphHandle) :
 	isCollisionDoor_(false),
 	isDead_(false),
 	deadAnimAngleNum_(0.0),
-	stageNo_(1)
+	stageNo_(1),
+	size_(3.0)
 {
 	state_ = std::make_unique<PlayerState::IdleState>();
 }
@@ -64,7 +66,7 @@ Player::~Player()
 
 void Player::Init()
 {
-	
+
 }
 
 void Player::Init(int stageNo)
@@ -82,7 +84,7 @@ void Player::Init(int stageNo)
 	{
 		position_ = kStage3StartPosition;
 	}
-	
+
 	state_ = std::make_unique<PlayerState::IdleState>();
 	mouthState_ = MouthState::empty;
 	graphCutNo_ = PlayerGraphCutNo::mouthClosed;
@@ -93,7 +95,7 @@ void Player::Init(int stageNo)
 void Player::Update()
 {
 }
-void Player::Update(Input& input,Stage& stage)
+void Player::Update(Input& input, Stage& stage)
 {
 	isCollisionDoor_ = false;
 	isGenerateInhale_ = false;
@@ -142,7 +144,7 @@ void Player::Update(Input& input,Stage& stage)
 		ApplyMovementX();
 		ApplyMovementY();
 	}
-	
+
 	//ステージ1用の設定
 	if (stageNo_ == 1)
 	{
@@ -185,7 +187,7 @@ void Player::Update(Input& input,Stage& stage)
 		{
 			position_.x = kRightLimit;
 		}
-		else if(stageNo_ == 2)
+		else if (stageNo_ == 2)
 		{
 			position_.y = 2290;
 		}
@@ -200,7 +202,7 @@ void Player::Draw()
 void Player::Draw(Camera& camera)
 {
 	Vector2 screen = camera.WorldToScreen(position_);
-	
+
 	int srcX = PlayerConstant::kWidth * static_cast<int>(graphCutNo_);
 	int srcY = 0;
 
@@ -211,7 +213,7 @@ void Player::Draw(Camera& camera)
 			(int)screen.y - 5.0f,
 			srcX, srcY,
 			16, 16,
-			3.0,
+			size_,
 			deadAnimAngleNum_,
 			currentImage_,
 			TRUE,
@@ -230,7 +232,7 @@ void Player::Draw(Camera& camera)
 					(int)screen.y - 5.0f,
 					srcX, srcY,
 					16, 16,
-					3.0,
+					size_,
 					0.0,
 					currentImage_,
 					TRUE,
@@ -251,7 +253,7 @@ void Player::Draw(Camera& camera)
 				(int)screen.y - 5.0f,
 				srcX, srcY,
 				16, 16,
-				3.0,
+				size_,
 				0.0,
 				currentImage_,
 				TRUE,
@@ -271,9 +273,9 @@ void Player::Draw(Camera& camera)
 	//プレイヤーのHP表示
 	DrawFormatString(0, 0, 0xffffff, "%d", hp_);
 	DrawFormatString(16, 16, 0xffffff, "%f , %f", position_.x, position_.y);
-	DrawFormatString(16, 32, 0xffffff, "%d",isInvincible_);
-	DrawFormatString(16, 48, 0xffffff, "%f , %f",velocity_.x,position_.y);
-
+	DrawFormatString(16, 32, 0xffffff, "%d", isInvincible_);
+	DrawFormatString(16, 48, 0xffffff, "%f , %f", velocity_.x, position_.y);
+	DrawFormatString(16, 120, 0xffffff, "%f", size_);
 #endif // _DEBUG
 }
 
@@ -290,7 +292,7 @@ CollisionLayer Player::GetCollisionLayer() const
 CollisionLayer Player::GetHitMask() const
 {
 	return CollisionLayers::kEnemy |
-		CollisionLayers::kDoor|
+		CollisionLayers::kDoor |
 		CollisionLayers::kItem;
 }
 
@@ -324,12 +326,12 @@ void Player::OnCollision(GameObject& other)
 }
 
 bool Player::IsNockBackEnd()
-{ 
+{
 	if (nockBackTime_ >= PlayerConstant::kNockBackTimeMax)
 	{
 		nockBackTime_ = 0;
 		return true;
-	}	 
+	}
 	return false;
 }
 
@@ -343,6 +345,7 @@ void Player::OnGetItem(ItemType itemType)
 	if (itemType == ItemType::dragonFruit)
 	{
 		printfDx("アイテムを取得");
+		ChangeState(std::make_unique<PlayerState::BossBattleState>());
 	}
 }
 
@@ -364,8 +367,15 @@ void Player::Gravity()
 {
 	if (!isGround_)
 	{
-		//重力分下方向に力を加える
-		velocity_.y += PlayerConstant::kGravity;
+		if (state_->GetState() == PlayerStateType::BossBattle)
+		{
+
+		}
+		else
+		{
+			//重力分下方向に力を加える
+			velocity_.y += PlayerConstant::kGravity;
+		}
 	}
 }
 
@@ -389,7 +399,7 @@ void Player::ApplyMovementY()
 	position_.y += velocity_.y;
 }
 
-void Player::MapCollisionX(const Stage& stage,Rect tileRect)
+void Player::MapCollisionX(const Stage& stage, Rect tileRect)
 {
 	if (stage.IsCollision(rect_, tileRect))
 	{
@@ -403,7 +413,7 @@ void Player::MapCollisionX(const Stage& stage,Rect tileRect)
 		else if (velocity_.x < 0.0f)
 		{
 			// プレイヤーの左端をタイルの右端に合わせる
-			position_.x = tileRect.right_ + rect_.GetWidth() * 0.5f+0.01f;
+			position_.x = tileRect.right_ + rect_.GetWidth() * 0.5f + 0.01f;
 		}
 
 		// 壁に当たったのでX速度はゼロ
@@ -419,8 +429,8 @@ void Player::MapCollisionX(const Stage& stage,Rect tileRect)
 	}
 }
 
-void Player::MapCollisionY(const Stage& stage,Rect tileRect)
-{	
+void Player::MapCollisionY(const Stage& stage, Rect tileRect)
+{
 	if (stage.IsCollision(rect_, tileRect))
 	{
 		// 落下中（床）
@@ -439,7 +449,7 @@ void Player::MapCollisionY(const Stage& stage,Rect tileRect)
 		else if (velocity_.y < 0.0f)
 		{
 			// プレイヤーの頭を天井の下に合わせる
-			position_.y = tileRect.bottom_ + rect_.GetHeight() * 0.5f+0.01f;
+			position_.y = tileRect.bottom_ + rect_.GetHeight() * 0.5f + 0.01f;
 
 			// 上方向速度を止める
 			velocity_.y = 0.0f;

@@ -18,7 +18,16 @@ namespace
 	constexpr float kInhaleLerpT = 0.05f;
 }
 
-EnemyBase::EnemyBase(const int hp, const Vector2 vel, const Vector2 pos,const int handle, std::shared_ptr<Player>player, bool isPlayerOnRight, int nockBackTime,EnemyType enemyType,std::shared_ptr<EffectManager> effectManager,bool isRight) :GameObject(pos),
+EnemyBase::EnemyBase(const int hp,
+	const Vector2 vel,
+	const Vector2 pos,
+	const int handle,
+	std::shared_ptr<Player>player,
+	bool isPlayerOnRight,
+	int nockBackTime,
+	EnemyType enemyType,
+	std::shared_ptr<EffectManager> effectManager,
+	bool isRight) :GameObject(pos),
 hp_(hp),
 velocity_(vel),
 isDead_(false),

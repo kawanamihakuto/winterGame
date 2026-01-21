@@ -20,7 +20,7 @@
 #include"UI/UIFrame.h"
 #include"Bg.h"
 #include"EffectManager.h"
-#include"../Item.h"
+#include"Item.h"
 #include"../BossItem.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
@@ -487,7 +487,7 @@ void GameScene::ChangeStage(int stageNo)
 	door_->Init(stageNo);
 	if (stageNo == 3)
 	{
-		items_.push_back(std::make_shared<BossItem>(player_, Vector2{ 1200,749 }, itemGraphHandle_));
+		items_.push_back(std::make_shared<BossItem>(player_, Vector2{ 1800,600 }, itemGraphHandle_));
 	}
 	update_ = &GameScene::FadeInUpdate;
 	draw_ = &GameScene::FadeDraw;

@@ -1,4 +1,23 @@
 #pragma once
+
+
+enum class PlayerStateType
+{
+	Idle,
+	Move,
+	Jump,
+	BossBattle,
+	Swallow,
+	Spit,
+	None,
+	Inhale,
+	InhaleHold,
+	Hovering,
+	Hit,
+	HitStop,
+	DeadAnim
+};
+
 class Player;
 class Input;
 /// <summary>
@@ -24,5 +43,10 @@ public:
 	/// </summary>
 	/// <param name="player">プレイヤーの参照</param>
 	virtual void Exit(Player& player) = 0;
+	/// <summary>
+	/// 現在のステートを取得する関数
+	/// </summary>
+	/// <returns>現在のステート</returns>
+	virtual PlayerStateType GetState() const = 0;
 };
 

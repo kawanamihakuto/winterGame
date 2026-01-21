@@ -172,6 +172,10 @@ public:
 	int GetMaxHp();
 
 	void OnGetItem(ItemType itemType);
+	//プレイヤーの拡大倍率のセッター
+	void SetSize(double size) { size_ = size; }
+
+	void OnInvincible() { isInvincible_ = true; }
 
 	/// <summary>
 	/// ステート切り替えの関数
@@ -248,6 +252,8 @@ private:
 	bool isDead_;
 	//死亡演出の回転値
 	double deadAnimAngleNum_;
-
+	//現在のステージナンバー
 	int stageNo_;
+	//プレイヤーの現在の拡大倍率
+	double size_;
 };
