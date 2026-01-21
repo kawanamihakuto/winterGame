@@ -20,6 +20,8 @@
 #include"UI/UIFrame.h"
 #include"Bg.h"
 #include"EffectManager.h"
+#include"../Item.h"
+#include"../BossItem.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -40,6 +42,8 @@ draw_(&GameScene::FadeDraw)
 	assert(cloudGraphHandle_ > -1);
 	sunGraphHandle_ = LoadGraph("data/SunBg.png");
 	assert(sunGraphHandle_ > -1);
+	itemGraphHandle_ = LoadGraph("data/Item.png");
+	assert(itemGraphHandle_ > -1);
 
 	//フェード用のフレームを初期化
 	frame_ = fade_interval;
@@ -61,11 +65,11 @@ draw_(&GameScene::FadeDraw)
 	{
 		if (spawn.type == 18)
 		{
-			enemies_.push_back(std::make_shared<WalkEnemy>(spawn.pos, graphHandle_, player_, effectManager_));
+			enemies_.push_back(std::make_shared<WalkEnemy>(spawn.pos, graphHandle_, player_, effectManager_,spawn.isRight));
 		}
 		else if (spawn.type == 27)
 		{
-			enemies_.push_back(std::make_shared<FlyEnemy>(spawn.pos, graphHandle_, player_, effectManager_));
+			enemies_.push_back(std::make_shared<FlyEnemy>(spawn.pos, graphHandle_, player_, effectManager_,spawn.isRight));
 		}
 	}
 
@@ -136,6 +140,11 @@ void GameScene::NormalUpdate(Input& input)
 		}
 
 		door_->Update();
+
+		for (auto item : items_)
+		{
+			item->Update();
+		}
 
 		bg_->Update(*player_,*camera_);
 
@@ -217,6 +226,11 @@ void GameScene::NormalUpdate(Input& input)
 
 	collisionManager_.Add(*door_);
 
+	for (auto item : items_)
+	{
+		collisionManager_.Add(*item);
+	}
+
 	//登録されたすべてのオブジェクトの当たり判定を行う
 	collisionManager_.CheckAll();
 
@@ -246,6 +260,16 @@ void GameScene::NormalUpdate(Input& input)
 		});
 	shots_.erase(newShotEnd, shots_.end());
 
+	//アイテムの削除
+	auto newItemEnd = std::remove_if(
+		items_.begin(),
+		items_.end(),
+		[](const std::shared_ptr<Item>& item)
+		{
+			return !item->GetIsActive();
+		});
+	items_.erase(newItemEnd, items_.end());
+
 	//吸い込みオブジェクトの削除
 	if (player_->GetDeleteInhale())
 	{
@@ -268,6 +292,24 @@ void GameScene::NormalUpdate(Input& input)
 		update_ = &GameScene::FadeOutUpdate;
 		draw_ = &GameScene::FadeDraw;
 	}
+
+#ifdef _DEBUG
+	if (CheckHitKey(KEY_INPUT_1))
+	{
+		nowStageNo_ = 1;
+		ChangeStage(nowStageNo_);
+	}
+	else if (CheckHitKey(KEY_INPUT_2))
+	{
+		nowStageNo_ = 2;
+		ChangeStage(nowStageNo_);
+	}
+	else if (CheckHitKey(KEY_INPUT_3))
+	{
+		nowStageNo_ = 3;
+		ChangeStage(nowStageNo_);
+	}
+#endif // _DEBUG
 }
 
 void GameScene::FadeOutUpdate(Input&)
@@ -288,7 +330,13 @@ void GameScene::FadeOutUpdate(Input&)
 				ChangeStage(nowStageNo_);
 				return;
 			}
-			if (nowStageNo_ == 2)
+			else if (nowStageNo_ == 2)
+			{
+				nowStageNo_++;
+				ChangeStage(nowStageNo_);
+				return;
+			}
+			else if (nowStageNo_ == 3)
 			{
 				controller_.ChangeScene(std::make_shared<ClearScene>(controller_));
 				return;
@@ -330,6 +378,13 @@ void GameScene::FadeDraw()
 	{
 		shot->Draw(*camera_);
 	}
+
+	//アイテム
+	for (auto item : items_)
+	{
+		item->Draw(*camera_);
+	}
+
 
 	effectManager_->Draw(*camera_);
 
@@ -374,6 +429,11 @@ void GameScene::NormalDraw()
 	{
 		shot->Draw(*camera_);
 	}
+	//アイテム
+	for (auto item : items_)
+	{
+		item->Draw(*camera_);
+	}
 
 	effectManager_->Draw(*camera_);
 
@@ -413,17 +473,22 @@ void GameScene::ChangeStage(int stageNo)
 	{
 		if (spawn.type == 18)
 		{
-			enemies_.push_back(std::make_shared<WalkEnemy>(spawn.pos, graphHandle_, player_, effectManager_));
+			enemies_.push_back(std::make_shared<WalkEnemy>(spawn.pos, graphHandle_, player_, effectManager_,spawn.isRight));
 		}
 		else if (spawn.type == 27)
 		{
-			enemies_.push_back(std::make_shared<FlyEnemy>(spawn.pos, graphHandle_, player_, effectManager_));
+			enemies_.push_back(std::make_shared<FlyEnemy>(spawn.pos, graphHandle_, player_, effectManager_,spawn.isRight));
 		}
 	}
 
 	player_->Init(stageNo);
 	camera_->Init(stageNo);
 	bg_->Init((camera_->GetPosition().x - Application::GetInstance().GetWindowSize().w * 0.5f) * 0.5f);
+	door_->Init(stageNo);
+	if (stageNo == 3)
+	{
+		items_.push_back(std::make_shared<BossItem>(player_, Vector2{ 1200,749 }, itemGraphHandle_));
+	}
 	update_ = &GameScene::FadeInUpdate;
 	draw_ = &GameScene::FadeDraw;
 }

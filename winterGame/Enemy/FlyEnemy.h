@@ -4,7 +4,7 @@ class Stage;
 class FlyEnemy :public EnemyBase
 {
 public:
-	FlyEnemy(Vector2 pos, int graphHandle, std::shared_ptr<Player>player,std::shared_ptr<EffectManager>effectManager);
+	FlyEnemy(Vector2 pos, int graphHandle, std::shared_ptr<Player>player,std::shared_ptr<EffectManager>effectManager,bool isRight);
 	~FlyEnemy();
 	void Init()override;
 	void Update() override;

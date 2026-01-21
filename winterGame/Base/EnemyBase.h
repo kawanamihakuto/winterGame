@@ -32,7 +32,7 @@ public:
 
 	std::unique_ptr<EnemyStateBase>state_;
 
-	EnemyBase(const int hp, const Vector2 vel, const Vector2 pos,const int handle , std::shared_ptr<Player>player, bool isPlayerOnRight,int nockBackTime,EnemyType enemyType,std::shared_ptr<EffectManager> effectManager);
+	EnemyBase(const int hp, const Vector2 vel, const Vector2 pos,const int handle , std::shared_ptr<Player>player, bool isPlayerOnRight,int nockBackTime,EnemyType enemyType,std::shared_ptr<EffectManager> effectManager,bool isRight);
 	virtual~EnemyBase();
 	virtual void Init()override = 0;
 	virtual void Update()override = 0;

@@ -18,7 +18,7 @@ namespace
 	constexpr float kInhaleLerpT = 0.05f;
 }
 
-EnemyBase::EnemyBase(const int hp, const Vector2 vel, const Vector2 pos,const int handle, std::shared_ptr<Player>player, bool isPlayerOnRight, int nockBackTime,EnemyType enemyType,std::shared_ptr<EffectManager> effectManager) :GameObject(pos),
+EnemyBase::EnemyBase(const int hp, const Vector2 vel, const Vector2 pos,const int handle, std::shared_ptr<Player>player, bool isPlayerOnRight, int nockBackTime,EnemyType enemyType,std::shared_ptr<EffectManager> effectManager,bool isRight) :GameObject(pos),
 hp_(hp),
 velocity_(vel),
 isDead_(false),
@@ -30,7 +30,7 @@ graphCutNo_(0),
 isAlive_(true),
 isInhaled_(false),
 enemyType_(enemyType),
-isRight_(false),
+isRight_(isRight),
 counter_(0),
 effectManager_(effectManager)
 { 
@@ -144,7 +144,14 @@ void Move::Update(EnemyBase& enemy)
 		enemy.SetVelocity(vel);
 		break;
 	case EnemyType::fly:
-		vel.x -= kSpeed;
+		if (enemy.GetIsRight())
+		{
+			vel.x += kSpeed;
+		}
+		else
+		{
+			vel.x -= kSpeed;
+		}
 
 		if (vel.x >= kMaxSpeed)
 		{

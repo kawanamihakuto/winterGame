@@ -67,16 +67,31 @@ bool Stage::LoadCsv(const std::string& path)
         while (std::getline(ss, cell, ','))
         {
             int chip = std::stoi(cell);
-
+			//左向きのWalkEnemyスポーン
             if (chip == 18)
             {
-                EnemySpawn enemySpawn = { 18,Vector2{ static_cast<float>(x * kTileWorldSize) ,static_cast<float>(height_ * kTileWorldSize) } };
+                EnemySpawn enemySpawn = { 18,Vector2{ static_cast<float>(x * kTileWorldSize) ,static_cast<float>(height_ * kTileWorldSize) } ,false};
                 enemySpawns_.push_back(enemySpawn);
                 data_.push_back(static_cast < uint16_t>(0));
             }
+			//右向きのWalkEnemyスポーン
+            else if (chip == 19)
+            {
+                EnemySpawn enemySpawn = { 18,Vector2{ static_cast<float>(x * kTileWorldSize) ,static_cast<float>(height_ * kTileWorldSize) } ,true };
+                enemySpawns_.push_back(enemySpawn);
+                data_.push_back(static_cast <uint16_t>(0));
+            }
+            //左向きのFlyEnemyスポーン
             else if (chip == 27)
             {
-                EnemySpawn enemySpawn = { 27,Vector2{ static_cast<float>(x * kTileWorldSize) ,static_cast<float>(height_ * kTileWorldSize) } };
+                EnemySpawn enemySpawn = { 27,Vector2{ static_cast<float>(x * kTileWorldSize) ,static_cast<float>(height_ * kTileWorldSize) } ,false};
+                enemySpawns_.push_back(enemySpawn);
+                data_.push_back(static_cast <uint16_t>(0));
+            }
+			//右向きのFlyEnemyスポーン
+            else if (chip == 28)
+            {
+                EnemySpawn enemySpawn = { 27,Vector2{ static_cast<float>(x * kTileWorldSize) ,static_cast<float>(height_ * kTileWorldSize) } ,true };
                 enemySpawns_.push_back(enemySpawn);
                 data_.push_back(static_cast <uint16_t>(0));
             }

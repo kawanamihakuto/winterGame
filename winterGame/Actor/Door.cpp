@@ -7,6 +7,9 @@ namespace
 	constexpr int kHeight = 32;
 
 	constexpr int kSize = 3;
+
+	constexpr Vector2 kStage1Position = { 6800,720 };
+	constexpr Vector2 kStage2Position = { 150,2305 };
 }
 
 
@@ -22,6 +25,18 @@ Door::~Door()
 
 void Door::Init()
 {
+}
+
+void Door::Init(int stageNo)
+{
+	if (stageNo == 1)
+	{
+		position_ = kStage1Position;
+	}
+	else if (stageNo == 2)
+	{
+		position_ = kStage2Position;
+	}
 }
 
 void Door::Update()

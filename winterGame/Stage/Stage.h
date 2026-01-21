@@ -10,6 +10,7 @@ struct EnemySpawn
 {
 	int type;
 	Vector2 pos;
+	bool isRight;
 };
 
 /// <summary>

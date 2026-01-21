@@ -1,6 +1,7 @@
 #pragma once
 #include "Base/GameObject.h"
 #include<memory>
+#include"Item.h"
 class StateBase;
 class Player;
 class Input;
@@ -169,6 +170,8 @@ public:
 	void SetDeadAnimAngle(double num) { deadAnimAngleNum_ = num; }
 
 	int GetMaxHp();
+
+	void OnGetItem(ItemType itemType);
 
 	/// <summary>
 	/// ステート切り替えの関数

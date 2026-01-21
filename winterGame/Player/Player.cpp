@@ -13,6 +13,7 @@
 #include"Application.h"
 #include"HitStopState.h"
 #include"DeadAnimState.h"
+#include"../Item.h"
 
 namespace
 {
@@ -20,7 +21,9 @@ namespace
 	constexpr int kInvincibleTime = 45;
 	constexpr int kInvincibleFlashingInterval = 4;
 	constexpr int kDefaultHp = 3;
-	constexpr Vector2 kStartPosition = { 640,751 };
+	constexpr Vector2 kStage1StartPosition = { 640,751 };
+	constexpr Vector2 kStage2StartPosition = { 640,607.7 };
+	constexpr Vector2 kStage3StartPosition = { 640,751 };
 	constexpr int kCeiling = 305;
 	constexpr int kLeftLimit = 16;
 	constexpr int kRightLimit = 7171;
@@ -29,7 +32,7 @@ namespace
 
 Player::Player(int graphHandle) :
 	velocity_{ 0.0f,0.0f },
-	GameObject(kStartPosition),
+	GameObject(kStage1StartPosition),
 	isGround_(false),
 	currentImage_(graphHandle),
 	hp_(kDefaultHp),
@@ -61,18 +64,25 @@ Player::~Player()
 
 void Player::Init()
 {
-	position_ = kStartPosition;
-	state_ = std::make_unique<PlayerState::IdleState>();
-	mouthState_ = MouthState::empty;
-	graphCutNo_ = PlayerGraphCutNo::mouthClosed;
-	velocity_ = { 0.0f,0.0f };
-	isRight_ = true;
+	
 }
 
 void Player::Init(int stageNo)
 {
 	stageNo_ = stageNo;
-	position_ = kStartPosition;
+	if (stageNo_ == 1)
+	{
+		position_ = kStage1StartPosition;
+	}
+	else if (stageNo_ == 2)
+	{
+		position_ = kStage2StartPosition;
+	}
+	else if (stageNo_ == 3)
+	{
+		position_ = kStage3StartPosition;
+	}
+	
 	state_ = std::make_unique<PlayerState::IdleState>();
 	mouthState_ = MouthState::empty;
 	graphCutNo_ = PlayerGraphCutNo::mouthClosed;
@@ -171,7 +181,14 @@ void Player::Update(Input& input,Stage& stage)
 #ifdef _DEBUG
 	if (CheckHitKey(KEY_INPUT_D))
 	{
-		position_.x = kRightLimit;
+		if (stageNo_ == 1)
+		{
+			position_.x = kRightLimit;
+		}
+		else if(stageNo_ == 2)
+		{
+			position_.y = 2290;
+		}
 	}
 #endif // _DEBUG
 }
@@ -273,7 +290,8 @@ CollisionLayer Player::GetCollisionLayer() const
 CollisionLayer Player::GetHitMask() const
 {
 	return CollisionLayers::kEnemy |
-		CollisionLayers::kDoor;
+		CollisionLayers::kDoor|
+		CollisionLayers::kItem;
 }
 
 void Player::OnCollision(GameObject& other)
@@ -299,7 +317,6 @@ void Player::OnCollision(GameObject& other)
 		ChangeState(std::make_unique<PlayerState::HitState>());
 	}
 
-	
 	if (other.GetCollisionLayer() & CollisionLayers::kDoor)
 	{
 		isCollisionDoor_ = true;
@@ -319,6 +336,14 @@ bool Player::IsNockBackEnd()
 int Player::GetMaxHp()
 {
 	return kDefaultHp;
+}
+
+void Player::OnGetItem(ItemType itemType)
+{
+	if (itemType == ItemType::dragonFruit)
+	{
+		printfDx("ƒAƒCƒeƒ€‚ðŽæ“¾");
+	}
 }
 
 void Player::ChangeState(std::unique_ptr<StateBase> newState)

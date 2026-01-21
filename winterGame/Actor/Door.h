@@ -9,6 +9,7 @@ public:
 	virtual ~Door();
 
 	void Init()override;
+	void Init(int stageNo);
 	void Update()override;
 	void Draw()override;
 	void Draw(Camera& camera);

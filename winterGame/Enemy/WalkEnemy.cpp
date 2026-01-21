@@ -31,8 +31,8 @@ namespace
 }
 
 
-WalkEnemy::WalkEnemy(Vector2 pos,int graphHandle,std::shared_ptr<Player>player,std::shared_ptr<EffectManager>effectManager) :
-	EnemyBase(kHp,{0,0}, pos,graphHandle,player,false,0,EnemyType::walk,effectManager)
+WalkEnemy::WalkEnemy(Vector2 pos,int graphHandle,std::shared_ptr<Player>player,std::shared_ptr<EffectManager>effectManager, bool isRight) :
+	EnemyBase(kHp,{0,0}, pos,graphHandle,player,false,0,EnemyType::walk,effectManager,isRight)
 
 {
 	state_ = std::make_unique<Move>();
@@ -55,7 +55,10 @@ void WalkEnemy::Update()
 void WalkEnemy::Update(Stage& stage,Camera& camera)
 {
 	auto wsize = Application::GetInstance().GetWindowSize();
-	if (position_.x < camera.GetPosition().x - wsize.w / 2 - kWidth * kSize || position_.x >= camera.GetPosition().x + wsize.w / 2 + kWidth * kSize)
+	if (position_.x < camera.GetPosition().x - wsize.w / 2 - kWidth * kSize ||
+		position_.x >= camera.GetPosition().x + wsize.w / 2 + kWidth * kSize||
+		position_.y < camera.GetPosition().y - wsize.h / 2 - kHeight * kSize||
+		position_.y >= camera.GetPosition().y + wsize.h / 2 + kHeight * kSize)
 	{
 		return;
 	}

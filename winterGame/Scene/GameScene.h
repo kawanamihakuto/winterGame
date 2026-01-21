@@ -16,6 +16,7 @@ class PlayerHPUI;
 class UIFrame;
 class Bg;
 class EffectManager;
+class Item;
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -32,7 +33,6 @@ private:
 	void ChangeStage(int stageNo);
 	//現在のステージナンバー
 	int nowStageNo_;
-
 	//フェードインアウト用
 	int frame_ = 0;
 	//ゲーム中のフレームをカウント
@@ -46,7 +46,6 @@ private:
 	//Updateメンバ関数を代入できるメンバ関数ポインタ
 	using UpdateFunc_t = void(GameScene::*)(Input&);
 	UpdateFunc_t update_;
-
 	//フェードDraw
 	void FadeDraw();
 	//通常Draw
@@ -82,6 +81,8 @@ private:
 	std::shared_ptr<EffectManager>effectManager_;
 	//当たり判定を行うCollisionManager
 	CollisionManager collisionManager_;
+	//アイテムのポインタ
+	std::vector<std::shared_ptr<Item>>items_;
 	//プレイヤー、敵、地形の画像ハンドル
 	int graphHandle_;
 	//プレイヤーのHp画像ハンドル
@@ -94,4 +95,6 @@ private:
 	int cloudGraphHandle_;
 	//背景(太陽)の画像ハンドル
 	int sunGraphHandle_;
+	//アイテムの画像ハンドル
+	int itemGraphHandle_;
 };
