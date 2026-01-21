@@ -19,5 +19,6 @@ namespace CollisionLayers
 	constexpr CollisionLayer kInhaledPlayer = 1 << 4;
 	constexpr CollisionLayer kDoor = 1 << 5;
 	constexpr CollisionLayer kItem = 1 << 6;
+	constexpr CollisionLayer kBoss = 1 << 7;
 }
 

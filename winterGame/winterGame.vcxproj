@@ -150,10 +150,12 @@
     <ClCompile Include="Actor\Inhale.cpp" />
     <ClCompile Include="Bg.cpp" />
     <ClCompile Include="BossBase.cpp" />
+    <ClCompile Include="BossStateBase.cpp" />
     <ClCompile Include="PlayerState\BossBattleState.cpp" />
     <ClCompile Include="BossItem.cpp" />
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="Base\Item.cpp" />
+    <ClCompile Include="SunBoss.cpp" />
     <ClCompile Include="UI\PlayerHPUI.cpp" />
     <ClCompile Include="PlayerState\DeadAnimState.cpp" />
     <ClCompile Include="PlayerState\HitStopState.cpp" />
@@ -198,10 +200,12 @@
     <ClInclude Include="Base\EnemyBase.h" />
     <ClInclude Include="Bg.h" />
     <ClInclude Include="BossBase.h" />
+    <ClInclude Include="BossStateBase.h" />
     <ClInclude Include="PlayerState\BossBattleState.h" />
     <ClInclude Include="BossItem.h" />
     <ClInclude Include="EffectManager.h" />
     <ClInclude Include="Base\Item.h" />
+    <ClInclude Include="SunBoss.h" />
     <ClInclude Include="UI\PlayerHPUI.h" />
     <ClInclude Include="PlayerState\DeadAnimState.h" />
     <ClInclude Include="PlayerState\HitStopState.h" />
