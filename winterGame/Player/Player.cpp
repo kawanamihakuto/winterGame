@@ -55,7 +55,8 @@ Player::Player(int graphHandle) :
 	isDead_(false),
 	deadAnimAngleNum_(0.0),
 	stageNo_(1),
-	size_(3.0)
+	size_(3.0),
+	isStartBossBattle_(false)
 {
 	state_ = std::make_unique<PlayerState::IdleState>();
 }
@@ -346,6 +347,7 @@ void Player::OnGetItem(ItemType itemType)
 	{
 		printfDx("ƒAƒCƒeƒ€‚ðŽæ“¾");
 		ChangeState(std::make_unique<PlayerState::BossBattleState>());
+		isStartBossBattle_ = true;
 	}
 }
 

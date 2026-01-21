@@ -1,7 +1,12 @@
 #include "SunBoss.h"
-
-SunBoss::SunBoss(Vector2 pos) :BossBase(pos)
+#include"../BossState/BossStateBase.h"
+#include"BossState/BossIdleState.h"
+#include<DxLib.h>
+#include"Camera.h"
+SunBoss::SunBoss(Vector2 pos,int graphHandle) :BossBase(pos),
+graphHandle_(graphHandle)
 {
+	state_ = std::make_unique<BossIdleState>();
 }
 
 SunBoss::~SunBoss()
@@ -12,8 +17,17 @@ void SunBoss::Init()
 {
 }
 
+void SunBoss::Init(int stageNo)
+{
+}
+
 void SunBoss::Update()
 {
+	state_->Update(*this);
+
+	int srcX, srcY;
+	GetGraphSize(graphHandle_, &srcX, &srcY);
+	rect_.SetCenter(position_.x, position_.y, srcX, srcY);
 }
 
 void SunBoss::Draw()
@@ -22,11 +36,14 @@ void SunBoss::Draw()
 
 void SunBoss::Draw(Camera& camera)
 {
+	auto screen = camera.WorldToScreen(position_);
+	int srcX, srcY;
+	GetGraphSize(graphHandle_, &srcX, &srcY);
+	DrawRectRotaGraph(screen.x,screen.y, 0,0,srcX, srcY,1.0,0.0,graphHandle_,true,true);
 }
 
 void SunBoss::ChangeState(std::unique_ptr<BossStateBase> newState)
 {
-	//ƒvƒŒƒCƒ„[‚Ìó‘Ô‚ğØ‚è‘Ö‚¦‚éˆ—
 	if (state_ != newState)
 	{
 		//Œ»İ‚Ìó‘Ô‚ÌExit‚ğŒÄ‚Ô

@@ -7,7 +7,7 @@ class BossBase : public GameObject
 {
 public:
 	BossBase(Vector2 pos);
-	~BossBase();
+	virtual  ~BossBase();
 	void Init()override = 0;
 	virtual void Init(int stageNo) = 0;
 	void Update()override = 0;
@@ -23,16 +23,19 @@ public:
 	virtual void OnCollision(GameObject& other) override;
 
 	virtual void ChangeState(std::unique_ptr<BossStateBase> newState) = 0;
-private:
+
+	void SetVelocity(Vector2 vel) { velocity_ = vel; }
+	
+	Vector2 GetPosition() { return position_; }
+	void SetPosition(Vector2 pos) { position_ = pos; }
+
+protected:
 	//現在のステートを入れる変数
 	std::unique_ptr<BossStateBase>state_;
-
 	//体力
 	int hp_;
-
 	//移動速度
 	Vector2 velocity_;
-
 	//画像ハンドル
 	int graphHandle_;
 };

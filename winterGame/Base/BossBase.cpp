@@ -1,12 +1,11 @@
 #include "BossBase.h"
+#include"BossState/BossStateBase.h"
 #include "System/Geometry.h"
 BossBase::BossBase(Vector2 pos) : GameObject(pos)
 {
 }
 
-BossBase::~BossBase()
-{
-}
+BossBase::~BossBase() = default;
 
 Rect BossBase::GetColliderRect() const
 {

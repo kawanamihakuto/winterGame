@@ -22,6 +22,7 @@
 #include"EffectManager.h"
 #include"Item.h"
 #include"../BossItem.h"
+#include"SunBoss.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -44,6 +45,8 @@ draw_(&GameScene::FadeDraw)
 	assert(sunGraphHandle_ > -1);
 	itemGraphHandle_ = LoadGraph("data/Item.png");
 	assert(itemGraphHandle_ > -1);
+	sunBossGraphHandle_ = LoadGraph("data/SunBoss.png");
+	assert(sunBossGraphHandle_ > -1);
 
 	//フェード用のフレームを初期化
 	frame_ = fade_interval;
@@ -146,6 +149,11 @@ void GameScene::NormalUpdate(Input& input)
 			item->Update();
 		}
 
+		if (sunBoss_)
+		{
+			sunBoss_->Update();
+		}
+
 		bg_->Update(*player_,*camera_);
 
 		effectManager_->Update();
@@ -191,6 +199,12 @@ void GameScene::NormalUpdate(Input& input)
 			playerInhaledRect_->Init();
 		}
 	}
+
+	if (player_->GetStartBossBattle())
+	{
+		sunBoss_ = std::make_shared<SunBoss>(Vector2{2100,600}, sunBossGraphHandle_);
+	}
+
 	//-----------------------------
 	//オブジェクト同士の衝突判定
 	//-----------------------------
@@ -434,6 +448,13 @@ void GameScene::NormalDraw()
 	{
 		item->Draw(*camera_);
 	}
+
+	if (sunBoss_)
+	{
+		sunBoss_->Draw(*camera_);
+	}
+
+
 
 	effectManager_->Draw(*camera_);
 

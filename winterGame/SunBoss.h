@@ -3,13 +3,16 @@
 class SunBoss : public BossBase
 {
 public:
-	SunBoss(Vector2 pos);
+	SunBoss(Vector2 pos,int graphHandle);
 	~SunBoss();
-	void Init()override;
+	void Init();
+	void Init(int stageNo)override;
 	void Update() override;
 	void Draw() override;
 	void Draw(Camera& camera) override;
 
 	void ChangeState(std::unique_ptr<BossStateBase> newState)override;
+private:
+	int graphHandle_;
 };
 

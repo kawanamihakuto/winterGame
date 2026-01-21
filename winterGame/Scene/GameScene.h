@@ -17,6 +17,7 @@ class UIFrame;
 class Bg;
 class EffectManager;
 class Item;
+class SunBoss;
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -83,6 +84,9 @@ private:
 	CollisionManager collisionManager_;
 	//アイテムのポインタ
 	std::vector<std::shared_ptr<Item>>items_;
+	//太陽のボスのポインタ
+	std::shared_ptr<SunBoss>sunBoss_;
+
 	//プレイヤー、敵、地形の画像ハンドル
 	int graphHandle_;
 	//プレイヤーのHp画像ハンドル
@@ -97,4 +101,6 @@ private:
 	int sunGraphHandle_;
 	//アイテムの画像ハンドル
 	int itemGraphHandle_;
+	//太陽のボスの画像ハンドル
+	int sunBossGraphHandle_;
 };

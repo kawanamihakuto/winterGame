@@ -172,6 +172,9 @@ public:
 	int GetMaxHp();
 
 	void OnGetItem(ItemType itemType);
+	
+	bool GetStartBossBattle() { return isStartBossBattle_; }
+
 	//プレイヤーの拡大倍率のセッター
 	void SetSize(double size) { size_ = size; }
 
@@ -256,4 +259,6 @@ private:
 	int stageNo_;
 	//プレイヤーの現在の拡大倍率
 	double size_;
+
+	bool isStartBossBattle_;
 };
