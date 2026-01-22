@@ -219,7 +219,7 @@ void GameScene::NormalUpdate(Input& input)
 			playerInhaledRect_->Init();
 		}
 	}
-
+	//ƒ{ƒX¶¬
 	if (player_->GetStartBossBattle())
 	{
 		bosses_.push_back(std::make_shared<SunBoss>(Vector2{2000,600},sunBossGraphHandle_,player_));

@@ -1,7 +1,7 @@
 #include "BossBattleState.h"
 #include"Player.h"
 #include"Input.h"
-
+#include<memory>
 namespace
 {
 	constexpr float kSpeed = 3.0f;

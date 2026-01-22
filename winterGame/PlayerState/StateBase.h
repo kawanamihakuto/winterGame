@@ -15,7 +15,8 @@ enum class PlayerStateType
 	Hovering,
 	Hit,
 	HitStop,
-	DeadAnim
+	DeadAnim,
+	Movie
 };
 
 class Player;

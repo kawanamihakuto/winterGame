@@ -15,7 +15,6 @@
 #include"DeadAnimState.h"
 #include"Item.h"
 #include"BossBattleState.h"
-
 namespace
 {
 	constexpr int kInhaledRectWidth = 8;
@@ -116,7 +115,7 @@ void Player::Update(Input& input, Stage& stage)
 
 	if (!isDead_)
 	{
-		if (state_->GetState() == PlayerStateType::BossBattle)
+		if (state_->GetState() == PlayerStateType::BossBattle || state_->GetState() == PlayerStateType::Movie)
 		{
 			Rect tileRect;
 
