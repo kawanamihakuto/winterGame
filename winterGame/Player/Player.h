@@ -174,6 +174,7 @@ public:
 	void OnGetItem(ItemType itemType);
 	
 	bool GetStartBossBattle() { return isStartBossBattle_; }
+	bool SetStartBossBattle(bool isStart) { return isStartBossBattle_ = isStart; }
 
 	//プレイヤーの拡大倍率のセッター
 	void SetSize(double size) { size_ = size; }

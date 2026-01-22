@@ -6,8 +6,12 @@
 
 namespace
 {
+	//ステージ1のカメラ制限
 	constexpr float kCameraLeftLimit = 640.0f;
 	constexpr float kCameraRightLimit = 6550;
+
+	//ステージ2のカメラ制限
+	constexpr float kCameraTopLimit = 640.0f;
 
 	constexpr Vector2 kStage1DefaultPosition = { 640.0f,640.0f };
 	constexpr Vector2 kStage2DefaultPosition = { 640.0f,607.7f };
@@ -31,17 +35,17 @@ void Camera::Init()
 void Camera::Init(int stageNo)
 {
 	stageNo_ = stageNo;
-	if (stageNo_ == 1)
+	switch (stageNo_)
 	{
+	case 1:
 		position_ = kStage1DefaultPosition;
-	}
-	else if (stageNo_ == 2)
-	{
+		break;
+	case 2:
 		position_ = kStage2DefaultPosition;
-	}
-	else if (stageNo_ == 3)
-	{
+		break;
+	case 3:
 		position_ = kStage3DefaultPosition;
+		break;
 	}
 }
 void Camera::SetTarget(const Vector2& pos)
@@ -52,8 +56,9 @@ void Camera::SetTarget(const Vector2& pos)
 void Camera::Update()
 {
 	Lerp lerp;
-	if (stageNo_ == 1)
+	switch (stageNo_)
 	{
+	case 1:
 		position_.x = lerp.FLerp(position_.x, target_.x, 0.1f);
 
 		if (position_.x <= kCameraLeftLimit)
@@ -64,13 +69,16 @@ void Camera::Update()
 		{
 			position_.x = kCameraRightLimit;
 		}
-	}
-	else if (stageNo_ == 2)
-	{
+		break;
+	case 2:
 		position_.y = lerp.FLerp(position_.y, target_.y, 0.1f);
-	}
-	else if (stageNo_ == 3)
-	{
+
+		if (position_.y <= kStage2DefaultPosition.y)
+		{
+			position_.y = kStage2DefaultPosition.y;
+		}
+		break;
+	case 3:
 		position_.x = lerp.FLerp(position_.x, target_.x, 0.1f);
 
 		if (position_.x <= kCameraLeftLimit)
@@ -81,6 +89,7 @@ void Camera::Update()
 		{
 			position_.x = kCameraRightLimit;
 		}
+		break;
 	}
 }
 

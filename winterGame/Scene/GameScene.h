@@ -18,6 +18,7 @@ class Bg;
 class EffectManager;
 class Item;
 class SunBoss;
+class BossBase;
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -84,9 +85,8 @@ private:
 	CollisionManager collisionManager_;
 	//アイテムのポインタ
 	std::vector<std::shared_ptr<Item>>items_;
-	//太陽のボスのポインタ
-	std::shared_ptr<SunBoss>sunBoss_;
-
+	//ボスのポインタ配列
+	std::vector<std::shared_ptr<BossBase>>bosses_;
 	//プレイヤー、敵、地形の画像ハンドル
 	int graphHandle_;
 	//プレイヤーのHp画像ハンドル

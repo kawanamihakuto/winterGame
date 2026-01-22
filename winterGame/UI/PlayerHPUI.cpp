@@ -32,10 +32,10 @@ void PlayerHPUI::Draw(Player& player)
 
 	for (int i = 0; i < maxHp; i++)
 	{
-		DrawRectRotaGraph(wsize.w / 2 - 70 + i * 70, position_.y, 32, 0, 16, 16, 4, 0.0, graphHandle_, true);
+		DrawRectRotaGraph(wsize.w *0.12f - 70 + i * 70, position_.y, 32, 0, 16, 16, 4, 0.0, graphHandle_, true);
 		if (nowHp > i)
 		{
-			DrawRectRotaGraph(wsize.w / 2 - 70 + i*70,position_.y,0,0,16,16,4,0.0,graphHandle_,true);
+			DrawRectRotaGraph(wsize.w *0.12f - 70 + i*70,position_.y,0,0,16,16,4,0.0,graphHandle_,true);
 		}
 	}
 }

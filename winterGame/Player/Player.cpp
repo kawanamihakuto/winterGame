@@ -25,9 +25,15 @@ namespace
 	constexpr Vector2 kStage1StartPosition = { 640,751 };
 	constexpr Vector2 kStage2StartPosition = { 640,607.7 };
 	constexpr Vector2 kStage3StartPosition = { 640,751 };
+
+	//ステージ1用定数
 	constexpr int kCeiling = 305;
 	constexpr int kLeftLimit = 16;
 	constexpr int kRightLimit = 7171;
+
+	constexpr int kCeiling2 = 272;
+	constexpr int kRightLimit2 = 1262;
+
 }
 
 
@@ -145,10 +151,12 @@ void Player::Update(Input& input, Stage& stage)
 		ApplyMovementX();
 		ApplyMovementY();
 	}
-
+	//-------------------
 	//ステージ1用の設定
-	if (stageNo_ == 1)
+	//-------------------
+	switch (stageNo_)
 	{
+	case 1:
 		if (isDead_)
 		{
 			ApplyMovementX();
@@ -163,7 +171,6 @@ void Player::Update(Input& input, Stage& stage)
 				ChangeState(std::make_unique<PlayerState::DeadAnimState>());
 			}
 		}
-
 		//天井
 		if (position_.y <= kCeiling)
 		{
@@ -179,6 +186,36 @@ void Player::Update(Input& input, Stage& stage)
 		{
 			position_.x = kRightLimit;
 		}
+		break;
+	case 2:
+		//天井
+		if (position_.y <= kCeiling2)
+		{
+			position_.y = kCeiling2;
+		}
+		//ステージの左端
+		if (position_.x <= kLeftLimit)
+		{
+			position_.x = kLeftLimit;
+		}
+		//ステージの右端
+		if (position_.x >= kRightLimit2)
+		{
+			position_.x = kRightLimit2;
+		}
+		break;
+	case 3:
+		//天井
+		if (position_.y <= kCeiling)
+		{
+			position_.y = kCeiling;
+		}
+		//ステージの左端
+		if (position_.x <= kLeftLimit)
+		{
+			position_.x = kLeftLimit;
+		}
+		break;
 	}
 
 #ifdef _DEBUG

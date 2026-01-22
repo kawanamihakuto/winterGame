@@ -149,9 +149,9 @@ void GameScene::NormalUpdate(Input& input)
 			item->Update();
 		}
 
-		if (sunBoss_)
+		for (auto& boss : bosses_)
 		{
-			sunBoss_->Update();
+			boss->Update();
 		}
 
 		bg_->Update(*player_,*camera_);
@@ -202,7 +202,8 @@ void GameScene::NormalUpdate(Input& input)
 
 	if (player_->GetStartBossBattle())
 	{
-		sunBoss_ = std::make_shared<SunBoss>(Vector2{2100,600}, sunBossGraphHandle_);
+		bosses_.push_back(std::make_shared<SunBoss>(Vector2{2000,600},sunBossGraphHandle_));
+		player_->SetStartBossBattle(false);
 	}
 
 	//-----------------------------
@@ -243,6 +244,11 @@ void GameScene::NormalUpdate(Input& input)
 	for (auto item : items_)
 	{
 		collisionManager_.Add(*item);
+	}
+
+	for (auto boss : bosses_)
+	{
+		collisionManager_.Add(*boss);
 	}
 
 	//登録されたすべてのオブジェクトの当たり判定を行う
@@ -449,12 +455,10 @@ void GameScene::NormalDraw()
 		item->Draw(*camera_);
 	}
 
-	if (sunBoss_)
+	for (auto boss : bosses_)
 	{
-		sunBoss_->Draw(*camera_);
+		boss->Draw(*camera_);
 	}
-
-
 
 	effectManager_->Draw(*camera_);
 

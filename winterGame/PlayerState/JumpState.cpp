@@ -88,7 +88,7 @@ void PlayerState::JumpState::Update(Player& player, Input& input)
 		player.ChangeState(std::make_unique<MoveState>());
 	}
 
-	if (input.IsPressed("attack"))
+	if (input.IsTriggered("attack"))
 	{
 		player.ChangeState(std::make_unique<InhaleState>());
 	}

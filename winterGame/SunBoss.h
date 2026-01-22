@@ -11,8 +11,7 @@ public:
 	void Draw() override;
 	void Draw(Camera& camera) override;
 
-	void ChangeState(std::unique_ptr<BossStateBase> newState)override;
+	void ChangeState(std::unique_ptr<BossState::BossStateBase> newState)override;
 private:
-	int graphHandle_;
 };
 

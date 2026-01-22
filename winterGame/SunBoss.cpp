@@ -3,10 +3,10 @@
 #include"BossState/BossIdleState.h"
 #include<DxLib.h>
 #include"Camera.h"
-SunBoss::SunBoss(Vector2 pos,int graphHandle) :BossBase(pos),
-graphHandle_(graphHandle)
+SunBoss::SunBoss(Vector2 pos,int graphHandle) :BossBase(pos ,graphHandle)
 {
-	state_ = std::make_unique<BossIdleState>();
+	state_ = std::make_unique<BossState::BossIdleState>();
+	state_->Enter(*this);
 }
 
 SunBoss::~SunBoss()
@@ -40,9 +40,20 @@ void SunBoss::Draw(Camera& camera)
 	int srcX, srcY;
 	GetGraphSize(graphHandle_, &srcX, &srcY);
 	DrawRectRotaGraph(screen.x,screen.y, 0,0,srcX, srcY,1.0,0.0,graphHandle_,true,true);
+
+#ifdef _DEBUG
+	//“–‚½‚è”»’è•\Ž¦
+	Rect drawRect = rect_;
+	drawRect.SetCenter(screen.x, screen.y,
+		srcX,
+		srcY);
+	drawRect.Draw(0xff00ff, false);
+
+	DrawFormatString(100, 200, 0xffffff,"BossPosition : %f , %f",position_.x,position_.y);
+#endif // _DEBUG
 }
 
-void SunBoss::ChangeState(std::unique_ptr<BossStateBase> newState)
+void SunBoss::ChangeState(std::unique_ptr<BossState::BossStateBase> newState)
 {
 	if (state_ != newState)
 	{

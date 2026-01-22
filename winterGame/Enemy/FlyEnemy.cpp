@@ -43,7 +43,10 @@ void FlyEnemy::Update()
 void FlyEnemy::Update(Stage& stage,Camera& camera)
 {
 	auto wsize = Application::GetInstance().GetWindowSize();
-	if (position_.x < camera.GetPosition().x - wsize.w / 2 - kWidth * kSize|| position_.x >= camera.GetPosition().x + wsize.w / 2 + kWidth * kSize)
+	if (position_.x < camera.GetPosition().x - wsize.w / 2 - kWidth * kSize ||
+		position_.x >= camera.GetPosition().x + wsize.w / 2 + kWidth * kSize ||
+		position_.y < camera.GetPosition().y - wsize.h / 2 - kHeight * kSize ||
+		position_.y >= camera.GetPosition().y + wsize.h / 2 + kHeight * kSize)
 	{
 		return;
 	}

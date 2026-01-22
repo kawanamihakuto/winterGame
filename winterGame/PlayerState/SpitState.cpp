@@ -18,11 +18,14 @@ void PlayerState::SpitState::Enter(Player& player)
 void PlayerState::SpitState::Update(Player& player, Input& input)
 {
 	count_++;
-	if (count_ >= kSpitRecoveryCount || player.GetIsGround())
+	if (count_ >= kSpitRecoveryCount)
 	{
 		player.ChangeState(std::make_unique<IdleState>());
 	}
-	
+	else if (player.GetIsGround() && count_ >= kSpitRecoveryCount - 20)
+	{
+		player.ChangeState(std::make_unique<IdleState>());
+	}
 }
 
 void PlayerState::SpitState::Exit(Player& player)

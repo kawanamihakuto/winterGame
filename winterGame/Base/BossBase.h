@@ -1,12 +1,13 @@
 #pragma once
 #include "GameObject.h"
+#include"BossState/BossStateBase.h"
 #include<memory>
 class Camera;
 class BossStateBase;
 class BossBase : public GameObject
 {
 public:
-	BossBase(Vector2 pos);
+	BossBase(Vector2 pos,int graphHandle);
 	virtual  ~BossBase();
 	void Init()override = 0;
 	virtual void Init(int stageNo) = 0;
@@ -22,7 +23,7 @@ public:
 	//当たった時の処理を行う関数
 	virtual void OnCollision(GameObject& other) override;
 
-	virtual void ChangeState(std::unique_ptr<BossStateBase> newState) = 0;
+	virtual void ChangeState(std::unique_ptr<BossState::BossStateBase> newState) = 0;
 
 	void SetVelocity(Vector2 vel) { velocity_ = vel; }
 	
@@ -31,7 +32,7 @@ public:
 
 protected:
 	//現在のステートを入れる変数
-	std::unique_ptr<BossStateBase>state_;
+	std::unique_ptr<BossState::BossStateBase>state_;
 	//体力
 	int hp_;
 	//移動速度

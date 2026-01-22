@@ -38,12 +38,18 @@ CollisionLayer Shot::GetCollisionLayer() const
 
 CollisionLayer Shot::GetHitMask() const
 {
-	return CollisionLayers::kEnemy;
+	return CollisionLayers::kEnemy|
+		CollisionLayers::kBoss;
 }
 
 void Shot::OnCollision(GameObject& other)
 {
 	if (other.GetCollisionLayer() & CollisionLayers::kEnemy)
+	{
+		isActive_ = false;
+	}
+
+	if (other.GetCollisionLayer() & CollisionLayers::kBoss)
 	{
 		isActive_ = false;
 	}

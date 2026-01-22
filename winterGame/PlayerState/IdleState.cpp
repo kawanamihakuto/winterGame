@@ -23,9 +23,6 @@ void PlayerState::IdleState::Enter(Player& player)
 		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthFull);
 		break;
 	}
-
-	// velocity‚ð0‚É‚·‚é
-	player.SetVelocity({ 0.0f,0.0f });
 }
 
 void PlayerState::IdleState::Update(Player& player, Input& input)
