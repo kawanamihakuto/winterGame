@@ -24,6 +24,7 @@
 #include"../BossItem.h"
 #include"SunBoss.h"
 #include"BossHPUI.h"
+#include"BossBullet.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -168,6 +169,11 @@ void GameScene::NormalUpdate(Input& input)
 			boss->Update();
 		}
 
+		for (auto bossBullet : bossBullets_)
+		{
+			bossBullet->Update(*camera_);
+		}
+
 		bg_->Update(*player_,*camera_);
 
 		effectManager_->Update();
@@ -181,11 +187,11 @@ void GameScene::NormalUpdate(Input& input)
 		{
 		case StarOrAir::star:
 			//星弾を生成
-			shots_.push_back(std::make_shared<StarShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_));
+			shots_.push_back(std::make_shared<StarShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_,effectManager_));
 			break;
 		case StarOrAir::air:
 			//空気弾を生成
-			shots_.push_back(std::make_shared<AirShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_));
+			shots_.push_back(std::make_shared<AirShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_,effectManager_));
 			break;
 		}
 		//リクエスト返却
@@ -216,8 +222,18 @@ void GameScene::NormalUpdate(Input& input)
 
 	if (player_->GetStartBossBattle())
 	{
-		bosses_.push_back(std::make_shared<SunBoss>(Vector2{2000,600},sunBossGraphHandle_));
+		bosses_.push_back(std::make_shared<SunBoss>(Vector2{2000,600},sunBossGraphHandle_,player_));
 		player_->SetStartBossBattle(false);
+	}
+
+	for (auto boss : bosses_)
+	{
+		if (boss->GetShotFlag())
+		{
+			bossBullets_.push_back(std::make_shared<BossBullet>(boss->GetPosition(), player_->GetPosition(), sunBossGraphHandle_));
+			bossBullets_.back()->Init();
+			boss->ResetShotFlag();
+		}
 	}
 
 	//-----------------------------
@@ -265,6 +281,11 @@ void GameScene::NormalUpdate(Input& input)
 		collisionManager_.Add(*boss);
 	}
 
+	for (auto bossBullet : bossBullets_)
+	{
+		collisionManager_.Add(*bossBullet);
+	}
+
 	//登録されたすべてのオブジェクトの当たり判定を行う
 	collisionManager_.CheckAll();
 
@@ -303,6 +324,25 @@ void GameScene::NormalUpdate(Input& input)
 			return !item->GetIsActive();
 		});
 	items_.erase(newItemEnd, items_.end());
+
+	//ボスの削除
+	auto newbossEnd = std::remove_if(
+		bosses_.begin(),
+		bosses_.end(),
+		[](const std::shared_ptr<BossBase>& boss)
+		{
+			return !boss->GetIsActive();
+		});
+	bosses_.erase(newbossEnd, bosses_.end());
+	//ボスの弾の削除
+	auto newBossBulletEnd = std::remove_if(
+		bossBullets_.begin(),
+		bossBullets_.end(),
+		[](const std::shared_ptr<BossBullet>& bossBullet)
+		{
+			return !bossBullet->GetIsActive();
+		});
+	bossBullets_.erase(newBossBulletEnd, bossBullets_.end());
 
 	//吸い込みオブジェクトの削除
 	if (player_->GetDeleteInhale())
@@ -385,7 +425,7 @@ void GameScene::FadeDraw()
 	const auto& wsize = Application::GetInstance().GetWindowSize();
 	DrawString(wsize.w * 0.5f, wsize.h * 0.5f, "GameScene", 0xffffff);
 
-	bg_->Draw();
+	bg_->Draw(nowStageNo_);
 
 	stage_->Draw(*camera_);
 
@@ -419,13 +459,13 @@ void GameScene::FadeDraw()
 		item->Draw(*camera_);
 	}
 
-
 	effectManager_->Draw(*camera_);
 
 	UIFrame_->Draw();
 	playerHPUI_->Draw(*player_);
 
 	bossHPUI_->Draw();
+
 	for (auto boss : bosses_)
 	{
 		bossHPUI_->Draw(*boss);
@@ -440,7 +480,7 @@ void GameScene::FadeDraw()
 
 void GameScene::NormalDraw()
 {
-	bg_->Draw();
+	bg_->Draw(nowStageNo_);
 
 	stage_->Draw(*camera_);
 
@@ -463,10 +503,7 @@ void GameScene::NormalDraw()
 	{
 		playerInhaledRect_->Draw(*camera_);
 	}
-	for (auto& shot : shots_)
-	{
-		shot->Draw(*camera_);
-	}
+
 	//アイテム
 	for (auto item : items_)
 	{
@@ -476,6 +513,16 @@ void GameScene::NormalDraw()
 	for (auto boss : bosses_)
 	{
 		boss->Draw(*camera_);
+	}
+
+	for (auto& shot : shots_)
+	{
+		shot->Draw(*camera_);
+	}
+
+	for (auto bossBullet : bossBullets_)
+	{
+		bossBullet->Draw(*camera_);
 	}
 
 	effectManager_->Draw(*camera_);

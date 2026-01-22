@@ -9,11 +9,12 @@ class Camera;
 class BossBullet :public GameObject
 {
 public:
-	BossBullet(Vector2 pos, int graphHandle);
+	BossBullet(Vector2 pos,Vector2 playerPos, int graphHandle);
 	virtual ~BossBullet();
 
 	void Init()override;
 	void Update()override ;
+	void Update(Camera& camera);
 	void Draw()override;
 	void Draw(Camera& camera);
 
@@ -25,8 +26,14 @@ public:
 	CollisionLayer GetHitMask()const override;
 	//“–‚½‚Á‚½‚Ìˆ—‚ğs‚¤ŠÖ”
 	void OnCollision(GameObject& other) override;
+
+	bool GetIsActive() { return isActive_; }
+
 private:
 	int graphHandle_;
 	Vector2 velocity_;
+	bool isActive_;
+	Vector2 playerPos_;
+	Vector2 vector_;
 };
 

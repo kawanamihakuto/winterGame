@@ -7,7 +7,6 @@ enum class BossStateType
 };
 
 class BossBase;
-
 namespace BossState
 {
 	class BossStateBase

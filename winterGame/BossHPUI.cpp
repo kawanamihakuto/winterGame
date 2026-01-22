@@ -38,18 +38,81 @@ void BossHPUI::Draw()
 
 void BossHPUI::Draw(BossBase& boss)
 {
-	auto maxHp = boss.GetMaxHP();
-	
-	auto nowHp = boss.GetHP();
-
 	auto wsize = Application::GetInstance().GetWindowSize();
+
+	auto maxHp = boss.GetMaxHP();
+	maxHp /= 10;
+	auto nowHp = boss.GetHP();
+	bool halfHp = false;
+
+	//hp‚ª30‚Ì‚Æ‚«
+	if (nowHp / 10 >= 3)
+	{
+		nowHp = 3;
+	}
+	//hp‚ª20‚©‚ç29‚Ì‚Æ‚«
+	else if (nowHp / 10 == 2)
+	{
+		//25‚©‚ç29
+		if (nowHp % 10 >= 5)
+		{
+			nowHp = 3;
+		}
+		//20‚©‚ç24
+		else
+		{
+			nowHp = 2;
+			halfHp = true;
+		}
+	}
+	//hp‚ª10‚©‚ç19‚Ì‚Æ‚«
+	else if (nowHp / 10 == 1)
+	{
+		//15‚©‚ç19
+		if (nowHp % 10 >= 5)
+		{
+			nowHp = 2;
+		}
+		//10‚©‚ç14
+		else
+		{
+			nowHp = 1;
+			halfHp = true;
+		}
+	}
+	//hp‚ª0‚©‚ç9‚Ì‚Æ‚«
+	else if (nowHp / 10 == 0)
+	{
+		//5‚©‚ç9
+		if (nowHp % 10 >= 5)
+		{
+			nowHp = 1;
+		}
+		//0‚©‚ç4
+		else if(nowHp % 10 > 0)
+		{
+			nowHp = 0;
+			halfHp = true;
+		}
+		else
+		{
+			nowHp = 0;
+		}
+	}
 
 	for (int i = 0; i < maxHp; i++)
 	{
-	//	DrawRectRotaGraph(wsize.w * 0.75f - 70 + i * 70, position_.y, 32, 0, 16, 16, 4, 0.0, graphHandle_, true);
 		if (nowHp > i)
 		{
 			DrawRectRotaGraph(wsize.w * 0.8f - 70 + i * 70, position_.y, 0, 0, 16, 16, 4, 0.0, hpGraphHandle_, true);
+		}
+		else
+		{
+			if (halfHp)
+			{
+				DrawRectRotaGraph(wsize.w * 0.8f - 70 + i * 70, position_.y, 16, 0, 16, 16, 4, 0.0, hpGraphHandle_, true);
+				break;
+			}
 		}
 	}
 }

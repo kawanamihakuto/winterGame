@@ -1,9 +1,12 @@
 #pragma once
 #include "Base/Shot.h"
+#include<memory>
+
+class EffectManager;
 class AirShot :public Shot
 {
 public:
-	AirShot(bool isRight,Vector2 pos, int graphHandle);
+	AirShot(bool isRight,Vector2 pos, int graphHandle,std::shared_ptr<EffectManager>effectManager);
 	virtual ~AirShot();
 
 	void Init()override;

@@ -10,7 +10,7 @@ constexpr int kWidth = 16;
 constexpr int kHeight = 16;
 constexpr int kSize = 2;
 
-StarShot::StarShot(bool isRight,Vector2 pos, int graphHandle) :Shot(isRight,pos,graphHandle)
+StarShot::StarShot(bool isRight,Vector2 pos, int graphHandle, std::shared_ptr<EffectManager>effectManager) :Shot(isRight,pos,graphHandle,effectManager)
 {
 	if (isRight)
 	{

@@ -12,7 +12,7 @@ constexpr int kHeight = 16;
 constexpr int kSize = 1;
 constexpr int kCountMax = 20;
 
-AirShot::AirShot(bool isRight,Vector2 pos, int graphHandle):Shot(isRight,pos,graphHandle),
+AirShot::AirShot(bool isRight,Vector2 pos, int graphHandle, std::shared_ptr<EffectManager>effectManager):Shot(isRight,pos,graphHandle,effectManager),
 count_(0)
 {
 	if (isRight)

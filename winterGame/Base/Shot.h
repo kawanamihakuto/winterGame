@@ -6,10 +6,11 @@ class Player;
 class EnemyBase;
 class Camera;
 class Stage;
+class EffectManager;
 class Shot :public GameObject
 {
 public:
-	Shot(bool isRight,Vector2 pos,int graphHandle);
+	Shot(bool isRight,Vector2 pos,int graphHandle,std::shared_ptr<EffectManager>effectManager);
 	virtual ~Shot();
 
 	void Init()override = 0;
@@ -33,6 +34,7 @@ public:
 
 	void MapCollisionX(const Stage& stage,Rect tileRect);
 protected:
+	std::shared_ptr<EffectManager>effectManager_;
 	Vector2 velocity_;
 	int graphHandle_;
 	bool isRight_;

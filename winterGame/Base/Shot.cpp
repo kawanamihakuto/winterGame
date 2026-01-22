@@ -10,14 +10,15 @@
 #include"Lerp.h"
 #include"InhaleHoldState.h"
 #include"Stage/Stage.h"
+#include"EffectManager.h"
 
-
-Shot::Shot(bool isRight,Vector2 pos,int graphHandle):
+Shot::Shot(bool isRight,Vector2 pos,int graphHandle, std::shared_ptr<EffectManager>effectManager):
 	GameObject(pos),
 	velocity_({0.0f,0.0f}),
 	graphHandle_(graphHandle),
 	isRight_(isRight),
-	isActive_(true)
+	isActive_(true),
+	effectManager_(effectManager)
 {
 }
 
@@ -51,6 +52,7 @@ void Shot::OnCollision(GameObject& other)
 
 	if (other.GetCollisionLayer() & CollisionLayers::kBoss)
 	{
+		effectManager_->Generate(position_);
 		isActive_ = false;
 	}
 }

@@ -116,34 +116,66 @@ void Player::Update(Input& input, Stage& stage)
 
 	if (!isDead_)
 	{
-		Rect tileRect;
+		if (state_->GetState() == PlayerStateType::BossBattle)
+		{
+			Rect tileRect;
 
-		//いったんisGroundをfalseにする
-		isGround_ = false;
-		//重力
-		Gravity();
-		ApplyMovementY();
-		//Rectの更新
-		rect_.SetCenter(
-			position_.x,
-			position_.y,
-			PlayerConstant::kWidth * PlayerConstant::kRectSize,
-			PlayerConstant::kHeight * PlayerConstant::kRectSize
-		);
-		MapCollisionY(stage, tileRect);
+			//いったんisGroundをfalseにする
+			isGround_ = false;
+			ApplyMovementY();
+			//Rectの更新
+			rect_.SetCenter(
+				position_.x,
+				position_.y,
+				PlayerConstant::kWidth * (size_ - 2.0),
+				PlayerConstant::kHeight * (size_ - 2.2)
+			);
+			MapCollisionY(stage, tileRect);
 
-		//X方向の移動
-		ApplyMovementX();
-		//Rectの更新
-		rect_.SetCenter(
-			position_.x,
-			position_.y,
-			PlayerConstant::kWidth * PlayerConstant::kRectSize,
-			PlayerConstant::kHeight * PlayerConstant::kRectSize
-		);
-		//X方向のマップ衝突判定
-		MapCollisionX(stage, tileRect);
+			//X方向の移動
+			ApplyMovementX();
+			//Rectの更新
+			rect_.SetCenter(
+				position_.x,
+				position_.y,
+				PlayerConstant::kWidth * (size_ - 2.0),
+				PlayerConstant::kHeight * (size_ - 2.2)
+			);
+			//X方向のマップ衝突判定
+			MapCollisionX(stage, tileRect);
 
+		}
+		else
+		{
+			Rect tileRect;
+
+			//いったんisGroundをfalseにする
+			isGround_ = false;
+			//重力
+			Gravity();
+			ApplyMovementY();
+			//Rectの更新
+			rect_.SetCenter(
+				position_.x,
+				position_.y,
+				PlayerConstant::kWidth * PlayerConstant::kRectSize,
+				PlayerConstant::kHeight * PlayerConstant::kRectSize
+			);
+			MapCollisionY(stage, tileRect);
+
+			//X方向の移動
+			ApplyMovementX();
+			//Rectの更新
+			rect_.SetCenter(
+				position_.x,
+				position_.y,
+				PlayerConstant::kWidth * PlayerConstant::kRectSize,
+				PlayerConstant::kHeight * PlayerConstant::kRectSize
+			);
+			//X方向のマップ衝突判定
+			MapCollisionX(stage, tileRect);
+
+		}
 	}
 
 	if (isDead_)
@@ -303,9 +335,18 @@ void Player::Draw(Camera& camera)
 #ifdef _DEBUG
 	//当たり判定表示
 	Rect drawRect = rect_;
-	drawRect.SetCenter(screen.x, screen.y,
-		PlayerConstant::kWidth * PlayerConstant::kRectSize,
-		PlayerConstant::kHeight * PlayerConstant::kRectSize);
+	if (state_->GetState() == PlayerStateType::BossBattle)
+	{
+		drawRect.SetCenter(screen.x, screen.y,
+			PlayerConstant::kWidth * (size_ - 2.0),
+			PlayerConstant::kHeight * (size_ - 2.2));
+	}
+	else
+	{
+		drawRect.SetCenter(screen.x, screen.y,
+			PlayerConstant::kWidth * PlayerConstant::kRectSize,
+			PlayerConstant::kHeight * PlayerConstant::kRectSize);
+	}
 	drawRect.Draw(rectColor_, false);
 
 	//プレイヤーのHP表示
@@ -331,7 +372,9 @@ CollisionLayer Player::GetHitMask() const
 {
 	return CollisionLayers::kEnemy |
 		CollisionLayers::kDoor |
-		CollisionLayers::kItem;
+		CollisionLayers::kItem|
+		CollisionLayers::kBossAttack|
+		CollisionLayers::kBoss;
 }
 
 void Player::OnCollision(GameObject& other)
@@ -355,6 +398,26 @@ void Player::OnCollision(GameObject& other)
 		nockBackTime_ = 0;
 		//プレイヤーの状態遷移
 		ChangeState(std::make_unique<PlayerState::HitState>());
+	}
+
+	if (other.GetCollisionLayer() & CollisionLayers::kBoss)
+	{
+		if (isInvincible_)
+		{
+			return;
+		}
+		hp_ -= 1;
+		isInvincible_ = true;
+	}
+
+	if (other.GetCollisionLayer() & CollisionLayers::kBossAttack)
+	{
+		if (isInvincible_)
+		{
+			return;
+		}
+		hp_ -= 1;
+		isInvincible_ = true;
 	}
 
 	if (other.GetCollisionLayer() & CollisionLayers::kDoor)
@@ -382,7 +445,6 @@ void Player::OnGetItem(ItemType itemType)
 {
 	if (itemType == ItemType::dragonFruit)
 	{
-		printfDx("アイテムを取得");
 		ChangeState(std::make_unique<PlayerState::BossBattleState>());
 		isStartBossBattle_ = true;
 	}

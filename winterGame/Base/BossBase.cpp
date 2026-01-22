@@ -4,13 +4,18 @@
 
 namespace
 {
-	constexpr int kDefaultMaxHP = 3;
+	constexpr int kDefaultMaxHP = 30;
+	constexpr int kDamageTimerMax = 20;
 }
 
-BossBase::BossBase(Vector2 pos ,int graphHandle) : GameObject(pos),
+BossBase::BossBase(Vector2 pos ,int graphHandle,std::shared_ptr<Player>player) : GameObject(pos),
 graphHandle_(graphHandle),
 hp_(kDefaultMaxHP),
-velocity_(0, 0)
+velocity_(0, 0),
+isShot_(false),
+player_(player),
+isActive_(true),
+damageTimer_()
 {
 }
 
@@ -34,10 +39,19 @@ CollisionLayer BossBase::GetHitMask() const
 
 void BossBase::OnCollision(GameObject& other)
 {
-	
+	if (other.GetCollisionLayer() & CollisionLayers::kAttack)
+	{
+		OnDamage();
+	}
 }
 
 int BossBase::GetMaxHP()
 {
 	return kDefaultMaxHP;
+}
+
+void BossBase::OnDamage()
+{
+	damageTimer_ = kDamageTimerMax;
+	hp_--;
 }

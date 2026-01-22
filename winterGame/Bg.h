@@ -8,7 +8,7 @@ class Bg
 	~Bg();
 	void Init(int defaultPos);
 	void Update(Player& player,Camera& camera);
-	void Draw();
+	void Draw(int stageNo);
 
 private:
 	int skyGraphHandle_;

@@ -4,10 +4,12 @@
 #include<memory>
 class Camera;
 class BossStateBase;
+class Player;
+class BossBullet;
 class BossBase : public GameObject
 {
 public:
-	BossBase(Vector2 pos,int graphHandle);
+	BossBase(Vector2 pos,int graphHandle,std::shared_ptr<Player>player);
 	virtual  ~BossBase();
 	void Init()override = 0;
 	virtual void Init(int stageNo) = 0;
@@ -34,6 +36,15 @@ public:
 
 	int GetMaxHP();
 
+	void OnShot() { isShot_ = true; }
+	bool GetShotFlag() { return isShot_; }
+	void ResetShotFlag() { isShot_ = false; }
+
+	std::shared_ptr<Player> GetPlayer() { return player_; }
+
+	bool GetIsActive() { return isActive_; }
+
+	void OnDamage();
 protected:
 	//現在のステートを入れる変数
 	std::unique_ptr<BossState::BossStateBase>state_;
@@ -43,5 +54,13 @@ protected:
 	Vector2 velocity_;
 	//画像ハンドル
 	int graphHandle_;
+	//shotフラグ
+	bool isShot_;
+
+	std::shared_ptr<Player>player_;
+
+	bool isActive_;
+
+	int damageTimer_;
 };
 

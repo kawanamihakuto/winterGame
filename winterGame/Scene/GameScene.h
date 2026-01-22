@@ -20,6 +20,7 @@ class Item;
 class SunBoss;
 class BossBase;
 class BossHPUI;
+class BossBullet;
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -70,7 +71,7 @@ private:
 	std::shared_ptr<PlayerInhaledRect>playerInhaledRect_;
 	//カメラのポインタ
 	std::shared_ptr<Camera>camera_;
-	//弾のポインタ
+	//プレイヤーの弾のポインタ
 	std::vector<std::shared_ptr<Shot>>shots_;
 	//ドアのポインタ
 	std::shared_ptr<Door>door_;
@@ -88,7 +89,11 @@ private:
 	std::vector<std::shared_ptr<Item>>items_;
 	//ボスのポインタ配列
 	std::vector<std::shared_ptr<BossBase>>bosses_;
+
 	std::shared_ptr<BossHPUI>bossHPUI_;
+
+	std::vector<std::shared_ptr<BossBullet>>bossBullets_;
+
 	//プレイヤー、敵、地形の画像ハンドル
 	int graphHandle_;
 	//プレイヤーのHp画像ハンドル

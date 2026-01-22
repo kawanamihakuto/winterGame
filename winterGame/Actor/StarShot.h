@@ -1,10 +1,12 @@
 #pragma once
 #include "Base/Shot.h"
+#include<memory>
 
+class EffectManager;
 class StarShot :public Shot
 {
 public:
-	StarShot(bool isRight,Vector2 pos,int graphHandle);
+	StarShot(bool isRight,Vector2 pos,int graphHandle, std::shared_ptr<EffectManager>effectManager);
 	virtual ~StarShot();
 
 	void Init()override;
