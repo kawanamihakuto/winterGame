@@ -23,6 +23,7 @@
 #include"Item.h"
 #include"../BossItem.h"
 #include"SunBoss.h"
+#include"BossHPUI.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -47,6 +48,12 @@ draw_(&GameScene::FadeDraw)
 	assert(itemGraphHandle_ > -1);
 	sunBossGraphHandle_ = LoadGraph("data/SunBoss.png");
 	assert(sunBossGraphHandle_ > -1);
+	bossHpGraphHandle_ = LoadGraph("data/BossHeart.png");
+	assert(bossHpGraphHandle_ > -1);
+	playerTextGraphHandle_ = LoadGraph("data/Player.png");
+	assert(playerTextGraphHandle_ > -1);
+	bossTextGraphHandle_ = LoadGraph("data/Boss.png");
+	assert(bossTextGraphHandle_ > -1);
 
 	//フェード用のフレームを初期化
 	frame_ = fade_interval;
@@ -81,11 +88,13 @@ draw_(&GameScene::FadeDraw)
 
 	door_ = std::make_shared<Door>(graphHandle_);
 
-	playerHPUI_ = std::make_shared<PlayerHPUI>(playerHpGraphHandle_);
+	playerHPUI_ = std::make_shared<PlayerHPUI>(playerHpGraphHandle_,playerTextGraphHandle_);
 
 	UIFrame_ = std::make_shared<UIFrame>(UIFrameGraphHandle_);
 
 	bg_ = std::make_shared<Bg>(skyGraphHandle_, cloudGraphHandle_,sunGraphHandle_,(camera_->GetPosition().x - Application::GetInstance().GetWindowSize().w * 0.5f)* 0.5f);
+
+	bossHPUI_ = std::make_shared<BossHPUI>(bossHpGraphHandle_,bossTextGraphHandle_);
 }
 
 GameScene::~GameScene()
@@ -96,6 +105,11 @@ GameScene::~GameScene()
 	DeleteGraph(skyGraphHandle_);
 	DeleteGraph(cloudGraphHandle_);
 	DeleteGraph(sunGraphHandle_);
+	DeleteGraph(itemGraphHandle_);
+	DeleteGraph(sunBossGraphHandle_);
+	DeleteGraph(bossHpGraphHandle_);
+	DeleteGraph(playerTextGraphHandle_);
+	DeleteGraph(bossTextGraphHandle_);
 }
 
 void GameScene::FadeInUpdate(Input&)
@@ -411,8 +425,12 @@ void GameScene::FadeDraw()
 	UIFrame_->Draw();
 	playerHPUI_->Draw(*player_);
 
+	bossHPUI_->Draw();
+	for (auto boss : bosses_)
+	{
+		bossHPUI_->Draw(*boss);
+	}
 	
-
 	//フェード処理
 	float rate = static_cast<float>(frame_) / static_cast<float>(fade_interval);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 * rate);
@@ -465,6 +483,12 @@ void GameScene::NormalDraw()
 	UIFrame_->Draw();
 	playerHPUI_->Draw(*player_);
 
+	bossHPUI_->Draw();
+	for (auto boss : bosses_)
+	{
+		bossHPUI_->Draw(*boss);
+	}
+	
 #ifdef _DEBUG
 	DrawString(64, 64, "GameScene", 0xffffff);
 	DrawFormatString(80, 80, 0xffffff, "stageNo:%d", nowStageNo_);

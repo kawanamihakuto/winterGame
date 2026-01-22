@@ -150,6 +150,7 @@
     <ClCompile Include="Actor\Inhale.cpp" />
     <ClCompile Include="Bg.cpp" />
     <ClCompile Include="Base\BossBase.cpp" />
+    <ClCompile Include="BossHPUI.cpp" />
     <ClCompile Include="BossState\BossStateBase.cpp" />
     <ClCompile Include="BossState\BossIdleState.cpp" />
     <ClCompile Include="BossState\NormalShotState.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="Base\EnemyBase.h" />
     <ClInclude Include="Bg.h" />
     <ClInclude Include="Base\BossBase.h" />
+    <ClInclude Include="BossHPUI.h" />
     <ClInclude Include="BossState\BossStateBase.h" />
     <ClInclude Include="BossState\BossIdleState.h" />
     <ClInclude Include="BossState\NormalShotState.h" />

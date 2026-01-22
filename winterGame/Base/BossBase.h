@@ -30,11 +30,15 @@ public:
 	Vector2 GetPosition() { return position_; }
 	void SetPosition(Vector2 pos) { position_ = pos; }
 
+	int GetHP() { return hp_; }
+
+	int GetMaxHP();
+
 protected:
 	//現在のステートを入れる変数
 	std::unique_ptr<BossState::BossStateBase>state_;
 	//体力
-	int hp_;
+	int hp_ = 0;
 	//移動速度
 	Vector2 velocity_;
 	//画像ハンドル

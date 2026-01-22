@@ -1,14 +1,15 @@
 #pragma once
 #include"Geometry.h"
-class Player;
-class PlayerHPUI
+class BossBase;
+class BossHPUI
 {
-	public:
-	PlayerHPUI(int GraphHandle ,int textHandle);
-	~PlayerHPUI();
+public:
+	BossHPUI(int graphHandle,int textHandle);
+	~BossHPUI();
 	void Init();
 	void Update();
-	void Draw(Player& player);
+	void Draw();
+	void Draw(BossBase& boss);
 private:
 	Vector2 position_;
 	int hpGraphHandle_;

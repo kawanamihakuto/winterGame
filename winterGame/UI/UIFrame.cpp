@@ -23,6 +23,7 @@ void UIFrame::Update()
 void UIFrame::Draw()
 {
 	auto wsize = Application::GetInstance().GetWindowSize();
-
-	DrawRectRotaGraph(wsize.w * 0.5f,wsize.h - 70,0,0,64,30,5.0,0.0,graphHandle_,true);
+	int srcX, srcY;
+	GetGraphSize(graphHandle_, &srcX, &srcY);
+	DrawRectRotaGraph(wsize.w * 0.5f,wsize.h * 0.5f,0,0, srcX, srcY,1.0,0.0,graphHandle_,true);
 }

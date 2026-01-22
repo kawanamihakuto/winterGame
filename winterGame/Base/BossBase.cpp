@@ -1,9 +1,15 @@
 #include "BossBase.h"
 #include"BossState/BossStateBase.h"
 #include "System/Geometry.h"
+
+namespace
+{
+	constexpr int kDefaultMaxHP = 3;
+}
+
 BossBase::BossBase(Vector2 pos ,int graphHandle) : GameObject(pos),
 graphHandle_(graphHandle),
-hp_(100),
+hp_(kDefaultMaxHP),
 velocity_(0, 0)
 {
 }
@@ -29,4 +35,9 @@ CollisionLayer BossBase::GetHitMask() const
 void BossBase::OnCollision(GameObject& other)
 {
 	
+}
+
+int BossBase::GetMaxHP()
+{
+	return kDefaultMaxHP;
 }

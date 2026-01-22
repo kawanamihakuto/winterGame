@@ -19,6 +19,7 @@ class EffectManager;
 class Item;
 class SunBoss;
 class BossBase;
+class BossHPUI;
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -87,6 +88,7 @@ private:
 	std::vector<std::shared_ptr<Item>>items_;
 	//ボスのポインタ配列
 	std::vector<std::shared_ptr<BossBase>>bosses_;
+	std::shared_ptr<BossHPUI>bossHPUI_;
 	//プレイヤー、敵、地形の画像ハンドル
 	int graphHandle_;
 	//プレイヤーのHp画像ハンドル
@@ -103,4 +105,10 @@ private:
 	int itemGraphHandle_;
 	//太陽のボスの画像ハンドル
 	int sunBossGraphHandle_;
+	//ボスのHp画像ハンドル
+	int bossHpGraphHandle_;
+
+	int playerTextGraphHandle_;
+
+	int bossTextGraphHandle_;
 };

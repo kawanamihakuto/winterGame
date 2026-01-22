@@ -1,6 +1,12 @@
 #include "BossBattleState.h"
 #include"Player.h"
 #include"Input.h"
+
+namespace
+{
+	constexpr float kSpeed = 3.0f;
+}
+
 void PlayerState::BossBattleState::Enter(Player& player)
 {
 	player.SetIsRight(true);
@@ -38,24 +44,25 @@ void PlayerState::BossBattleState::Update(Player& player, Input& input)
 	{
 		player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthClosed);
 	}
-
+	
 	auto vel = player.GetVelocity();
+	vel = { 0,0 };
 	//左右の入力で速度を変更
 	if (input.IsPressed("left"))
 	{
-		vel.x -= PlayerConstant::kMoveSpeed;
+		vel.x -= kSpeed;
 	}
 	if (input.IsPressed("right"))
 	{
-		vel.x += PlayerConstant::kMoveSpeed;
+		vel.x += kSpeed;
 	}
 	if (input.IsPressed("up"))
 	{
-		vel.y -= PlayerConstant::kMoveSpeed;
+		vel.y -= kSpeed;
 	}
 	if (input.IsPressed("down"))
 	{
-		vel.y += PlayerConstant::kMoveSpeed;
+		vel.y += kSpeed;
 	}
 	
 	//速度制限

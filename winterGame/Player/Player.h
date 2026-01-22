@@ -36,6 +36,8 @@ namespace PlayerConstant
 
 	constexpr float kNockbackSpeed = 4.0f;
 	constexpr int kNockBackTimeMax = 10;
+
+	constexpr float kBossBattleMoveSpeed = 3.0f;
 }
 
 /// <summary>
