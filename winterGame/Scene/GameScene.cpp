@@ -151,7 +151,6 @@ void GameScene::NormalUpdate(Input& input)
 		camera_->SetTarget(player_->GetPosition());
 		//カメラのUpdate
 		camera_->Update();
-
 		//吸い込みオブジェクトがあったら
 		if (inhale_)
 		{
@@ -188,6 +187,16 @@ void GameScene::NormalUpdate(Input& input)
 		bg_->Update(*player_,*camera_);
 
 		effectManager_->Update();
+	}
+	else
+	{
+		camera_->ShakeUpdate();
+	}
+
+	if (player_->IsRequestCameraShake())
+	{
+		camera_->StartShake(15.0f,10);
+		player_->SetCameraShakeRequest(false);
 	}
 
 	//弾の生成処理
@@ -489,7 +498,7 @@ void GameScene::FadeDraw()
 		item->Draw(*camera_);
 	}
 
-	effectManager_->Draw(*camera_);
+//	effectManager_->Draw(*camera_);
 
 	UIFrame_->Draw();
 	playerHPUI_->Draw(*player_);
@@ -554,8 +563,10 @@ void GameScene::NormalDraw()
 	{
 		bossBullet->Draw(*camera_);
 	}
-
-	effectManager_->Draw(*camera_);
+	if(!player_->GetIsDead())
+	{
+		effectManager_->Draw(*camera_);
+	}
 
 	UIFrame_->Draw();
 	playerHPUI_->Draw(*player_);

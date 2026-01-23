@@ -183,6 +183,10 @@ public:
 
 	void OnInvincible() { isInvincible_ = true; }
 
+	bool IsRequestCameraShake() { return requestCameraShake_; }
+
+	void SetCameraShakeRequest(bool isCameraShake) { requestCameraShake_ = isCameraShake; }
+
 	/// <summary>
 	/// ステート切り替えの関数
 	/// </summary>
@@ -264,4 +268,6 @@ private:
 	double size_;
 
 	bool isStartBossBattle_;
+
+	bool requestCameraShake_;
 };

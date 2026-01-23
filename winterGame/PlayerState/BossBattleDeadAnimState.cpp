@@ -9,6 +9,7 @@ void PlayerState::BossBattleDeadAnimState::Enter(Player& player)
 {
 	player.SetSize(6.1);
 	player.SetVelocity({ 0,0 });
+	player.SetCameraShakeRequest(true);
 }
 
 void PlayerState::BossBattleDeadAnimState::Update(Player& player, Input& input)

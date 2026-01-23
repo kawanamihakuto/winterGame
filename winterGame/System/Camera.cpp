@@ -3,7 +3,7 @@
 #include"Player.h"
 #include"Application.h"
 #include"Lerp.h"
-
+#include<DxLib.h>
 namespace
 {
 	//ステージ1のカメラ制限
@@ -21,7 +21,10 @@ namespace
 Camera::Camera() : GameObject(kStage1DefaultPosition),
 drawOffset_({0,0}),
 target_({0,0}),
-stageNo_(1)
+stageNo_(1),
+shakeOffset_({0,0}),
+shakePower_(0.0f),
+shakeTime_(0)
 {
 }
 
@@ -121,7 +124,27 @@ Vector2 Camera::WorldToScreen(const Vector2& world) const
 {
 	auto wsize = Application::GetInstance().GetWindowSize();
 
-	return{ world.x - position_.x + wsize.w * 0.5f,
-		world.y - position_.y + wsize.h * 0.5f };
+	Vector2 camPos = position_ + shakeOffset_;
+
+	return{ world.x - camPos.x + wsize.w * 0.5f,
+		world.y - camPos.y + wsize.h * 0.5f };
+}
+
+void Camera::StartShake(float power, int time)
+{
+	shakePower_ = power;
+	shakeTime_ = time;
+}
+
+void Camera::ShakeUpdate()
+{
+	shakeOffset_ = { 0.0f,0.0f };
+	if (shakeTime_ > 0)
+	{
+		auto power = shakePower_ * (shakeTime_ / 30.0f);
+		shakeOffset_.x = GetRand(2000) / 1000.0f * power - power / 2;
+		shakeOffset_.y = GetRand(2000) / 1000.0f * power - power / 2;
+		shakeTime_--;
+	}
 }
 

@@ -10,6 +10,7 @@ void PlayerState::HitStopState::Enter(Player& player)
 {
 	HitStopCount_ = 0;
 	player.SetVelocity({ 0.0f,0.0f });
+	player.SetCameraShakeRequest(true);
 }
 
 void PlayerState::HitStopState::Update(Player& player, Input& inpit)

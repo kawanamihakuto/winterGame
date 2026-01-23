@@ -27,12 +27,16 @@ public:
 //DrawOffset‚ÌƒQƒbƒ^[
 	Vector2 GetDrawOffset() { return drawOffset_; }
 
-//	Vector2 VLerp(const Vector2& stert, const Vector2& end, float t);
+	void StartShake(float power ,int time);
 
+	void ShakeUpdate();
 private:
 	Vector2 drawOffset_;
 	Vector2 target_;
-
 	int stageNo_;
+
+	float shakePower_;
+	int shakeTime_;
+	Vector2 shakeOffset_;
 };
 

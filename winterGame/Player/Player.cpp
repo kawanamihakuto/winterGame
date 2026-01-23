@@ -61,7 +61,8 @@ Player::Player(int graphHandle) :
 	deadAnimAngleNum_(0.0),
 	stageNo_(1),
 	size_(3.0),
-	isStartBossBattle_(false)
+	isStartBossBattle_(false),
+	requestCameraShake_(false)
 {
 	state_ = std::make_unique<PlayerState::IdleState>();
 }
