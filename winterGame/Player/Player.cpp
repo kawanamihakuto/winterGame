@@ -115,7 +115,7 @@ void Player::Update(Input& input, Stage& stage)
 
 	if (!isDead_)
 	{
-		if (state_->GetState() == PlayerStateType::BossBattle || state_->GetState() == PlayerStateType::Movie)
+		if (state_->GetState() == PlayerStateType::BossBattle)
 		{
 			Rect tileRect;
 
@@ -177,11 +177,6 @@ void Player::Update(Input& input, Stage& stage)
 		}
 	}
 
-	if (isDead_)
-	{
-		ApplyMovementX();
-		ApplyMovementY();
-	}
 	//-------------------
 	//ステージ1用の設定
 	//-------------------
@@ -201,56 +196,75 @@ void Player::Update(Input& input, Stage& stage)
 				isDead_ = true;
 				ChangeState(std::make_unique<PlayerState::DeadAnimState>());
 			}
+			//天井
+			if (position_.y <= kCeiling)
+			{
+				position_.y = kCeiling;
+			}
+			//ステージの左端
+			if (position_.x <= kLeftLimit)
+			{
+				position_.x = kLeftLimit;
+			}
+			//ステージの右端
+			if (position_.x >= kRightLimit)
+			{
+				position_.x = kRightLimit;
+			}
 		}
-		//天井
-		if (position_.y <= kCeiling)
-		{
-			position_.y = kCeiling;
-		}
-		//ステージの左端
-		if (position_.x <= kLeftLimit)
-		{
-			position_.x = kLeftLimit;
-		}
-		//ステージの右端
-		if (position_.x >= kRightLimit)
-		{
-			position_.x = kRightLimit;
-		}
+		
 		break;
 	case 2:
-		//天井
-		if (position_.y <= kCeiling2)
+		if (isDead_)
 		{
-			position_.y = kCeiling2;
+			ApplyMovementX();
+			ApplyMovementY();
 		}
-		//ステージの左端
-		if (position_.x <= kLeftLimit)
+		else
 		{
-			position_.x = kLeftLimit;
+			//天井
+			if (position_.y <= kCeiling2)
+			{
+				position_.y = kCeiling2;
+			}
+			//ステージの左端
+			if (position_.x <= kLeftLimit)
+			{
+				position_.x = kLeftLimit;
+			}
+			//ステージの右端
+			if (position_.x >= kRightLimit2)
+			{
+				position_.x = kRightLimit2;
+			}
 		}
-		//ステージの右端
-		if (position_.x >= kRightLimit2)
-		{
-			position_.x = kRightLimit2;
-		}
+		
 		break;
 	case 3:
-		//天井
-		if (position_.y <= kCeiling)
+		if (isDead_)
 		{
-			position_.y = kCeiling;
+			ApplyMovementX();
+			ApplyMovementY();
 		}
-		//ステージの左端
-		if (position_.x <= kLeftLimit)
+		else
 		{
-			position_.x = kLeftLimit;
+			//天井
+			if (position_.y <= kCeiling)
+			{
+				position_.y = kCeiling;
+			}
+			//ステージの左端
+			if (position_.x <= kLeftLimit)
+			{
+				position_.x = kLeftLimit;
+			}
 		}
+		
 		break;
 	}
 
 #ifdef _DEBUG
-	if (CheckHitKey(KEY_INPUT_D))
+	if (CheckHitKey(KEY_INPUT_G))
 	{
 		if (stageNo_ == 1)
 		{
@@ -260,6 +274,13 @@ void Player::Update(Input& input, Stage& stage)
 		{
 			position_.y = 2290;
 		}
+	}
+
+	if (CheckHitKey(KEY_INPUT_D))
+	{
+		hp_ = 0;
+		isDead_ = true;
+		ChangeState(std::make_unique<PlayerState::DeadAnimState>());
 	}
 #endif // _DEBUG
 }

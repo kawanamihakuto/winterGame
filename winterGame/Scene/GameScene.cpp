@@ -28,9 +28,10 @@
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
-GameScene::GameScene(SceneController& controller) :Scene(controller),
+GameScene::GameScene(SceneController& controller,int stageNo) :Scene(controller),
 update_(&GameScene::FadeInUpdate),
-draw_(&GameScene::FadeDraw)
+draw_(&GameScene::FadeDraw),
+nowStageNo_(stageNo)
 {
 	//ゲーム内画像ハンドル
 	graphHandle_ = LoadGraph("data/kirby.png");
@@ -59,7 +60,6 @@ draw_(&GameScene::FadeDraw)
 	//フェード用のフレームを初期化
 	frame_ = fade_interval;
 
-	nowStageNo_ = 1;
 	//ステージデータのロード
 	stage_ = std::make_unique<Stage>();
 	stage_->Init(graphHandle_, 16, 16);
@@ -67,11 +67,14 @@ draw_(&GameScene::FadeDraw)
 
 	//プレイヤー生成
 	player_ = std::make_shared<Player>(graphHandle_);
-
+	player_->Init(nowStageNo_);
+	//エフェクトマネージャー
 	effectManager_ = std::make_shared<EffectManager>(graphHandle_);
-
+	//エネミー配置
+	//エネミーの配置をクリアする
+	enemies_.clear();
+	assert(enemies_.empty() == true);
 	const auto& spawns = stage_->GetEnemySpawns();
-
 	for (const auto spawn : spawns)
 	{
 		if (spawn.type == 18)
@@ -83,19 +86,25 @@ draw_(&GameScene::FadeDraw)
 			enemies_.push_back(std::make_shared<FlyEnemy>(spawn.pos, graphHandle_, player_, effectManager_,spawn.isRight));
 		}
 	}
-
+	//カメラ
 	camera_ = std::make_shared<Camera>();
 	camera_->Init(nowStageNo_);
-
+	//ドア
 	door_ = std::make_shared<Door>(graphHandle_);
-
+	door_->Init(nowStageNo_);
+	//プレイヤーHPUI
 	playerHPUI_ = std::make_shared<PlayerHPUI>(playerHpGraphHandle_,playerTextGraphHandle_);
-
+	//HPUIの枠
 	UIFrame_ = std::make_shared<UIFrame>(UIFrameGraphHandle_);
-
+	//背景
 	bg_ = std::make_shared<Bg>(skyGraphHandle_, cloudGraphHandle_,sunGraphHandle_,(camera_->GetPosition().x - Application::GetInstance().GetWindowSize().w * 0.5f)* 0.5f);
-
+	//ボスHPUI
 	bossHPUI_ = std::make_shared<BossHPUI>(bossHpGraphHandle_,bossTextGraphHandle_);
+
+	if (stageNo == 3)
+	{
+		items_.push_back(std::make_shared<BossItem>(player_, Vector2{ 1800,600 }, itemGraphHandle_));
+	}
 }
 
 GameScene::~GameScene()
@@ -126,6 +135,8 @@ void GameScene::FadeInUpdate(Input&)
 
 void GameScene::NormalUpdate(Input& input)
 {
+	auto wsize = Application::GetInstance().GetWindowSize();
+
 	//プレイヤーのUpdate
 	player_->Update(input, *stage_);
 
@@ -361,12 +372,31 @@ void GameScene::NormalUpdate(Input& input)
 		}
 	}
 
-	if (player_->GetIsDead() && player_->GetPosition().y >= 1200)
+	if (nowStageNo_ == 1)
 	{
-		update_ = &GameScene::FadeOutUpdate;
-		draw_ = &GameScene::FadeDraw;
+		if (player_->GetIsDead() && player_->GetPosition().y >= 1200)
+		{
+			update_ = &GameScene::FadeOutUpdate;
+			draw_ = &GameScene::FadeDraw;
+		}
 	}
-
+	else if (nowStageNo_ == 2)
+	{
+		if (player_->GetIsDead() && player_->GetPosition().y >= camera_->GetPosition().y + wsize.h / 2)
+		{
+			update_ = &GameScene::FadeOutUpdate;
+			draw_ = &GameScene::FadeDraw;
+		}
+	}
+	else if (nowStageNo_ == 3)
+	{
+		if (player_->GetIsDead() && player_->GetPosition().y <= -200)
+		{
+			update_ = &GameScene::FadeOutUpdate;
+			draw_ = &GameScene::FadeDraw;
+		}
+	}
+	
 #ifdef _DEBUG
 	if (CheckHitKey(KEY_INPUT_1))
 	{
@@ -393,7 +423,7 @@ void GameScene::FadeOutUpdate(Input&)
 	{
 		if (player_->GetIsDead())
 		{
-			controller_.ChangeScene(std::make_shared<GameoverScene>(controller_));
+			controller_.ChangeScene(std::make_shared<GameoverScene>(controller_,nowStageNo_));
 			return;
 		}
 		else

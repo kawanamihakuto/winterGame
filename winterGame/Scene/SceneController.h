@@ -1,6 +1,7 @@
 #pragma once
 #include<memory>
 #include<list>
+
 class Input;
 class Scene;
 /// <summary>
@@ -12,9 +13,11 @@ private:
 	//現在スタックに積まれているシーン
 	//最後に積んだものがUpdateされる
 	std::list<std::shared_ptr<Scene>>scenes_;
-
 	bool isGameEnd_ = false;
 public:
+
+	SceneController();
+
 	/// <summary>
 	/// シーンの切り替え
 	/// </summary>

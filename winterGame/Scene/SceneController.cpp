@@ -1,6 +1,9 @@
 #include "SceneController.h"
 #include"Scene.h"
 
+SceneController::SceneController(){
+}
+
 void SceneController::ChangeScene(std::shared_ptr<Scene> scene)
 {
 	//最初にemptyかどうかのチェック

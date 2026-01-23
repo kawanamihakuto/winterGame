@@ -16,7 +16,7 @@ enum class PlayerStateType
 	Hit,
 	HitStop,
 	DeadAnim,
-	Movie
+	BossBattleDeadAnim
 };
 
 class Player;

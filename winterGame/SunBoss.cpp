@@ -2,12 +2,13 @@
 #include"../BossState/BossStateBase.h"
 #include"BossState/BossIdleState.h"
 #include"BossState/NormalShotState.h"
+#include"BossState/TripleShotState.h"
 #include<DxLib.h>
 #include"Camera.h"
 
 namespace
 {
-	constexpr int kActionInterval = 180;
+	constexpr int kActionInterval = 60;
 	constexpr float kSinFrameSpeed = 0.07f;
 	constexpr float kAmplitude = 0.5f;
 	constexpr double kSize = 3.0;
@@ -16,7 +17,7 @@ namespace
 	constexpr int kDamageFlashInterval = 5;
 }
 
-SunBoss::SunBoss(Vector2 pos,int graphHandle,std::shared_ptr<Player>player) :BossBase(pos ,graphHandle,player),
+SunBoss::SunBoss(Vector2 pos, int graphHandle, std::shared_ptr<Player>player) :BossBase(pos, graphHandle, player),
 actionIntervalCount_(0),
 sinFrame_(0.0f)
 {
@@ -46,17 +47,23 @@ void SunBoss::Update()
 	{
 		actionIntervalCount_ = 0;
 
-		if (state_->GetState() == BossStateType::Idle)
-		{
-			ChangeState(std::make_unique<BossState::NormalShotState>());
-		}
-		else if (state_->GetState() == BossStateType::NormalShot)
+		int nextStateNum = GetRand(2);
+
+		if (nextStateNum == 0)
 		{
 			ChangeState(std::make_unique<BossState::BossIdleState>());
 		}
+		else if (nextStateNum)
+		{
+			ChangeState(std::make_unique<BossState::NormalShotState>());
+		}
+		else if (nextStateNum)
+		{
+			ChangeState(std::make_unique<BossState::TripleShotState>());
+		}
 	}
 
-	position_.y += sinf(sinFrame_+= kSinFrameSpeed) * kAmplitude;
+	position_.y += sinf(sinFrame_ += kSinFrameSpeed) * kAmplitude;
 
 	state_->Update(*this);
 
@@ -66,7 +73,7 @@ void SunBoss::Update()
 }
 
 void SunBoss::Draw()
-{ 
+{
 }
 
 void SunBoss::Draw(Camera& camera)
@@ -79,7 +86,7 @@ void SunBoss::Draw(Camera& camera)
 	{
 		SetDrawBright(255, 128, 128);
 	}
-	DrawRectRotaGraph(screen.x,screen.y, 0,0,srcX, srcY, kSize,0.0,graphHandle_,true,true);
+	DrawRectRotaGraph(screen.x, screen.y, 0, 0, srcX, srcY, kSize, 0.0, graphHandle_, true, true);
 
 	SetDrawBright(255, 255, 255);
 
@@ -91,7 +98,7 @@ void SunBoss::Draw(Camera& camera)
 		srcY * kRectSize);
 	drawRect.Draw(0xff00ff, false);
 
-	DrawFormatString(100, 200, 0xffffff,"BossPosition : %f , %f",position_.x,position_.y);
+	DrawFormatString(100, 200, 0xffffff, "BossPosition : %f , %f", position_.x, position_.y);
 	DrawFormatString(100, 300, 0xff00ff, "BossHp : %d", hp_);
 #endif // _DEBUG
 }

@@ -150,6 +150,7 @@
     <ClCompile Include="Actor\Inhale.cpp" />
     <ClCompile Include="Bg.cpp" />
     <ClCompile Include="Base\BossBase.cpp" />
+    <ClCompile Include="PlayerState\BossBattleDeadAnimState.cpp" />
     <ClCompile Include="BossBullet.cpp" />
     <ClCompile Include="BossHPUI.cpp" />
     <ClCompile Include="BossState\BossStateBase.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="Base\Item.cpp" />
     <ClCompile Include="SunBoss.cpp" />
+    <ClCompile Include="BossState\TripleShotState.cpp" />
     <ClCompile Include="UI\PlayerHPUI.cpp" />
     <ClCompile Include="PlayerState\DeadAnimState.cpp" />
     <ClCompile Include="PlayerState\HitStopState.cpp" />
@@ -204,6 +206,7 @@
     <ClInclude Include="Base\EnemyBase.h" />
     <ClInclude Include="Bg.h" />
     <ClInclude Include="Base\BossBase.h" />
+    <ClInclude Include="PlayerState\BossBattleDeadAnimState.h" />
     <ClInclude Include="BossBullet.h" />
     <ClInclude Include="BossHPUI.h" />
     <ClInclude Include="BossState\BossStateBase.h" />
@@ -214,6 +217,7 @@
     <ClInclude Include="EffectManager.h" />
     <ClInclude Include="Base\Item.h" />
     <ClInclude Include="SunBoss.h" />
+    <ClInclude Include="BossState\TripleShotState.h" />
     <ClInclude Include="UI\PlayerHPUI.h" />
     <ClInclude Include="PlayerState\DeadAnimState.h" />
     <ClInclude Include="PlayerState\HitStopState.h" />

@@ -1,4 +1,5 @@
 #include "BossBattleState.h"
+#include"BossBattleDeadAnimState.h"
 #include"Player.h"
 #include"Input.h"
 #include<memory>
@@ -16,6 +17,12 @@ void PlayerState::BossBattleState::Enter(Player& player)
 
 void PlayerState::BossBattleState::Update(Player& player, Input& input)
 {
+	if (player.GetIsDead())
+	{
+		player.ChangeState(std::make_unique<PlayerState::BossBattleDeadAnimState>());
+		return;
+	}
+
 	if (sizeCount_ <= 6.05)
 	{
 		sizeCount_ += 0.05;

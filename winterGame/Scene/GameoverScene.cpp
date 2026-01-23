@@ -4,17 +4,39 @@
 #include"TitleScene.h"
 #include"SceneController.h"
 #include"Application.h"
-GameoverScene::GameoverScene(SceneController& controller) :Scene(controller)
+#include"GameScene.h"
+#include<cassert>
+GameoverScene::GameoverScene(SceneController& controller,int stageNo) :Scene(controller),
+stageNo_(stageNo)
 {
+	gameoverGraphHandle_ = LoadGraph("data/Gameover.png");
+	assert(gameoverGraphHandle_ > -1);
+}
 
+GameoverScene::~GameoverScene()
+{
+	DeleteGraph(gameoverGraphHandle_);
 }
 
 void GameoverScene::Update(Input& input)
 {
 	if (input.IsTriggered("ok"))
 	{
-		controller_.ChangeScene(std::make_shared<TitleScene>(controller_));
-		return;
+		if (stageNo_ == 1)
+		{
+			controller_.ChangeScene(std::make_shared<GameScene>(controller_,stageNo_));
+			return;
+		}
+		else if (stageNo_ == 2)
+		{
+			controller_.ChangeScene(std::make_shared<GameScene>(controller_, stageNo_));
+			return;
+		}
+		else if (stageNo_ == 3)
+		{
+			controller_.ChangeScene(std::make_shared<GameScene>(controller_, stageNo_));
+			return;
+		}
 	}
 }
 void GameoverScene::Draw()

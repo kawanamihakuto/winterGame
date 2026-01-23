@@ -23,19 +23,28 @@ BossState::BossIdleState::~BossIdleState()
 
 void BossState::BossIdleState::Enter(BossBase& boss)
 {
-	int num = GetRand(2);
+	while (true)
+	{
+		int num = GetRand(2);
 
-	if (num == 0)
-	{
-		nextPos_ = kTopPos;
-	}
-	else if (num == 1)
-	{
-		nextPos_ = kMidPos;
-	}
-	else if (num == 2)
-	{
-		nextPos_ = kUnderPos;
+		if (num == 0 && num != nowPosNo_)
+		{
+			nextPos_ = kTopPos;
+			nowPosNo_ = num;
+			break;
+		}
+		else if (num == 1 && num != nowPosNo_)
+		{
+			nextPos_ = kMidPos;
+			nowPosNo_ = num;
+			break;
+		}
+		else if (num == 2 && num != nowPosNo_)
+		{
+			nextPos_ = kUnderPos;
+			nowPosNo_ = num;
+			break;
+		}
 	}
 }
 

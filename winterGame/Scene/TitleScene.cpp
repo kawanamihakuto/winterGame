@@ -71,7 +71,7 @@ void TitleScene::FadeOutUpdate(Input&)
 
 	if (playerFadePosX_ >= wsize.w * 1.8f)
 	{
-		controller_.ChangeScene(std::make_shared<GameScene>(controller_));
+		controller_.ChangeScene(std::make_shared<GameScene>(controller_,1));
 		return;
 	}
 }

@@ -28,7 +28,7 @@ class GameScene :public Scene
 {
 public:
 	//コンストラクタ
-	GameScene(SceneController& controller);
+	GameScene(SceneController& controller,int stageNo);
 	~GameScene();
 	void Update(Input&)override;
 	void Draw()override;
