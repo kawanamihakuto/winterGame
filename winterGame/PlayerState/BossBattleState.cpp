@@ -27,6 +27,10 @@ void PlayerState::BossBattleState::Update(Player& player, Input& input)
 	{
 		sizeCount_ += 0.05;
 		player.SetSize(sizeCount_);
+		if (sizeCount_ >= 6.05)
+		{
+			player.SetIsPlayMovie(true);
+		}
 	}
 
 	//UŒ‚

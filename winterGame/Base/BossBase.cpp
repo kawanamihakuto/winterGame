@@ -15,7 +15,11 @@ velocity_(0, 0),
 isShot_(false),
 player_(player),
 isActive_(true),
-damageTimer_()
+damageTimer_(),
+requestCameraShake_(false),
+isDead_(false),
+requestSceneModeChange_(false),
+ShakeOffset_(0,0)
 {
 }
 

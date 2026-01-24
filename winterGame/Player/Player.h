@@ -79,7 +79,7 @@ public:
 	void Init()override;
 	void Init(int stageNo);
 	void Update()override;
-	void Update(Input& input,Stage& stage);
+	void Update(Input& input,Stage& stage,Camera& camera);
 	void Draw()override;
 	void Draw(Camera& camera);
 
@@ -187,6 +187,9 @@ public:
 
 	void SetCameraShakeRequest(bool isCameraShake) { requestCameraShake_ = isCameraShake; }
 
+	bool isPlayMovie() { return isPlayMovie_; }
+	void SetIsPlayMovie(bool isPlayMovie) { isPlayMovie_ = isPlayMovie; }
+
 	/// <summary>
 	/// ステート切り替えの関数
 	/// </summary>
@@ -270,4 +273,6 @@ private:
 	bool isStartBossBattle_;
 
 	bool requestCameraShake_;
+
+	bool isPlayMovie_;
 };

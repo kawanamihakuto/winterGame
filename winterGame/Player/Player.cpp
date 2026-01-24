@@ -62,7 +62,8 @@ Player::Player(int graphHandle) :
 	stageNo_(1),
 	size_(3.0),
 	isStartBossBattle_(false),
-	requestCameraShake_(false)
+	requestCameraShake_(false),
+	isPlayMovie_(false)
 {
 	state_ = std::make_unique<PlayerState::IdleState>();
 }
@@ -102,7 +103,7 @@ void Player::Init(int stageNo)
 void Player::Update()
 {
 }
-void Player::Update(Input& input, Stage& stage)
+void Player::Update(Input& input, Stage& stage,Camera& camera)
 {
 	isCollisionDoor_ = false;
 	isGenerateInhale_ = false;
@@ -259,8 +260,24 @@ void Player::Update(Input& input, Stage& stage)
 			{
 				position_.x = kLeftLimit;
 			}
+			auto wsize = Application::GetInstance().GetWindowSize();
+			if (position_.x <= camera.GetPosition().x - (wsize.w / 2))
+			{
+				position_.x = camera.GetPosition().x - (wsize.w / 2);
+			}
+			if (position_.x >= camera.GetPosition().x + (wsize.w / 2))
+			{
+				position_.x = camera.GetPosition().x + (wsize.w / 2);
+			}
+			if (position_.y <= camera.GetPosition().y - (wsize.h / 2))
+			{
+				position_.y = camera.GetPosition().y - (wsize.h / 2);
+			}
+			if (position_.y >= camera.GetPosition().y + (wsize.h * 0.4f))
+			{
+				position_.y = camera.GetPosition().y + (wsize.h * 0.4f);
+			}
 		}
-		
 		break;
 	}
 

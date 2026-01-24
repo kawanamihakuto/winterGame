@@ -144,12 +144,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor\AirShot.cpp" />
+    <ClCompile Include="BossState\AppearState.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Base\EnemyBase.cpp" />
     <ClCompile Include="Base\GameObject.cpp" />
     <ClCompile Include="Actor\Inhale.cpp" />
     <ClCompile Include="Bg.cpp" />
     <ClCompile Include="Base\BossBase.cpp" />
+    <ClCompile Include="BossState\DeadState.cpp" />
     <ClCompile Include="PlayerState\BossBattleDeadAnimState.cpp" />
     <ClCompile Include="BossBullet.cpp" />
     <ClCompile Include="BossHPUI.cpp" />
@@ -202,10 +204,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor\AirShot.h" />
+    <ClInclude Include="BossState\AppearState.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Base\EnemyBase.h" />
     <ClInclude Include="Bg.h" />
     <ClInclude Include="Base\BossBase.h" />
+    <ClInclude Include="BossState\DeadState.h" />
     <ClInclude Include="PlayerState\BossBattleDeadAnimState.h" />
     <ClInclude Include="BossBullet.h" />
     <ClInclude Include="BossHPUI.h" />

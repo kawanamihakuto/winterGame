@@ -6,9 +6,9 @@
 #include "NormalShotState.h"
 namespace
 {
-	constexpr Vector2 kTopPos = { 2000,400 };
-	constexpr Vector2 kMidPos = { 2000,600 };
-	constexpr Vector2 kUnderPos = { 2000,800 };
+	constexpr Vector2 kTopPos = { 2800,400 };
+	constexpr Vector2 kMidPos = { 2800,600 };
+	constexpr Vector2 kUnderPos = { 2800,800 };
 }
 
 BossState::BossIdleState::BossIdleState() :
@@ -52,7 +52,7 @@ void BossState::BossIdleState::Update(BossBase& boss)
 {
 	Lerp lerp;
 	auto pos = boss.GetPosition();
-	pos = lerp.VLerp(pos, nextPos_, 0.05f);
+	pos = lerp.VLerp(pos, nextPos_, 0.02f);
 	boss.SetPosition(pos);
 
 	DrawFormatString(100, 100, 0xff00ff, "nextPos : %f,%f", nextPos_.x, nextPos_.y);

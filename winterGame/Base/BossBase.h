@@ -45,6 +45,18 @@ public:
 	bool GetIsActive() { return isActive_; }
 
 	void OnDamage();
+
+	bool IsRequestCameraShake() { return requestCameraShake_; }
+
+	void SetCameraShakeRequest(bool isCameraShake) { requestCameraShake_ = isCameraShake; }
+
+	bool IsRequestModeChange() { return requestSceneModeChange_; }
+
+	void SetModeChangeRequest(bool isSceneMode) { requestSceneModeChange_ = isSceneMode; }
+
+	bool isDead() { return isDead_; }
+
+	void SetOffset(Vector2 offset) { ShakeOffset_ = offset; }
 protected:
 	//現在のステートを入れる変数
 	std::unique_ptr<BossState::BossStateBase>state_;
@@ -62,5 +74,13 @@ protected:
 	bool isActive_;
 
 	int damageTimer_;
+
+	bool requestCameraShake_;
+
+	float isDead_;
+
+	bool requestSceneModeChange_;
+
+	Vector2 ShakeOffset_;
 };
 

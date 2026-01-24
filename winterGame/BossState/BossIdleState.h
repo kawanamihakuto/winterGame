@@ -18,12 +18,12 @@ namespace BossState
 		/// その状態のとき毎フレーム呼ばれる関数
 		/// </summary>
 		/// <param name="player">プレイヤーの参照</param>
-		virtual void Update(BossBase& boss)override;
+		void Update(BossBase& boss)override;
 		/// <summary>
 		/// その状態が終わる時、１回だけ呼ばれる関数
 		/// </summary>
 		/// <param name="player">プレイヤーの参照</param>
-		virtual void Exit(BossBase& boss) override;
+		void Exit(BossBase& boss) override;
 		/// <summary>
 		/// 現在のステートを取得する関数
 		/// </summary>

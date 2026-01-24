@@ -28,7 +28,7 @@
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
-GameScene::GameScene(SceneController& controller,int stageNo) :Scene(controller),
+GameScene::GameScene(SceneController& controller, int stageNo) :Scene(controller),
 update_(&GameScene::FadeInUpdate),
 draw_(&GameScene::FadeDraw),
 nowStageNo_(stageNo)
@@ -79,11 +79,11 @@ nowStageNo_(stageNo)
 	{
 		if (spawn.type == 18)
 		{
-			enemies_.push_back(std::make_shared<WalkEnemy>(spawn.pos, graphHandle_, player_, effectManager_,spawn.isRight));
+			enemies_.push_back(std::make_shared<WalkEnemy>(spawn.pos, graphHandle_, player_, effectManager_, spawn.isRight));
 		}
 		else if (spawn.type == 27)
 		{
-			enemies_.push_back(std::make_shared<FlyEnemy>(spawn.pos, graphHandle_, player_, effectManager_,spawn.isRight));
+			enemies_.push_back(std::make_shared<FlyEnemy>(spawn.pos, graphHandle_, player_, effectManager_, spawn.isRight));
 		}
 	}
 	//カメラ
@@ -93,13 +93,15 @@ nowStageNo_(stageNo)
 	door_ = std::make_shared<Door>(graphHandle_);
 	door_->Init(nowStageNo_);
 	//プレイヤーHPUI
-	playerHPUI_ = std::make_shared<PlayerHPUI>(playerHpGraphHandle_,playerTextGraphHandle_);
+	playerHPUI_ = std::make_shared<PlayerHPUI>(playerHpGraphHandle_, playerTextGraphHandle_);
 	//HPUIの枠
 	UIFrame_ = std::make_shared<UIFrame>(UIFrameGraphHandle_);
 	//背景
-	bg_ = std::make_shared<Bg>(skyGraphHandle_, cloudGraphHandle_,sunGraphHandle_,(camera_->GetPosition().x - Application::GetInstance().GetWindowSize().w * 0.5f)* 0.5f);
+	bg_ = std::make_shared<Bg>(skyGraphHandle_, cloudGraphHandle_, sunGraphHandle_, (camera_->GetPosition().x - Application::GetInstance().GetWindowSize().w * 0.5f) * 0.5f);
 	//ボスHPUI
-	bossHPUI_ = std::make_shared<BossHPUI>(bossHpGraphHandle_,bossTextGraphHandle_);
+	bossHPUI_ = std::make_shared<BossHPUI>(bossHpGraphHandle_, bossTextGraphHandle_);
+
+	mode_ = play;
 
 	if (stageNo == 3)
 	{
@@ -137,8 +139,14 @@ void GameScene::NormalUpdate(Input& input)
 {
 	auto wsize = Application::GetInstance().GetWindowSize();
 
-	//プレイヤーのUpdate
-	player_->Update(input, *stage_);
+	if (mode_ == play)
+	{
+		UpdatePlay(input);
+	}
+	else if (mode_ == movie)
+	{
+		UpdateMovie(input);
+	}
 
 	if (!player_->GetIsDead())
 	{
@@ -149,6 +157,18 @@ void GameScene::NormalUpdate(Input& input)
 		}
 		//カメラのターゲットを設定
 		camera_->SetTarget(player_->GetPosition());
+		for (auto boss : bosses_)
+		{
+			if (boss->GetIsActive())
+			{
+				//カメラのターゲットを設定
+				camera_->SetTarget((player_->GetPosition() + boss->GetPosition()) * 0.5f);
+				if (camera_->GetPosition().x >= 2290)
+				{
+					camera_->SetTarget({ 2290.600 });
+				}
+			}
+		}
 		//カメラのUpdate
 		camera_->Update();
 		//吸い込みオブジェクトがあったら
@@ -177,25 +197,31 @@ void GameScene::NormalUpdate(Input& input)
 		for (auto& boss : bosses_)
 		{
 			boss->Update();
+			if (boss->IsRequestCameraShake())
+			{
+				camera_->StartShake(30.0f, 60);
+				boss->SetCameraShakeRequest(false);
+				mode_ = movie;
+			}
 		}
-
-		for (auto bossBullet : bossBullets_)
+		if (mode_ == play)
 		{
-			bossBullet->Update(*camera_);
+			for (auto bossBullet : bossBullets_)
+			{
+				bossBullet->Update(*camera_);
+			}
 		}
 
-		bg_->Update(*player_,*camera_);
+		bg_->Update(*player_, *camera_);
 
 		effectManager_->Update();
 	}
-	else
-	{
-		camera_->ShakeUpdate();
-	}
+
+	camera_->ShakeUpdate();
 
 	if (player_->IsRequestCameraShake())
 	{
-		camera_->StartShake(15.0f,10);
+		camera_->StartShake(15.0f, 10);
 		player_->SetCameraShakeRequest(false);
 	}
 
@@ -207,11 +233,11 @@ void GameScene::NormalUpdate(Input& input)
 		{
 		case StarOrAir::star:
 			//星弾を生成
-			shots_.push_back(std::make_shared<StarShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_,effectManager_));
+			shots_.push_back(std::make_shared<StarShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_, effectManager_));
 			break;
 		case StarOrAir::air:
 			//空気弾を生成
-			shots_.push_back(std::make_shared<AirShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_,effectManager_));
+			shots_.push_back(std::make_shared<AirShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_, effectManager_));
 			break;
 		}
 		//リクエスト返却
@@ -225,7 +251,7 @@ void GameScene::NormalUpdate(Input& input)
 		if (!inhale_)
 		{
 			//吸い込みオブジェクト生成
-			inhale_ = std::make_shared<Inhale>(player_->GetPosition(), graphHandle_,player_);
+			inhale_ = std::make_shared<Inhale>(player_->GetPosition(), graphHandle_, player_);
 			playerInhaledRect_ = std::make_shared<PlayerInhaledRect>(player_->GetPosition(), player_);
 			//初期化
 			inhale_->Init();
@@ -242,7 +268,7 @@ void GameScene::NormalUpdate(Input& input)
 	//ボス生成
 	if (player_->GetStartBossBattle())
 	{
-		bosses_.push_back(std::make_shared<SunBoss>(Vector2{2000,600},sunBossGraphHandle_,player_));
+		bosses_.push_back(std::make_shared<SunBoss>(Vector2{ 2800,-300 }, sunBossGraphHandle_, player_));
 		player_->SetStartBossBattle(false);
 	}
 
@@ -405,7 +431,7 @@ void GameScene::NormalUpdate(Input& input)
 			draw_ = &GameScene::FadeDraw;
 		}
 	}
-	
+
 #ifdef _DEBUG
 	if (CheckHitKey(KEY_INPUT_1))
 	{
@@ -432,7 +458,7 @@ void GameScene::FadeOutUpdate(Input&)
 	{
 		if (player_->GetIsDead())
 		{
-			controller_.ChangeScene(std::make_shared<GameoverScene>(controller_,nowStageNo_));
+			controller_.ChangeScene(std::make_shared<GameoverScene>(controller_, nowStageNo_));
 			return;
 		}
 		else
@@ -456,6 +482,17 @@ void GameScene::FadeOutUpdate(Input&)
 			}
 		}
 	}
+}
+
+void GameScene::UpdatePlay(Input& input)
+{
+	//プレイヤーのUpdate
+	player_->Update(input, *stage_, *camera_);
+}
+
+void GameScene::UpdateMovie(Input& input)
+{
+
 }
 
 void GameScene::FadeDraw()
@@ -487,10 +524,6 @@ void GameScene::FadeDraw()
 	{
 		playerInhaledRect_->Draw(*camera_);
 	}
-	for (auto& shot : shots_)
-	{
-		shot->Draw(*camera_);
-	}
 
 	//アイテム
 	for (auto item : items_)
@@ -498,7 +531,7 @@ void GameScene::FadeDraw()
 		item->Draw(*camera_);
 	}
 
-//	effectManager_->Draw(*camera_);
+	//	effectManager_->Draw(*camera_);
 
 	UIFrame_->Draw();
 	playerHPUI_->Draw(*player_);
@@ -509,7 +542,7 @@ void GameScene::FadeDraw()
 	{
 		bossHPUI_->Draw(*boss);
 	}
-	
+
 	//フェード処理
 	float rate = static_cast<float>(frame_) / static_cast<float>(fade_interval);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 * rate);
@@ -553,20 +586,24 @@ void GameScene::NormalDraw()
 	{
 		boss->Draw(*camera_);
 	}
-
-	for (auto& shot : shots_)
+	if (mode_ == play)
 	{
-		shot->Draw(*camera_);
+		for (auto& shot : shots_)
+		{
+			shot->Draw(*camera_);
+		}
+		for (auto bossBullet : bossBullets_)
+		{
+			bossBullet->Draw(*camera_);
+		}
 	}
-
-	for (auto bossBullet : bossBullets_)
-	{
-		bossBullet->Draw(*camera_);
-	}
-	if(!player_->GetIsDead())
+	if (!player_->GetIsDead())
 	{
 		effectManager_->Draw(*camera_);
 	}
+
+
+
 
 	UIFrame_->Draw();
 	playerHPUI_->Draw(*player_);
@@ -576,10 +613,11 @@ void GameScene::NormalDraw()
 	{
 		bossHPUI_->Draw(*boss);
 	}
-	
+
 #ifdef _DEBUG
 	DrawString(64, 64, "GameScene", 0xffffff);
 	DrawFormatString(80, 80, 0xffffff, "stageNo:%d", nowStageNo_);
+	DrawFormatString(100, 300, 0xff00ff, "cameraPos : %f,%f", camera_->GetPosition().x, camera_->GetPosition().y);
 #endif // _DEBUG
 }
 
@@ -610,11 +648,11 @@ void GameScene::ChangeStage(int stageNo)
 	{
 		if (spawn.type == 18)
 		{
-			enemies_.push_back(std::make_shared<WalkEnemy>(spawn.pos, graphHandle_, player_, effectManager_,spawn.isRight));
+			enemies_.push_back(std::make_shared<WalkEnemy>(spawn.pos, graphHandle_, player_, effectManager_, spawn.isRight));
 		}
 		else if (spawn.type == 27)
 		{
-			enemies_.push_back(std::make_shared<FlyEnemy>(spawn.pos, graphHandle_, player_, effectManager_,spawn.isRight));
+			enemies_.push_back(std::make_shared<FlyEnemy>(spawn.pos, graphHandle_, player_, effectManager_, spawn.isRight));
 		}
 	}
 

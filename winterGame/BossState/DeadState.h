@@ -1,43 +1,33 @@
 #pragma once
-
-enum class BossStateType
-{
-	Idle,
-	NormalShot,
-	TripleShot,
-	Dead,
-	Appear
-};
-
-class BossBase;
+#include "BossStateBase.h"
 namespace BossState
 {
-	class BossStateBase
+	class DeadState : public BossStateBase
 	{
 	public:
-		virtual ~BossStateBase() = default;
+		DeadState();
+		virtual ~DeadState();
 		/// <summary>
 		/// その状態になった時、１回だけ呼ばれる関数
 		/// </summary>
 		/// <param name="player">プレイヤーの参照</param>
-		virtual void Enter(BossBase& boss) = 0;
+		void Enter(BossBase& boss)override;
 		/// <summary>
 		/// その状態のとき毎フレーム呼ばれる関数
 		/// </summary>
 		/// <param name="player">プレイヤーの参照</param>
-		virtual void Update(BossBase& boss) = 0;
+		void Update(BossBase& boss)override;
 		/// <summary>
 		/// その状態が終わる時、１回だけ呼ばれる関数
 		/// </summary>
 		/// <param name="player">プレイヤーの参照</param>
-		virtual void Exit(BossBase& boss) = 0;
+		void Exit(BossBase& boss) override;
 		/// <summary>
 		/// 現在のステートを取得する関数
 		/// </summary>
 		/// <returns>現在のステート</returns>
-		virtual BossStateType GetState() const = 0;
+		BossStateType GetState() const override { return BossStateType::Dead; }
+	private:
+		int shakeTime_;
 	};
-
 }
-
-

@@ -21,6 +21,13 @@ class SunBoss;
 class BossBase;
 class BossHPUI;
 class BossBullet;
+
+enum SceneMode
+{
+	play,//通常
+	movie//演出中
+};
+
 /// <summary>
 /// ゲームシーンクラス
 /// </summary>
@@ -57,6 +64,10 @@ private:
 	//Draw関数を代入できるメンバ関数ポインタ
 	using DrawFunc_t = void(GameScene::*)();
 	DrawFunc_t draw_;
+
+	void UpdatePlay(Input&);
+	void UpdateMovie(Input&);
+
 	//ステージデータ
 	std::unique_ptr<Stage>stage_;
 	//マップチップ描画
@@ -116,4 +127,6 @@ private:
 	int playerTextGraphHandle_;
 
 	int bossTextGraphHandle_;
+
+	SceneMode mode_;
 };

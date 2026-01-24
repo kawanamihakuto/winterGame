@@ -3,6 +3,8 @@
 #include"BossState/BossIdleState.h"
 #include"BossState/NormalShotState.h"
 #include"BossState/TripleShotState.h"
+#include"BossState/DeadState.h"
+#include"BossState/AppearState.h"
 #include<DxLib.h>
 #include"Camera.h"
 
@@ -21,7 +23,7 @@ SunBoss::SunBoss(Vector2 pos, int graphHandle, std::shared_ptr<Player>player) :B
 actionIntervalCount_(0),
 sinFrame_(0.0f)
 {
-	state_ = std::make_unique<BossState::BossIdleState>();
+	state_ = std::make_unique<BossState::AppearState>();
 	state_->Enter(*this);
 }
 
@@ -42,28 +44,41 @@ void SunBoss::Update()
 	if (damageTimer_-- > 0)
 	{
 	}
-
-	if (actionIntervalCount_++ >= kActionInterval)
+	
+	if (isDead_ == false && hp_ <= 0)
 	{
-		actionIntervalCount_ = 0;
-
-		int nextStateNum = GetRand(2);
-
-		if (nextStateNum == 0)
-		{
-			ChangeState(std::make_unique<BossState::BossIdleState>());
-		}
-		else if (nextStateNum)
-		{
-			ChangeState(std::make_unique<BossState::NormalShotState>());
-		}
-		else if (nextStateNum)
-		{
-			ChangeState(std::make_unique<BossState::TripleShotState>());
-		}
+		isDead_ = true;
+		ChangeState(std::make_unique<BossState::DeadState>());
+		return;
 	}
 
-	position_.y += sinf(sinFrame_ += kSinFrameSpeed) * kAmplitude;
+
+	if (!isDead_)
+	{
+		if (state_->GetState() != BossStateType::Appear)
+		{
+			if (actionIntervalCount_++ >= kActionInterval)
+			{
+				actionIntervalCount_ = 0;
+
+				int nextStateNum = GetRand(2);
+
+				if (nextStateNum == 0)
+				{
+					ChangeState(std::make_unique<BossState::BossIdleState>());
+				}
+				else if (nextStateNum)
+				{
+					ChangeState(std::make_unique<BossState::NormalShotState>());
+				}
+				else if (nextStateNum)
+				{
+					ChangeState(std::make_unique<BossState::TripleShotState>());
+				}
+			}
+			position_.y += sinf(sinFrame_ += kSinFrameSpeed) * kAmplitude;
+		}
+	}
 
 	state_->Update(*this);
 
@@ -86,7 +101,8 @@ void SunBoss::Draw(Camera& camera)
 	{
 		SetDrawBright(255, 128, 128);
 	}
-	DrawRectRotaGraph(screen.x, screen.y, 0, 0, srcX, srcY, kSize, 0.0, graphHandle_, true, true);
+
+	DrawRectRotaGraph(screen.x + ShakeOffset_.x, screen.y + ShakeOffset_.y, 0, 0, srcX, srcY, kSize, 0.0, graphHandle_, true, true);
 
 	SetDrawBright(255, 255, 255);
 
@@ -100,6 +116,7 @@ void SunBoss::Draw(Camera& camera)
 
 	DrawFormatString(100, 200, 0xffffff, "BossPosition : %f , %f", position_.x, position_.y);
 	DrawFormatString(100, 300, 0xff00ff, "BossHp : %d", hp_);
+	DrawFormatString(100, 400, 0xff00ff, "BossShakeOffset : %f,%f",ShakeOffset_.x,ShakeOffset_.y);
 #endif // _DEBUG
 }
 
