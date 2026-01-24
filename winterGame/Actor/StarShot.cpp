@@ -4,6 +4,7 @@
 #include"Base/EnemyBase.h"
 #include"WalkEnemy.h"
 #include<DxLib.h>
+#include"Application.h"
 constexpr float kSpeed = 6.0f;
 constexpr int kStarGraphCutRow = 1;
 constexpr int kWidth = 16;
@@ -43,7 +44,16 @@ void StarShot::Update()
 
 void StarShot::Update(std::shared_ptr<Player> player, std::vector<std::shared_ptr<EnemyBase>> enemies,Stage& stage)
 {
+	auto wsize = Application::GetInstance().GetWindowSize();
+
 	position_ += velocity_;
+
+	if (position_.x - player->GetPosition().x >= wsize.w + 100 ||
+		position_.x - player->GetPosition().x <= -wsize.w - 100)
+	{
+		isActive_ = false;
+	}
+
 	rect_.SetCenter(position_.x, position_.y, kWidth, kHeight);
 	Rect tileRect;
 	MapCollisionX(stage, tileRect);

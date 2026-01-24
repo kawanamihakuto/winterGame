@@ -31,7 +31,8 @@ constexpr int fade_interval = 60;
 GameScene::GameScene(SceneController& controller, int stageNo) :Scene(controller),
 update_(&GameScene::FadeInUpdate),
 draw_(&GameScene::FadeDraw),
-nowStageNo_(stageNo)
+nowStageNo_(stageNo),
+movieUpdateCount_(0)
 {
 	//ゲーム内画像ハンドル
 	graphHandle_ = LoadGraph("data/kirby.png");
@@ -200,9 +201,13 @@ void GameScene::NormalUpdate(Input& input)
 			if (boss->IsRequestCameraShake())
 			{
 				camera_->StartShake(30.0f, 60);
-				boss->SetCameraShakeRequest(false);
 				mode_ = movie;
 			}
+			else
+			{
+				mode_ = play;
+			}
+			boss->SetCameraShakeRequest(false);
 		}
 		if (mode_ == play)
 		{
@@ -268,7 +273,7 @@ void GameScene::NormalUpdate(Input& input)
 	//ボス生成
 	if (player_->GetStartBossBattle())
 	{
-		bosses_.push_back(std::make_shared<SunBoss>(Vector2{ 2800,-300 }, sunBossGraphHandle_, player_));
+		bosses_.push_back(std::make_shared<SunBoss>(Vector2{ 2800,-300 }, sunBossGraphHandle_, player_, effectManager_));
 		player_->SetStartBossBattle(false);
 	}
 
@@ -321,10 +326,16 @@ void GameScene::NormalUpdate(Input& input)
 	{
 		collisionManager_.Add(*item);
 	}
-
 	for (auto boss : bosses_)
 	{
-		collisionManager_.Add(*boss);
+		if (!boss->GetIsActive())
+		{
+			door_->SpawnDoor(boss->GetPosition());
+		}
+		if (!boss->isDead())
+		{
+			collisionManager_.Add(*boss);
+		}
 	}
 
 	for (auto bossBullet : bossBullets_)
@@ -351,6 +362,14 @@ void GameScene::NormalUpdate(Input& input)
 	//remove_ifで後ろに詰められた要素を消す
 	enemies_.erase(newEnemyEnd, enemies_.end());
 
+
+	if (mode_ == movie)
+	{
+		for (auto shot : shots_)
+		{
+			shot->SetIsActive(false);
+		}
+	}
 	//弾の削除
 	auto newShotEnd = std::remove_if(
 		shots_.begin(),
@@ -380,6 +399,14 @@ void GameScene::NormalUpdate(Input& input)
 			return !boss->GetIsActive();
 		});
 	bosses_.erase(newbossEnd, bosses_.end());
+
+	if (mode_ == movie)
+	{
+		for (auto bossBullet : bossBullets_)
+		{
+			bossBullet->SetIsActive(false);
+		}
+	}
 	//ボスの弾の削除
 	auto newBossBulletEnd = std::remove_if(
 		bossBullets_.begin(),
@@ -393,8 +420,11 @@ void GameScene::NormalUpdate(Input& input)
 	//吸い込みオブジェクトの削除
 	if (player_->GetDeleteInhale())
 	{
-		inhale_->SetIsActive(false);
-		playerInhaledRect_->SetIsActive(false);
+		if (inhale_)
+		{
+			inhale_->SetIsActive(false);
+			playerInhaledRect_->SetIsActive(false);
+		}
 	}
 
 	//ボタンが押されたらフェードアウトを始める
@@ -488,11 +518,22 @@ void GameScene::UpdatePlay(Input& input)
 {
 	//プレイヤーのUpdate
 	player_->Update(input, *stage_, *camera_);
+	if (player_->isPlayMovie())
+	{
+		mode_ = movie;
+		player_->SetIsPlayMovie(false);
+	}
+	movieUpdateCount_ = 0;
 }
 
 void GameScene::UpdateMovie(Input& input)
 {
-
+	auto wsize = Application::GetInstance().GetWindowSize();
+	if (movieUpdateCount_++ <= 180)
+	{
+		DrawBox(0, 0, wsize.w, movieUpdateCount_, 0x000000, true);
+		DrawBox(0, wsize.h, wsize.w, wsize.h - movieUpdateCount_, 0x000000, true);
+	}
 }
 
 void GameScene::FadeDraw()
@@ -602,9 +643,6 @@ void GameScene::NormalDraw()
 		effectManager_->Draw(*camera_);
 	}
 
-
-
-
 	UIFrame_->Draw();
 	playerHPUI_->Draw(*player_);
 
@@ -618,6 +656,15 @@ void GameScene::NormalDraw()
 	DrawString(64, 64, "GameScene", 0xffffff);
 	DrawFormatString(80, 80, 0xffffff, "stageNo:%d", nowStageNo_);
 	DrawFormatString(100, 300, 0xff00ff, "cameraPos : %f,%f", camera_->GetPosition().x, camera_->GetPosition().y);
+	if (mode_ == play)
+	{
+		DrawFormatString(100, 450, 0xff00, "SceneMode: play");
+	}
+	else if (mode_ = movie)
+	{
+		DrawFormatString(100, 450, 0xff00, "SceneMode: movie");
+	}
+
 #endif // _DEBUG
 }
 

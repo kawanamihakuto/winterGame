@@ -6,10 +6,11 @@ class Camera;
 class BossStateBase;
 class Player;
 class BossBullet;
+class EffectManager;
 class BossBase : public GameObject
 {
 public:
-	BossBase(Vector2 pos,int graphHandle,std::shared_ptr<Player>player);
+	BossBase(Vector2 pos,int graphHandle,std::shared_ptr<Player>player,std::shared_ptr<EffectManager>effectManager);
 	virtual  ~BossBase();
 	void Init()override = 0;
 	virtual void Init(int stageNo) = 0;
@@ -41,6 +42,8 @@ public:
 	void ResetShotFlag() { isShot_ = false; }
 
 	std::shared_ptr<Player> GetPlayer() { return player_; }
+
+	std::shared_ptr<EffectManager> GetEffectManager() { return effectManager_; }
 
 	bool GetIsActive() { return isActive_; }
 
@@ -82,5 +85,7 @@ protected:
 	bool requestSceneModeChange_;
 
 	Vector2 ShakeOffset_;
+
+	std::shared_ptr<EffectManager>effectManager_;
 };
 

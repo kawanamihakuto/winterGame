@@ -83,7 +83,7 @@ void ClearScene::NormalUpdate(Input& input)
 		playerSrcX_ %= 2;
 	}
 
-	if (pressStartWaitingCount_++ >= 300)
+	if (pressStartWaitingCount_++ >= 200)
 	{
 		if (isFadeInOrFadeOut_)
 		{
@@ -103,7 +103,7 @@ void ClearScene::NormalUpdate(Input& input)
 		}
 	}
 
-	if (pressStartWaitingCount_ >= 350)
+	if (pressStartWaitingCount_ >= 200)
 	{
 		if (input.IsTriggered("ok"))
 		{

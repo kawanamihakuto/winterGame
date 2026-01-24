@@ -28,7 +28,7 @@ public:
 	void OnCollision(GameObject& other) override;
 
 	bool GetIsActive() { return isActive_; }
-
+	void SetIsActive(bool isActive) { isActive_ = isActive; }
 private:
 	int graphHandle_;
 	Vector2 velocity_;

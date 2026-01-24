@@ -19,9 +19,10 @@ namespace
 	constexpr int kDamageFlashInterval = 5;
 }
 
-SunBoss::SunBoss(Vector2 pos, int graphHandle, std::shared_ptr<Player>player) :BossBase(pos, graphHandle, player),
+SunBoss::SunBoss(Vector2 pos, int graphHandle, std::shared_ptr<Player>player,std::shared_ptr<EffectManager>effectManager) :BossBase(pos, graphHandle, player,effectManager),
 actionIntervalCount_(0),
-sinFrame_(0.0f)
+sinFrame_(0.0f),
+deadCount_(0)
 {
 	state_ = std::make_unique<BossState::AppearState>();
 	state_->Enter(*this);
@@ -52,6 +53,10 @@ void SunBoss::Update()
 		return;
 	}
 
+	if (deadCount_ >= 350)
+	{
+		isActive_ = false;
+	}
 
 	if (!isDead_)
 	{
@@ -101,9 +106,15 @@ void SunBoss::Draw(Camera& camera)
 	{
 		SetDrawBright(255, 128, 128);
 	}
-
+	if (isDead_)
+	{
+		//フェード処理
+		float rate = static_cast<float>(deadCount_++) / static_cast<float>(300);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 - (255 * rate));
+	}
 	DrawRectRotaGraph(screen.x + ShakeOffset_.x, screen.y + ShakeOffset_.y, 0, 0, srcX, srcY, kSize, 0.0, graphHandle_, true, true);
 
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	SetDrawBright(255, 255, 255);
 
 #ifdef _DEBUG

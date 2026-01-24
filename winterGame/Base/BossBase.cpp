@@ -8,7 +8,7 @@ namespace
 	constexpr int kDamageTimerMax = 20;
 }
 
-BossBase::BossBase(Vector2 pos ,int graphHandle,std::shared_ptr<Player>player) : GameObject(pos),
+BossBase::BossBase(Vector2 pos ,int graphHandle,std::shared_ptr<Player>player,std::shared_ptr<EffectManager>effectManager) : GameObject(pos),
 graphHandle_(graphHandle),
 hp_(kDefaultMaxHP),
 velocity_(0, 0),
@@ -19,7 +19,8 @@ damageTimer_(),
 requestCameraShake_(false),
 isDead_(false),
 requestSceneModeChange_(false),
-ShakeOffset_(0,0)
+ShakeOffset_(0,0),
+effectManager_(effectManager)
 {
 }
 

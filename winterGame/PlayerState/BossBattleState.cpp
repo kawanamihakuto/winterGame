@@ -12,6 +12,7 @@ void PlayerState::BossBattleState::Enter(Player& player)
 {
 	player.SetIsRight(true);
 	player.OnInvincible();
+	player.EndInhale();
 	AttackDelay = 0;
 }
 

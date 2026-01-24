@@ -37,7 +37,11 @@ void Bg::Draw(int stageNo)
 {
 	auto wsize = Application::GetInstance().GetWindowSize();
 	DrawRectRotaGraph(wsize.w / 2, wsize.h / 2, 0, 0, 640, 360, 3.0, 0.0, skyGraphHandle_, FALSE);
-	if (stageNo != 3)
+	if (stageNo == 1)
+	{
+		DrawGraph(200, 70, sunGraphHandle_, TRUE);
+	}
+	else if (stageNo == 2)
 	{
 		DrawGraph(200, 70, sunGraphHandle_, TRUE);
 	}

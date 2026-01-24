@@ -3,7 +3,7 @@
 class SunBoss : public BossBase
 {
 public:
-	SunBoss(Vector2 pos,int graphHandle,std::shared_ptr<Player>player);
+	SunBoss(Vector2 pos,int graphHandle,std::shared_ptr<Player>player,std::shared_ptr<EffectManager>effectManager);
 	~SunBoss();
 	void Init();
 	void Init(int stageNo)override;
@@ -16,5 +16,7 @@ private:
 	int actionIntervalCount_;
 	//sinf—pframe•Ï”
 	float sinFrame_;
+
+	int deadCount_;
 };
 

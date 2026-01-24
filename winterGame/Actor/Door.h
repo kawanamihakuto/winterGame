@@ -23,6 +23,7 @@ public:
 	//“–‚½‚Á‚½‚Ìˆ—‚ğs‚¤ŠÖ”
 	void OnCollision(GameObject& other) override;
 
+	void SpawnDoor(Vector2 pos) { position_ = pos; }
 private :
 	int graphHandle_;
 };

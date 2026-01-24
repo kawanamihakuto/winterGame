@@ -129,4 +129,6 @@ private:
 	int bossTextGraphHandle_;
 
 	SceneMode mode_;
+
+	int movieUpdateCount_;
 };
