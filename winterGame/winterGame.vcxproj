@@ -162,6 +162,7 @@
     <ClCompile Include="BossItem.cpp" />
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="Base\Item.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SunBoss.cpp" />
     <ClCompile Include="BossState\TripleShotState.cpp" />
     <ClCompile Include="UI\PlayerHPUI.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="BossItem.h" />
     <ClInclude Include="EffectManager.h" />
     <ClInclude Include="Base\Item.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SunBoss.h" />
     <ClInclude Include="BossState\TripleShotState.h" />
     <ClInclude Include="UI\PlayerHPUI.h" />
