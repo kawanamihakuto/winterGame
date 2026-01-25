@@ -32,7 +32,6 @@ namespace
 
 	constexpr int kCeiling2 = 272;
 	constexpr int kRightLimit2 = 1262;
-
 }
 
 
