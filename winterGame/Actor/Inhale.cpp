@@ -14,9 +14,13 @@
 namespace
 {
 	//‹z‚¢‚İ”ÍˆÍ‚Ì•
-	constexpr int kWidth = 16;
+	constexpr int kWidth = 18;
 	//‹z‚¢‚İ”ÍˆÍ‚Ì‚‚³
-	constexpr int kHeight = 16;
+	constexpr int kHeight = 18;
+	//
+	constexpr int kGraphWidth = 16;
+	//
+	constexpr int kGraphHeight = 16;
 	//‹z‚¢‚İ”ÍˆÍ‚ÌŠg‘å”{—¦
 	constexpr int kSize = 3;
 	//ƒvƒŒƒCƒ„[‚©‚ç‚ÌoffsetX
@@ -113,8 +117,8 @@ void Inhale::Draw(Camera& camera)
 	Vector2 screen = camera.WorldToScreen(position_);
 	if (isActive_)
 	{
-		DrawRectRotaGraph(screen.x, screen.y - kHeight / 2,
-			(16 * 3) + (16 * AnimNum_) , 0, kWidth, kHeight, kSize, 0, graphHandle_,true, !isRight_);
+		DrawRectRotaGraph(screen.x, screen.y - kGraphHeight / 2,
+			(kGraphWidth * 3) + (kGraphWidth * AnimNum_) , 0, kGraphWidth, kGraphHeight, kSize, 0, graphHandle_,true, !isRight_);
 	}
 	
 #ifdef _DEBUG

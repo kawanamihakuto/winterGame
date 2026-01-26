@@ -1,13 +1,17 @@
 #pragma once
 #include"Geometry.h"
+#include<memory>
 /// <summary>
 /// アプリケーション全体を管理する
 /// シングルトンクラス
 /// </summary>
+class SoundManager;
 class Application
 {
+private:
 	Size windowSize_;
-	
+	std::unique_ptr<SoundManager>sound_;
+
 	Application();//newも変数宣言もできなくする
 	Application(const Application& app) = delete;//コピーコンストラタも無効にする
 	void operator = (const Application& app) = delete;//代入も無効にする
@@ -41,7 +45,10 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	const Size& GetWindowSize()const;
-
-
+	/// <summary>
+	/// サウンドマネージャーを取得
+	/// </summary>
+	/// <returns></returns>
+	SoundManager& GetSound();
 };
 

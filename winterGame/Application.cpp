@@ -4,6 +4,7 @@
 #include"SceneController.h"
 #include"TitleScene.h"
 #include"EffekseerForDXLib.h"
+#include"SoundManager.h"
 constexpr int kDefaultWindowWidth = 1280;//デフォルトウィンドウ幅
 constexpr int kDefaultWindowHeight = 720;//デフォルトウィンドウ高さ
 constexpr int kDefaultColorBit = 32;//デフォルトカラービット
@@ -11,7 +12,7 @@ constexpr int kDefaultColorBit = 32;//デフォルトカラービット
 Application::Application():
 	windowSize_{kDefaultWindowWidth,kDefaultWindowHeight}
 {
-
+	
 }
 
 Application::~Application()
@@ -67,6 +68,10 @@ bool Application::Init()
 	// Zバッファへの書き込みを有効にする。
 	// Effekseerを使用する場合、2DゲームでもZバッファを使用する。
 	SetWriteZBuffer3D(TRUE);
+
+	//サウンドマネージャーの初期化
+	sound_ = std::make_unique<SoundManager>();
+	sound_->Init();
 
 	return true;
 }
@@ -124,4 +129,9 @@ void Application::Terminate()
 const Size& Application::GetWindowSize()const
 {
 	return windowSize_;
+}
+
+SoundManager& Application::GetSound()
+{
+	return *sound_;
 }

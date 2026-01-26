@@ -6,6 +6,8 @@
 #include"InhaleState.h"
 #include"SpitState.h"
 #include"HoveringState.h"
+#include"GameScene.h"
+#include"SceneRequest.h"
 void PlayerState::JumpState::Enter(Player& player)
 {
 	switch (player.GetMouthState())
@@ -26,6 +28,7 @@ void PlayerState::JumpState::Enter(Player& player)
 	player.SetVelocity(vel);
 
 	player.OnJump();
+	player.GetScene()->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"jump"});
 }
 
 void PlayerState::JumpState::Update(Player& player, Input& input)

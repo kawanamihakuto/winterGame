@@ -1,8 +1,16 @@
 #include "SoundManager.h"
 #include<DxLib.h>
+#include<cassert>
 void SoundManager::Init()
 {
-	
+	seHandles_["jump"] = LoadSoundMem("data/se/jump.wav");
+	assert(seHandles_["jump"] > -1);
+	seHandles_["starShot"] = LoadSoundMem("data/se/starShot.mp3");
+	assert(seHandles_["starShot"] > -1);
+	seHandles_["hovering"] = LoadSoundMem("data/se/hovering.mp3");
+	assert(seHandles_["hovering"] > -1);
+	seHandles_["inhaleSuccess"] = LoadSoundMem("data/se/inhaleSuccess.mp3");
+	assert(seHandles_["inhaleSuccess"] > -1);
 }
 
 void SoundManager::Update()
@@ -52,11 +60,11 @@ void SoundManager::FadeOutBGM(int frame)
 
 void SoundManager::PlaySE(const std::string& name)
 {
+	
 	auto it = seHandles_.find(name);
 	if (it == seHandles_.end())
 	{
 		return;
 	}
-
 	PlaySoundMem(it->second, DX_PLAYTYPE_BACK);
 }

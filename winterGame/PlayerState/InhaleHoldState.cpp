@@ -1,6 +1,7 @@
 #include "InhaleHoldState.h"
 #include"Player.h"
 #include"IdleState.h"
+#include"GameScene.h"
 void PlayerState::InhaleHoldState::Enter(Player& player)
 {
 }
@@ -12,6 +13,7 @@ void PlayerState::InhaleHoldState::Update(Player& player, Input& input)
 	{
 		player.SetMouthState(MouthState::holdingEnemy);
 		player.SetStarOrAir(StarOrAir::star);
+		player.GetScene()->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"inhaleSuccess" });
 		player.ChangeState(std::make_unique<IdleState>());
 	}
 }

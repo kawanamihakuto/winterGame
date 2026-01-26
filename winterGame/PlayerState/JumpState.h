@@ -1,6 +1,6 @@
 #pragma once
 #include "StateBase.h"
-
+class GameScene;
 namespace PlayerState
 {
 	/// <summary>

@@ -73,7 +73,6 @@ Player::~Player()
 
 void Player::Init()
 {
-
 }
 
 void Player::Init(int stageNo)
@@ -485,6 +484,11 @@ void Player::OnGetItem(ItemType itemType)
 		ChangeState(std::make_unique<PlayerState::BossBattleState>());
 		isStartBossBattle_ = true;
 	}
+}
+
+void Player::SetScene(GameScene* scene)
+{
+	scene_ = scene;
 }
 
 void Player::ChangeState(std::unique_ptr<StateBase> newState)

@@ -3,6 +3,7 @@
 #include"Input.h"
 #include"SpitState.h"
 #include"../System/IntervalChecker.h"
+#include"GameScene.h"
 void PlayerState::HoveringState::Enter(Player& player)
 {
 	player.SetMouthState(MouthState::holdingAir);
@@ -24,6 +25,7 @@ void PlayerState::HoveringState::Update(Player& player,Input& input)
 		{
 			hoveringInterval_.ResetTimer();
 			vel.y = -PlayerConstant::kHoveringPower;
+			player.GetScene()->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"hovering" });
 		}
 	}
 	

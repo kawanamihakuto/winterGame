@@ -3,6 +3,7 @@
 #include<memory>
 #include<vector>
 #include"CollisionManager.h"
+#include"SceneRequest.h"
 class Stage;
 class TileMapRenderer;
 class Player;
@@ -21,7 +22,6 @@ class SunBoss;
 class BossBase;
 class BossHPUI;
 class BossBullet;
-
 enum SceneMode
 {
 	play,//通常
@@ -39,6 +39,8 @@ public:
 	~GameScene();
 	void Update(Input&)override;
 	void Draw()override;
+
+	void PushRequest(const SceneRequest& req);
 private:
 	//ステージ切り替え関数
 	void ChangeStage(int stageNo);
@@ -68,6 +70,9 @@ private:
 	void UpdatePlay(Input&);
 	void UpdateMovie(Input&);
 
+	
+
+	void HandleRequests();
 	//ステージデータ
 	std::unique_ptr<Stage>stage_;
 	//マップチップ描画
@@ -104,7 +109,6 @@ private:
 	std::shared_ptr<BossHPUI>bossHPUI_;
 
 	std::vector<std::shared_ptr<BossBullet>>bossBullets_;
-
 	//プレイヤー、敵、地形の画像ハンドル
 	int graphHandle_;
 	//プレイヤーのHp画像ハンドル
@@ -131,4 +135,6 @@ private:
 	SceneMode mode_;
 
 	int movieUpdateCount_;
+
+	std::vector<SceneRequest>requestQueue_;
 };

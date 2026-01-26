@@ -25,6 +25,7 @@
 #include"SunBoss.h"
 #include"BossHPUI.h"
 #include"BossBullet.h"
+#include"SoundManager.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -69,6 +70,7 @@ movieUpdateCount_(0)
 	//プレイヤー生成
 	player_ = std::make_shared<Player>(graphHandle_);
 	player_->Init(nowStageNo_);
+	player_->SetScene(this);
 	//エフェクトマネージャー
 	effectManager_ = std::make_shared<EffectManager>(graphHandle_);
 	//エネミー配置
@@ -222,6 +224,10 @@ void GameScene::NormalUpdate(Input& input)
 		effectManager_->Update();
 	}
 
+	HandleRequests();
+
+	Application::GetInstance().GetSound().Update();
+
 	camera_->ShakeUpdate();
 
 	if (player_->IsRequestCameraShake())
@@ -239,6 +245,7 @@ void GameScene::NormalUpdate(Input& input)
 		case StarOrAir::star:
 			//星弾を生成
 			shots_.push_back(std::make_shared<StarShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_, effectManager_));
+			PushRequest({ SceneRequestType::PlaySE,0.0f,0,"starShot" });
 			break;
 		case StarOrAir::air:
 			//空気弾を生成
@@ -536,6 +543,30 @@ void GameScene::UpdateMovie(Input& input)
 	}
 }
 
+void GameScene::PushRequest(const SceneRequest& req)
+{
+	requestQueue_.push_back(req);
+}
+
+void GameScene::HandleRequests()
+{
+	for (const auto& req : requestQueue_)
+	{
+		switch (req.type)
+		{
+		case SceneRequestType::CameraShake:
+			camera_->StartShake(req.f0, req.i0);
+			break;
+
+		case SceneRequestType::PlaySE:
+			Application::GetInstance().GetSound().PlaySE(req.s0);
+			break;
+		}
+	}
+
+	requestQueue_.clear();
+}
+
 void GameScene::FadeDraw()
 {
 	//ウィンドウサイズ取得
@@ -664,7 +695,6 @@ void GameScene::NormalDraw()
 	{
 		DrawFormatString(100, 450, 0xff00, "SceneMode: movie");
 	}
-
 #endif // _DEBUG
 }
 

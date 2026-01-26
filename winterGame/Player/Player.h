@@ -8,6 +8,7 @@ class Input;
 class Rect;
 class Camera;
 class Stage;
+class GameScene;
 //プレイヤー関連の定数群
 namespace PlayerConstant
 {
@@ -159,6 +160,7 @@ public:
 	bool GetIsGround()const { return isGround_; }
 
 	void OnJump() { isGround_ = false; }
+
 	//ノックバックする時間のカウンター
 	void NockBackTimeUpdate() { nockBackTime_++; }
 	//ノックバック状態が終わったかどうかのゲッター
@@ -190,6 +192,9 @@ public:
 	bool isPlayMovie() { return isPlayMovie_; }
 	void SetIsPlayMovie(bool isPlayMovie) { isPlayMovie_ = isPlayMovie; }
 
+	void SetScene(GameScene* scene);
+
+	GameScene* GetScene() { return scene_; }
 	/// <summary>
 	/// ステート切り替えの関数
 	/// </summary>
@@ -275,4 +280,6 @@ private:
 	bool requestCameraShake_;
 
 	bool isPlayMovie_;
+
+	GameScene* scene_ = nullptr;
 };
