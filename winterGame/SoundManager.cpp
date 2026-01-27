@@ -11,6 +11,11 @@ void SoundManager::Init()
 	assert(seHandles_["hovering"] > -1);
 	seHandles_["inhaleSuccess"] = LoadSoundMem("data/se/inhaleSuccess.mp3");
 	assert(seHandles_["inhaleSuccess"] > -1);
+	seHandles_["inhale"] = LoadSoundMem("data/se/inhale.mp3");
+	assert(seHandles_["inhale"] > -1);
+	seHandles_["push"] = LoadSoundMem("data/se/push.mp3");
+	assert(seHandles_["push"] > -1);
+//	seHandles_["enemyDead"]
 }
 
 void SoundManager::Update()
@@ -58,7 +63,7 @@ void SoundManager::FadeOutBGM(int frame)
 	fadeTimer_ = frame;
 }
 
-void SoundManager::PlaySE(const std::string& name)
+void SoundManager::PlaySE(const std::string& name,bool loop)
 {
 	
 	auto it = seHandles_.find(name);
@@ -66,5 +71,22 @@ void SoundManager::PlaySE(const std::string& name)
 	{
 		return;
 	}
-	PlaySoundMem(it->second, DX_PLAYTYPE_BACK);
+	if (loop)
+	{
+		PlaySoundMem(it->second, DX_PLAYTYPE_LOOP);
+	}
+	else
+	{
+		PlaySoundMem(it->second, DX_PLAYTYPE_BACK);
+	}
+}
+
+void SoundManager::StopSE(const std::string& name)
+{
+	auto it = seHandles_.find(name);
+	if (it == seHandles_.end())
+	{
+		return;
+	}
+	StopSoundMem(it->second);
 }

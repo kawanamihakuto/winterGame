@@ -22,6 +22,7 @@ class SunBoss;
 class BossBase;
 class BossHPUI;
 class BossBullet;
+class GameSceneUI;
 enum SceneMode
 {
 	play,//通常
@@ -109,6 +110,8 @@ private:
 	std::shared_ptr<BossHPUI>bossHPUI_;
 
 	std::vector<std::shared_ptr<BossBullet>>bossBullets_;
+
+	std::shared_ptr<GameSceneUI>UI_;
 	//プレイヤー、敵、地形の画像ハンドル
 	int graphHandle_;
 	//プレイヤーのHp画像ハンドル
@@ -132,9 +135,13 @@ private:
 
 	int bossTextGraphHandle_;
 
+	int backToTitleGraphHandle_;
+
 	SceneMode mode_;
 
 	int movieUpdateCount_;
 
 	std::vector<SceneRequest>requestQueue_;
+
+	bool isBackToTitle_;
 };

@@ -4,7 +4,8 @@
 enum class SceneRequestType
 {
     CameraShake,
-    PlaySE
+    PlaySE,
+    StopSE
 };
 
 struct SceneRequest
@@ -15,4 +16,5 @@ struct SceneRequest
     float f0 = 0.0f;
     int   i0 = 0;
     std::string s0;
+    bool loop = false;
 };

@@ -20,6 +20,7 @@ void PlayerState::InhaleHoldState::Update(Player& player, Input& input)
 
 void PlayerState::InhaleHoldState::Exit(Player& player)
 {
+	player.GetScene()->PushRequest({ SceneRequestType::StopSE,0.0f,0,"inhale" });
 	//吸い込みオブジェクトの削除をリクエストする
 	player.EndInhale();
 }

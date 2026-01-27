@@ -13,7 +13,8 @@ public:
 	void FadeOutBGM(int frame);
 
 	//SE
-	void PlaySE(const std::string& name);
+	void PlaySE(const std::string& name,bool loop);
+	void StopSE(const std::string& name);
 private:
 	std::unordered_map<std::string, int>bgmHandles_;
 	std::unordered_map<std::string, int>seHandles_;

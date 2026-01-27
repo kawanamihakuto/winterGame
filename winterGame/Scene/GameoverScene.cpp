@@ -17,6 +17,10 @@ stageNo_(stageNo)
 {
 	gameoverGraphHandle_ = LoadGraph("data/Gameover.png");
 	assert(gameoverGraphHandle_ > -1);
+	bgHandle_ = LoadGraph("data/GameoverBg.png");
+	assert(bgHandle_ > -1);
+	pressStartGraphHandle_ = LoadGraph("data/PressStartButton.png");
+	assert(pressStartGraphHandle_ > -1);
 
 	frame_ = fade_interval;
 	count_ = 0;
@@ -28,6 +32,7 @@ stageNo_(stageNo)
 GameoverScene::~GameoverScene()
 {
 	DeleteGraph(gameoverGraphHandle_);
+	DeleteGraph(bgHandle_);
 }
 
 void GameoverScene::FadeInUpdate(Input&)
@@ -82,8 +87,18 @@ void GameoverScene::NormalDraw()
 	//ウィンドウサイズ取得
 	const auto& wsize = Application::GetInstance().GetWindowSize();
 	int srcX, srcY;
+
+	GetGraphSize(bgHandle_, &srcX, &srcY);
+	DrawRectRotaGraph(wsize.w * 0.5f, wsize.h * 0.5f, 0, 0, srcX, srcY, 1.0f, 0.0, bgHandle_, false);
+
 	GetGraphSize(gameoverGraphHandle_, &srcX, &srcY);
 	DrawRectRotaGraph(wsize.w * 0.5f, wsize.h * 0.5f, 0, 0, srcX, srcY, 1.0, 0.0, gameoverGraphHandle_, true);
+
+	GetGraphSize(pressStartGraphHandle_, &srcX, &srcY);
+	float alpha = static_cast<float>(count_) / 40.0f;
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(255.0f * alpha));
+	DrawRectRotaGraph(wsize.w * 0.5f, wsize.h * 0.8f, 0, 0, srcX, srcY, 1.0, 0.0, pressStartGraphHandle_, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 #ifdef _DEBUG
 	DrawString(16, 16, "GameoverScene", 0xffffff);
 #endif // _DEBUG
@@ -94,6 +109,10 @@ void GameoverScene::FadeDraw()
 	//ウィンドウサイズ取得
 	const auto& wsize = Application::GetInstance().GetWindowSize();
 	int srcX, srcY;
+
+	GetGraphSize(bgHandle_, &srcX, &srcY);
+	DrawRectRotaGraph(wsize.w * 0.5f, wsize.h * 0.5f, 0, 0, srcX, srcY, 1.0f, 0.0, bgHandle_, false);
+
 	GetGraphSize(gameoverGraphHandle_, &srcX, &srcY);
 	DrawRectRotaGraph(wsize.w * 0.5f, wsize.h * 0.5f, 0, 0, srcX, srcY, 1.0, 0.0, gameoverGraphHandle_, true);
 

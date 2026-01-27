@@ -6,7 +6,7 @@
 #include"Application.h"
 #include<cassert>
 #include"ClearScene.h"
-
+#include"SoundManager.h"
 namespace
 {
 	constexpr int fade_interval = 60;
@@ -50,6 +50,7 @@ void TitleScene::NormalUpdate(Input& input)
 
 	if (input.IsTriggered("ok"))
 	{
+		Application::GetInstance().GetSound().PlaySE("push",false);
 		update_ = &TitleScene::FadeOutUpdate;
 		draw_ = &TitleScene::FadeDraw;
 		frame_ = 0;

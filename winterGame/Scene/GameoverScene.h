@@ -34,6 +34,10 @@ public:
 private:
 	int stageNo_;
 	int gameoverGraphHandle_;
+	int bgHandle_;
+	//PressStartグラフハンドル
+	int pressStartGraphHandle_;
+
 	bool isFadeInOrFadeOut_;
 	int count_;
 };

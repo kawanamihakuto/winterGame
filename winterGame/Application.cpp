@@ -30,8 +30,17 @@ bool Application::Init()
 {
 	//ウィンドウサイズ設定
 	SetGraphMode(windowSize_.w, windowSize_.h, kDefaultColorBit);
+#ifdef _DEBUG
 	//ウィンドウモード設定
 	ChangeWindowMode(true);
+#endif // _DEBUG
+
+#ifdef DEBUG
+	//ウィンドウモード設定
+	ChangeWindowMode(false);
+#endif // DEBUG
+
+	
 	//ウィンドウのタイトル設定
 	SetMainWindowText("ゲーム名");
 

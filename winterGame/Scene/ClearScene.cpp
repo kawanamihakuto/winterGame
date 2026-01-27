@@ -16,7 +16,7 @@ ClearScene::ClearScene(SceneController& controller) :Scene(controller)
 {
 	EffectHandle_ = LoadEffekseerEffect("data/fireworks.efk");
 	assert(EffectHandle_ > -1);
-	bgHandle_ = LoadGraph("data/SkyBg.png");
+	bgHandle_ = LoadGraph("data/ClearBg.png");
 	assert(bgHandle_ > -1);
 	gameClearGraphHandle_ = LoadGraph("data/GameClear.png");
 	assert(gameClearGraphHandle_ > -1);
@@ -135,7 +135,7 @@ void ClearScene::NormalDraw()
 	int srcX, srcY;
 	//”wŒi‰æ‘œ•`‰æ
 	GetGraphSize(bgHandle_, &srcX, &srcY);
-	DrawRectRotaGraph(wsize.w * 0.5f, wsize.h * 0.5f, 0, 0, srcX, srcY, 2.0, 0.0, bgHandle_, false);
+	DrawRectRotaGraph(wsize.w * 0.5f, wsize.h * 0.5f, 0, 0, srcX, srcY, 1.0, 0.0, bgHandle_, false);
 
 	if (EffectHandle_ >= 0)
 	{
@@ -179,7 +179,7 @@ void ClearScene::FadeDraw()
 	int srcX, srcY;
 	//”wŒi‰æ‘œ•`‰æ
 	GetGraphSize(bgHandle_, &srcX, &srcY);
-	DrawRectRotaGraph(wsize.w * 0.5f, wsize.h * 0.5f, 0, 0, srcX, srcY, 2.0, 0.0, bgHandle_, false);
+	DrawRectRotaGraph(wsize.w * 0.5f, wsize.h * 0.5f, 0, 0, srcX, srcY, 1.0, 0.0, bgHandle_, false);
 
 	if (EffectHandle_ >= 0)
 	{

@@ -23,9 +23,11 @@
 #include"Item.h"
 #include"../BossItem.h"
 #include"SunBoss.h"
-#include"BossHPUI.h"
+#include"UI/BossHPUI.h"
 #include"BossBullet.h"
 #include"SoundManager.h"
+#include"UI/GameSceneUI.h"
+#include"TitleScene.h"
 //フェードにかかるフレーム数
 constexpr int fade_interval = 60;
 
@@ -33,7 +35,8 @@ GameScene::GameScene(SceneController& controller, int stageNo) :Scene(controller
 update_(&GameScene::FadeInUpdate),
 draw_(&GameScene::FadeDraw),
 nowStageNo_(stageNo),
-movieUpdateCount_(0)
+movieUpdateCount_(0),
+isBackToTitle_(false)
 {
 	//ゲーム内画像ハンドル
 	graphHandle_ = LoadGraph("data/kirby.png");
@@ -58,6 +61,8 @@ movieUpdateCount_(0)
 	assert(playerTextGraphHandle_ > -1);
 	bossTextGraphHandle_ = LoadGraph("data/Boss.png");
 	assert(bossTextGraphHandle_ > -1);
+	backToTitleGraphHandle_ = LoadGraph("data/backToTitle.png");
+	assert(backToTitleGraphHandle_ > -1);
 
 	//フェード用のフレームを初期化
 	frame_ = fade_interval;
@@ -103,6 +108,8 @@ movieUpdateCount_(0)
 	bg_ = std::make_shared<Bg>(skyGraphHandle_, cloudGraphHandle_, sunGraphHandle_, (camera_->GetPosition().x - Application::GetInstance().GetWindowSize().w * 0.5f) * 0.5f);
 	//ボスHPUI
 	bossHPUI_ = std::make_shared<BossHPUI>(bossHpGraphHandle_, bossTextGraphHandle_);
+
+	UI_ = std::make_shared<GameSceneUI>(backToTitleGraphHandle_);
 
 	mode_ = play;
 
@@ -444,6 +451,13 @@ void GameScene::NormalUpdate(Input& input)
 		}
 	}
 
+	if (input.IsTriggered("select"))
+	{
+		isBackToTitle_ = true;
+		update_ = &GameScene::FadeOutUpdate;
+		draw_ = &GameScene::FadeDraw;
+	}
+
 	if (nowStageNo_ == 1)
 	{
 		if (player_->GetIsDead() && player_->GetPosition().y >= 1200)
@@ -493,6 +507,12 @@ void GameScene::FadeOutUpdate(Input&)
 	//フェードアウトし終わったらシーンを切り替える
 	if (++frame_ >= fade_interval)
 	{
+		if (isBackToTitle_)
+		{
+			controller_.ChangeScene(std::make_shared<TitleScene>(controller_));
+			return;
+		}
+
 		if (player_->GetIsDead())
 		{
 			controller_.ChangeScene(std::make_shared<GameoverScene>(controller_, nowStageNo_));
@@ -559,7 +579,10 @@ void GameScene::HandleRequests()
 			break;
 
 		case SceneRequestType::PlaySE:
-			Application::GetInstance().GetSound().PlaySE(req.s0);
+			Application::GetInstance().GetSound().PlaySE(req.s0,req.loop);
+			break;
+		case SceneRequestType::StopSE:
+			Application::GetInstance().GetSound().StopSE(req.s0);
 			break;
 		}
 	}
@@ -609,6 +632,8 @@ void GameScene::FadeDraw()
 	playerHPUI_->Draw(*player_);
 
 	bossHPUI_->Draw();
+
+	UI_->Draw();
 
 	for (auto boss : bosses_)
 	{
@@ -682,6 +707,8 @@ void GameScene::NormalDraw()
 	{
 		bossHPUI_->Draw(*boss);
 	}
+
+	UI_->Draw();
 
 #ifdef _DEBUG
 	DrawString(64, 64, "GameScene", 0xffffff);

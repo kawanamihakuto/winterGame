@@ -4,12 +4,14 @@
 #include"IdleState.h"
 #include"InhaleHoldState.h"
 #include<memory>
+#include"GameScene.h"
 void PlayerState::InhaleState::Enter(Player& player)
 {
 	//画像をInhaleに変更
 	player.SetPlayerGraphCutNo(PlayerGraphCutNo::mouthOpen);
 	//吸い込みオブジェクトの生成をリクエストする
 	player.StartInhale();
+	player.GetScene()->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"inhale",true });
 }
 
 void PlayerState::InhaleState::Update(Player& player, Input& input)
@@ -17,6 +19,7 @@ void PlayerState::InhaleState::Update(Player& player, Input& input)
 	//ボタンを離したら吸い込みを終わる
 	if (!input.IsPressed("attack"))
 	{
+		player.GetScene()->PushRequest({ SceneRequestType::StopSE,0.0f,0,"inhale"});
 		player.ChangeState(std::make_unique<IdleState>());
 		player.EndInhale();
 	}

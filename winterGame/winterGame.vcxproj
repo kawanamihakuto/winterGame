@@ -152,9 +152,10 @@
     <ClCompile Include="Bg.cpp" />
     <ClCompile Include="Base\BossBase.cpp" />
     <ClCompile Include="BossState\DeadState.cpp" />
+    <ClCompile Include="UI\GameSceneUI.cpp" />
     <ClCompile Include="PlayerState\BossBattleDeadAnimState.cpp" />
     <ClCompile Include="BossBullet.cpp" />
-    <ClCompile Include="BossHPUI.cpp" />
+    <ClCompile Include="UI\BossHPUI.cpp" />
     <ClCompile Include="BossState\BossStateBase.cpp" />
     <ClCompile Include="BossState\BossIdleState.cpp" />
     <ClCompile Include="BossState\NormalShotState.cpp" />
@@ -211,9 +212,10 @@
     <ClInclude Include="Bg.h" />
     <ClInclude Include="Base\BossBase.h" />
     <ClInclude Include="BossState\DeadState.h" />
+    <ClInclude Include="UI\GameSceneUI.h" />
     <ClInclude Include="PlayerState\BossBattleDeadAnimState.h" />
     <ClInclude Include="BossBullet.h" />
-    <ClInclude Include="BossHPUI.h" />
+    <ClInclude Include="UI\BossHPUI.h" />
     <ClInclude Include="BossState\BossStateBase.h" />
     <ClInclude Include="BossState\BossIdleState.h" />
     <ClInclude Include="BossState\NormalShotState.h" />
