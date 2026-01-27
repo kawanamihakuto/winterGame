@@ -13,6 +13,7 @@ namespace PlayerState
 		PlayerStateType GetState() const override { return PlayerStateType::BossBattleDeadAnim; }
 	private:
 		int count_;
+		bool isPlaySe_;
 	};
 }
 

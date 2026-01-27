@@ -1,6 +1,13 @@
 #include "SoundManager.h"
 #include<DxLib.h>
 #include<cassert>
+SoundManager::~SoundManager()
+{
+	for (auto se : seHandles_)
+	{
+		DeleteSoundMem(se.second);
+	}
+}
 void SoundManager::Init()
 {
 	seHandles_["jump"] = LoadSoundMem("data/se/jump.wav");
@@ -15,7 +22,26 @@ void SoundManager::Init()
 	assert(seHandles_["inhale"] > -1);
 	seHandles_["push"] = LoadSoundMem("data/se/push.mp3");
 	assert(seHandles_["push"] > -1);
-//	seHandles_["enemyDead"]
+	seHandles_["enemyDead"] = LoadSoundMem("data/se/enemyDead.mp3");
+	assert(seHandles_["enemyDead"] > -1);
+	seHandles_["airShot"] = LoadSoundMem("data/se/airShot.mp3");
+	assert(seHandles_["airShot"] > -1);
+	seHandles_["playerDamage"] = LoadSoundMem("data/se/playerDamage.mp3");
+	assert(seHandles_["playerDamage"] > -1);
+	seHandles_["door"] = LoadSoundMem("data/se/door.mp3");
+	assert(seHandles_["door"] > -1);
+	seHandles_["Gameover"] = LoadSoundMem("data/se/Gameover.mp3");
+	assert(seHandles_["Gameover"] > -1);
+	seHandles_["playerDead"] = LoadSoundMem("data/se/playerDead.mp3");
+	assert(seHandles_["playerDead"] > -1);
+	seHandles_["bossDamage"] = LoadSoundMem("data/se/bossDamage.mp3");
+	assert(seHandles_["bossDamage"] > -1);
+	seHandles_["itemGet"] = LoadSoundMem("data/se/itemGet.wav");
+	assert(seHandles_["itemGet"] > -1);
+	seHandles_["bossShot"] = LoadSoundMem("data/se/bossShot.mp3");
+	assert(seHandles_["bossShot"] > -1);
+	seHandles_["bossExplosion"] = LoadSoundMem("data/se/bossExplosion.mp3");
+	assert(seHandles_["bossExplosion"] > -1);
 }
 
 void SoundManager::Update()

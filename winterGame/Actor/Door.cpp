@@ -41,7 +41,7 @@ void Door::Init(int stageNo)
 
 void Door::Update()
 {
-	rect_.SetCenter(position_.x, position_.y, kWidth * kSize, kHeight * kSize);
+	rect_.SetCenter(position_.x, position_.y, kWidth, kHeight);
 }
 
 void Door::Draw()
@@ -58,8 +58,8 @@ void Door::Draw(Camera& camera)
 	//“–‚½‚è”»’è•\Ž¦
 	Rect drawRect = rect_;
 	drawRect.SetCenter(screen.x, screen.y,
-		kWidth*kSize,
-		kHeight*kSize);
+		kWidth,
+		kHeight);
 	drawRect.Draw(0x00ffff, false);
 
 #endif // _DEBUG

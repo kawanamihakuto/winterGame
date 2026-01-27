@@ -2,6 +2,7 @@
 #include"Base/GameObject.h"
 #include<memory>
 #include<vector>
+#include"GameScene.h"
 class Player;
 class EnemyBase;
 class Camera;
@@ -33,11 +34,17 @@ public:
 	void SetIsActive(bool isActive) { isActive_ = isActive; }
 
 	void MapCollisionX(const Stage& stage,Rect tileRect);
+
+	void SetScene(GameScene* scene);
+
+	GameScene* GetScene() { return scene_; }
 protected:
 	std::shared_ptr<EffectManager>effectManager_;
 	Vector2 velocity_;
 	int graphHandle_;
 	bool isRight_;
 	bool isActive_;
+
+	GameScene* scene_ = nullptr;
 };
 

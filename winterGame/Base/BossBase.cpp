@@ -60,3 +60,8 @@ void BossBase::OnDamage()
 	damageTimer_ = kDamageTimerMax;
 	hp_--;
 }
+
+void BossBase::SetScene(GameScene* scene)
+{
+	scene_ = scene;
+}

@@ -48,12 +48,14 @@ void Shot::OnCollision(GameObject& other)
 	if (other.GetCollisionLayer() & CollisionLayers::kEnemy)
 	{
 		isActive_ = false;
+		scene_->PushRequest({SceneRequestType::PlaySE,0.0f,0,"enemyDead"});
 	}
 
 	if (other.GetCollisionLayer() & CollisionLayers::kBoss)
 	{
 		effectManager_->Generate(position_);
 		isActive_ = false;
+		scene_->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"enemyDead" });
 	}
 }
 
@@ -63,4 +65,9 @@ void Shot::MapCollisionX(const Stage& stage, Rect tileRect)
 	{
 		isActive_ = false;
 	}
+}
+
+void Shot::SetScene(GameScene* scene)
+{
+	scene_ = scene;
 }

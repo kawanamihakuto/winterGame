@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include<memory>
 #include<vector>
-
+#include"GameScene.h"
 /// <summary>
 /// 敵の画像の切り取りラインをenumで決める
 /// </summary>
@@ -95,6 +95,10 @@ public:
 
 	bool GetIsRight() { return isRight_; }
 
+	void SetScene(GameScene* scene);
+
+	GameScene* GetScene() { return scene_; }
+
 	/// <summary>
 	/// 重力用関数
 	/// </summary>
@@ -142,6 +146,8 @@ protected:
 	int counter_;
 
 	std::shared_ptr<EffectManager>effectManager_;
+
+	GameScene* scene_ = nullptr;
 };
 /// <summary>
 /// エネミーステート基底クラス
@@ -191,6 +197,8 @@ class Inhaled : public EnemyStateBase
 	void Enter(EnemyBase& enemy) override;
 	void Update(EnemyBase& enemy) override;
 	void Exit(EnemyBase& enemy) override;
+private:
+	int inhaleCount_;
 };
 
 

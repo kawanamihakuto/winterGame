@@ -6,7 +6,7 @@
 #include"Application.h"
 #include"GameScene.h"
 #include<cassert>
-
+#include"SoundManager.h"
 namespace
 {
 	constexpr int fade_interval = 60;
@@ -27,6 +27,7 @@ stageNo_(stageNo)
 	isFadeInOrFadeOut_ = true;
 	update_ = &GameoverScene::FadeInUpdate;
 	draw_ = &GameoverScene::FadeDraw;
+	Application::GetInstance().GetSound().PlaySE("Gameover",false);
 }
 
 GameoverScene::~GameoverScene()

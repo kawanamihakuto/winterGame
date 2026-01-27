@@ -48,7 +48,7 @@ void TitleScene::NormalUpdate(Input& input)
 		playerSrcX_ %= 2;
 	}
 
-	if (input.IsTriggered("ok"))
+	if (input.IsTriggered("ok")||input.IsTriggered("attack")||input.IsTriggered("jump"))
 	{
 		Application::GetInstance().GetSound().PlaySE("push",false);
 		update_ = &TitleScene::FadeOutUpdate;

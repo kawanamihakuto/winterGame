@@ -1,6 +1,6 @@
 #include "TripleShotState.h"
 #include"Base/BossBase.h"
-
+#include"GameScene.h"
 namespace
 {
 	constexpr int kShotIntervalMax = 19;
@@ -25,6 +25,7 @@ void BossState::TripleShotState::Enter(BossBase& boss)
 		{
 			shotIntervalCount_ = kShotIntervalMax;
 			boss.OnShot();
+			boss.GetScene()->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"bossShot" });
 		}
 	}	
 }

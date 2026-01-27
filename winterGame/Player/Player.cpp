@@ -18,7 +18,7 @@
 namespace
 {
 	constexpr int kInhaledRectWidth = 8;
-	constexpr int kInvincibleTime = 45;
+	constexpr int kInvincibleTime = 60;
 	constexpr int kInvincibleFlashingInterval = 4;
 	constexpr int kDefaultHp = 3;
 	constexpr Vector2 kStage1StartPosition = { 640,751 };
@@ -90,7 +90,6 @@ void Player::Init(int stageNo)
 	{
 		position_ = kStage3StartPosition;
 	}
-
 	state_ = std::make_unique<PlayerState::IdleState>();
 	mouthState_ = MouthState::empty;
 	graphCutNo_ = PlayerGraphCutNo::mouthClosed;
@@ -259,13 +258,13 @@ void Player::Update(Input& input, Stage& stage,Camera& camera)
 				position_.x = kLeftLimit;
 			}
 			auto wsize = Application::GetInstance().GetWindowSize();
-			if (position_.x <= camera.GetPosition().x - (wsize.w / 2))
+			if (position_.x <= camera.GetPosition().x - (wsize.w / 2) + (PlayerConstant::kWidth * size_) *0.4f)
 			{
-				position_.x = camera.GetPosition().x - (wsize.w / 2);
+				position_.x = camera.GetPosition().x - (wsize.w / 2) + (PlayerConstant::kWidth * size_) * 0.4f;
 			}
-			if (position_.x >= camera.GetPosition().x + (wsize.w / 2))
+			if (position_.x >= camera.GetPosition().x + (wsize.w / 2)- (PlayerConstant::kWidth * size_) * 0.4f)
 			{
-				position_.x = camera.GetPosition().x + (wsize.w / 2);
+				position_.x = camera.GetPosition().x + (wsize.w / 2) - (PlayerConstant::kWidth * size_) * 0.4f;
 			}
 			if (position_.y <= camera.GetPosition().y - (wsize.h / 2))
 			{
@@ -422,6 +421,9 @@ void Player::OnCollision(GameObject& other)
 			return;
 		}
 		hp_ -= 1;
+
+		scene_->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"playerDamage" });
+
 		isInvincible_ = true;
 		if (position_.x - other.GetPosition().x <= 0)
 		{
@@ -444,6 +446,7 @@ void Player::OnCollision(GameObject& other)
 		}
 		hp_ -= 1;
 		isInvincible_ = true;
+		scene_->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"playerDamage" });
 	}
 
 	if (other.GetCollisionLayer() & CollisionLayers::kBossAttack)
@@ -454,6 +457,7 @@ void Player::OnCollision(GameObject& other)
 		}
 		hp_ -= 1;
 		isInvincible_ = true;
+		scene_->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"playerDamage" });
 	}
 
 	if (other.GetCollisionLayer() & CollisionLayers::kDoor)
@@ -481,8 +485,11 @@ void Player::OnGetItem(ItemType itemType)
 {
 	if (itemType == ItemType::dragonFruit)
 	{
+		//‰ñ•œ
+		hp_ = 3;
 		ChangeState(std::make_unique<PlayerState::BossBattleState>());
 		isStartBossBattle_ = true;
+		scene_->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"itemGet" });
 	}
 }
 
@@ -517,6 +524,10 @@ void Player::Gravity()
 		{
 			//d—Í•ª‰º•ûŒü‚É—Í‚ð‰Á‚¦‚é
 			velocity_.y += PlayerConstant::kGravity;
+			if (velocity_.y >= 8.0f)
+			{
+				velocity_.y = 8.0f;
+			}
 		}
 	}
 }

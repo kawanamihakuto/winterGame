@@ -27,9 +27,7 @@ Input::Input():
 							{PeripheralType::pad1,PAD_INPUT_A} };
 
 	inputTable_["select"] = {{PeripheralType::keyboard,KEY_INPUT_ESCAPE},
-		{PeripheralType::pad1,PAD_INPUT_L} };
-
-
+							{PeripheralType::pad1,PAD_INPUT_L} };
 
 	//あらかじめ入力データの枠を開けておく
 	//ここで枠を開けておかないと、

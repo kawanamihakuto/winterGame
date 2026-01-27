@@ -7,7 +7,7 @@
 #include"BossState/AppearState.h"
 #include<DxLib.h>
 #include"Camera.h"
-
+#include"GameScene.h"
 namespace
 {
 	constexpr int kActionInterval = 60;

@@ -7,6 +7,7 @@ class BossStateBase;
 class Player;
 class BossBullet;
 class EffectManager;
+class GameScene;
 class BossBase : public GameObject
 {
 public:
@@ -60,6 +61,10 @@ public:
 	bool isDead() { return isDead_; }
 
 	void SetOffset(Vector2 offset) { ShakeOffset_ = offset; }
+
+	void SetScene(GameScene* scene);
+
+	GameScene* GetScene() { return scene_; }
 protected:
 	//現在のステートを入れる変数
 	std::unique_ptr<BossState::BossStateBase>state_;
@@ -87,5 +92,7 @@ protected:
 	Vector2 ShakeOffset_;
 
 	std::shared_ptr<EffectManager>effectManager_;
+
+	GameScene* scene_ = nullptr;
 };
 

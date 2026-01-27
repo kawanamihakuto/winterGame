@@ -88,10 +88,12 @@ isBackToTitle_(false)
 		if (spawn.type == 18)
 		{
 			enemies_.push_back(std::make_shared<WalkEnemy>(spawn.pos, graphHandle_, player_, effectManager_, spawn.isRight));
+			enemies_.back()->SetScene(this);
 		}
 		else if (spawn.type == 27)
 		{
 			enemies_.push_back(std::make_shared<FlyEnemy>(spawn.pos, graphHandle_, player_, effectManager_, spawn.isRight));
+			enemies_.back()->SetScene(this);
 		}
 	}
 	//カメラ
@@ -171,8 +173,9 @@ void GameScene::NormalUpdate(Input& input)
 		{
 			if (boss->GetIsActive())
 			{
-				//カメラのターゲットを設定
+
 				camera_->SetTarget((player_->GetPosition() + boss->GetPosition()) * 0.5f);
+
 				if (camera_->GetPosition().x >= 2290)
 				{
 					camera_->SetTarget({ 2290.600 });
@@ -252,11 +255,14 @@ void GameScene::NormalUpdate(Input& input)
 		case StarOrAir::star:
 			//星弾を生成
 			shots_.push_back(std::make_shared<StarShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_, effectManager_));
+			shots_.back()->SetScene(this);
 			PushRequest({ SceneRequestType::PlaySE,0.0f,0,"starShot" });
 			break;
 		case StarOrAir::air:
 			//空気弾を生成
 			shots_.push_back(std::make_shared<AirShot>(player_->GetIsRight(), player_->GetPosition(), graphHandle_, effectManager_));
+			shots_.back()->SetScene(this);
+			PushRequest({ SceneRequestType::PlaySE,0.0f,0,"airShot" });
 			break;
 		}
 		//リクエスト返却
@@ -288,6 +294,7 @@ void GameScene::NormalUpdate(Input& input)
 	if (player_->GetStartBossBattle())
 	{
 		bosses_.push_back(std::make_shared<SunBoss>(Vector2{ 2800,-300 }, sunBossGraphHandle_, player_, effectManager_));
+		bosses_.back()->SetScene(this);
 		player_->SetStartBossBattle(false);
 	}
 
@@ -446,6 +453,7 @@ void GameScene::NormalUpdate(Input& input)
 	{
 		if (input.IsPressed("up"))
 		{
+			PushRequest({ SceneRequestType::PlaySE,0.0f,0,"door" });
 			update_ = &GameScene::FadeOutUpdate;
 			draw_ = &GameScene::FadeDraw;
 		}
@@ -504,6 +512,7 @@ void GameScene::NormalUpdate(Input& input)
 
 void GameScene::FadeOutUpdate(Input&)
 {
+	HandleRequests();
 	//フェードアウトし終わったらシーンを切り替える
 	if (++frame_ >= fade_interval)
 	{
@@ -522,7 +531,7 @@ void GameScene::FadeOutUpdate(Input&)
 		{
 			if (nowStageNo_ == 1)
 			{
-				nowStageNo_++;
+				nowStageNo_ = 3;
 				ChangeStage(nowStageNo_);
 				return;
 			}
@@ -579,7 +588,7 @@ void GameScene::HandleRequests()
 			break;
 
 		case SceneRequestType::PlaySE:
-			Application::GetInstance().GetSound().PlaySE(req.s0,req.loop);
+			Application::GetInstance().GetSound().PlaySE(req.s0, req.loop);
 			break;
 		case SceneRequestType::StopSE:
 			Application::GetInstance().GetSound().StopSE(req.s0);

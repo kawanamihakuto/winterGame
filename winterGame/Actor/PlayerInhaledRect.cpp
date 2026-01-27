@@ -4,7 +4,7 @@
 #include<DxLib.h>
 constexpr int kInhakedRectOffsetX = 32/2;
 constexpr int kWidth = 8;
-constexpr int kHeight = 32;
+constexpr int kHeight = 48;
 PlayerInhaledRect::PlayerInhaledRect(Vector2 pos, std::shared_ptr<Player> player):
 	GameObject(pos),
 	isActive_(false),

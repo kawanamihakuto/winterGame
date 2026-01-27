@@ -2,6 +2,7 @@
 #include"BossBase.h"
 #include<DxLib.h>
 #include"EffectManager.h"
+#include"GameScene.h"
 namespace
 {
 	constexpr float kShakePower = 10.0f;
@@ -40,6 +41,7 @@ void BossState::DeadState::Update(BossBase& boss)
 		if (shakeTime_ % 15 == 0)
 		{
 			boss.GetEffectManager()->Generate(boss.GetPosition() - shakeOffset * 6);
+			boss.GetScene()->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"bossExplosion" });
 		}
 		if (shakeTime_ % 20 == 0)
 		{
@@ -48,6 +50,7 @@ void BossState::DeadState::Update(BossBase& boss)
 		if (shakeTime_ % 25 == 0)
 		{
 			boss.GetEffectManager()->Generate(boss.GetPosition() - shakeOffset * 8);
+			boss.GetScene()->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"bossExplosion" });
 		}
 		
 	}

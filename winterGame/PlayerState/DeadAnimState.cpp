@@ -1,5 +1,6 @@
 #include "DeadAnimState.h"
 #include"Player.h"
+#include"GameScene.h"
 namespace
 {
 	constexpr int kUpCountMax = 30;
@@ -8,6 +9,7 @@ namespace
 void PlayerState::DeadAnimState::Enter(Player& player)
 {
 	upCount_ = 0;
+	player.GetScene()->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"playerDead" });
 }
 
 void PlayerState::DeadAnimState::Update(Player& player, Input& inpit)

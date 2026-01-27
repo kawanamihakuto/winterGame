@@ -4,7 +4,7 @@
 #include<memory>
 #include"../System/Lerp.h"
 #include"EffectManager.h"
-
+#include"GameScene.h"
 namespace
 {
 	constexpr int kGround = 720;
@@ -96,7 +96,9 @@ void EnemyBase::OnCollision(GameObject& other)
 		bool isplayerOnRight = enemyToPlayer > 0 ? true : false;
 		SetPlayerOnRight(isplayerOnRight);
 		ChangeState(std::make_unique<Death>());
+		return;
 	}
+
 	if (other.GetCollisionLayer() & CollisionLayers::kInhale)
 	{
 		auto player =  GetPlayer();
@@ -105,13 +107,14 @@ void EnemyBase::OnCollision(GameObject& other)
 		bool isplayerOnRight = enemyToPlayer > 0 ? true : false;
 		SetPlayerOnRight(isplayerOnRight);
 
-		//ÉGÉlÉ~Å[ÇÃèÛë‘ëJà⁄
 		ChangeState(std::make_unique<Inhaled>());
+		return;
 	}
 
 	if (other.GetCollisionLayer() & CollisionLayers::kInhaledPlayer)
 	{
 		ChangeState(std::make_unique<None>());
+		return;
 	}
 
 	if (other.GetCollisionLayer() & CollisionLayers::kAttack)
@@ -120,6 +123,12 @@ void EnemyBase::OnCollision(GameObject& other)
 		ChangeState(std::make_unique<None>());
 	}
 }
+
+void EnemyBase::SetScene(GameScene* scene)
+{
+	scene_ = scene;
+}
+
 
 void Move::Enter(EnemyBase& enemy)
 {
@@ -223,6 +232,7 @@ void Death::Update(EnemyBase& enemy)
 	if (nockBackTime >= kNockBackTimeMax)
 	{
 		enemy.GetEffectManager()->Generate(enemy.GetPosition());
+		enemy.GetScene()->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"enemyDead" });
 		enemy.ChangeState(std::make_unique<None>());
 	}
 	enemy.SetNockBackTime(nockBackTime);
@@ -250,6 +260,7 @@ void Inhaled::Enter(EnemyBase& enemy)
 {
 	enemy.SetIsInhaled(true);
 	enemy.SetVelocity({ 0,0 });
+	inhaleCount_ = 0;
 }
 
 void Inhaled::Update(EnemyBase& enemy)
@@ -258,8 +269,13 @@ void Inhaled::Update(EnemyBase& enemy)
 	Lerp lerp;
 	//ãzÇ¢çûÇ‹ÇÍÇƒÇ¢ÇÈìGÇÃãììÆÇLerpÇ≈é¿ëï
 	enemy.SetPosition(lerp.VLerp(enemy.GetPosition(), player->GetPosition(), kInhaleLerpT));
+	if (inhaleCount_++ >= 10)
+	{
+		enemy.ChangeState(std::make_unique<None>());
+	}
 }
 
 void Inhaled::Exit(EnemyBase& enemy)
 {
+	
 }

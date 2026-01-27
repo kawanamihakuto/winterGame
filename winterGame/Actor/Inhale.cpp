@@ -14,9 +14,9 @@
 namespace
 {
 	//‹z‚¢‚İ”ÍˆÍ‚Ì•
-	constexpr int kWidth = 18;
+	constexpr int kWidth = 20;
 	//‹z‚¢‚İ”ÍˆÍ‚Ì‚‚³
-	constexpr int kHeight = 18;
+	constexpr int kHeight = 20;
 	//
 	constexpr int kGraphWidth = 16;
 	//
