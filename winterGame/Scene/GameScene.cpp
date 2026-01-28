@@ -595,6 +595,9 @@ void GameScene::HandleRequests()
 		case SceneRequestType::StopSE:
 			Application::GetInstance().GetSound().StopSE(req.s0);
 			break;
+		case SceneRequestType::playBGM:
+			Application::GetInstance().GetSound().PlayBGM(req.s0);
+			break;
 		case SceneRequestType::StopBGM:
 			Application::GetInstance().GetSound().StopBGM();
 			break;
@@ -633,7 +636,10 @@ void GameScene::FadeDraw()
 	{
 		playerInhaledRect_->Draw(*camera_);
 	}
-
+	for (auto boss : bosses_)
+	{
+		boss->Draw(*camera_);
+	}
 	//ƒAƒCƒeƒ€
 	for (auto item : items_)
 	{

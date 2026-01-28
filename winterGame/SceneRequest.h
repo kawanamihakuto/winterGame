@@ -6,6 +6,7 @@ enum class SceneRequestType
     CameraShake,
     PlaySE,
     StopSE,
+    playBGM,
     StopBGM
 };
 

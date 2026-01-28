@@ -59,6 +59,10 @@ void SoundManager::Init()
 	assert(bgmHandles_["gameBGM"] > -1);
 	bgmHandles_["gameoverBGM"] = LoadSoundMem("data/bgm/gameoverBGM.mp3");
 	assert(bgmHandles_["gameoverBGM"] > -1);
+	bgmHandles_["clearBGM"] = LoadSoundMem("data/bgm/clearBGM.mp3");
+	assert(bgmHandles_["clearBGM"] > -1);
+	bgmHandles_["bossBGM"] = LoadSoundMem("data/bgm/bossBGM.mp3");
+	assert(bgmHandles_["bossBGM"] > -1);
 }
 
 void SoundManager::Update()

@@ -12,6 +12,7 @@ void PlayerState::BossBattleDeadAnimState::Enter(Player& player)
 	player.SetVelocity({ 0,0 });
 	player.SetCameraShakeRequest(true);
 	isPlaySe_ = true;
+	player.GetScene()->PushRequest({ SceneRequestType::StopBGM,0.0f,0 });
 }
 
 void PlayerState::BossBattleDeadAnimState::Update(Player& player, Input& input)

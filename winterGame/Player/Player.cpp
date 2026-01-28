@@ -490,6 +490,7 @@ void Player::OnGetItem(ItemType itemType)
 		ChangeState(std::make_unique<PlayerState::BossBattleState>());
 		isStartBossBattle_ = true;
 		scene_->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"itemGet" });
+		scene_->PushRequest({ SceneRequestType::playBGM,0.0f,0,"bossBGM" });
 	}
 }
 

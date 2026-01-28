@@ -27,7 +27,6 @@ stageNo_(stageNo)
 	isFadeInOrFadeOut_ = true;
 	update_ = &GameoverScene::FadeInUpdate;
 	draw_ = &GameoverScene::FadeDraw;
-//	Application::GetInstance().GetSound().PlaySE("Gameover",false);
 	Application::GetInstance().GetSound().PlayBGM("gameoverBGM");
 }
 
@@ -70,6 +69,7 @@ void GameoverScene::NormalUpdate(Input& input)
 	{
 		update_ = &GameoverScene::FadeOutUpdate;
 		draw_ = &GameoverScene::FadeDraw;
+		Application::GetInstance().GetSound().PlaySE("push",false);
 		return;
 	}
 }

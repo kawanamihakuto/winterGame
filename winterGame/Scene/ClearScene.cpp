@@ -6,7 +6,7 @@
 #include<DxLib.h>
 #include"EffekseerForDXLib.h"
 #include<cassert>
-
+#include"SoundManager.h"
 namespace
 {
 	constexpr int fade_interval = 60;
@@ -48,6 +48,8 @@ ClearScene::ClearScene(SceneController& controller) :Scene(controller)
 	isFadeInOrFadeOut_ = true;
 
 	pressStartFadeCount_ = 0;
+
+	Application::GetInstance().GetSound().PlayBGM("clearBGM");
 }
 
 ClearScene::~ClearScene()
@@ -109,6 +111,7 @@ void ClearScene::NormalUpdate(Input& input)
 		{
 			update_ = &ClearScene::FadeOutUpdate;
 			draw_ = &ClearScene::FadeDraw;
+			Application::GetInstance().GetSound().PlaySE("push",false);
 			return;
 		}
 	}
