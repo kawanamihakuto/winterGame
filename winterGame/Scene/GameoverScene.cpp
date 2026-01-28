@@ -27,7 +27,8 @@ stageNo_(stageNo)
 	isFadeInOrFadeOut_ = true;
 	update_ = &GameoverScene::FadeInUpdate;
 	draw_ = &GameoverScene::FadeDraw;
-	Application::GetInstance().GetSound().PlaySE("Gameover",false);
+//	Application::GetInstance().GetSound().PlaySE("Gameover",false);
+	Application::GetInstance().GetSound().PlayBGM("gameoverBGM");
 }
 
 GameoverScene::~GameoverScene()

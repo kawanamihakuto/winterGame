@@ -4,7 +4,7 @@
 class SoundManager
 {
 public:
-	SoundManager() {};
+	SoundManager();
 	virtual ~SoundManager();
 
 	void Init();

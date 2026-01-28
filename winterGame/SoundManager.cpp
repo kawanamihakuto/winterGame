@@ -1,11 +1,21 @@
 #include "SoundManager.h"
 #include<DxLib.h>
 #include<cassert>
+SoundManager::SoundManager():
+	fadeFrame_(0),
+	fadeTimer_(0)
+{
+}
 SoundManager::~SoundManager()
 {
 	for (auto se : seHandles_)
 	{
 		DeleteSoundMem(se.second);
+	}
+
+	for (auto bgm : bgmHandles_)
+	{
+		DeleteSoundMem(bgm.second);
 	}
 }
 void SoundManager::Init()
@@ -42,10 +52,21 @@ void SoundManager::Init()
 	assert(seHandles_["bossShot"] > -1);
 	seHandles_["bossExplosion"] = LoadSoundMem("data/se/bossExplosion.mp3");
 	assert(seHandles_["bossExplosion"] > -1);
+	
+	bgmHandles_["titleBGM"] = LoadSoundMem("data/bgm/titleBGM.mp3");
+	assert(bgmHandles_["titleBGM"] > -1);
+	bgmHandles_["gameBGM"] = LoadSoundMem("data/bgm/gameBGM.mp3");
+	assert(bgmHandles_["gameBGM"] > -1);
+	bgmHandles_["gameoverBGM"] = LoadSoundMem("data/bgm/gameoverBGM.mp3");
+	assert(bgmHandles_["gameoverBGM"] > -1);
 }
 
 void SoundManager::Update()
 {
+#ifdef _DEBUG
+	DrawFormatString(16, 40, 0xffffff,
+		"BGM=%d fadeTimer=%d", currentBGM_, fadeTimer_);
+#endif // _DEBUG
 	if (fadeTimer_ > 0 && currentBGM_ != -1)
 	{
 		float rate = static_cast<float>(fadeTimer_) / fadeFrame_;
@@ -70,23 +91,36 @@ void SoundManager::PlayBGM(const std::string& name, bool loop)
 		return; 
 	}
 
+	fadeTimer_ = 0;
+	fadeFrame_ = 0;
+
 	if (currentBGM_ != -1)
 	{
 		StopSoundMem(currentBGM_);
 	}
 
 	currentBGM_ = it->second;
+	ChangeVolumeSoundMem(160, currentBGM_);
 	PlaySoundMem(currentBGM_, loop ? DX_PLAYTYPE_LOOP : DX_PLAYTYPE_BACK);
 }
 
 void SoundManager::StopBGM()
 {
+	if (currentBGM_ != -1)
+	{
+		StopSoundMem(currentBGM_);
+		currentBGM_ = -1;
+	}
 }
 
 void SoundManager::FadeOutBGM(int frame)
 {
 	fadeFrame_ = frame;
 	fadeTimer_ = frame;
+	if (currentBGM_ != -1)
+	{
+		SetVolumeSoundMem(255, currentBGM_);
+	}
 }
 
 void SoundManager::PlaySE(const std::string& name,bool loop)

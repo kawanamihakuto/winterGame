@@ -119,6 +119,8 @@ isBackToTitle_(false)
 	{
 		items_.push_back(std::make_shared<BossItem>(player_, Vector2{ 1800,600 }, itemGraphHandle_));
 	}
+
+	Application::GetInstance().GetSound().PlayBGM("gameBGM", true);
 }
 
 GameScene::~GameScene()
@@ -592,6 +594,9 @@ void GameScene::HandleRequests()
 			break;
 		case SceneRequestType::StopSE:
 			Application::GetInstance().GetSound().StopSE(req.s0);
+			break;
+		case SceneRequestType::StopBGM:
+			Application::GetInstance().GetSound().StopBGM();
 			break;
 		}
 	}

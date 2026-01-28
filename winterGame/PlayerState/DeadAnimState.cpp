@@ -10,6 +10,7 @@ void PlayerState::DeadAnimState::Enter(Player& player)
 {
 	upCount_ = 0;
 	player.GetScene()->PushRequest({ SceneRequestType::PlaySE,0.0f,0,"playerDead" });
+	player.GetScene()->PushRequest({ SceneRequestType::StopBGM,0.0f,0 });
 }
 
 void PlayerState::DeadAnimState::Update(Player& player, Input& inpit)

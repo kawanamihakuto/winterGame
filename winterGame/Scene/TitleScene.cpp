@@ -68,10 +68,12 @@ void TitleScene::FadeOutUpdate(Input&)
 {
 	//ウィンドウサイズ取得
 	const auto& wsize = Application::GetInstance().GetWindowSize();
+
 	playerFadePosX_ += (wsize.w / 70.0f);
 
 	if (playerFadePosX_ >= wsize.w * 1.8f)
 	{
+		Application::GetInstance().GetSound().StopBGM();
 		controller_.ChangeScene(std::make_shared<GameScene>(controller_,1));
 		return;
 	}
@@ -165,6 +167,7 @@ TitleScene::TitleScene(SceneController& controller):Scene(controller)
 	playerFadePosX_ = 50;
 	playerCount_ = 0;
 	playerSrcX_ = 0;
+	Application::GetInstance().GetSound().PlayBGM("titleBGM", true);
 }
 
 TitleScene::~TitleScene()

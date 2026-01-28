@@ -5,7 +5,8 @@ enum class SceneRequestType
 {
     CameraShake,
     PlaySE,
-    StopSE
+    StopSE,
+    StopBGM
 };
 
 struct SceneRequest
